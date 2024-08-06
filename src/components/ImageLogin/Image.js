@@ -11,9 +11,9 @@ function Image () {
   useEffect(() => {
     const intervalId = setInterval(() => {
       setCurrentIndex(prevIndex => (prevIndex + 1) % image.length)
-    }, 10000) // 10 giây
+    }, 10000) 
 
-    return () => clearInterval(intervalId) // Dọn dẹp interval khi component unmount
+    return () => clearInterval(intervalId)
   }, [image.length])
 
   return (

@@ -2,7 +2,6 @@
 import React, { useState, useRef } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
-
 import './App.scss'
 import images from './assets/images'
 import { Image as ImageLogin } from './components/ImageLogin'
@@ -47,18 +46,18 @@ function App () {
           <button className='btnLogin'>Đăng Nhập</button>
           <div className='divcachkhac'>
             <button className='btnfacebook'>
-              <img src={images.facebook} alt='' />
+              <img src={images.facebook} alt='' className='facebook' />
             </button>
             <button className='btngoogle'>
-              <img src={images.google} alt='' />
+              <img src={images.google} alt='' className='google' />
             </button>
           </div>
           <div className='divRegister'>
-            <h3>Bạn chưa có tài khoản?</h3>
+            <h3 className = 'register1'>Bạn chưa có tài khoản?</h3>
             <h3 className='register'>Đăng ký</h3>
           </div>
           <div className='chinhsach'>
-            <h4>
+            <h4 >
               TRANG WEB NÀY ĐƯỢC BẢO MẬT BỞI HCAPTCHA VÀ TUÂN THỦ THEO{' '}
               <a href='https://www.hcaptcha.com/privacy'>
                 CHÍNH SÁCH QUYỀN RIÊNG TƯ
