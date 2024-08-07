@@ -1,0 +1,31 @@
+import React, { useEffect, useState } from 'react';
+import images from '../../assets/images';
+
+
+function LogoSwitcher() {
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  return (
+    <div>
+      {isMobile ? (
+        <img src={images.logobig} alt='Light Logo' className='logopm2' />
+      ) : (
+        <img src={images.logobig2} alt='Dark Logo' className='logopm2' />
+      )}
+    </div>
+  );
+}
+
+export default LogoSwitcher;

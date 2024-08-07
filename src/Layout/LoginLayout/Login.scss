@@ -211,7 +211,13 @@
         align-items: center;
         margin-top: 10px;
     }
+    ////
+    /// 
     
+    .logopm2{
+        width: 100px;
+        height: 100px;
+    }
     .chinhsach {
         width: 800px;
         margin-top: 250px;
@@ -254,8 +260,9 @@
         font-weight: 700;
     }
     // 
-    @media screen and (max-width:46.1875em) {
+    @media screen and (max-width: 46.1875em) {
         .container {
+            overflow: hidden;
             h1 {
                 font-size: 40px;
                 color: #fffcfc;
@@ -265,70 +272,74 @@
             display: none;
         }
         .dualscreen2 {
-            height: 100%;
+            height: 100vh;
+            width: 100%;
             background-image: url('../../assets/images/tn1.jpg');
             background-size: cover;
+            // background-position: center;
+            // background-repeat: no-repeat;
+            // object-fit: cover;
         }
         .divlogin {
-            margin-top: 20%;
+            // margin-top: 5%;
             display: flex;
             flex-direction: column;
             align-items: center;
         }
         .divemail {
-            height: 100px;
-            width: 700px;
+            height: 50px;
+            width: 300px;
             .email {
-                height: 100px;
-                width: 700px;
-                font-size: 30px;
+                height: 50px;
+                width: 300px;
+                font-size: 15px;
             }
             .label {
-                top: 50px;
-                font-size: 30px;
+                top: 35px;
+                font-size: 15px;
             }
             .email:focus+.label,
             .email:not(:placeholder-shown)+.label {
                 top: 22px;
                 left: 30px;
-                font-size: 25px;
+                font-size: 8px;
             }
         }
         .divpassword {
-            height: 100px;
-            width: 700px;
+            height: 50px;
+            width: 300px;
             .divippass {
                 width: 100%;
-                height: 100px;
+                height: 50px;
                 .password {
-                    height: 100px;
-                    width: 700px;
-                    font-size: 30px;
+                    height: 50px;
+                    width: 300px;
+                    font-size: 15px;
                 }
                 .label {
-                    top: 30px;
+                    top: 35px;
                     left: 10px;
-                    font-size: 30px;
+                    font-size: 15px;
                 }
                 .password:focus+.label,
                 .password:not(:placeholder-shown)+.label {
                     top: 2px;
                     left: 10px;
-                    font-size: 25px;
+                    font-size: 8px;
                 }
                 .eye {
                     position: absolute;
                     right: 10px;
                     top: 50%;
-                    font-size: 30px;
+                    font-size: 15px;
                 }
             }
         }
         .btnLogin {
             margin-top: 20px;
-            font-size: 30px;
-            height: 100px;
-            width: 700px;
+            font-size: 15px;
+            height: 50px;
+            width: 300px;
         }
         .divcachkhac {
             display: flex;
@@ -340,31 +351,30 @@
             border: 2px solid rgb(24, 119, 242);
             background: rgb(24, 119, 242);
             border-radius: 10px;
-            padding: 10px;
-            margin-right: 10px;
+            padding: 5px;
+            margin-right: 5px;
             cursor: pointer;
             &:hover {
                 background-color: #0056b8;
                 border-color: #0056b8;
             }
             .facebook {
-                width: 100px;
-                height: 50px;
+                width: 50px;
+                height: 20px;
             }
         }
         .btngoogle {
             border: 2px solid rgba(0, 0, 0, 0.05);
             border-radius: 10px;
-            padding: 10px;
-            margin-right: 10px;
+            padding: 5px;
             cursor: pointer;
             &:hover {
                 background-color: #d4d4d4;
                 border-color: #d4d4d4;
             }
             .google {
-                width: 100px;
-                height: 50px;
+                width: 50px;
+                height: 20px;
             }
         }
         .register {
@@ -381,7 +391,7 @@
             align-items: center;
             margin-top: 10px;
             .register {
-                font-size: 30px;
+                font-size: 15px;
                 color: rgb(2, 221, 250);
                 cursor: pointer;
                 margin-left: 5px;
@@ -390,13 +400,13 @@
                 }
             }
             .register1 {
-                font-size: 30px;
+                font-size: 15px;
                 color: #fffcfc;
             }
         }
         .chinhsach {
-            width: 700px;
-            margin-top: 350px;
+            width: 300px;
+            margin-top: 0px;
             text-align: center;
             a {
                 text-decoration: none;
@@ -406,8 +416,9 @@
                 }
             }
             h4 {
-                font-size: 25px;
+                font-size: 15px;
                 color: #fffcfc;
             }
         }
     }
+    

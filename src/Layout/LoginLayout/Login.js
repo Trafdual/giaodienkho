@@ -7,6 +7,8 @@ import images from '../../assets/images'
 import { Image as ImageLogin } from '../../components/ImageLogin'
 import {Link} from 'react-router-dom'
 import { publicRoutes } from '../../router'
+import {LogoSwitcher as LogoSwitcherLogin} from '../../components/SwitchImageLogin';
+
 
 function Login () {
   const [showPassword, setShowPassword] = useState(false)
@@ -60,6 +62,10 @@ function Login () {
             <h3 className='register1'>Bạn chưa có tài khoản?</h3>
             <h3 className='register'>Đăng ký</h3>
           </div>
+          <div>
+          <LogoSwitcherLogin/>
+          </div>
+
           <div className='chinhsach'>
             <h4>
               TRANG WEB NÀY ĐƯỢC BẢO MẬT BỞI HCAPTCHA VÀ TUÂN THỦ THEO{' '}

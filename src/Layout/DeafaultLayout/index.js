@@ -1,1 +1,1 @@
-export { default as Home } from './DefaultLayout'
+export { default as DefaultLayout } from './DefaultLayout'
