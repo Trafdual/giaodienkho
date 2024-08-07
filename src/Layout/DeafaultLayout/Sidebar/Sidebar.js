@@ -1,29 +1,36 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import './Sidebar.scss'
+import { Link } from 'react-router-dom'
 function Sidebar () {
   return (
-    <div class='container1'>
-      <aside class='sidebar'>
-        <ul>
-          <li>
-            <FontAwesomeIcon />
-            <a href='/'>Thành Phần 1</a>
-          </li>
-          <li>
-            <FontAwesomeIcon />
-            <a href='/'>Thành Phần 2</a>
-          </li>
-          <li>
-            <FontAwesomeIcon />
-            <a href='/'>Thành Phần 3</a>
-          </li>
-          <li>
-            <FontAwesomeIcon />
-            <a href='/'>Thành Phần 4</a>
-          </li>
-        </ul>
-      </aside>
-    </div>
+    <aside class='sidebar'>
+      <ul>
+        <li>
+          <FontAwesomeIcon />
+          <Link>
+            <p>Trang Chủ</p>
+          </Link>
+        </li>
+        <li>
+          <FontAwesomeIcon />
+          <Link>
+            <p>Trang Chủ</p>
+          </Link>
+        </li>
+        <li>
+          <FontAwesomeIcon />
+          <Link>
+            <p>Trang Chủ</p>
+          </Link>
+        </li>
+        <li>
+          <FontAwesomeIcon />
+          <Link>
+            <p>Trang Chủ</p>
+          </Link>
+        </li>
+      </ul>
+    </aside>
   )
 }
 
