@@ -232,25 +232,25 @@
     
     @font-face {
         font-family: TikTokFont;
-        src: url('./assets/fonts/TikTokFont-Regular.woff2');
+        src: url('../../assets/fonts/TikTokFont-Regular.woff2');
         font-weight: 400;
     }
     
     @font-face {
         font-family: TikTokFont;
-        src: url('./assets/fonts/TikTokFont-Semibold.woff2');
+        src: url('../../assets/fonts/TikTokFont-Semibold.woff2');
         font-weight: 600;
     }
     
     @font-face {
         font-family: TikTokFont;
-        src: url('./assets/fonts/TikTokFont-Bold.woff2');
+        src: url('../../assets/fonts/TikTokFont-Bold.woff2');
         font-weight: 700;
     }
     
     @font-face {
         font-family: TikTokDisplayFont;
-        src: url('./assets/fonts/TikTokDisplayFont-Bold.woff2');
+        src: url('../../assets/fonts/TikTokDisplayFont-Bold.woff2');
         font-weight: 700;
     }
     
@@ -266,7 +266,7 @@
         }
         .dualscreen2 {
             height: 2024px;
-            background-image: url('./assets/images/tn1.jpg');
+            background-image: url('../../assets/images/tn1.jpg');
             background-size: cover;
         }
         .divlogin {
