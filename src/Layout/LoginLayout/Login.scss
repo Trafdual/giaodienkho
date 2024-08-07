@@ -256,6 +256,7 @@
     
     @media screen and (max-width:46.1875em) {
         .container {
+            overflow: hidden;
             h1 {
                 font-size: 40px;
                 color: #fffcfc;
@@ -265,12 +266,12 @@
             display: none;
         }
         .dualscreen2 {
-            height: 92vh;
+            height: 100vh;
             background-image: url('../../assets/images/tn1.jpg');
             background-size: cover;
+            object-fit: cover;
         }
         .divlogin {
-            margin-top: 5%;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -395,7 +396,7 @@
         }
         .chinhsach {
             width: 300px;
-            margin-top: 200px;
+            margin-top: 20%;
             text-align: center;
             a {
                 text-decoration: none;
