@@ -291,7 +291,7 @@
             .email:not(:placeholder-shown)+.label {
                 top: 22px;
                 left: 30px;
-                font-size: 8px;
+                font-size: 10px;
             }
         }
         .divpassword {
@@ -306,7 +306,7 @@
                     font-size: 15px;
                 }
                 .label {
-                    top: 35px;
+                    top: 15px;
                     left: 10px;
                     font-size: 15px;
                 }
@@ -314,7 +314,7 @@
                 .password:not(:placeholder-shown)+.label {
                     top: 2px;
                     left: 10px;
-                    font-size: 8px;
+                    font-size: 10px;
                 }
                 .eye {
                     position: absolute;
