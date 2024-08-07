@@ -27,8 +27,10 @@ function Login () {
         <div className='divlogin'>
           <h1>Đăng Nhập</h1>
           <div className='divemail'>
+            <div className='divemail1'>
             <input className='email' placeholder='' />
             <label className='label'>Email</label>
+            </div>
           </div>
           <div className='divpassword'>
             <div className='divippass'>
