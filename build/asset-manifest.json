@@ -1,0 +1,27 @@
+{
+  "files": {
+    "main.css": "/static/css/main.53fc262b.css",
+    "main.js": "/static/js/main.3c92140a.js",
+    "static/js/453.2cefe068.chunk.js": "/static/js/453.2cefe068.chunk.js",
+    "static/media/tn1.jpg": "/static/media/tn1.816c6726b6ce50210c35.jpg",
+    "static/media/TikTokDisplayFont-Bold.woff2": "/static/media/TikTokDisplayFont-Bold.b191c0620e8c9617ea10.woff2",
+    "static/media/TikTokFont-Bold.woff2": "/static/media/TikTokFont-Bold.145f211a356fce76072d.woff2",
+    "static/media/TikTokFont-Semibold.woff2": "/static/media/TikTokFont-Semibold.0a3262809350126554ad.woff2",
+    "static/media/TikTokFont-Regular.woff2": "/static/media/TikTokFont-Regular.0ca75da985ad7821cbde.woff2",
+    "static/media/tn2.jpg": "/static/media/tn2.38c30f41c04f089473ac.jpg",
+    "static/media/tn3.jpg": "/static/media/tn3.c2a1f2719c8a2d951807.jpg",
+    "static/media/LOGOPM2.png": "/static/media/LOGOPM2.be18857bffe4a5229776.png",
+    "static/media/LOGOPM.png": "/static/media/LOGOPM.48e088417f0e84cdb61b.png",
+    "static/media/logo.svg": "/static/media/logo.97f5f8bea63d9af17b66008a0828236f.svg",
+    "static/media/google.svg": "/static/media/google.41e4b7ced58ab7a7b17ad78a94002c00.svg",
+    "index.html": "/index.html",
+    "static/media/facebook.svg": "/static/media/facebook.d77f043f09194068fdde46dbd702cf37.svg",
+    "main.53fc262b.css.map": "/static/css/main.53fc262b.css.map",
+    "main.3c92140a.js.map": "/static/js/main.3c92140a.js.map",
+    "453.2cefe068.chunk.js.map": "/static/js/453.2cefe068.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.53fc262b.css",
+    "static/js/main.3c92140a.js"
+  ]
+}
