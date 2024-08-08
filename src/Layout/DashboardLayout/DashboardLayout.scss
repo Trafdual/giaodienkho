@@ -1,0 +1,50 @@
+    .dashboard {
+        display: flex;
+        flex-direction: column;
+        margin-top: 8%;
+        padding: 10px;
+        width: 168%;
+        background-color: rgb(127, 182, 253);
+        height: 90vh;
+        overflow: hidden;
+        gap: 16px;
+    }
+    
+    .chart-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        margin-top: 5%;
+    }
+    
+    .chart {
+        flex: 1;
+        background-color: #f0f0f0;
+        padding: 20px;
+        border-radius: 8px;
+        width: 400px;
+        height: 300px; // Điều chỉnh theo nhu cầu của bạn
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .chart-single {
+        background-color: #f0f0f0;
+        padding: 20px;
+        border-radius: 8px;
+        height: 300px; // Điều chỉnh theo nhu cầu của bạn
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 5%;
+    }
+    
+    @media screen and (max-width: 46.1875em) {
+        .dashboard {
+            margin-top: 100%;
+            width: 555%;
+            background-color: rgb(24, 119, 242);
+            height: 91vh;
+        }
+    }

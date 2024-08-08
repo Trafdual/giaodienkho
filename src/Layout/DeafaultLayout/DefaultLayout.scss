@@ -1,12 +1,18 @@
-.wrapper {
-    display: flex;
-    flex-direction: column;
-}
-
-.sidebarDefault {
-    display: flex;
-}
-
-.content {
-    margin-left: 300px;
-}
+    .wrapper {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .sidebarDefault {
+        display: flex;
+    }
+    
+    .content {
+        margin-left: 300px;
+    }
+    
+    @media screen and (max-width: 46.1875em) {
+        .content {
+            margin-left: 0px;
+        }
+    }
