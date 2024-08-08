@@ -128,26 +128,25 @@
     align-items: center;
     margin-bottom: 10px;
     width: 500px;
-  }
-  
-  .remember-me {
+}
+
+.remember-me {
     display: flex;
     align-items: center;
-  }
-  
-  .remember-me input {
+}
+
+.remember-me input {
     margin-right: 5px;
-  }
-  
-  .forgot-password a {
+}
+
+.forgot-password a {
     text-decoration: none;
     color: #007bff;
-  }
-  
-  .forgot-password a:hover {
+}
+
+.forgot-password a:hover {
     text-decoration: underline;
-  }
-  
+}
 
 .btnLogin {
     margin-top: 10px;
@@ -165,7 +164,6 @@
     align-items: center;
     justify-content: center;
     text-align: center;
-
     &:hover {
         background-color: #0056b8;
     }
@@ -213,12 +211,10 @@
     border: 2px solid rgb(24, 119, 242);
     background: rgb(24, 119, 242);
     margin-right: 10px;
-
     &:hover {
         background-color: #0056b8;
         border-color: #0056b8;
     }
-
     .facebook {
         width: 60px;
         height: 25px;
@@ -229,24 +225,20 @@
     border: 2px solid rgba(0, 0, 0, 0.05);
     border-radius: 10px;
     padding: 5px;
-
     &:hover {
         background-color: #d4d4d4;
         border-color: #d4d4d4;
     }
-
     .google {
         width: 60px;
         height: 25px;
     }
 }
 
-
 .register {
     color: rgb(24, 119, 242);
     cursor: pointer;
     margin-left: 5px;
-
     &:hover {
         color: #0056b8;
     }
@@ -261,7 +253,6 @@
 
 ////
 /// 
-
 .logopm2 {
     width: 100px;
     height: 100px;
@@ -271,11 +262,9 @@
     width: 800px;
     margin-top: 100px;
     text-align: center;
-
     a {
         text-decoration: none;
         color: rgb(24, 119, 242);
-
         &:hover {
             color: #0056b8;
         }
@@ -315,46 +304,36 @@ svg {
 @media screen and (max-width: 46.1875em) {
     .container {
         overflow: hidden;
-
         h1 {
             font-size: 40px;
             color: #fffcfc;
         }
     }
-
     .dualscreen1 {
         display: none;
     }
-
     .dualscreen2 {
         height: 100vh;
         background-image: url('../../assets/images/tn1.jpg');
         background-size: cover;
         object-fit: cover;
     }
-
     .divlogin {
         display: flex;
         flex-direction: column;
         align-items: center;
     }
-
     .divemail {
         height: 50px;
         width: 300px;
-
         .divemail1 {
             width: 100%;
             height: 50px;
-
             .email {
                 height: 50px;
                 width: 300px;
                 font-size: 15px;
             }
-
-
-
             .email:focus+.label,
             .email:not(:placeholder-shown)+.label {
                 opacity: 0;
@@ -362,32 +341,24 @@ svg {
                 font-size: 0;
             }
         }
-
     }
-
     .divpassword {
         height: 50px;
         width: 300px;
-
         .divippass {
             width: 100%;
             height: 50px;
-
             .password {
                 height: 50px;
                 width: 300px;
                 font-size: 15px;
             }
-
-
-
             .password:focus+.label,
             .password:not(:placeholder-shown)+.label {
                 opacity: 0;
                 visibility: hidden;
                 font-size: 0;
             }
-
             .eye {
                 position: absolute;
                 right: 10px;
@@ -407,20 +378,17 @@ svg {
         display: flex;
         align-items: center;
         color: #fff;
-      }
-      
-      .remember-me input {
+    }
+    .remember-me input {
         margin-right: 5px;
-      }
-      
-      .forgot-password a {
+    }
+    .forgot-password a {
         text-decoration: none;
         color: #fff;
-      }
-      
-      .forgot-password a:hover {
+    }
+    .forgot-password a:hover {
         text-decoration: underline;
-      }
+    }
     .btnLogin {
     
         font-size: 15px;
@@ -436,12 +404,10 @@ svg {
         align-items: center;
         justify-content: center;
         text-align: center;
-
         &:hover {
             background-color: #0056b8;
         }
     }
-
     .divcachkhac {
         display: flex;
         flex-direction: row;
@@ -453,7 +419,6 @@ svg {
         width: 300px;
         /* Chiều rộng giống với nút đăng nhập */
     }
-
     .btnfacebook,
     .btngoogle {
         height: 50px;
@@ -469,74 +434,60 @@ svg {
         padding: 0 10px;
         /* Padding ngang để tạo không gian xung quanh nội dung */
     }
-
     .btnfacebook {
         border: 2px solid rgb(24, 119, 242);
         background: rgb(24, 119, 242);
-
         &:hover {
             background-color: #0056b8;
             border-color: #0056b8;
         }
     }
-
     .btngoogle {
         border: 2px solid rgba(0, 0, 0, 0.05);
         background: #ffffff;
-
         &:hover {
             background-color: #d4d4d4;
             border-color: #d4d4d4;
         }
     }
-
     .register {
         color: rgb(24, 119, 242);
         cursor: pointer;
         margin-left: 5px;
-
         &:hover {
             color: #0056b8;
         }
     }
-
     .divRegister {
         display: flex;
         flex-direction: row;
         align-items: center;
         margin-top: 10px;
-
         .register {
             font-size: 15px;
             color: rgb(2, 221, 250);
             cursor: pointer;
             margin-left: 5px;
-
             &:hover {
                 color: #009eb3;
             }
         }
-
         .register1 {
             font-size: 15px;
             color: #fffcfc;
         }
     }
-
     .chinhsach {
         width: 300px;
         margin-top: 0px;
         text-align: center;
-
         a {
             text-decoration: none;
             color: rgb(2, 221, 250);
-
             &:hover {
                 color: #009eb3;
             }
         }
-
         h4 {
             font-size: 15px;
             color: #fffcfc;
