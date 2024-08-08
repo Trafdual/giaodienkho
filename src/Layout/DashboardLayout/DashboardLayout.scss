@@ -30,13 +30,9 @@
     }
     
     .chart-single {
-        background-color: #f0f0f0;
-        padding: 20px;
-        border-radius: 8px;
-        height: 300px; // Điều chỉnh theo nhu cầu của bạn
         display: flex;
-        align-items: center;
-        justify-content: center;
+        justify-content: space-between;
+        gap: 16px;
         margin-top: 5%;
     }
     
