@@ -371,10 +371,10 @@ svg {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 10px;
-        width: 300px;
-    }
-    .remember-me {
+        margin-top: 20px;
+        width:300px;
+      }
+      .remember-me {
         display: flex;
         align-items: center;
         color: #fff;
@@ -390,7 +390,7 @@ svg {
         text-decoration: underline;
     }
     .btnLogin {
-        margin-top: 20px;
+    
         font-size: 15px;
         height: 50px;
         width: 300px;
