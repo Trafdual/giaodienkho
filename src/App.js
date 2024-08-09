@@ -1,7 +1,8 @@
 import React,{Fragment} from 'react'
 import { Route, Routes, BrowserRouter as Router } from 'react-router-dom'
 import { publicRoutes } from './router'
-import { DefaultLayout } from './Layout/DeafaultLayout'
+//import { DefaultLayout } from './Layout/DeafaultLayout'
+import { Test } from './Layout/Test'
 
 function App () {
   return (
@@ -9,7 +10,7 @@ function App () {
       <div className='App'>
         <Routes>
           {publicRoutes.map((route, index) => {
-            let Layout = DefaultLayout
+            let Layout = Test
             const Page = route.component
             if(route.layout===null){
               Layout=Fragment
