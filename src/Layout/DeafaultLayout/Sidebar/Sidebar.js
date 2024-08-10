@@ -4,8 +4,18 @@ import './Sidebar.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHouse } from '@fortawesome/free-solid-svg-icons'
 import { faApple } from '@fortawesome/free-brands-svg-icons'
+import { publicRoutes } from '../../../router'
 
 function Sidebar ({ isActive }) {
+  
+
+const handleLogout = () => {
+  localStorage.removeItem('token')
+  sessionStorage.removeItem('token')
+  window.location.replace(publicRoutes[0].path)
+
+}
+
   return (
     <div className={`navigation ${isActive ? 'active' : ''}`}>
       <ul>
@@ -68,7 +78,7 @@ function Sidebar ({ isActive }) {
           </a>
         </li>
         <li>
-          <a href='#'>
+          <a onClick={handleLogout}>
             <span className='icon'>
               <FontAwesomeIcon icon={faHouse} />
             </span>
