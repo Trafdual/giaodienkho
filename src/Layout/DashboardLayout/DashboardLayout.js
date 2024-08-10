@@ -17,7 +17,12 @@ import {
 
 import images from '../../assets/images'
 import './DashboardLayout.scss'
-import { faCartShopping, faComments, faEye, faMoneyBills } from '@fortawesome/free-solid-svg-icons'
+import {
+  faCartShopping,
+  faComments,
+  faEye,
+  faMoneyBills
+} from '@fortawesome/free-solid-svg-icons'
 
 ChartJS.register(
   Title,
@@ -31,11 +36,11 @@ ChartJS.register(
 )
 
 const polarData = {
-  labels: ['Facebook', 'Youtube', 'Amazon'],
+  labels: ['Iphone 13 pro max', 'Iphone 14 pro max', 'Iphone 15 pro max'],
   datasets: [
     {
-      label: 'Traffic Source',
-      data: [1100, 1500, 2205],
+      label: 'Số lượng máy',
+      data: [3300, 1500, 2205],
       backgroundColor: [
         'rgba(255, 99, 132, 1)',
         'rgba(54, 162, 235, 1)',
@@ -47,24 +52,26 @@ const polarData = {
 
 const barData = {
   labels: [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December'
+    'Tháng 1',
+    'Tháng 2',
+    'Tháng 3',
+    'Tháng 4',
+    'Tháng 5',
+    'Tháng 6',
+    'Tháng 7',
+    'Tháng 8',
+    'Tháng 9',
+    'Tháng 10',
+    'Tháng 11',
+    'Tháng 12'
   ],
   datasets: [
     {
-      label: 'Earning',
+      label: 'Doanh Thu',
       data: [
-        4500, 4106, 7005, 6754, 5154, 4554, 7815, 3152, 12204, 4457, 8740, 11000
+        10000000000, 9000000000, 12000000000, 8000000000, 13000000000,
+        5000000000, 9000000000, 10000000000, 7000000000, 6000000000, 5000000000,
+        1122000000000
       ],
       backgroundColor: [
         'rgba(255, 99, 132, 1)',
@@ -82,6 +89,28 @@ const barData = {
       ]
     }
   ]
+}
+
+const barOptions = {
+  scales: {
+    y: {
+      ticks: {
+        callback: function (value) {
+          return value.toLocaleString('vi-VN') + 'VNĐ' // Thêm ký hiệu tiền tệ
+        }
+      },
+      title: {
+        display: true,
+        text: ''
+      }
+    },
+    x: {
+      title: {
+        display: true,
+        text: 'Thời gian'
+      }
+    }
+  }
 }
 
 function TestDasboard () {
@@ -131,7 +160,7 @@ function TestDasboard () {
           <PolarArea data={polarData} options={{ responsive: true }} />
         </div>
         <div className='box'>
-          <Bar data={barData} options={{ responsive: true }} />
+          <Bar data={barData} options={barOptions} />
         </div>
       </div>
 
