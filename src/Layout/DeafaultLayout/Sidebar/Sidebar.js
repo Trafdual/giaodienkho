@@ -1,64 +1,82 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import './Sidebar.scss'
-import { Link,useNavigate  } from 'react-router-dom'
-import { faHouse, faRightFromBracket } from '@fortawesome/free-solid-svg-icons'
-import { publicRoutes } from '../../../router';
-function Sidebar () {
-  const navigate = useNavigate(); // Sử dụng useNavigate để điều hướng
+/* eslint-disable jsx-a11y/anchor-is-valid */
 
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    sessionStorage.removeItem('token');
-    navigate(publicRoutes[0].path, { replace: true });
-  };
+import './Sidebar.scss'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faHouse } from '@fortawesome/free-solid-svg-icons'
+import { faApple } from '@fortawesome/free-brands-svg-icons'
+
+function Sidebar ({ isActive }) {
   return (
-    <aside className='sidebar'>
+    <div className={`navigation ${isActive ? 'active' : ''}`}>
       <ul>
         <li>
-          <FontAwesomeIcon icon={faHouse} />
-          <Link>
-            <p>Trang chủ</p>
-          </Link>
+          <a href='#'>
+            <span className='icon'>
+              <FontAwesomeIcon style={{ fontSize: 30 }} icon={faApple} />
+            </span>
+            <span className='title' style={{ fontSize: 30, fontWeight: 500 }}>
+              Brand Name
+            </span>
+          </a>
+        </li>
+        <li className='hovered'>
+          <a href='#'>
+            <span className='icon'>
+              <FontAwesomeIcon icon={faHouse} />
+            </span>
+            <span className='title'>Dashboard</span>
+          </a>
         </li>
         <li>
-          <FontAwesomeIcon icon={faHouse} />
-          <Link>
-            <p>Quản lý nhân viên</p>
-          </Link>
+          <a href='#'>
+            <span className='icon'>
+              <FontAwesomeIcon icon={faHouse} />
+            </span>
+            <span className='title'>Customers</span>
+          </a>
         </li>
         <li>
-          <FontAwesomeIcon icon={faHouse} />
-          <Link>
-            <p>Quản lý nhập kho</p>
-          </Link>
+          <a href='#'>
+            <span className='icon'>
+              <FontAwesomeIcon icon={faHouse} />
+            </span>
+            <span className='title'>Message</span>
+          </a>
         </li>
         <li>
-          <FontAwesomeIcon icon={faHouse} />
-          <Link>
-            <p>Quản lý xuất kho</p>
-          </Link>
+          <a href='#'>
+            <span className='icon'>
+              <FontAwesomeIcon icon={faHouse} />
+            </span>
+            <span className='title'>Help</span>
+          </a>
         </li>
         <li>
-          <FontAwesomeIcon icon={faHouse} />
-          <Link>
-            <p>Quản lý doanh thu</p>
-          </Link>
+          <a href='#'>
+            <span className='icon'>
+              <FontAwesomeIcon icon={faHouse} />
+            </span>
+            <span className='title'>Settings</span>
+          </a>
         </li>
         <li>
-          <FontAwesomeIcon icon={faHouse} />
-          <Link>
-            <p>Quản lý doanh thu</p>
-          </Link>
+          <a href='#'>
+            <span className='icon'>
+              <FontAwesomeIcon icon={faHouse} />
+            </span>
+            <span className='title'>Password</span>
+          </a>
         </li>
-        
         <li>
-          <FontAwesomeIcon icon={faRightFromBracket} />
-         
-          <p onClick={handleLogout}>Đăng xuất</p>
-         
+          <a href='#'>
+            <span className='icon'>
+              <FontAwesomeIcon icon={faHouse} />
+            </span>
+            <span className='title'>Sign Out</span>
+          </a>
         </li>
       </ul>
-    </aside>
+    </div>
   )
 }
 

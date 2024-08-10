@@ -1,162 +1,370 @@
-import './DashboardLayout.scss'
-import { Line, Bar, Pie } from 'react-chartjs-2'
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable jsx-a11y/alt-text */
+import React from 'react'
+import { PolarArea, Bar } from 'react-chartjs-2'
 import {
   Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  BarElement,
-  ArcElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  ArcElement,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  RadialLinearScale
 } from 'chart.js'
 
+import images from '../../assets/images'
+import './DashboardLayout.scss'
+
 ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  BarElement,
-  ArcElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  ArcElement,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  RadialLinearScale
 )
 
-const dataLine = {
-  labels: ['January', 'February', 'March', 'April', 'May'],
+const polarData = {
+  labels: ['Facebook', 'Youtube', 'Amazon'],
   datasets: [
     {
-      label: 'Line Chart',
-      data: [12, 19, 3, 5, 2],
-      borderColor: '#42A5F5',
-      backgroundColor: 'rgba(66, 165, 245, 0.2)'
-    }
-  ]
-}
-
-const dataBar = {
-  labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple'],
-  datasets: [
-    {
-      label: 'Bar Chart',
-      data: [12, 19, 3, 5, 2],
+      label: 'Traffic Source',
+      data: [1100, 1500, 2205],
       backgroundColor: [
-        'rgba(255, 99, 132, 0.2)',
-        'rgba(54, 162, 235, 0.2)',
-        'rgba(255, 206, 86, 0.2)',
-        'rgba(75, 192, 192, 0.2)',
-        'rgba(153, 102, 255, 0.2)'
+        'rgba(255, 99, 132, 1)',
+        'rgba(54, 162, 235, 1)',
+        'rgba(255, 206, 86, 1)'
       ]
     }
   ]
 }
 
-const dataPie = {
-  labels: ['Red', 'Blue', 'Yellow'],
+const barData = {
+  labels: [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December'
+  ],
   datasets: [
     {
-      label: 'Pie Chart',
-      data: [300, 50, 100],
+      label: 'Earning',
+      data: [
+        4500, 4106, 7005, 6754, 5154, 4554, 7815, 3152, 12204, 4457, 8740, 11000
+      ],
       backgroundColor: [
-        'rgba(255, 99, 132, 0.2)',
-        'rgba(54, 162, 235, 0.2)',
-        'rgba(255, 206, 86, 0.2)'
+        'rgba(255, 99, 132, 1)',
+        'rgba(54, 162, 235, 1)',
+        'rgba(255, 206, 86, 1)',
+        'rgba(75, 192, 192, 1)',
+        'rgba(153, 102, 255, 1)',
+        'rgba(255, 159, 64, 1)',
+        'rgba(255, 99, 132, 1)',
+        'rgba(54, 162, 235, 1)',
+        'rgba(255, 206, 86, 1)',
+        'rgba(75, 192, 192, 1)',
+        'rgba(153, 102, 255, 1)',
+        'rgba(255, 159, 64, 1)'
       ]
     }
   ]
 }
-const dataPareto = {
-  labels: ['A', 'B', 'C', 'D', 'E'],
-  datasets: [
-    {
-      label: 'Frequency',
-      data: [120, 90, 60, 30, 10],
-      backgroundColor: 'rgba(255, 99, 132, 0.2)',
-      borderColor: '#FF6384',
-      borderWidth: 1,
-      yAxisID: 'y'
-    },
-    {
-      label: 'Cumulative Percentage',
-      data: [20, 40, 60, 80, 100],
-      borderColor: '#36A2EB',
-      fill: false,
-      type: 'line',
-      yAxisID: 'y1'
-    }
-  ]
-}
 
-// Tùy chỉnh cấu hình biểu đồ Pareto
-const optionsPareto = {
-  responsive: true,
-  plugins: {
-    legend: {
-      position: 'top'
-    },
-    tooltip: {
-      callbacks: {
-        label: function (context) {
-          if (context.dataset.type === 'line') {
-            return `${context.dataset.label}: ${context.raw}%`
-          }
-          return `${context.dataset.label}: ${context.raw}`
-        }
-      }
-    }
-  },
-  scales: {
-    y: {
-      type: 'linear',
-      position: 'left',
-      title: {
-        display: true,
-        text: 'Frequency'
-      }
-    },
-    y1: {
-      type: 'linear',
-      position: 'right',
-      title: {
-        display: true,
-        text: 'Cumulative Percentage'
-      },
-      grid: {
-        drawOnChartArea: false
-      },
-      ticks: {
-        callback: function (value) {
-          return value + '%'
-        }
-      }
-    }
-  }
-}
-
-function DashboardLayout () {
+function TestDasboard () {
   return (
-    <div className='dashboard'>
-      <div className='chart-row'>
-        <div className='chart'>
-          <Line data={dataLine} />
+    <>
+      <div className='cardBox'>
+        <div className='card'>
+          <div>
+            <div className='numbers'>1,504</div>
+            <div className='cardName'>Daily Views</div>
+          </div>
+          <div className='iconBx'>
+            <ion-icon name='eye-outline'></ion-icon>
+          </div>
         </div>
-        <div className='chart'>
-          <Bar data={dataBar} />
+        <div className='card'>
+          <div>
+            <div className='numbers'>80</div>
+            <div className='cardName'>Sales</div>
+          </div>
+          <div className='iconBx'>
+            <ion-icon name='cart-outline'></ion-icon>
+          </div>
+        </div>
+        <div className='card'>
+          <div>
+            <div className='numbers'>284</div>
+            <div className='cardName'>Comments</div>
+          </div>
+          <div className='iconBx'>
+            <ion-icon name='chatbubbles-outline'></ion-icon>
+          </div>
+        </div>
+        <div className='card'>
+          <div>
+            <div className='numbers'>$7,842</div>
+            <div className='cardName'>Earning</div>
+          </div>
+          <div className='iconBx'>
+            <ion-icon name='cash-outline'></ion-icon>
+          </div>
         </div>
       </div>
-      <div className='chart-single'>
-        <div className='chart'>
-          <Pie data={dataPie} />
+
+      <div className='graphBox'>
+        <div className='box'>
+          <PolarArea data={polarData} options={{ responsive: true }} />
         </div>
-        <div className='chart'>
-          <Bar data={dataPareto} options={optionsPareto} />
+        <div className='box'>
+          <Bar data={barData} options={{ responsive: true }} />
         </div>
       </div>
-    </div>
+
+      <div className='details'>
+        <div className='recentOrders'>
+          <div className='cardHeader'>
+            <h2>Recent Orders</h2>
+            <a href='#' className='btn'>
+              View All
+            </a>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <td>Name</td>
+                <td>Price</td>
+                <td>Payment</td>
+                <td>Status</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Star Refrigerator</td>
+                <td>$1200</td>
+                <td>Paid</td>
+                <td>
+                  <span className='status delivered'>Delivered</span>
+                </td>
+              </tr>
+              <tr>
+                <td>Window Coolers</td>
+                <td>$110</td>
+                <td>Due</td>
+                <td>
+                  <span className='status pending'>Pending</span>
+                </td>
+              </tr>
+              <tr>
+                <td>Speakers</td>
+                <td>$620</td>
+                <td>Paid</td>
+                <td>
+                  <span className='status return'>Return</span>
+                </td>
+              </tr>
+              <tr>
+                <td>Hp Laptop</td>
+                <td>$110</td>
+                <td>Due</td>
+                <td>
+                  <span className='status inprogress'>In Progress</span>
+                </td>
+              </tr>
+              <tr>
+                <td>Apple Watch</td>
+                <td>$1200</td>
+                <td>Paid</td>
+                <td>
+                  <span className='status delivered'>Delivered</span>
+                </td>
+              </tr>
+              <tr>
+                <td>Wall Fan</td>
+                <td>$110</td>
+                <td>Paid</td>
+                <td>
+                  <span className='status pending'>Pending</span>
+                </td>
+              </tr>
+              <tr>
+                <td>Adidas Shoes</td>
+                <td>$620</td>
+                <td>Paid</td>
+                <td>
+                  <span className='status return'>Return</span>
+                </td>
+              </tr>
+              <tr>
+                <td>Denim Shirts</td>
+                <td>$110</td>
+                <td>Due</td>
+                <td>
+                  <span className='status inprogress'>In Progress</span>
+                </td>
+              </tr>
+              <tr>
+                <td>Casual Shoes</td>
+                <td>$575</td>
+                <td>Paid</td>
+                <td>
+                  <span className='status pending'>Pending</span>
+                </td>
+              </tr>
+              <tr>
+                <td>Wall Fan</td>
+                <td>$110</td>
+                <td>Paid</td>
+                <td>
+                  <span className='status pending'>Pending</span>
+                </td>
+              </tr>
+              <tr>
+                <td>Denim Shirts</td>
+                <td>$110</td>
+                <td>Due</td>
+                <td>
+                  <span className='status inprogress'>In Progress</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div className='recentCustomers'>
+          <div className='cardHeader'>
+            <h2>Recent Customers</h2>
+          </div>
+          <table>
+            <tr>
+              <td width='60px'>
+                <div className='imgBx'>
+                  <img src={images.tn1} />
+                </div>
+              </td>
+              <td>
+                <h4>
+                  David
+                  <br />
+                  <span>Italy</span>
+                </h4>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div className='imgBx'>
+                  <img src={images.tn1} />
+                </div>
+              </td>
+              <td>
+                <h4>
+                  Muhammad
+                  <br />
+                  <span>India</span>
+                </h4>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div className='imgBx'>
+                  <img src={images.tn1} />
+                </div>
+              </td>
+              <td>
+                <h4>
+                  Amelia
+                  <br />
+                  <span>France</span>
+                </h4>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div className='imgBx'>
+                  <img src={images.tn1} />
+                </div>
+              </td>
+              <td>
+                <h4>
+                  Olivia
+                  <br />
+                  <span>USA</span>
+                </h4>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div className='imgBx'>
+                  <img src={images.tn1} />
+                </div>
+              </td>
+              <td>
+                <h4>
+                  Amit
+                  <br />
+                  <span>Japan</span>
+                </h4>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div className='imgBx'>
+                  <img src={images.tn1} />
+                </div>
+              </td>
+              <td>
+                <h4>
+                  Ashraf
+                  <br />
+                  <span>India</span>
+                </h4>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div className='imgBx'>
+                  <img src={images.tn1} />
+                </div>
+              </td>
+              <td>
+                <h4>
+                  Diana
+                  <br />
+                  <span>Malaysia</span>
+                </h4>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div className='imgBx'>
+                  <img src={images.tn1} />
+                </div>
+              </td>
+              <td>
+                <h4>
+                  Amit
+                  <br />
+                  <span>India</span>
+                </h4>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </>
   )
 }
 
-export default DashboardLayout
+export default TestDasboard
