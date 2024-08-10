@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable jsx-a11y/alt-text */
 import React from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { PolarArea, Bar } from 'react-chartjs-2'
 import {
   Chart as ChartJS,
@@ -16,6 +17,7 @@ import {
 
 import images from '../../assets/images'
 import './DashboardLayout.scss'
+import { faCartShopping, faComments, faEye, faMoneyBills } from '@fortawesome/free-solid-svg-icons'
 
 ChartJS.register(
   Title,
@@ -92,7 +94,7 @@ function TestDasboard () {
             <div className='cardName'>Daily Views</div>
           </div>
           <div className='iconBx'>
-            <ion-icon name='eye-outline'></ion-icon>
+            <FontAwesomeIcon icon={faEye} />
           </div>
         </div>
         <div className='card'>
@@ -101,7 +103,7 @@ function TestDasboard () {
             <div className='cardName'>Sales</div>
           </div>
           <div className='iconBx'>
-            <ion-icon name='cart-outline'></ion-icon>
+            <FontAwesomeIcon icon={faCartShopping} />
           </div>
         </div>
         <div className='card'>
@@ -110,7 +112,7 @@ function TestDasboard () {
             <div className='cardName'>Comments</div>
           </div>
           <div className='iconBx'>
-            <ion-icon name='chatbubbles-outline'></ion-icon>
+            <FontAwesomeIcon icon={faComments} />
           </div>
         </div>
         <div className='card'>
@@ -119,7 +121,7 @@ function TestDasboard () {
             <div className='cardName'>Earning</div>
           </div>
           <div className='iconBx'>
-            <ion-icon name='cash-outline'></ion-icon>
+            <FontAwesomeIcon icon={faMoneyBills} />
           </div>
         </div>
       </div>
