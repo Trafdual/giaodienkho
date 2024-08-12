@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: row;
     height: 100vh;
-    font-family: 'TikTokFont', sans-serif;
+    font-family: var(--font-family);
 }
 
 .dualscreen1,
@@ -61,7 +61,7 @@
     font-size: 16px;
     border: 1px solid #ccc;
     background-color: #f5f5f5;
-    font-family: 'TikTokFont', sans-serif;
+    font-family: var(--font-family);
     font-weight: bold;
     box-sizing: border-box;
     transition: border-color 0.3s ease;
@@ -151,7 +151,7 @@
 .btnLogin {
     margin-top: 10px;
     font-size: 16px;
-    font-family: 'TikTokFont', sans-serif;
+    font-family: var(--font-family);
     font-weight: bold;
     height: 45px;
     width: 250px;
@@ -276,30 +276,6 @@ svg {
     height: 25px
 }
 
-@font-face {
-    font-family: TikTokFont;
-    src: url('../../assets/fonts/TikTokFont-Regular.woff2');
-    font-weight: 400;
-}
-
-@font-face {
-    font-family: TikTokFont;
-    src: url('../../assets/fonts/TikTokFont-Semibold.woff2');
-    font-weight: 600;
-}
-
-@font-face {
-    font-family: TikTokFont;
-    src: url('../../assets/fonts/TikTokFont-Bold.woff2');
-    font-weight: 700;
-}
-
-@font-face {
-    font-family: TikTokDisplayFont;
-    src: url('../../assets/fonts/TikTokDisplayFont-Bold.woff2');
-    font-weight: 700;
-}
-
 // 
 @media screen and (max-width: 46.1875em) {
     .container {
@@ -372,9 +348,9 @@ svg {
         justify-content: space-between;
         align-items: center;
         margin-top: 20px;
-        width:300px;
-      }
-      .remember-me {
+        width: 300px;
+    }
+    .remember-me {
         display: flex;
         align-items: center;
         color: #fff;
@@ -390,7 +366,6 @@ svg {
         text-decoration: underline;
     }
     .btnLogin {
-    
         font-size: 15px;
         height: 50px;
         width: 300px;
