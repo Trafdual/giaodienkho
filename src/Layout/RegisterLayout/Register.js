@@ -191,7 +191,7 @@ function Register() {
             </div>
             <div className='divRegister'>
               <h3 className='register1'>Bạn đã có tài khoản?</h3>
-              <h3 className='register'>Đăng nhập</h3>
+              <h3 className='register' onClick={() => navigate('/')}>Đăng nhập</h3>
             </div>
             <div>
               <LogoSwitcherLogin />

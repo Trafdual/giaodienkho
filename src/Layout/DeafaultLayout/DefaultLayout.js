@@ -13,6 +13,8 @@ function DefaultLayout ({ children }) {
   const toggleMenu = () => {
     setIsActive(!isActive)
   }
+  const userId = localStorage.getItem('userId') || sessionStorage.getItem('userId')
+  const name = localStorage.getItem('name') || sessionStorage.getItem('name')
 
   return (
     <>
@@ -20,7 +22,7 @@ function DefaultLayout ({ children }) {
         <Sidebar isActive={isActive} />
 
         <div className={`main ${isActive ? 'active' : ''}`}>
-          <Header toggleMenu={toggleMenu} />
+          <Header name={name} userId={userId} toggleMenu={toggleMenu} />
           {children}
         </div>
       </div>

@@ -60,8 +60,8 @@
     text-align: center;
 }
 
-.navigation ul li a .icon ion-icon {
-    font-size: 1.75em;
+.navigation ul li a .icon .fonticon {
+    font-size: 1.25em;
 }
 
 .navigation ul li a .title {
@@ -72,6 +72,7 @@
     line-height: 60px;
     text-align: start;
     white-space: nowrap;
+    cursor: pointer;
 }
 
 
