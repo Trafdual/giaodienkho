@@ -35,11 +35,8 @@ function Header ({ toggleMenu, userId, name }) {
   }
 
   useEffect(() => {
-    if (userId) {
-      hadleGetKho()
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userId])
+    hadleGetKho()
+  })
 
   return (
     <div className='topbar'>
