@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './Modal.scss'; 
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faXmark} from '@fortawesome/free-solid-svg-icons';
 
 const Modal = ({ isOpen, onClose, children }) => {
   if (!isOpen) return null;
@@ -8,7 +10,9 @@ const Modal = ({ isOpen, onClose, children }) => {
   return ReactDOM.createPortal(
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-        <button className="modal-close" onClick={onClose}>X</button>
+        <button className="modal-close" onClick={onClose}>
+          <FontAwesomeIcon icon={faXmark}/>
+        </button>
         {children}
       </div>
     </div>,
