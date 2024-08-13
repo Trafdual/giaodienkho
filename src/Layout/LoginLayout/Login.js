@@ -71,10 +71,11 @@ function Login() {
         });
 
         const data = await response.json();
-        const userId = data.data.user[0]._id;
-        const name = data.data.user[0].name;
+
 
         if (data.data) {
+          const userId = data.data.user[0]._id;
+          const name = data.data.user[0].name;
           if (rememberMe) {
             localStorage.setItem('token', data.token);
             localStorage.setItem('userId', userId);
@@ -87,7 +88,7 @@ function Login() {
           showToast('Đăng nhập thành công!');
           navigate(publicRoutes[1].path);
         } else {
-          showToast('Đăng nhập không thành công. Vui lòng kiểm tra lại email hoặc mật khẩu.', 'error');
+          showToast(data.message, 'error');
         }
       } catch (error) {
         showToast('Đã xảy ra lỗi khi gửi yêu cầu đăng nhập. Vui lòng thử lại.', 'error');
@@ -96,7 +97,6 @@ function Login() {
       }
     }
   };
-
   return (
     <div className='container'>
       <div className='dualscreen1'>
@@ -185,7 +185,7 @@ function Login() {
           </div>
         </div>
       </div>
-      
+
     </div>
   );
 }

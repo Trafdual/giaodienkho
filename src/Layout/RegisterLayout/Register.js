@@ -86,7 +86,7 @@ function Register() {
                     navigate(publicRoutes[0].path);
                     showToast('Đăng ký thành công!');
                 } else {
-                  showToast('Đăng ký không thành công. Vui lòng kiểm tra lại thông tin.', 'error');
+                  showToast(data.message, 'error');
                 }
             } catch (error) {
               showToast('Đã xảy ra lỗi khi gửi yêu cầu đăng ký. Vui lòng thử lại.', 'error');
