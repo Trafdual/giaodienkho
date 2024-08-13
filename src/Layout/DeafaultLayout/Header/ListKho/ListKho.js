@@ -31,7 +31,7 @@ function ListKho ({ userId }) {
 
   useEffect(() => {
     hadleGetKho()
-  }, [userId])
+  }, [datakho])
 
   return (
     <select name='' className='option' disabled={datakho.length === 0}>

@@ -1,101 +1,109 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import './Login.scss';
-import images from '../../assets/images';
-import { Image as ImageLogin } from '../../components/ImageLogin';
-import { publicRoutes } from '../../router';
-import { LogoSwitcher as LogoSwitcherLogin } from '../../components/SwitchImageLogin';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
-import { useToast } from '../../components/GlobalStyles/ToastContext';
-function Login() {
-  const [showPassword, setShowPassword] = useState(false);
-  const [isIconVisible, setIsIconVisible] = useState(false);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [emailError, setEmailError] = useState('');
-  const [passwordError, setPasswordError] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [rememberMe, setRememberMe] = useState(false);
+import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import './Login.scss'
+import images from '../../assets/images'
+import { Image as ImageLogin } from '../../components/ImageLogin'
+import { publicRoutes } from '../../router'
+import { LogoSwitcher as LogoSwitcherLogin } from '../../components/SwitchImageLogin'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
+import { useToast } from '../../components/GlobalStyles/ToastContext'
+function Login () {
+  const [showPassword, setShowPassword] = useState(false)
+  const [isIconVisible, setIsIconVisible] = useState(false)
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [emailError, setEmailError] = useState('')
+  const [passwordError, setPasswordError] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
+  const [rememberMe, setRememberMe] = useState(false)
 
-  const navigate = useNavigate();
-  const { showToast } = useToast();
+  const navigate = useNavigate()
+  const { showToast } = useToast()
   useEffect(() => {
-    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+    const token =
+      localStorage.getItem('token') || sessionStorage.getItem('token')
     if (token) {
-      navigate(publicRoutes[1].path);
+      navigate(publicRoutes[1].path)
     }
-  }, [navigate]);
+  }, [navigate])
 
   const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
+    setShowPassword(!showPassword)
+  }
 
-  const handleRememberMeChange = (e) => {
-    setRememberMe(e.target.checked);
-  };
+  const handleRememberMeChange = e => {
+    setRememberMe(e.target.checked)
+  }
 
   const validateInputs = () => {
-    let valid = true;
+    let valid = true
 
     if (!email) {
-      setEmailError('Vui lòng nhập email.');
-      valid = false;
+      setEmailError('Vui lòng nhập email.')
+      valid = false
     } else {
-      setEmailError('');
+      setEmailError('')
     }
 
     if (!password) {
-      setPasswordError('Vui lòng nhập mật khẩu.');
-      valid = false;
+      setPasswordError('Vui lòng nhập mật khẩu.')
+      valid = false
     } else {
-      setPasswordError('');
+      setPasswordError('')
     }
 
-    return valid;
-  };
+    return valid
+  }
 
   const handleLogin = async () => {
     if (validateInputs()) {
-      setIsLoading(true);
+      setIsLoading(true)
       try {
         const response = await fetch('https://www.ansuataohanoi.com/login', {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json',
+            'Content-Type': 'application/json'
           },
           body: JSON.stringify({
             email: email,
-            password: password,
-          }),
-        });
+            password: password
+          })
+        })
 
-        const data = await response.json();
-        const userId = data.data.user[0]._id;
-        const name = data.data.user[0].name;
+        const data = await response.json()
 
         if (data.data) {
+          const userId = data.data.user[0]._id
+          const name = data.data.user[0].name
+
           if (rememberMe) {
-            localStorage.setItem('token', data.token);
-            localStorage.setItem('userId', userId);
-            localStorage.setItem('name', name);
+            localStorage.setItem('token', data.token)
+            localStorage.setItem('userId', userId)
+            localStorage.setItem('name', name)
           } else {
-            sessionStorage.setItem('token', data.token);
-            sessionStorage.setItem('userId', userId);
-            sessionStorage.setItem('name', name);
+            sessionStorage.setItem('token', data.token)
+            sessionStorage.setItem('userId', userId)
+            sessionStorage.setItem('name', name)
           }
-          showToast('Đăng nhập thành công!');
-          navigate(publicRoutes[1].path);
+          showToast('Đăng nhập thành công!')
+          navigate(publicRoutes[1].path)
         } else {
-          showToast('Đăng nhập không thành công. Vui lòng kiểm tra lại email hoặc mật khẩu.', 'error');
+          showToast(
+            data.message,
+            'error'
+          )
         }
       } catch (error) {
-        showToast('Đã xảy ra lỗi khi gửi yêu cầu đăng nhập. Vui lòng thử lại.', 'error');
+        showToast(
+          'Đã xảy ra lỗi khi gửi yêu cầu đăng nhập. Vui lòng thử lại.',
+          'error'
+        )
       } finally {
-        setIsLoading(false);
+        setIsLoading(false)
       }
     }
-  };
+  }
 
   return (
     <div className='container'>
@@ -111,7 +119,7 @@ function Login() {
                 className={`email ${emailError ? 'input-error' : ''}`}
                 placeholder=' '
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={e => setEmail(e.target.value)}
               />
               <label className='label'>Email</label>
             </div>
@@ -124,7 +132,7 @@ function Login() {
                 type={showPassword ? 'text' : 'password'}
                 placeholder=' '
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={e => setPassword(e.target.value)}
                 onFocus={() => setIsIconVisible(true)}
               />
               <label className='label'>Password</label>
@@ -151,7 +159,11 @@ function Login() {
             </div>
           </div>
 
-          <button className='btnLogin' onClick={handleLogin} disabled={isLoading}>
+          <button
+            className='btnLogin'
+            onClick={handleLogin}
+            disabled={isLoading}
+          >
             {isLoading ? <div className='loading-spinner'></div> : 'Đăng Nhập'}
           </button>
 
@@ -165,7 +177,9 @@ function Login() {
           </div>
           <div className='divRegister'>
             <h3 className='register1'>Bạn chưa có tài khoản?</h3>
-            <h3 className='register' onClick={() => navigate('/register')}>Đăng ký</h3>
+            <h3 className='register' onClick={() => navigate('/register')}>
+              Đăng ký
+            </h3>
           </div>
           <div>
             <LogoSwitcherLogin />
@@ -185,9 +199,8 @@ function Login() {
           </div>
         </div>
       </div>
-      
     </div>
-  );
+  )
 }
 
-export default Login;
+export default Login
