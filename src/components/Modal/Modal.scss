@@ -1,4 +1,5 @@
 /* Modal.scss */
+
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -9,24 +10,26 @@
     display: flex;
     justify-content: center;
     align-items: center;
-  }
-  
-  .modal-content {
+}
+
+.modal-content {
     background: white;
     padding: 20px;
     border-radius: 8px;
     width: 80%;
     max-width: 500px;
     position: relative;
-  }
-  
-  .modal-close {
+    margin-bottom: 500px;
+    overflow: hidden;
+}
+
+.modal-close {
     position: absolute;
     top: 10px;
     right: 10px;
     background: none;
     border: none;
-    font-size: 24px;
+    font-size: 20px;
     cursor: pointer;
-  }
-  
+    font-weight: bold;
+}

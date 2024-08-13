@@ -1,42 +1,26 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faBars,
   faBell,
   faCircleQuestion,
+  faPlus,
   faSearch
 } from '@fortawesome/free-solid-svg-icons'
-import './Header.scss'
 import { faFacebookMessenger } from '@fortawesome/free-brands-svg-icons'
+import Tippy from '@tippyjs/react'
+
+import 'tippy.js/dist/tippy.css'
+import './Header.scss'
+import { ListKho } from './ListKho'
+import { AddKho } from './AddKho'
 
 function Header ({ toggleMenu, userId, name }) {
-  const [datakho, setdatakho] = useState([])
-  const hadleGetKho = async () => {
-    try {
-      const response = await fetch(
-        `https://www.ansuataohanoi.com/getdepot/${userId}`,
-        {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        }
-      )
+  const [isOpen, setIsOpen] = useState(false)
 
-      if (response.ok) {
-        const data = await response.json()
-        setdatakho(data)
-      } else {
-        console.error('Failed to fetch data')
-      }
-    } catch (error) {
-      console.error('Error fetching data:', error)
-    }
+  const handleCloseModal = () => {
+    setIsOpen(false)
   }
-
-  useEffect(() => {
-    hadleGetKho()
-  })
 
   return (
     <div className='topbar'>
@@ -50,18 +34,14 @@ function Header ({ toggleMenu, userId, name }) {
         </label>
       </div>
       <div className='user'>
-        <select name='' className='option' disabled={datakho.length === 0}>
-          {datakho.length === 0 ? (
-            <option value=''>Chưa có kho</option>
-          ) : (
-            datakho.map(kho => (
-              <option key={kho._id} value={kho._id}>
-                {kho.name}
-              </option>
-            ))
-          )}
-        </select>
-
+        <div className='divthemkho'>
+          <Tippy content='Thêm kho' placement='bottom'>
+            <button className='btnicon' onClick={() => setIsOpen(true)}>
+              <FontAwesomeIcon className='iconhelp' icon={faPlus} />
+            </button>
+          </Tippy>
+        </div>
+        <ListKho userId={userId} />
         <div className='optiontk'>
           <img
             src='https://gcs.tripi.vn/public-tripi/tripi-feed/img/474014bom/anh-gai-xinh-cute-de-thuong-hot-girl-2.jpg'
@@ -70,11 +50,29 @@ function Header ({ toggleMenu, userId, name }) {
           <h4>{name}</h4>
         </div>
         <div className='help'>
-          <FontAwesomeIcon className='iconhelp' icon={faFacebookMessenger} />
-          <FontAwesomeIcon className='iconhelp' icon={faBell} />
-          <FontAwesomeIcon className='iconhelp' icon={faCircleQuestion} />
+          <Tippy content='Tin nhắn' placement='bottom'>
+            <button className='btnicon'>
+              <FontAwesomeIcon
+                className='iconhelp'
+                icon={faFacebookMessenger}
+              />
+            </button>
+          </Tippy>
+
+          <Tippy content='Thông báo' placement='bottom'>
+            <button className='btnicon'>
+              <FontAwesomeIcon className='iconhelp' icon={faBell} />
+            </button>
+          </Tippy>
+
+          <Tippy content='Trợ giúp' placement='bottom'>
+            <button className='btnicon'>
+              <FontAwesomeIcon className='iconhelp' icon={faCircleQuestion} />
+            </button>
+          </Tippy>
         </div>
       </div>
+      <AddKho onClose={handleCloseModal} isOpen={isOpen} userId={userId} />
     </div>
   )
 }
