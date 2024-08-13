@@ -5,6 +5,8 @@ import './ListKho.scss'
 function ListKho ({ userId }) {
   const [datakho, setdatakho] = useState([])
   const [isOpen, setIsOpen] = useState(false)
+  const [selectedKho, setSelectedKho] = useState(null)
+
 
   const dropdownRef = useRef(null)
   const toggleMenu = () => {
@@ -49,10 +51,18 @@ function ListKho ({ userId }) {
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
 
+  const handleSelectKho = kho => {
+  setSelectedKho(kho)
+  setIsOpen(false)
+}
+
+
   return (
     <div className='dropdown' ref={dropdownRef}>
       <div className='select' onClick={toggleMenu}>
-        <span className='selected'>Chọn kho chứa</span>
+        <span className='selected'>
+          {selectedKho ? selectedKho.name : 'Chọn kho'}
+        </span>
         <div className={`caret ${isOpen ? 'carte-rotate' : ''}`}></div>
       </div>
       <ul className={`menu ${isOpen ? 'show' : ''}`}>
@@ -61,7 +71,7 @@ function ListKho ({ userId }) {
             <li value=''>Chưa có kho</li>
           ) : (
             datakho.map(kho => (
-              <li key={kho._id} value={kho._id}>
+              <li key={kho._id} value={kho._id} onClick={()=>handleSelectKho(kho)}>
                 {kho.name}
               </li>
             ))
