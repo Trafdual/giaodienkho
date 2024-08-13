@@ -1,108 +1,101 @@
-import React, { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
-import './Login.scss'
-import images from '../../assets/images'
-import { Image as ImageLogin } from '../../components/ImageLogin'
-import { publicRoutes } from '../../router'
-import { LogoSwitcher as LogoSwitcherLogin } from '../../components/SwitchImageLogin'
-import { Modal as ModalLogin } from '../../components/Modal'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import './Login.scss';
+import images from '../../assets/images';
+import { Image as ImageLogin } from '../../components/ImageLogin';
+import { publicRoutes } from '../../router';
+import { LogoSwitcher as LogoSwitcherLogin } from '../../components/SwitchImageLogin';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { useToast } from '../../components/GlobalStyles/ToastContext';
+function Login() {
+  const [showPassword, setShowPassword] = useState(false);
+  const [isIconVisible, setIsIconVisible] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
 
-function Login () {
-  const [showPassword, setShowPassword] = useState(false)
-  const [isIconVisible, setIsIconVisible] = useState(false)
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [emailError, setEmailError] = useState('')
-  const [passwordError, setPasswordError] = useState('')
-  const [apiError, setApiError] = useState('')
-  const [isLoading, setIsLoading] = useState(false)
-  const [rememberMe, setRememberMe] = useState(false)
-
-  const navigate = useNavigate() // Khai báo useNavigate
+  const navigate = useNavigate();
+  const { showToast } = useToast();
   useEffect(() => {
-    const token =
-      localStorage.getItem('token') || sessionStorage.getItem('token')
+    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
     if (token) {
-      navigate(publicRoutes[1].path)
+      navigate(publicRoutes[1].path);
     }
-  }, [navigate])
+  }, [navigate]);
+
   const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword)
-  }
-  const handleRememberMeChange = e => {
-    setRememberMe(e.target.checked)
-  }
+    setShowPassword(!showPassword);
+  };
+
+  const handleRememberMeChange = (e) => {
+    setRememberMe(e.target.checked);
+  };
+
   const validateInputs = () => {
-    let valid = true
+    let valid = true;
 
     if (!email) {
-      setEmailError('Vui lòng nhập email.')
-      valid = false
+      setEmailError('Vui lòng nhập email.');
+      valid = false;
     } else {
-      setEmailError('')
+      setEmailError('');
     }
 
     if (!password) {
-      setPasswordError('Vui lòng nhập mật khẩu.')
-      valid = false
+      setPasswordError('Vui lòng nhập mật khẩu.');
+      valid = false;
     } else {
-      setPasswordError('')
+      setPasswordError('');
     }
 
-    return valid
-  }
+    return valid;
+  };
 
   const handleLogin = async () => {
     if (validateInputs()) {
-      setIsLoading(true) // Bắt đầu tải
+      setIsLoading(true);
       try {
         const response = await fetch('https://www.ansuataohanoi.com/login', {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
           },
           body: JSON.stringify({
             email: email,
-            password: password
-          })
-        })
+            password: password,
+          }),
+        });
 
-        const data = await response.json()
-        console.log('API Response:', data)
-        const userId = data.data.user[0]._id
-        const name = data.data.user[0].name
+        const data = await response.json();
+        const userId = data.data.user[0]._id;
+        const name = data.data.user[0].name;
 
         if (data.data) {
           if (rememberMe) {
-            localStorage.setItem('token', data.token) // Lưu vào localStorage nếu nhớ mật khẩu
-            localStorage.setItem('userId', userId)
-            localStorage.setItem('name', name)
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('userId', userId);
+            localStorage.setItem('name', name);
           } else {
-            sessionStorage.setItem('token', data.token) // Lưu vào sessionStorage nếu không
-            sessionStorage.setItem('userId', userId)
-            sessionStorage.setItem('name', name)
+            sessionStorage.setItem('token', data.token);
+            sessionStorage.setItem('userId', userId);
+            sessionStorage.setItem('name', name);
           }
-          navigate(publicRoutes[1].path)
+          showToast('Đăng nhập thành công!');
+          navigate(publicRoutes[1].path);
         } else {
-          setApiError(
-            'Đăng nhập không thành công. Vui lòng kiểm tra lại email hoặc mật khẩu.'
-          )
-          setIsModalOpen(true)
+          showToast('Đăng nhập không thành công. Vui lòng kiểm tra lại email hoặc mật khẩu.', 'error');
         }
       } catch (error) {
-        console.error('Lỗi khi gửi yêu cầu đăng nhập:', error)
-        setApiError(
-          'Đã xảy ra lỗi khi gửi yêu cầu đăng nhập. Vui lòng thử lại.'
-        )
-        setIsModalOpen(true)
+        showToast('Đã xảy ra lỗi khi gửi yêu cầu đăng nhập. Vui lòng thử lại.', 'error');
       } finally {
-        setIsLoading(false) // Kết thúc tải
+        setIsLoading(false);
       }
     }
-  }
+  };
 
   return (
     <div className='container'>
@@ -118,7 +111,7 @@ function Login () {
                 className={`email ${emailError ? 'input-error' : ''}`}
                 placeholder=' '
                 value={email}
-                onChange={e => setEmail(e.target.value)}
+                onChange={(e) => setEmail(e.target.value)}
               />
               <label className='label'>Email</label>
             </div>
@@ -131,7 +124,7 @@ function Login () {
                 type={showPassword ? 'text' : 'password'}
                 placeholder=' '
                 value={password}
-                onChange={e => setPassword(e.target.value)}
+                onChange={(e) => setPassword(e.target.value)}
                 onFocus={() => setIsIconVisible(true)}
               />
               <label className='label'>Password</label>
@@ -158,11 +151,7 @@ function Login () {
             </div>
           </div>
 
-          <button
-            className='btnLogin'
-            onClick={handleLogin}
-            disabled={isLoading}
-          >
+          <button className='btnLogin' onClick={handleLogin} disabled={isLoading}>
             {isLoading ? <div className='loading-spinner'></div> : 'Đăng Nhập'}
           </button>
 
@@ -196,12 +185,9 @@ function Login () {
           </div>
         </div>
       </div>
-      <ModalLogin isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        <h2>Đăng nhập thất bại</h2>
-        <p>{apiError}</p>
-      </ModalLogin>
+      
     </div>
-  )
+  );
 }
 
-export default Login
+export default Login;
