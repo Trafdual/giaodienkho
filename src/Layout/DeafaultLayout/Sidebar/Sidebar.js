@@ -11,10 +11,9 @@ import {
   faRightFromBracket,
   faWarehouse
 } from '@fortawesome/free-solid-svg-icons'
-import { faApple } from '@fortawesome/free-brands-svg-icons'
 import { publicRoutes } from '../../../router'
 
-function Sidebar ({ isActive }) {
+function Sidebar({ isActive }) {
   const handleLogout = () => {
     localStorage.clear()
 
@@ -26,19 +25,21 @@ function Sidebar ({ isActive }) {
   return (
     <div className={`navigation ${isActive ? 'active' : ''}`}>
       <ul>
-        <li>
+        <li style={{ marginTop: 20 }}>
           <a href='#'>
             <span className='icon'>
-              <FontAwesomeIcon
+              <img 
                 className='fonticon'
-                style={{ fontSize: 30 }}
-                icon={faApple}
+                style={{ width: 60, height:60}}
+                src={require('../../../assets/images/LOGO.png')}  
+                alt='icon'
               />
             </span>
             <span className='title' style={{ fontSize: 30, fontWeight: 500 }}>
-              Brand Name
+              BICRAFT
             </span>
           </a>
+
         </li>
         <li className='hovered'>
           <a href='#'>
