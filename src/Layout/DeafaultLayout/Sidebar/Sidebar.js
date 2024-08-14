@@ -12,6 +12,7 @@ import {
   faWarehouse
 } from '@fortawesome/free-solid-svg-icons'
 import { publicRoutes } from '../../../router'
+import {Link} from 'react-router-dom'
 
 function Sidebar({ isActive }) {
   const handleLogout = () => {
@@ -35,19 +36,21 @@ function Sidebar({ isActive }) {
                 alt='icon'
               />
             </span>
-            <span className='title' style={{ fontSize: 30, fontWeight: 500 }}>
+            <span className='title' style={{ fontSize: 30, fontWeight: 'bold' }}>
               BICRAFT
             </span>
           </a>
 
         </li>
         <li className='hovered'>
+           <Link to={'/home'}>
           <a href='#'>
             <span className='icon'>
               <FontAwesomeIcon className='fonticon' icon={faHouse} />
             </span>
             <span className='title'>Tổng quan</span>
           </a>
+          </Link>
         </li>
         <li>
           <a href='#'>
@@ -58,12 +61,14 @@ function Sidebar({ isActive }) {
           </a>
         </li>
         <li>
-          <a href='#'>
+          <Link to={'/nhapkho'}>
+          <a >
             <span className='icon'>
               <FontAwesomeIcon className='fonticon' icon={faBuildingColumns} />
             </span>
             <span className='title'>Nhập kho</span>
           </a>
+          </Link>
         </li>
         <li>
           <a href='#'>

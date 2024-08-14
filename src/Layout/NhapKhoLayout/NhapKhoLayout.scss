@@ -1,0 +1,46 @@
+    .detailsnhap {
+        width: 100%;
+        padding: 10px;
+        font-family: var(--font-family);
+    }
+    
+    .detailsnhap .recentOrdersnhap {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        min-height: 500px;
+        background: var(--white);
+        padding: 20px;
+        box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
+        border-radius: 20px;
+    }
+    
+    .headernhap {
+        color: var(--blue);
+    }
+    
+    .tablenhap {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+    }
+    
+    .tablenhap thead {
+        background-color: #f4f4f4; // Bạn có thể tùy chỉnh màu nền cho thead
+        border-bottom: 2px solid #ddd; // Thêm border dưới thead
+    }
+    
+    .theadnhap .tdnhap {
+        font-weight: bold;
+    }
+    
+    .tablenhap td {
+        font-size: 20px;
+        border: 2px solid #ddd;
+        padding: 8px;
+        text-align: center;
+    }
+    
+    .tablenhap td {
+        padding-top: 10px;
+    }

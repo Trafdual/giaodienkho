@@ -53,6 +53,7 @@ function ListKho ({ userId }) {
 
   const handleSelectKho = kho => {
   setSelectedKho(kho)
+  localStorage.setItem('khoID', kho._id)
   setIsOpen(false)
 }
 
