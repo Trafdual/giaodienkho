@@ -32,6 +32,11 @@
     background: var(--white);
 }
 
+.navigation ul li.hovered {
+    background-color: white;
+    color: var(--blue);
+}
+
 .navigation ul li:nth-child(1) {
     margin-bottom: 20px;
     pointer-events: none;

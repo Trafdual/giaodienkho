@@ -1,39 +1,63 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import './NhapKhoLayout.scss'
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect } from 'react'
 
 function NhapKhoLayout () {
   const [nhacungcap, setnhacungcap] = useState([])
-  const khoID = localStorage.getItem('khoID') || ''
+  const [khoID, setKhoID] = useState(localStorage.getItem('khoID') || '')
 
-  const hadleGetNhaCungCap = useCallback(async () => {
-    if (!khoID) return // Không thực hiện fetch nếu khoID không có giá trị
 
-    try {
-      const response = await fetch(
-        `http://localhost:8080/getnhacungcap/${khoID}`,
-        {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        }
-      )
 
-      if (response.ok) {
-        const data = await response.json()
-        setnhacungcap(data)
-      } else {
-        console.error('Failed to fetch data')
-      }
-    } catch (error) {
-      console.error('Error fetching data:', error)
+useEffect(() => {
+  const intervalId = setInterval(() => {
+    const newKhoID = localStorage.getItem('khoID') || ''
+    if (newKhoID !== khoID) {
+      console.log('Interval detected change, updating khoID:', newKhoID)
+      setKhoID(newKhoID)
     }
-  }, [khoID])
+  }, 1000) // Kiểm tra mỗi giây
+
+  return () => clearInterval(intervalId)
+}, [localStorage.getItem('khoID')])
+
 
   useEffect(() => {
-    hadleGetNhaCungCap()
-  }, [hadleGetNhaCungCap])
+    console.log(localStorage.getItem('khoID'))
+    let isMounted = true
+
+    const fetchData = async () => {
+      if (!khoID) return
+
+      try {
+        const response = await fetch(
+          `http://localhost:8080/getnhacungcap/${khoID}`,
+          {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          }
+        )
+
+        if (response.ok && isMounted) {
+          const data = await response.json()
+          setnhacungcap(data)
+        } else {
+          console.error('Failed to fetch data')
+        }
+      } catch (error) {
+        if (isMounted) {
+          console.error('Error fetching data:', error)
+        }
+      }
+    }
+
+    fetchData()
+
+    return () => {
+      isMounted = false
+    }
+  }, [khoID])
 
   return (
     <div className='detailsnhap'>

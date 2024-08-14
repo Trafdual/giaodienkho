@@ -12,15 +12,32 @@ import {
   faWarehouse
 } from '@fortawesome/free-solid-svg-icons'
 import { publicRoutes } from '../../../router'
-import {Link} from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
+import { useEffect, useState } from 'react'
 
-function Sidebar({ isActive }) {
+function Sidebar ({ isActive }) {
+  const location = useLocation()
+  const [activeItem, setActiveItem] = useState('')
+
+  // Lấy trạng thái active từ localStorage khi trang load
+  useEffect(() => {
+    const savedActiveItem = localStorage.getItem('activeItem')
+    if (savedActiveItem) {
+      setActiveItem(savedActiveItem)
+    } else {
+      setActiveItem(location.pathname)
+    }
+  }, [location.pathname])
+
   const handleLogout = () => {
     localStorage.clear()
-
     sessionStorage.clear()
-
     window.location.replace(publicRoutes[0].path)
+  }
+
+  const handleItemClick = path => {
+    setActiveItem(path)
+    localStorage.setItem('activeItem', path)
   }
 
   return (
@@ -29,70 +46,101 @@ function Sidebar({ isActive }) {
         <li style={{ marginTop: 20 }}>
           <a href='#'>
             <span className='icon'>
-              <img 
+              <img
                 className='fonticon'
-                style={{ width: 60, height:60}}
-                src={require('../../../assets/images/LOGO.png')}  
+                style={{ width: 60, height: 60 }}
+                src={require('../../../assets/images/LOGO.png')}
                 alt='icon'
               />
             </span>
-            <span className='title' style={{ fontSize: 30, fontWeight: 'bold' }}>
+            <span
+              className='title'
+              style={{ fontSize: 30, fontWeight: 'bold' }}
+            >
               BICRAFT
             </span>
           </a>
-
         </li>
-        <li className='hovered'>
-           <Link to={'/home'}>
-          <a href='#'>
-            <span className='icon'>
-              <FontAwesomeIcon className='fonticon' icon={faHouse} />
-            </span>
-            <span className='title'>Tổng quan</span>
-          </a>
+        <li
+          className={activeItem === '/home' ? 'hovered' : ''}
+          onClick={() => handleItemClick('/home')}
+        >
+          <Link to={'/home'}>
+            <a>
+              <span className='icon'>
+                <FontAwesomeIcon className='fonticon' icon={faHouse} />
+              </span>
+              <span className='title'>Tổng quan</span>
+            </a>
           </Link>
         </li>
-        <li>
-          <a href='#'>
-            <span className='icon'>
-              <FontAwesomeIcon className='fonticon' icon={faChartPie} />
-            </span>
-            <span className='title'>Báo cáo</span>
-          </a>
+        <li
+          className={activeItem === '/baocao' ? 'hovered' : ''}
+          onClick={() => handleItemClick('/baocao')}
+        >
+          <Link to={'/baocao'}>
+            <a>
+              <span className='icon'>
+                <FontAwesomeIcon className='fonticon' icon={faChartPie} />
+              </span>
+              <span className='title'>Báo cáo</span>
+            </a>
+          </Link>
         </li>
-        <li>
+        <li
+          className={activeItem === '/nhapkho' ? 'hovered' : ''}
+          onClick={() => handleItemClick('/nhapkho')}
+        >
           <Link to={'/nhapkho'}>
-          <a >
-            <span className='icon'>
-              <FontAwesomeIcon className='fonticon' icon={faBuildingColumns} />
-            </span>
-            <span className='title'>Nhập kho</span>
-          </a>
+            <a>
+              <span className='icon'>
+                <FontAwesomeIcon
+                  className='fonticon'
+                  icon={faBuildingColumns}
+                />
+              </span>
+              <span className='title'>Nhập kho</span>
+            </a>
           </Link>
         </li>
-        <li>
-          <a href='#'>
-            <span className='icon'>
-              <FontAwesomeIcon className='fonticon' icon={faWarehouse} />
-            </span>
-            <span className='title'>Xuất kho</span>
-          </a>
+        <li
+          className={activeItem === '/xuatkho' ? 'hovered' : ''}
+          onClick={() => handleItemClick('/xuatkho')}
+        >
+          <Link to={'/xuatkho'}>
+            <a>
+              <span className='icon'>
+                <FontAwesomeIcon className='fonticon' icon={faWarehouse} />
+              </span>
+              <span className='title'>Xuất kho</span>
+            </a>
+          </Link>
         </li>
-        <li>
-          <a href='#'>
-            <span className='icon'>
-              <FontAwesomeIcon className='fonticon' icon={faCircleQuestion} />
-            </span>
-            <span className='title'>Trợ giúp</span>
-          </a>
+        <li
+          className={activeItem === '/trogiup' ? 'hovered' : ''}
+          onClick={() => handleItemClick('/trogiup')}
+        >
+          <Link to={'/trogiup'}>
+            <a>
+              <span className='icon'>
+                <FontAwesomeIcon className='fonticon' icon={faCircleQuestion} />
+              </span>
+              <span className='title'>Trợ giúp</span>
+            </a>
+          </Link>
         </li>
-        <li>
-          <a href='#'>
-            <span className='icon'>
-              <FontAwesomeIcon className='fonticon' icon={faGear} />
-            </span>
-            <span className='title'>Thiết lập</span>
-          </a>
+        <li
+          className={activeItem === '/thietlap' ? 'hovered' : ''}
+          onClick={() => handleItemClick('/thietlap')}
+        >
+          <Link to={'/thietlap'}>
+            <a>
+              <span className='icon'>
+                <FontAwesomeIcon className='fonticon' icon={faGear} />
+              </span>
+              <span className='title'>Thiết lập</span>
+            </a>
+          </Link>
         </li>
         <li>
           <a onClick={handleLogout}>
