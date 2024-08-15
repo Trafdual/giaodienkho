@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from 'react'
 
 function NhapKhoLayout () {
   const [nhacungcap, setnhacungcap] = useState([])
-  const khoID = localStorage.getItem('khoID') || ''
+  const [khoID, setKhoID] = useState(localStorage.getItem('khoID') || '')
 
   const hadleGetNhaCungCap = useCallback(async () => {
     if (!khoID) return // Không thực hiện fetch nếu khoID không có giá trị
@@ -31,9 +31,18 @@ function NhapKhoLayout () {
     }
   }, [khoID])
 
+  // Cập nhật khoID từ localStorage khi giá trị trong localStorage thay đổi
+  useEffect(() => {
+    const idkho = localStorage.getItem('khoID')
+    if (idkho !== khoID) {
+      setKhoID(idkho)
+    }
+  }, []) // Dependency array rỗng để chỉ chạy một lần khi component mount
+
+  // Gọi API khi khoID thay đổi
   useEffect(() => {
     hadleGetNhaCungCap()
-  }, [hadleGetNhaCungCap])
+  }, [khoID, hadleGetNhaCungCap])
 
   return (
     <div className='detailsnhap'>
