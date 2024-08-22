@@ -7,7 +7,9 @@ import {
   faChartPie,
   faCircleQuestion,
   faGear,
+  faHandshake,
   faHouse,
+  faLandmark,
   faRightFromBracket,
   faWarehouse
 } from '@fortawesome/free-solid-svg-icons'
@@ -88,21 +90,32 @@ function Sidebar ({ isActive }) {
           </Link>
         </li>
         <li
-          className={activeItem === '/nhapkho' ? 'hovered' : ''}
-          onClick={() => handleItemClick('/nhapkho')}
+          className={activeItem === '/nhacungcap' ? 'hovered' : ''}
+          onClick={() => handleItemClick('/nhacungcap')}
         >
-          <Link to={'/nhapkho'}>
+          <Link to={'/nhacungcap'}>
             <a>
               <span className='icon'>
-                <FontAwesomeIcon
-                  className='fonticon'
-                  icon={faBuildingColumns}
-                />
+                <FontAwesomeIcon className='fonticon' icon={faHandshake} />
+              </span>
+              <span className='title'>Nhà cung cấp</span>
+            </a>
+          </Link>
+        </li>
+        <li
+          className={activeItem === '/xuatkho' ? 'hovered' : ''}
+          onClick={() => handleItemClick('/nhapkho')}
+        >
+          <Link to={'/xuatkho'}>
+            <a>
+              <span className='icon'>
+                <FontAwesomeIcon className='fonticon' icon={faLandmark} />
               </span>
               <span className='title'>Nhập kho</span>
             </a>
           </Link>
         </li>
+
         <li
           className={activeItem === '/xuatkho' ? 'hovered' : ''}
           onClick={() => handleItemClick('/xuatkho')}

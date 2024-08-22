@@ -8,7 +8,7 @@ const publicRoutes = [
   { path: '/', component: Login, layout: null },
   { path: '/home', component: DashboardLayout },
   { path: '/xuatkho', component: XuatKhoLayout},
-  { path: '/nhapkho', component: NhapKhoLayout},
+  { path: '/nhacungcap', component: NhapKhoLayout},
   { path: '/register', component: Register, layout: null }
 ]
 const privateRoutes = []

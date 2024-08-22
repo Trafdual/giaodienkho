@@ -28,7 +28,7 @@ var publicRoutes = [{
   path: '/xuatkho',
   component: _XuatKhoLayout["default"]
 }, {
-  path: '/nhapkho',
+  path: '/nhacungcap',
   component: _NhapKhoLayout.NhapKhoLayout
 }, {
   path: '/register',
