@@ -1,1 +1,1 @@
-export {default as NhapKhoLayout} from './NhapKhoLayout'
+export {default as NhapKhoLayout} from './NhapLayout'

@@ -3,21 +3,17 @@ import './NhapKhoLayout.scss'
 import { useState, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
-import { LoHangLayout } from './LoHangLayout'
-
-import { AddNhaCungCap } from './AddNhaCungCap'
+import { AddLoHang } from './AddLoHang'
 function NhapKhoLayout () {
-  const [nhacungcap, setnhacungcap] = useState([])
+  const [lohang, setlohang] = useState([])
   const [isOpen, setIsOpen] = useState(false)
   const [opendetail, setopendetail] = useState(true)
-  const [idncc, setidncc] = useState('')
 
   const [khoID, setKhoID] = useState(localStorage.getItem('khoID') || '')
   const handleCloseModal = () => {
     setIsOpen(false)
   }
   const handleLohang = id => {
-    setidncc(id)
     setopendetail(false)
   }
 
@@ -42,7 +38,7 @@ function NhapKhoLayout () {
 
       try {
         const response = await fetch(
-          `http://localhost:8080/getnhacungcap/${khoID}`,
+          `http://localhost:8080/getloaisanpham2/${khoID}`,
           {
             method: 'GET',
             headers: {
@@ -53,7 +49,7 @@ function NhapKhoLayout () {
 
         if (response.ok && isMounted) {
           const data = await response.json()
-          setnhacungcap(data)
+          setlohang(data)
         } else {
           console.error('Failed to fetch data')
         }
@@ -77,30 +73,34 @@ function NhapKhoLayout () {
         <div className='detailsnhap'>
           <div className='recentOrdersnhap'>
             <div className='headernhap'>
-              <h2 className='divncc'>Nhà cung cấp</h2>
+              <h2 className='divncc'>Lô hàng</h2>
               <button className='btnthemlo' onClick={() => setIsOpen(true)}>
                 <FontAwesomeIcon className='iconncc' icon={faPlus} />
-                <h3>Thêm nhà cung cấp</h3>
+                <h3>Thêm lô hàng</h3>
               </button>
             </div>
             <table className='tablenhap'>
               <thead className='theadnhap'>
                 <tr>
-                  <td className='tdnhap'>Mã nhà cung cấp</td>
-                  <td className='tdnhap'>Tên nhà cung cấp</td>
-                  <td className='tdnhap'>Số điện thoại</td>
-                  <td className='tdnhap'>Địa chỉ</td>
+                 <td className='tdnhap'>Mã lô hàng</td>
+                  <td className='tdnhap'>Tên lô hàng</td>
+                  <td className='tdnhap'>Số lượng máy</td>
+                  <td className='tdnhap'>Ngày nhập</td>
+                  <td className='tdnhap'>Tổng tiền</td>
+                  <td className='tdnhap'>Trung bình máy</td>
                   <td className='tdnhap'>Chức năng</td>
                 </tr>
               </thead>
               <tbody className='tbodynhap'>
-                {nhacungcap.length > 0 ? (
-                  nhacungcap.map(ncc => (
+                {lohang.length > 0 ? (
+                  lohang.map(ncc => (
                     <tr key={ncc._id}>
-                      <td>{ncc.mancc}</td>
+                      <td>{ncc.malsp}</td>
                       <td>{ncc.name}</td>
-                      <td>{ncc.phone}</td>
-                      <td>{ncc.address}</td>
+                      <td>{ncc.soluong}</td>
+                      <td>{ncc.date}</td>
+                      <td>{ncc.tongtien}</td>
+                      <td>{ncc.average}</td>
                       <td className='tdchucnang'>
                         <button
                           className='btnchitietncc'
@@ -119,25 +119,16 @@ function NhapKhoLayout () {
                   ))
                 ) : (
                   <tr>
-                    <td colSpan='5'>Không có nhà cung cấp nào</td>
+                    <td colSpan='7'>Không có lô hàng nào</td>
                   </tr>
                 )}
               </tbody>
             </table>
           </div>
-          <AddNhaCungCap
-            isOpen={isOpen}
-            onClose={handleCloseModal}
-            khoID={khoID}
-            setnhacungcap={setnhacungcap}
-          />
+        <AddLoHang isOpen={isOpen} onClose={handleCloseModal} setlohang={setlohang}/>
         </div>
       )}
-      <LoHangLayout
-        opendetail={opendetail}
-        setopendetail={setopendetail}
-        idncc={idncc}
-      />
+
     </>
   )
 }

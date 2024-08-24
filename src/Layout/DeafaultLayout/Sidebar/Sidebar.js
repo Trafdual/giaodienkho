@@ -3,7 +3,6 @@
 import './Sidebar.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
-  faBuildingColumns,
   faChartPie,
   faCircleQuestion,
   faGear,
@@ -103,10 +102,10 @@ function Sidebar ({ isActive }) {
           </Link>
         </li>
         <li
-          className={activeItem === '/xuatkho' ? 'hovered' : ''}
+          className={activeItem === '/nhapkho' ? 'hovered' : ''}
           onClick={() => handleItemClick('/nhapkho')}
         >
-          <Link to={'/xuatkho'}>
+          <Link to={'/nhapkho'}>
             <a>
               <span className='icon'>
                 <FontAwesomeIcon className='fonticon' icon={faLandmark} />

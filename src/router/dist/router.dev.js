@@ -13,6 +13,8 @@ var _DashboardLayout = _interopRequireDefault(require("~/Layout/DashboardLayout/
 
 var _XuatKhoLayout = _interopRequireDefault(require("~/Layout/XuatKhoLayout/XuatKhoLayout"));
 
+var _NhaCungCapLayout = require("~/Layout/NhaCungCapLayout");
+
 var _NhapKhoLayout = require("~/Layout/NhapKhoLayout");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -28,8 +30,11 @@ var publicRoutes = [{
   path: '/xuatkho',
   component: _XuatKhoLayout["default"]
 }, {
-  path: '/nhacungcap',
+  path: '/nhapkho',
   component: _NhapKhoLayout.NhapKhoLayout
+}, {
+  path: '/nhacungcap',
+  component: _NhaCungCapLayout.NhaCungCap
 }, {
   path: '/register',
   component: _RegisterLayout.Register,
