@@ -7,6 +7,7 @@ function LoHangLayout ({ opendetail, setopendetail, idncc }) {
   const [isOpen, setIsOpen] = useState(false)
 
   const [lohang, setlohang] = useState([])
+  
   const handleCloseModal = () => {
     setIsOpen(false)
   }

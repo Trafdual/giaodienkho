@@ -1,0 +1,45 @@
+/* Phân trang container */
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+
+/* Nút phân trang */
+
+.pagination button {
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 10px 15px;
+    margin: 0 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+
+/* Nút phân trang khi hover */
+
+.pagination button:hover {
+    background-color: #e0e0e0;
+}
+
+
+/* Nút phân trang khi trang hiện tại */
+
+.pagination button.active {
+    background-color: #007bff;
+    color: #fff;
+    border: 1px solid #007bff;
+}
+
+
+/* Nút phân trang bị vô hiệu hóa */
+
+.pagination button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}

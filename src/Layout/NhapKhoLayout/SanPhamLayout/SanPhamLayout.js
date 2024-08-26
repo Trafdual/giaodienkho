@@ -1,52 +1,29 @@
-import './NhapKhoLayout.scss'
 import { useState, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus } from '@fortawesome/free-solid-svg-icons'
-import { AddLoHang } from './AddLoHang'
-import { SanPhamLayout } from './SanPhamLayout'
+import { faLeftLong, faPlus } from '@fortawesome/free-solid-svg-icons'
 
-function NhapKhoLayout () {
-  const [lohang, setlohang] = useState([])
+import { AddSanPham } from './AddSanPham'
+function SanPhamLayout ({ opendetail, setopendetail, idloaisp }) {
   const [isOpen, setIsOpen] = useState(false)
-  const [opendetail, setopendetail] = useState(true)
-  const [khoID, setKhoID] = useState(localStorage.getItem('khoID') || '')
-  const [idlohang, setidlohang] = useState('')
 
+  const [SanPham, setSanPham] = useState([])
   // Trạng thái phân trang
   const [currentPage, setCurrentPage] = useState(1)
   const itemsPerPage = 9
-
   const handleCloseModal = () => {
     setIsOpen(false)
   }
 
-  const handleLohang = id => {
-    setidlohang(id)
-    setopendetail(false)
-  }
-
   useEffect(() => {
-    const intervalId = setInterval(() => {
-      const newKhoID = localStorage.getItem('khoID') || ''
-      if (newKhoID !== khoID) {
-        console.log('Interval detected change, updating khoID:', newKhoID)
-        setKhoID(newKhoID)
-      }
-    }, 1000) // Kiểm tra mỗi giây
-
-    return () => clearInterval(intervalId)
-  }, [khoID])
-
-  useEffect(() => {
-    console.log(localStorage.getItem('khoID'))
+    console.log(idloaisp)
     let isMounted = true
 
     const fetchData = async () => {
-      if (!khoID) return
+      if (!idloaisp) return
 
       try {
         const response = await fetch(
-          `http://localhost:8080/getloaisanpham2/${khoID}`,
+          `http://localhost:8080/getsanpham/${idloaisp}`,
           {
             method: 'GET',
             headers: {
@@ -57,7 +34,7 @@ function NhapKhoLayout () {
 
         if (response.ok && isMounted) {
           const data = await response.json()
-          setlohang(data)
+          setSanPham(data)
         } else {
           console.error('Failed to fetch data')
         }
@@ -73,13 +50,13 @@ function NhapKhoLayout () {
     return () => {
       isMounted = false
     }
-  }, [khoID])
+  }, [idloaisp])
 
   // Tính toán mục để hiển thị cho trang hiện tại
   const indexOfLastItem = currentPage * itemsPerPage
   const indexOfFirstItem = indexOfLastItem - itemsPerPage
-  const currentItems = lohang.slice(indexOfFirstItem, indexOfLastItem)
-  const totalPages = Math.ceil(lohang.length / itemsPerPage)
+  const currentItems = SanPham.slice(indexOfFirstItem, indexOfLastItem)
+  const totalPages = Math.ceil(SanPham.length / itemsPerPage)
 
   // Chuyển trang
   const handlePageChange = pageNumber => {
@@ -88,49 +65,48 @@ function NhapKhoLayout () {
 
   return (
     <>
-      {opendetail && (
+      {!opendetail && (
         <div className='detailsnhap'>
           <div className='recentOrdersnhap'>
             <div className='headernhap'>
-              <h2 className='divncc'>Lô hàng</h2>
+              <div className='divncc'>
+                <FontAwesomeIcon
+                  className='iconout'
+                  icon={faLeftLong}
+                  onClick={() => setopendetail(true)}
+                />
+                <h2 className='h2ncc'>Sản phẩm</h2>
+              </div>
               <button className='btnthemlo' onClick={() => setIsOpen(true)}>
                 <FontAwesomeIcon className='iconncc' icon={faPlus} />
-                <h3>Thêm lô hàng</h3>
+                <h3>Thêm Sản Phẩm</h3>
               </button>
             </div>
             <table className='tablenhap'>
               <thead className='theadnhap'>
                 <tr>
-                  <td className='tdnhap'>Mã lô hàng</td>
-                  <td className='tdnhap'>Tên lô hàng</td>
-                  <td className='tdnhap'>Số lượng máy</td>
-                  <td className='tdnhap'>Ngày nhập</td>
-                  <td className='tdnhap'>Tổng tiền</td>
-                  <td className='tdnhap'>Trung bình máy</td>
+                  <td className='tdnhap'>Mã sản phẩm</td>
+                  <td className='tdnhap'>Imel</td>
+                  <td className='tdnhap'>Tên máy</td>
+                  <td className='tdnhap'>Dung lượng</td>
+                  <td className='tdnhap'>Màu sắc</td>
                   <td className='tdnhap'>Chức năng</td>
                 </tr>
               </thead>
               <tbody className='tbodynhap'>
-                {currentItems.length > 0 ? (
-                  currentItems.map(ncc => (
+                {SanPham.length > 0 ? (
+                  SanPham.map(ncc => (
                     <tr key={ncc._id}>
-                      <td>{ncc.malsp}</td>
+                      <td>{ncc.masp}</td>
+                      <td>{ncc.imel}</td>
                       <td>{ncc.name}</td>
-                      <td>{ncc.soluong}</td>
-                      <td>{ncc.date}</td>
-                      <td>{ncc.tongtien}</td>
-                      <td>{ncc.average}</td>
+                      <td>{ncc.capacity}</td>
+                      <td>{ncc.color}</td>
                       <td className='tdchucnang'>
-                        <button
-                          className='btnchitietncc'
-                          onClick={() => handleLohang(ncc._id)}
-                        >
+                        <button className='btnchitietncc'>
                           <h3>Chi tiết</h3>
                         </button>
-                        <button
-                          className='btncnncc'
-                          onClick={() => setIsOpen(true)}
-                        >
+                        <button className='btncnncc'>
                           <h3>Cập nhật thông tin</h3>
                         </button>
                       </td>
@@ -138,7 +114,7 @@ function NhapKhoLayout () {
                   ))
                 ) : (
                   <tr>
-                    <td colSpan='7'>Không có lô hàng nào</td>
+                    <td colSpan='5'>Không có sản phẩm nào</td>
                   </tr>
                 )}
               </tbody>
@@ -155,20 +131,16 @@ function NhapKhoLayout () {
               ))}
             </div>
           </div>
-          <AddLoHang
+          <AddSanPham
             isOpen={isOpen}
             onClose={handleCloseModal}
-            setlohang={setlohang}
+            loaispid={idloaisp}
+            setsanpham={setSanPham}
           />
         </div>
       )}
-      <SanPhamLayout
-        opendetail={opendetail}
-        setopendetail={setopendetail}
-        idloaisp={idlohang}
-      />
     </>
   )
 }
 
-export default NhapKhoLayout
+export default SanPhamLayout
