@@ -16,6 +16,8 @@ import { ListKho } from './ListKho'
 import { AddKho } from './AddKho'
 
 function Header ({ toggleMenu, userId, name }) {
+  const [datakho, setdatakho] = useState([])
+
   const [isOpen, setIsOpen] = useState(false)
 
   const handleCloseModal = () => {
@@ -41,7 +43,7 @@ function Header ({ toggleMenu, userId, name }) {
             </button>
           </Tippy>
         </div>
-        <ListKho userId={userId} />
+        <ListKho datakho={datakho} setdatakho={setdatakho}/>
         <div className='optiontk'>
           <img
             src='https://gcs.tripi.vn/public-tripi/tripi-feed/img/474014bom/anh-gai-xinh-cute-de-thuong-hot-girl-2.jpg'
@@ -72,7 +74,7 @@ function Header ({ toggleMenu, userId, name }) {
           </Tippy>
         </div>
       </div>
-      <AddKho onClose={handleCloseModal} isOpen={isOpen} userId={userId} />
+      <AddKho onClose={handleCloseModal} isOpen={isOpen} userId={userId} setdatakho={setdatakho}/>
     </div>
   )
 }

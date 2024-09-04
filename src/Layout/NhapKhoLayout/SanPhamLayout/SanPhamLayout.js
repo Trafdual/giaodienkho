@@ -94,8 +94,8 @@ function SanPhamLayout ({ opendetail, setopendetail, idloaisp }) {
                 </tr>
               </thead>
               <tbody className='tbodynhap'>
-                {SanPham.length > 0 ? (
-                  SanPham.map(ncc => (
+                {currentItems.length > 0 ? (
+                  currentItems.map(ncc => (
                     <tr key={ncc._id}>
                       <td>{ncc.masp}</td>
                       <td>{ncc.imel}</td>
@@ -114,7 +114,7 @@ function SanPhamLayout ({ opendetail, setopendetail, idloaisp }) {
                   ))
                 ) : (
                   <tr>
-                    <td colSpan='5'>Không có sản phẩm nào</td>
+                    <td colSpan='6'>Không có sản phẩm nào</td>
                   </tr>
                 )}
               </tbody>

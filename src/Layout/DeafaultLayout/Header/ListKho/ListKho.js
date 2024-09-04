@@ -2,10 +2,10 @@
 import React, { useEffect, useState, useRef } from 'react'
 import './ListKho.scss'
 
-function ListKho ({ userId }) {
-  const [datakho, setdatakho] = useState([])
+function ListKho ({datakho,setdatakho}) {
   const [isOpen, setIsOpen] = useState(false)
   const [selectedKho, setSelectedKho] = useState(null)
+  const [userID, setuserID] = useState(localStorage.getItem('userId') || '')
 
   const dropdownRef = useRef(null)
 
@@ -13,10 +13,22 @@ function ListKho ({ userId }) {
     setIsOpen(prevState => !prevState)
   }
 
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      const newuserID = localStorage.getItem('userId') || ''
+      if (newuserID !== userID) {
+        console.log('Interval detected change, updating khoID:', newuserID)
+        setuserID(newuserID)
+      }
+    }, 1000) // Kiểm tra mỗi giây
+
+    return () => clearInterval(intervalId)
+  }, [localStorage.getItem('userId')])
+
   const handleGetKho = async () => {
     try {
       const response = await fetch(
-        `https://www.ansuataohanoi.com/getdepot/${userId}`,
+        `https://www.ansuataohanoi.com/getdepot/${userID}`,
         {
           method: 'GET',
           headers: {
@@ -47,7 +59,7 @@ function ListKho ({ userId }) {
 
   useEffect(() => {
     handleGetKho()
-  }, [datakho])
+  }, [userID])
 
   useEffect(() => {
     const handleClickOutside = event => {

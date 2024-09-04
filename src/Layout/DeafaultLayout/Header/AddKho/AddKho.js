@@ -4,7 +4,7 @@ import { Modal } from '../../../../components/Modal'
 import { useToast } from '../../../../components/GlobalStyles/ToastContext'
 import './AddKho.scss'
 
-function AddKho ({ isOpen, onClose, userId }) {
+function AddKho ({ isOpen, onClose, userId, setdatakho }) {
   const [tenkho, setTenkho] = useState('')
   const [diachi, setDiachi] = useState('')
   const { showToast } = useToast()
@@ -48,16 +48,18 @@ function AddKho ({ isOpen, onClose, userId }) {
             })
           }
         )
+        const data = await response.json()
         if (response.ok) {
+          setdatakho(prevkho => [...prevkho, data])
           onClose()
           showToast('Thêm kho thành công')
         } else {
-          showToast('Thêm kho thất bại','error')
+          showToast('Thêm kho thất bại', 'error')
           onClose()
         }
       } catch (error) {
         console.error('Lỗi khi gửi yêu cầu thêm kho:', error)
-        showToast('Thêm kho thất bại','error')
+        showToast('Thêm kho thất bại', 'error')
         onClose()
       }
     }
