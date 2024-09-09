@@ -14,7 +14,30 @@ function NhapKhoLayout () {
 
   // Trạng thái phân trang
   const [currentPage, setCurrentPage] = useState(1)
-  const itemsPerPage = 9
+  const [itemsPerPage, setItemsPerPage] = useState(9) // Mặc định là 9
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 768) {
+        // Giả sử 768px là kích thước cắt của điện thoại
+        setItemsPerPage(5)
+        setIsMobile(window.innerWidth <= 768)
+      } else {
+        setItemsPerPage(9)
+      }
+    }
+
+    // Gọi hàm khi trang được tải
+    handleResize()
+
+    // Thay đổi itemsPerPage khi kích thước cửa sổ thay đổi
+    window.addEventListener('resize', handleResize)
+
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
 
   const handleCloseModal = () => {
     setIsOpen(false)
@@ -104,9 +127,13 @@ function NhapKhoLayout () {
                   <td className='tdnhap'>Mã lô hàng</td>
                   <td className='tdnhap'>Tên lô hàng</td>
                   <td className='tdnhap'>Số lượng máy</td>
-                  <td className='tdnhap'>Ngày nhập</td>
-                  <td className='tdnhap'>Tổng tiền</td>
-                  <td className='tdnhap'>Trung bình máy</td>
+                  {!isMobile && (
+                    <>
+                      <td className='tdnhap'>Ngày nhập</td>
+                      <td className='tdnhap'>Tổng tiền</td>
+                      <td className='tdnhap'>Trung bình máy</td>
+                    </>
+                  )}
                   <td className='tdnhap'>Chức năng</td>
                 </tr>
               </thead>
@@ -117,9 +144,13 @@ function NhapKhoLayout () {
                       <td>{ncc.malsp}</td>
                       <td>{ncc.name}</td>
                       <td>{ncc.soluong}</td>
-                      <td>{ncc.date}</td>
-                      <td>{ncc.tongtien}</td>
-                      <td>{ncc.average}</td>
+                      {!isMobile && (
+                        <>
+                          <td>{ncc.date}</td>
+                          <td>{ncc.tongtien}</td>
+                          <td>{ncc.average}</td>
+                        </>
+                      )}
                       <td className='tdchucnang'>
                         <button
                           className='btnchitietncc'
@@ -131,7 +162,7 @@ function NhapKhoLayout () {
                           className='btncnncc'
                           onClick={() => setIsOpen(true)}
                         >
-                          <h3>Cập nhật thông tin</h3>
+                          <h3>Cập nhật</h3>
                         </button>
                       </td>
                     </tr>

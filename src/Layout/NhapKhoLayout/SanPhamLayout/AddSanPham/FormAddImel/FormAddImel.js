@@ -1,7 +1,11 @@
-
 import React, { useRef, useEffect, useState } from 'react'
 import { Modal } from '../../../../../components/Modal'
-import { BrowserMultiFormatReader } from '@zxing/library'
+import {
+  BrowserMultiFormatReader,
+  DecodeHintType,
+  BarcodeFormat
+} from '@zxing/library'
+import './FormAddImel.scss'
 
 function FormAddImel ({ isOpen, onClose, loaispid, setsanpham }) {
   const [barcodeData, setBarcodeData] = useState('')
@@ -16,26 +20,55 @@ function FormAddImel ({ isOpen, onClose, loaispid, setsanpham }) {
 
   useEffect(() => {
     if (isOpen) {
+      // Create an instance of the reader
       const codeReader = new BrowserMultiFormatReader()
+
+      // Set up the hints with the possible formats you want to scan
+      const hints = new Map()
+      hints.set(DecodeHintType.POSSIBLE_FORMATS, [
+        BarcodeFormat.AZTEC,
+        BarcodeFormat.CODABAR,
+        BarcodeFormat.CODE_39,
+        BarcodeFormat.CODE_93,
+        BarcodeFormat.CODE_128,
+        BarcodeFormat.DATA_MATRIX,
+        BarcodeFormat.EAN_8,
+        BarcodeFormat.EAN_13,
+        BarcodeFormat.ITF,
+        BarcodeFormat.MAXICODE,
+        BarcodeFormat.PDF_417,
+        BarcodeFormat.QR_CODE,
+        BarcodeFormat.RSS_14,
+        BarcodeFormat.RSS_EXPANDED,
+        BarcodeFormat.UPC_A,
+        BarcodeFormat.UPC_E,
+        BarcodeFormat.UPC_EAN_EXTENSION
+      ])
 
       const startScan = async () => {
         try {
           const videoElement = videoRef.current
+          const constraints = {
+            video: {
+              facingMode: 'environment',
+              width: { ideal: 1280 },
+              height: { ideal: 720 }
+            }
+          }
           setIsScanning(true)
-          await codeReader.decodeFromVideoDevice(
-            null,
+          await codeReader.decodeFromConstraints(
+            constraints,
             videoElement,
             (result, error) => {
               if (result) {
                 setBarcodeData(result.text)
-                setIsScanning(false) // Stop scanning on successful read
-                // Handle scanned data
-                setsanpham(result.text)
+                setIsScanning(false)
               }
               if (error && !result) {
                 console.error(error)
               }
-            }
+            },
+            hints // Provide the hints here directly to the decode method
           )
         } catch (error) {
           console.error(error)
@@ -53,10 +86,11 @@ function FormAddImel ({ isOpen, onClose, loaispid, setsanpham }) {
 
   return (
     <Modal isOpen={isOpen} onClose={handleClose}>
-      <div className='divAddSanPham'>
-        <h2>Quét Imel</h2>
-        <div>
-          <video ref={videoRef} style={{ width: '100%', height: 'auto' }} />
+      <div className='divAddSanPham' style={{ position: 'relative' }}>
+        <h2>Quét IMEI</h2>
+        <div className='divvideo'>
+          <video ref={videoRef} className='video' />
+          <div className='scanner-line'></div>
         </div>
         {barcodeData && (
           <div>
@@ -73,5 +107,3 @@ function FormAddImel ({ isOpen, onClose, loaispid, setsanpham }) {
 }
 
 export default FormAddImel
-
-
