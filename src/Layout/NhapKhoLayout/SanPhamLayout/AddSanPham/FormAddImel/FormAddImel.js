@@ -46,8 +46,6 @@ function FormAddImel ({ isOpen, onClose, loaispid, setsanpham }) {
             constraints,
             videoElement,
             (result, error) => {
-              if (isScanning) {
-                // Check if scanning is still active
                 if (result) {
                   setBarcodeData(result.text)
                   setIsScanning(false) // Stop scanning after a successful scan
@@ -55,9 +53,8 @@ function FormAddImel ({ isOpen, onClose, loaispid, setsanpham }) {
                 if (error && !result) {
                   console.error(error)
                 }
-              }
             },
-            hints // Provide the hints here directly to the decode method
+            hints
           )
         } catch (error) {
           console.error(error)
@@ -71,7 +68,7 @@ function FormAddImel ({ isOpen, onClose, loaispid, setsanpham }) {
         setIsScanning(false) // Ensure scanning is stopped on cleanup
       }
     }
-  }, [isOpen, setsanpham, isScanning]) // Add isScanning to dependencies
+  }, [isOpen, setsanpham]) // Add isScanning to dependencies
 
   return (
     <Modal isOpen={isOpen} onClose={handleClose}>
