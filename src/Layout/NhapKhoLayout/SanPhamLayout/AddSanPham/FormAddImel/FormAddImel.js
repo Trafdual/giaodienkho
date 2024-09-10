@@ -20,10 +20,8 @@ function FormAddImel ({ isOpen, onClose, loaispid, setsanpham }) {
 
   useEffect(() => {
     if (isOpen) {
-      // Create an instance of the reader
       const codeReader = new BrowserMultiFormatReader()
 
-      // Set up the hints with the possible formats you want to scan
       const hints = new Map()
       hints.set(DecodeHintType.POSSIBLE_FORMATS, [
         BarcodeFormat.AZTEC,
@@ -60,12 +58,15 @@ function FormAddImel ({ isOpen, onClose, loaispid, setsanpham }) {
             constraints,
             videoElement,
             (result, error) => {
-              if (result) {
-                setBarcodeData(result.text)
-                setIsScanning(false)
-              }
-              if (error && !result) {
-                console.error(error)
+              if (isScanning) {
+                // Check if scanning is still active
+                if (result) {
+                  setBarcodeData(result.text)
+                  setIsScanning(false) // Stop scanning after a successful scan
+                }
+                if (error && !result) {
+                  console.error(error)
+                }
               }
             },
             hints // Provide the hints here directly to the decode method
@@ -79,10 +80,10 @@ function FormAddImel ({ isOpen, onClose, loaispid, setsanpham }) {
 
       return () => {
         codeReader.reset()
-        setIsScanning(false)
+        setIsScanning(false) // Ensure scanning is stopped on cleanup
       }
     }
-  }, [isOpen, setsanpham])
+  }, [isOpen, setsanpham, isScanning]) // Add isScanning to dependencies
 
   return (
     <Modal isOpen={isOpen} onClose={handleClose}>
