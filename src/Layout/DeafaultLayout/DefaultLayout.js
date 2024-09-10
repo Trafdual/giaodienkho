@@ -19,7 +19,7 @@ function DefaultLayout ({ children }) {
   return (
     <>
       <div className='container'>
-        <Sidebar isActive={isActive} />
+        <Sidebar isActive={isActive} setIsActive={setIsActive}/>
 
         <div className={`main ${isActive ? 'active' : ''}`}>
           <Header name={name} userId={userId} toggleMenu={toggleMenu} />

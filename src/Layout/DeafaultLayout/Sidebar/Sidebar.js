@@ -16,7 +16,7 @@ import { publicRoutes } from '../../../router'
 import { Link, useLocation } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 
-function Sidebar ({ isActive }) {
+function Sidebar ({ isActive, setIsActive }) {
   const location = useLocation()
   const [activeItem, setActiveItem] = useState('')
 
@@ -38,6 +38,7 @@ function Sidebar ({ isActive }) {
 
   const handleItemClick = path => {
     setActiveItem(path)
+    setIsActive(true)
     localStorage.setItem('activeItem', path)
   }
 
