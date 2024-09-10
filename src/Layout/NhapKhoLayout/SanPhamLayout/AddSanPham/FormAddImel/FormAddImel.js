@@ -28,7 +28,7 @@ function FormAddImel ({ isOpen, onClose, loaispid, setsanpham }) {
         BarcodeFormat.CODE_93,
         BarcodeFormat.CODE_128,
         BarcodeFormat.EAN_8,
-        BarcodeFormat.EAN_13,
+        BarcodeFormat.EAN_13
       ])
 
       const startScan = async () => {
@@ -38,7 +38,10 @@ function FormAddImel ({ isOpen, onClose, loaispid, setsanpham }) {
             video: {
               facingMode: 'environment',
               width: { ideal: 1280 },
-              height: { ideal: 720 }
+              height: { ideal: 200 },
+              frameRate: {
+                ideal: 30
+              }
             }
           }
           setIsScanning(true)
@@ -46,13 +49,13 @@ function FormAddImel ({ isOpen, onClose, loaispid, setsanpham }) {
             constraints,
             videoElement,
             (result, error) => {
-                if (result) {
-                  setBarcodeData(result.text)
-                  setIsScanning(false) // Stop scanning after a successful scan
-                }
-                if (error && !result) {
-                  console.error(error)
-                }
+              if (result) {
+                setBarcodeData(result.text)
+                setIsScanning(false) // Stop scanning after a successful scan
+              }
+              if (error && !result) {
+                console.error(error)
+              }
             },
             hints
           )
