@@ -47,7 +47,7 @@ function SanPhamLayout ({ opendetail, setopendetail, idloaisp }) {
 
       try {
         const response = await fetch(
-          `http://localhost:8080/getsanpham/${idloaisp}`,
+          `https://www.ansuataohanoi.com/getsanpham/${idloaisp}`,
           {
             method: 'GET',
             headers: {
@@ -146,7 +146,9 @@ function SanPhamLayout ({ opendetail, setopendetail, idloaisp }) {
                   ))
                 ) : (
                   <tr>
-                    <td colSpan={isMobile ? '3' : '6'}>Không có sản phẩm nào</td>
+                    <td colSpan={isMobile ? '3' : '6'}>
+                      Không có sản phẩm nào
+                    </td>
                   </tr>
                 )}
               </tbody>

@@ -7,7 +7,7 @@ function LoHangLayout ({ opendetail, setopendetail, idncc }) {
   const [isOpen, setIsOpen] = useState(false)
 
   const [lohang, setlohang] = useState([])
-  
+
   const handleCloseModal = () => {
     setIsOpen(false)
   }
@@ -21,7 +21,7 @@ function LoHangLayout ({ opendetail, setopendetail, idncc }) {
 
       try {
         const response = await fetch(
-          `http://localhost:8080/getloaisanpham/${idncc}`,
+          `https://www.ansuataohanoi.com/getloaisanpham/${idncc}`,
           {
             method: 'GET',
             headers: {
@@ -110,7 +110,12 @@ function LoHangLayout ({ opendetail, setopendetail, idncc }) {
               </tbody>
             </table>
           </div>
-          <AddLoHang isOpen={isOpen} onClose={handleCloseModal} nccId={idncc} setlohang={setlohang}/>
+          <AddLoHang
+            isOpen={isOpen}
+            onClose={handleCloseModal}
+            nccId={idncc}
+            setlohang={setlohang}
+          />
         </div>
       )}
     </>

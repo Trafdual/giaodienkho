@@ -60,19 +60,22 @@ function AddLoHang ({ isOpen, onClose, setlohang }) {
   const handleAddLoHang = async () => {
     if (validateInputs()) {
       try {
-        const response = await fetch(`http://localhost:8080/postloaisanpham2`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            mancc:mancc,
-            name: name,
-            tongtien: tongtien,
-            soluong: soluong,
-            date: date
-          })
-        })
+        const response = await fetch(
+          `https://www.ansuataohanoi.com/postloaisanpham2`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              mancc: mancc,
+              name: name,
+              tongtien: tongtien,
+              soluong: soluong,
+              date: date
+            })
+          }
+        )
         const data = await response.json()
 
         if (response.ok) {

@@ -3,8 +3,7 @@ import { useState, useCallback } from 'react'
 import { Modal } from '../../../../../components/Modal'
 import { useToast } from '../../../../../components/GlobalStyles/ToastContext'
 
-function FormAddTay
- ({ isOpen, onClose, loaispid, setsanpham }) {
+function FormAddTay ({ isOpen, onClose, loaispid, setsanpham }) {
   const [name, setName] = useState('')
   const [imel, setimel] = useState('')
   const [dungluong, setdungluong] = useState('')
@@ -54,7 +53,7 @@ function FormAddTay
     if (valicolorInputs()) {
       try {
         const response = await fetch(
-          `http://localhost:8080/postsp/${loaispid}`,
+          `https://www.ansuataohanoi.com/postsp/${loaispid}`,
           {
             method: 'POST',
             headers: {
@@ -174,4 +173,3 @@ function FormAddTay
 }
 
 export default FormAddTay
-
