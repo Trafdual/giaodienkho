@@ -1,5 +1,4 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-
 import './Sidebar.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
@@ -23,10 +22,11 @@ function Sidebar ({ isActive, setIsActive }) {
   // Lấy trạng thái active từ localStorage khi trang load
   useEffect(() => {
     const savedActiveItem = localStorage.getItem('activeItem')
-    if (savedActiveItem) {
+    if (savedActiveItem && savedActiveItem === location.pathname) {
       setActiveItem(savedActiveItem)
     } else {
       setActiveItem(location.pathname)
+      localStorage.setItem('activeItem', location.pathname)
     }
   }, [location.pathname])
 
