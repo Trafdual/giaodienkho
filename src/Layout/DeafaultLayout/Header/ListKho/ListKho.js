@@ -1,9 +1,17 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState, useRef } from 'react'
 import './ListKho.scss'
 
 function ListKho ({ userId }) {
   const [datakho, setdatakho] = useState([])
+  const [isOpen, setIsOpen] = useState(false)
+  const [selectedKho, setSelectedKho] = useState(null)
+
+
+  const dropdownRef = useRef(null)
+  const toggleMenu = () => {
+    setIsOpen(prevState => !prevState)
+  }
 
   const hadleGetKho = async () => {
     try {
@@ -28,26 +36,50 @@ function ListKho ({ userId }) {
     }
   }
 
-
   useEffect(() => {
     hadleGetKho()
   }, [datakho])
 
+  useEffect(() => {
+    const handleClickOutside = event => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsOpen(false)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
+
+  const handleSelectKho = kho => {
+  setSelectedKho(kho)
+  setIsOpen(false)
+}
+
+
   return (
-    <select name='' className='option' disabled={datakho.length === 0}>
-      {useCallback(
-        datakho.length === 0 ? (
-          <option value=''>Chưa có kho</option>
-        ) : (
-          datakho.map(kho => (
-            <option key={kho._id} value={kho._id}>
-              {kho.name}
-            </option>
-          ))
-        ),
-        [datakho]
-      )}
-    </select>
+    <div className='dropdown' ref={dropdownRef}>
+      <div className='select' onClick={toggleMenu}>
+        <span className='selected'>
+          {selectedKho ? selectedKho.name : 'Chọn kho'}
+        </span>
+        <div className={`caret ${isOpen ? 'carte-rotate' : ''}`}></div>
+      </div>
+      <ul className={`menu ${isOpen ? 'show' : ''}`}>
+        {useCallback(
+          datakho.length === 0 ? (
+            <li value=''>Chưa có kho</li>
+          ) : (
+            datakho.map(kho => (
+              <li key={kho._id} value={kho._id} onClick={()=>handleSelectKho(kho)}>
+                {kho.name}
+              </li>
+            ))
+          ),
+          [datakho]
+        )}
+      </ul>
+    </div>
   )
 }
 
