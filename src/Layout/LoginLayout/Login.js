@@ -89,10 +89,7 @@ function Login () {
           showToast('Đăng nhập thành công!')
           navigate(publicRoutes[1].path)
         } else {
-          showToast(
-            data.message,
-            'error'
-          )
+          showToast(data.message, 'error')
         }
       } catch (error) {
         showToast(

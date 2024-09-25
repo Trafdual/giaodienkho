@@ -40,7 +40,7 @@ function FormAddImel ({ isOpen, onClose, loaispid, setsanpham }) {
               width: { ideal: 1280 },
               height: { ideal: 720 },
               frameRate: {
-                ideal: 30
+                ideal: 60
               }
             }
           }
