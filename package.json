@@ -21,6 +21,8 @@
         "css-reset-and-normalize": "^2.3.6",
         "customize-cra": "^1.0.0",
         "date-fns": "^3.6.0",
+        "dynamsoft-javascript-barcode": "^9.6.42",
+        "html5-qrcode": "^2.3.8",
         "ionicons": "^7.4.0",
         "normalize.css": "^8.0.1",
         "quagga": "^0.12.1",
