@@ -11,15 +11,18 @@ function FormAddImel ({ isOpen, onClose, loaispid, setsanpham }) {
   const [barcodeData, setBarcodeData] = useState('')
   const videoRef = useRef(null)
   const [isScanning, setIsScanning] = useState(false)
+  const [hasScanned, setHasScanned] = useState(false) // Biến để theo dõi đã quét thành công hay chưa
 
   const handleClose = () => {
     onClose()
     setBarcodeData('') // Clear scanned data when closing
     setIsScanning(false) // Stop scanning when closing
+    setHasScanned(false) // Reset trạng thái đã quét khi đóng modal
   }
 
   useEffect(() => {
-    if (isOpen) {
+    if (isOpen && !hasScanned) {
+      // Chỉ bắt đầu quét nếu chưa quét thành công
       const codeReader = new BrowserMultiFormatReader()
 
       const hints = new Map()
@@ -52,6 +55,7 @@ function FormAddImel ({ isOpen, onClose, loaispid, setsanpham }) {
               if (result) {
                 setBarcodeData(result.text)
                 setIsScanning(false) // Stop scanning after a successful scan
+                setHasScanned(true) // Đánh dấu đã quét thành công
               }
               if (error && !result) {
                 console.error(error)
@@ -71,7 +75,7 @@ function FormAddImel ({ isOpen, onClose, loaispid, setsanpham }) {
         setIsScanning(false) // Ensure scanning is stopped on cleanup
       }
     }
-  }, [isOpen, setsanpham]) // Add isScanning to dependencies
+  }, [isOpen, hasScanned]) // Add hasScanned to dependencies
 
   return (
     <Modal isOpen={isOpen} onClose={handleClose}>
