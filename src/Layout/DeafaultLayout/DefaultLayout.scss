@@ -3,7 +3,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Ubuntu', sans-serif;
+    font-family: var(--font-family);
 }
 
 :root {
@@ -34,6 +34,7 @@ body {
     min-height: 100vh;
     background: var(--white);
     transition: 0.5s;
+    z-index: 0;
 }
 
 .main.active {
