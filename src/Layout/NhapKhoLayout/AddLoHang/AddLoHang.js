@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 
 import { Modal } from '../../../components/Modal'
 import { useToast } from '../../../components/GlobalStyles/ToastContext'
@@ -16,6 +16,34 @@ function AddLoHang ({ isOpen, onClose, setlohang }) {
   const [tongtienError, settongtienError] = useState('')
   const [dateError, setdateError] = useState('')
   const [manccError, setmanccError] = useState('')
+  const [suppliers, setSuppliers] = useState([]) // Danh sách nhà cung cấp
+  const [loadingSuppliers, setLoadingSuppliers] = useState(true) // Trạng thái tải dữ liệu
+  const [khoID, setKhoID] = useState(localStorage.getItem('khoID') || '')
+
+  useEffect(() => {
+    const fetchSuppliers = async () => {
+      try {
+        const response = await fetch(
+          `https://www.ansuataohanoi.com/getncc/${khoID}`
+        ) // Thay đổi URL API theo ý muốn
+        const data = await response.json()
+
+        if (response.ok) {
+          setSuppliers(data) // Giả sử data là mảng các nhà cung cấp
+        } else {
+          showToast('Không thể tải danh sách nhà cung cấp', 'error')
+        }
+      } catch (error) {
+        console.error('Lỗi khi lấy dữ liệu nhà cung cấp:', error)
+        showToast('Không thể tải danh sách nhà cung cấp', 'error')
+      } finally {
+        setLoadingSuppliers(false)
+      }
+    }
+
+    fetchSuppliers()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const validateInputs = () => {
     let valid = true
@@ -117,15 +145,26 @@ function AddLoHang ({ isOpen, onClose, setlohang }) {
       <div className='divAddLoHang'>
         <h2>Thêm lô hàng</h2>
         <div className='divtenkho'>
-          <input
-            type='text'
-            className={`tenkho ${manccError ? 'input-error' : ''}`}
-            placeholder=''
-            value={mancc}
-            onChange={e => setmancc(e.target.value)}
-          />
+          {loadingSuppliers ? (
+            <p>Đang tải danh sách nhà cung cấp...</p>
+          ) : (
+            <select
+              className={`tenkho ${manccError ? 'input-error' : ''}`}
+              value={mancc}
+              onChange={e => setmancc(e.target.value)}
+            >
+              <option value='' disabled>
+                Chọn mã nhà cung cấp
+              </option>
+              {suppliers.map(supplier => (
+                <option key={supplier.id} value={supplier.id}>
+                  {supplier.mancc}
+                </option>
+              ))}
+            </select>
+          )}
           <label htmlFor='' className='label'>
-            Nhập mã nhà cung cấp
+            Mã nhà cung cấp
           </label>
         </div>
         {manccError && <div className='error'>{manccError}</div>}
