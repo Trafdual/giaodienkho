@@ -11,6 +11,7 @@ function NhaCungCapLayout () {
   const [isOpen, setIsOpen] = useState(false)
   const [opendetail, setopendetail] = useState(true)
   const [idncc, setidncc] = useState('')
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
 
   const [khoID, setKhoID] = useState(localStorage.getItem('khoID') || '')
   const handleCloseModal = () => {
@@ -32,6 +33,24 @@ function NhaCungCapLayout () {
 
     return () => clearInterval(intervalId)
   }, [localStorage.getItem('khoID')])
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 768) {
+        setIsMobile(window.innerWidth <= 768)
+      }
+    }
+
+    // Gọi hàm khi trang được tải
+    handleResize()
+
+    // Thay đổi itemsPerPage khi kích thước cửa sổ thay đổi
+    window.addEventListener('resize', handleResize)
+
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
 
   useEffect(() => {
     console.log(localStorage.getItem('khoID'))
@@ -88,8 +107,12 @@ function NhaCungCapLayout () {
                 <tr>
                   <td className='tdnhap'>Mã nhà cung cấp</td>
                   <td className='tdnhap'>Tên nhà cung cấp</td>
-                  <td className='tdnhap'>Số điện thoại</td>
-                  <td className='tdnhap'>Địa chỉ</td>
+                  {!isMobile && (
+                    <>
+                      <td className='tdnhap'>Số điện thoại</td>
+                      <td className='tdnhap'>Địa chỉ</td>
+                    </>
+                  )}
                   <td className='tdnhap'>Chức năng</td>
                 </tr>
               </thead>
@@ -99,8 +122,12 @@ function NhaCungCapLayout () {
                     <tr key={ncc._id}>
                       <td>{ncc.mancc}</td>
                       <td>{ncc.name}</td>
-                      <td>{ncc.phone}</td>
-                      <td>{ncc.address}</td>
+                      {!isMobile && (
+                        <>
+                          <td>{ncc.phone}</td>
+                          <td>{ncc.address}</td>
+                        </>
+                      )}
                       <td className='tdchucnang'>
                         <button
                           className='btnchitietncc'
@@ -112,7 +139,7 @@ function NhaCungCapLayout () {
                           className='btncnncc'
                           onClick={() => setIsOpen(true)}
                         >
-                          <h3>Cập nhật thông tin</h3>
+                          <h3>Cập nhật</h3>
                         </button>
                       </td>
                     </tr>
