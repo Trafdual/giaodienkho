@@ -5,7 +5,7 @@ import './ListKho.scss'
 function ListKho ({datakho,setdatakho}) {
   const [isOpen, setIsOpen] = useState(false)
   const [selectedKho, setSelectedKho] = useState(null)
-  const [userID, setuserID] = useState(localStorage.getItem('userId') || '')
+  const [userID, setuserID] = useState(localStorage.getItem('userId') || sessionStorage.getItem('userId') || '')
 
   const dropdownRef = useRef(null)
 

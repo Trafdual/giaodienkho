@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import './Sidebar.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -33,7 +34,8 @@ function Sidebar ({ isActive, setIsActive }) {
   const handleLogout = () => {
     localStorage.clear()
     sessionStorage.clear()
-    window.location.replace(publicRoutes[0].path)
+    window.history.replaceState(null, '', publicRoutes[0].path) // Thay thế trang hiện tại
+    window.location.reload() // Tải lại trang
   }
 
   const handleItemClick = path => {
