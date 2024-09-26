@@ -19,6 +19,7 @@ import { useEffect, useState } from 'react'
 function Sidebar ({ isActive, setIsActive }) {
   const location = useLocation()
   const [activeItem, setActiveItem] = useState('')
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
 
   // Lấy trạng thái active từ localStorage khi trang load
   useEffect(() => {
@@ -31,6 +32,27 @@ function Sidebar ({ isActive, setIsActive }) {
     }
   }, [location.pathname])
 
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 768) {
+        // Giả sử 768px là kích thước cắt của điện thoại
+        setIsMobile(window.innerWidth <= 768)
+      } else {
+        setIsMobile(window.innerWidth >= 768)
+      }
+    }
+
+    // Gọi hàm khi trang được tải
+    handleResize()
+
+    // Thay đổi itemsPerPage khi kích thước cửa sổ thay đổi
+    window.addEventListener('resize', handleResize)
+
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
+
   const handleLogout = () => {
     localStorage.clear()
     sessionStorage.clear()
@@ -40,7 +62,9 @@ function Sidebar ({ isActive, setIsActive }) {
 
   const handleItemClick = path => {
     setActiveItem(path)
-    setIsActive(true)
+    if (isMobile) {
+      setIsActive(false)
+    }
     localStorage.setItem('activeItem', path)
   }
 
