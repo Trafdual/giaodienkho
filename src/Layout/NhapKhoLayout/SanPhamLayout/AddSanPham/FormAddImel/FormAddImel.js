@@ -82,7 +82,7 @@ function FormAddImel ({ isOpen, onClose, loaispid, setsanpham }) {
       <div className='divAddSanPham' style={{ position: 'relative' }}>
         <h2>Quét IMEI</h2>
         <div className='divvideo'>
-          <video ref={videoRef} className='video' />
+          <video ref={videoRef} className={`video ${!hasScanned ? 'thanhcong':''}`} />
           <div className='scanner-line'></div>
         </div>
         {barcodeData && (
