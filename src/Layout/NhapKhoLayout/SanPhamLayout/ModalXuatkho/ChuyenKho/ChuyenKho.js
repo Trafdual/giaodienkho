@@ -55,7 +55,7 @@ function ChuyenKho ({ isOpen, onClose, fetchData, idsanpham }) {
   const postchuyenkho = async () => {
     try {
       const response = await fetch(
-        `http://localhost:8080/chuyenkho/${idsanpham}`,
+        `https://www.ansuataohanoi.com/chuyenkho/${idsanpham}`,
         {
           method: 'POST',
           headers: {

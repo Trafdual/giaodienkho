@@ -2,7 +2,6 @@
 import { useState, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLeftLong, faPlus } from '@fortawesome/free-solid-svg-icons'
-import { useToast } from '../../../components/GlobalStyles/ToastContext'
 
 import { AddSanPham } from './AddSanPham'
 import { ModalXuatKho } from './ModalXuatkho'
@@ -11,8 +10,6 @@ function SanPhamLayout ({ opendetail, setopendetail, idloaisp }) {
   const [isOpenXuakho, setIsOpenXuakho] = useState(false)
 
   const [SanPham, setSanPham] = useState([])
-  const { showToast } = useToast()
-
   // Trạng thái phân trang
   const [currentPage, setCurrentPage] = useState(1)
   const [itemsPerPage, setItemsPerPage] = useState(9) // Mặc định là 9
@@ -65,7 +62,7 @@ function SanPhamLayout ({ opendetail, setopendetail, idloaisp }) {
 
     try {
       const response = await fetch(
-        `http://localhost:8080/getsanpham/${idloaisp}`,
+        `https://www.ansuataohanoi.com/getsanpham/${idloaisp}`,
         {
           method: 'GET',
           headers: {
@@ -204,7 +201,8 @@ function SanPhamLayout ({ opendetail, setopendetail, idloaisp }) {
             onClose={handleCloseModal}
             loaispid={idloaisp}
             setsanpham={setSanPham}
-            fetchData={fetchData}          />
+            fetchData={fetchData}
+          />
         </div>
       )}
     </>
