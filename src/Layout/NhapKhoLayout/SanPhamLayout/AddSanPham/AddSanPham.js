@@ -4,7 +4,7 @@ import { Modal } from '../../../../components/Modal'
 import { FormAddTay } from './FormAddTay'
 import { FormAddImel } from './FormAddImel'
 
-function AddSanPham ({ isOpen, onClose, loaispid, setsanpham }) {
+function AddSanPham ({ isOpen, onClose, loaispid, setsanpham ,fetchData}) {
   const [isOpenForm, setIsOpenForm] = useState(false)
   const [isOpenFormImel, setIsOpenFormImel] = useState(false)
 
@@ -38,6 +38,7 @@ function AddSanPham ({ isOpen, onClose, loaispid, setsanpham }) {
         onClose={() => setIsOpenForm(false)}
         loaispid={loaispid}
         setsanpham={setsanpham}
+        fetchData={fetchData}
       />
       <FormAddImel
         isOpen={isOpenFormImel}

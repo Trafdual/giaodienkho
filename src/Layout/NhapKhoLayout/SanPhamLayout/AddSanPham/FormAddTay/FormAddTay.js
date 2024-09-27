@@ -3,7 +3,7 @@ import { useState, useCallback } from 'react'
 import { Modal } from '../../../../../components/Modal'
 import { useToast } from '../../../../../components/GlobalStyles/ToastContext'
 
-function FormAddTay ({ isOpen, onClose, loaispid, setsanpham }) {
+function FormAddTay ({ isOpen, onClose, loaispid, setsanpham,fetchData }) {
   const [name, setName] = useState('')
   const [imel, setimel] = useState('')
   const [dungluong, setdungluong] = useState('')
@@ -53,7 +53,7 @@ function FormAddTay ({ isOpen, onClose, loaispid, setsanpham }) {
     if (valicolorInputs()) {
       try {
         const response = await fetch(
-          `https://www.ansuataohanoi.com/postsp/${loaispid}`,
+          `http://localhost:8080/postsp/${loaispid}`,
           {
             method: 'POST',
             headers: {
@@ -67,10 +67,9 @@ function FormAddTay ({ isOpen, onClose, loaispid, setsanpham }) {
             })
           }
         )
-        const data = await response.json()
 
         if (response.ok) {
-          setsanpham(prevsanpham => [...prevsanpham, data])
+          fetchData()
           handleClose()
           showToast('Thêm sản phẩm thành công')
         } else {
