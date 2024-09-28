@@ -6,6 +6,7 @@
     border-left: 10px solid var(--blue);
     transition: 0.5s;
     overflow: hidden;
+    // position: relative;
 }
 
 .navigation.active {
@@ -79,7 +80,36 @@
     white-space: nowrap;
     cursor: pointer;
 }
+.submenu {
+    display: none; /* Ẩn submenu mặc định */
+    position: relative;
+    padding-left: 20px;
+    border-radius: 5px;
+  }
+  
+  .submenu.open {
+    display: block; 
+  }
+.navigation ul li .submenu {
+    display: none; /* Ẩn submenu khi dropdown đóng */
+    position: relative; /* Đặt relative thay vì absolute để submenu không bị đẩy ngoài phạm vi của cha */
+    padding-left: 40px; /* Căn lề cho đẹp */
+   
+}
 
+.navigation ul li .submenu.open {
+    display: block; /* Hiển thị submenu khi mở dropdown */
+}
+
+.navigation ul li .submenu a {
+    color: black; 
+   
+    display: block;
+}
+
+.navigation ul li .submenu a:hover {
+    background-color: red; /* Màu nền khi hover */
+}
 
 /* curve outside */
 
@@ -123,7 +153,6 @@
 
 @media (max-width: 480px) {
     .navigation {
-        width: 100%;
         left: -100%;
         z-index: 1000;
     }

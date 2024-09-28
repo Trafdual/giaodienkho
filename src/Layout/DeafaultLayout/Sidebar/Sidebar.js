@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import './Sidebar.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -7,6 +8,8 @@ import {
   faGear,
   faHandshake,
   faHouse,
+  faPhone,
+  faEnvelope,
   faLandmark,
   faRightFromBracket,
   faWarehouse
@@ -15,11 +18,17 @@ import { publicRoutes } from '../../../router'
 import { Link, useLocation } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 
-function Sidebar ({ isActive, setIsActive }) {
+function Sidebar({ isActive, setIsActive }) {
   const location = useLocation()
   const [activeItem, setActiveItem] = useState('')
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
+  const [isDropdownOpen, setIsDropdownOpen] = useState(null);
 
-  // Lấy trạng thái active từ localStorage khi trang load
+  const toggleDropdown = (index) => {
+    setIsDropdownOpen(isDropdownOpen === index ? null : index);
+  };
+  
+
   useEffect(() => {
     const savedActiveItem = localStorage.getItem('activeItem')
     if (savedActiveItem && savedActiveItem === location.pathname) {
@@ -30,15 +39,39 @@ function Sidebar ({ isActive, setIsActive }) {
     }
   }, [location.pathname])
 
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 768) {
+        // Giả sử 768px là kích thước cắt của điện thoại
+        setIsMobile(window.innerWidth <= 768)
+      } else {
+        setIsMobile(window.innerWidth >= 768)
+      }
+    }
+
+    // Gọi hàm khi trang được tải
+    handleResize()
+
+    // Thay đổi itemsPerPage khi kích thước cửa sổ thay đổi
+    window.addEventListener('resize', handleResize)
+
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
+
   const handleLogout = () => {
     localStorage.clear()
     sessionStorage.clear()
-    window.location.replace(publicRoutes[0].path)
+    window.history.replaceState(null, '', publicRoutes[0].path) // Thay thế trang hiện tại
+    window.location.reload() // Tải lại trang
   }
 
   const handleItemClick = path => {
     setActiveItem(path)
-    setIsActive(true)
+    if (isMobile) {
+      setIsActive(false)
+    }
     localStorage.setItem('activeItem', path)
   }
 
@@ -116,32 +149,35 @@ function Sidebar ({ isActive, setIsActive }) {
           </Link>
         </li>
 
+
+       
         <li
-          className={activeItem === '/xuatkho' ? 'hovered' : ''}
-          onClick={() => handleItemClick('/xuatkho')}
-        >
-          <Link to={'/xuatkho'}>
-            <a>
-              <span className='icon'>
-                <FontAwesomeIcon className='fonticon' icon={faWarehouse} />
-              </span>
-              <span className='title'>Xuất kho</span>
-            </a>
-          </Link>
-        </li>
-        <li
-          className={activeItem === '/trogiup' ? 'hovered' : ''}
-          onClick={() => handleItemClick('/trogiup')}
-        >
-          <Link to={'/trogiup'}>
-            <a>
-              <span className='icon'>
-                <FontAwesomeIcon className='fonticon' icon={faCircleQuestion} />
-              </span>
-              <span className='title'>Trợ giúp</span>
-            </a>
-          </Link>
-        </li>
+  className={activeItem === '/category' ? 'hovered' : ''} // Kiểm tra trạng thái của dropdown
+  onClick={() => toggleDropdown(0)} // Mở/đóng dropdown khi click
+>
+  <Link to={'#'}>
+    <span className="icon">
+      <FontAwesomeIcon className="fonticon" icon={faCircleQuestion} />
+    </span>
+    <span className="title">Category</span>
+  </Link>
+
+  {isDropdownOpen === 0 && ( 
+    <ul className="submenu open"> 
+      <li onClick={() => handleItemClick('/category/html-css')}>
+        <Link to="/nhapkho">HTML & CSS</Link>
+      </li>
+      <li onClick={() => handleItemClick('/category/javascript')}>
+        <Link to="/nhapkho">JavaScript</Link>
+      </li>
+      <li onClick={() => handleItemClick('/category/php-mysql')}>
+        <Link to="/nhapkho">PHP & MySQL</Link>
+      </li>
+    </ul>
+  )}
+</li>
+
+
         <li
           className={activeItem === '/thietlap' ? 'hovered' : ''}
           onClick={() => handleItemClick('/thietlap')}

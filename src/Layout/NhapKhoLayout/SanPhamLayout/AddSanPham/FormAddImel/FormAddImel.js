@@ -39,10 +39,10 @@ function FormAddImel({ isOpen, onClose, loaispid, setsanpham }) {
           const constraints = {
             video: {
               facingMode: 'environment',
-              width: { ideal: 1280 },
-              height: { ideal: 720 },
+              width: { ideal: 1920 },
+              height: { ideal: 1080 },
               frameRate: {
-                ideal: 30
+                ideal: 100
               }
             }
           }

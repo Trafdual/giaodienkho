@@ -15,7 +15,7 @@ import './Header.scss'
 import { ListKho } from './ListKho'
 import { AddKho } from './AddKho'
 
-function Header ({ toggleMenu, userId, name }) {
+function Header ({ toggleMenu, userId, name, isActive }) {
   const [datakho, setdatakho] = useState([])
 
   const [isOpen, setIsOpen] = useState(false)
@@ -25,7 +25,7 @@ function Header ({ toggleMenu, userId, name }) {
   }
 
   return (
-    <div className='topbar'>
+    <div className={`topbar ${isActive ? 'active' : ''}`}>
       <div className='toggle' onClick={toggleMenu}>
         <FontAwesomeIcon style={{ fontSize: 20 }} icon={faBars} />
       </div>
