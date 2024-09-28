@@ -3,7 +3,11 @@ module.exports = {
     {
       name: 'giaodienkho',
       script: 'npm', // Lệnh chính để chạy ứng dụng (npm)
-      args: 'start'
+      args: 'start',
+       env: {
+        PORT: 3006, 
+        NODE_ENV: 'production', 
+      }
     }
   ]
 }
