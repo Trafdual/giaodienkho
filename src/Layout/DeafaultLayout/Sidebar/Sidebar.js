@@ -25,8 +25,13 @@ function Sidebar ({ isActive, setIsActive }) {
   const [activeItem, setActiveItem] = useState('')
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+  const [isDropdownOpenBaoCao, setIsDropdownOpenBaoCao] = useState(false)
+
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen)
+  }
+  const toggleDropdownBapCao = () => {
+    setIsDropdownOpenBaoCao(!isDropdownOpenBaoCao)
   }
 
   // Lấy trạng thái active từ localStorage khi trang load
@@ -110,18 +115,50 @@ function Sidebar ({ isActive, setIsActive }) {
             </a>
           </Link>
         </li>
-        <li
-          className={activeItem === '/baocao' ? 'hovered' : ''}
-          onClick={() => handleItemClick('/baocao')}
-        >
-          <Link to={'/baocao'}>
-            <a>
-              <span className='icon'>
-                <FontAwesomeIcon className='fonticon' icon={faChartPie} />
-              </span>
-              <span className='title'>Báo cáo</span>
-            </a>
-          </Link>
+        <li className={activeItem === '/baocao' ? 'hovered' : ''}>
+          <a onClick={toggleDropdownBapCao}>
+            <span className='icon'>
+              <FontAwesomeIcon className='fonticon' icon={faChartPie} />
+            </span>
+            <span className='title'>Báo cáo</span>
+            <FontAwesomeIcon
+              icon={isDropdownOpenBaoCao ? faChevronUp : faChevronDown}
+              className='dropdown-icon'
+            />
+          </a>
+          {isDropdownOpenBaoCao && (
+            <ul className='dropdown-menu'>
+              <li
+                className={activeItem === '/thietlap/cauhinh' ? 'hovered' : ''}
+                onClick={() => handleItemClick('/thietlap/cauhinh')}
+              >
+                <Link to={'/thietlap/cauhinh'}>
+                  <a>
+                    <span className='icon'>
+                      <FontAwesomeIcon className='fonticon' icon={faWrench} />
+                    </span>
+                    <span className='title'>Cấu hình</span>
+                  </a>
+                </Link>
+              </li>
+              <li
+                className={activeItem === '/thietlap/baomat' ? 'hovered' : ''}
+                onClick={() => handleItemClick('/thietlap/baomat')}
+              >
+                <Link to={'/thietlap/baomat'}>
+                  <a>
+                    <span className='icon'>
+                      <FontAwesomeIcon
+                        className='fonticon'
+                        icon={faShieldHalved}
+                      />
+                    </span>
+                    <span className='title'>Bảo mật</span>
+                  </a>
+                </Link>
+              </li>
+            </ul>
+          )}
         </li>
         <li
           className={activeItem === '/nhacungcap' ? 'hovered' : ''}
@@ -212,7 +249,10 @@ function Sidebar ({ isActive, setIsActive }) {
                 <Link to={'/thietlap/baomat'}>
                   <a>
                     <span className='icon'>
-                      <FontAwesomeIcon className='fonticon' icon={faShieldHalved} />
+                      <FontAwesomeIcon
+                        className='fonticon'
+                        icon={faShieldHalved}
+                      />
                     </span>
                     <span className='title'>Bảo mật</span>
                   </a>
