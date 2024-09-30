@@ -81,24 +81,20 @@
     cursor: pointer;
 }
 .submenu {
-    display: none; /* Ẩn submenu mặc định */
-    position: relative;
+    display: block; /* Ẩn submenu mặc định */
+    // position: relative;
     padding-left: 20px;
-    border-radius: 5px;
+    // background-color: blue;                                                                                                                                                                                                                  
+    // border-radius: 5px;
   }
   
   .submenu.open {
-    display: block; 
+    display: block; /* Hiển thị submenu khi được mở */
   }
 .navigation ul li .submenu {
-    display: none; /* Ẩn submenu khi dropdown đóng */
+    display: block; /* Ẩn submenu khi dropdown đóng */
     position: relative; /* Đặt relative thay vì absolute để submenu không bị đẩy ngoài phạm vi của cha */
-    padding-left: 40px; /* Căn lề cho đẹp */
-   
-}
-
-.navigation ul li .submenu.open {
-    display: block; /* Hiển thị submenu khi mở dropdown */
+    padding-left: 20px; /* Căn lề cho đẹp */
 }
 
 .navigation ul li .submenu a {
@@ -122,7 +118,7 @@
     width: 50px;
     height: 50px;
     background: transparent;
-    border-radius: 50%;
+    // border-radius: 50%;
     box-shadow: 35px 35px 0 10px var(--white);
     pointer-events: none;
 }
@@ -136,7 +132,7 @@
     width: 50px;
     height: 50px;
     background: transparent;
-    border-radius: 50%;
+    // border-radius: 50%;
     box-shadow: 35px -35px 0 10px var(--white);
     pointer-events: none;
 }

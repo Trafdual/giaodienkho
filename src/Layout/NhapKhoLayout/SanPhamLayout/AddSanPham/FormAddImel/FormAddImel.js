@@ -19,6 +19,11 @@ function FormAddImel({ isOpen, onClose, loaispid, setsanpham }) {
     setIsScanning(false) // Stop scanning when closing
     setHasScanned(false) // Reset trạng thái đã quét khi đóng modal
   }
+  const tieptucquet = () => {
+    setBarcodeData('') // Clear scanned data when closing
+    setIsScanning(false) // Stop scanning when closing
+    setHasScanned(false) // Reset trạng thái đã quét khi đóng modal
+  }
 
   useEffect(() => {
     if (isOpen && !hasScanned) { // Chỉ bắt đầu quét nếu chưa quét thành công
@@ -57,7 +62,10 @@ function FormAddImel({ isOpen, onClose, loaispid, setsanpham }) {
                 setHasScanned(true) // Đánh dấu đã quét thành công
               }
               if (error && !result) {
-                console.error(error)
+                if (error.name !== 'NotFoundException') {
+                  // Chỉ hiển thị lỗi nếu không phải lỗi "NotFoundException"
+                  console.error(error)
+                }
               }
             },
             hints
@@ -81,7 +89,10 @@ function FormAddImel({ isOpen, onClose, loaispid, setsanpham }) {
       <div className='divAddSanPham' style={{ position: 'relative' }}>
         <h2>Quét IMEI</h2>
         <div className='divvideo'>
-          <video ref={videoRef} className='video' />
+          <video
+            ref={videoRef}
+            className={`video ${hasScanned ? 'thanhcong' : ''}`}
+          />
           <div className='scanner-line'></div>
         </div>
         {barcodeData && (
@@ -93,6 +104,11 @@ function FormAddImel({ isOpen, onClose, loaispid, setsanpham }) {
         <button onClick={handleClose} className='btnhuyAddLoHang'>
           Hủy
         </button>
+        {hasScanned && (
+          <button onClick={tieptucquet} className='btntieptucquet'>
+            Tiếp tục quét
+          </button>
+        )}
       </div>
     </Modal>
   )

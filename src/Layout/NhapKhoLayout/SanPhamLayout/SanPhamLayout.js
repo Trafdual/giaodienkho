@@ -2,15 +2,14 @@
 import { useState, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLeftLong, faPlus } from '@fortawesome/free-solid-svg-icons'
-import { useToast } from '../../../components/GlobalStyles/ToastContext'
 
 import { AddSanPham } from './AddSanPham'
+import { ModalXuatKho } from './ModalXuatkho'
 function SanPhamLayout ({ opendetail, setopendetail, idloaisp }) {
   const [isOpen, setIsOpen] = useState(false)
+  const [isOpenXuakho, setIsOpenXuakho] = useState(false)
 
   const [SanPham, setSanPham] = useState([])
-  const { showToast } = useToast()
-
   // Trạng thái phân trang
   const [currentPage, setCurrentPage] = useState(1)
   const [itemsPerPage, setItemsPerPage] = useState(9) // Mặc định là 9
@@ -54,6 +53,9 @@ function SanPhamLayout ({ opendetail, setopendetail, idloaisp }) {
   const handleCloseModal = () => {
     setIsOpen(false)
   }
+  const handleCloseModalXuakho = () => {
+    setIsOpenXuakho(false)
+  }
 
   const fetchData = async () => {
     if (!idloaisp) return
@@ -83,32 +85,6 @@ function SanPhamLayout ({ opendetail, setopendetail, idloaisp }) {
   useEffect(() => {
     fetchData()
   }, [idloaisp])
-
-  const postxuatkho = async idsp => {
-    if (!idloaisp) return
-
-    try {
-      const response = await fetch(
-        `https://www.ansuataohanoi.com/xuatkho/${idsp}/${idloaisp}/${khoID}`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        }
-      )
-
-      if (response.ok) {
-        showToast('xuất kho thành công')
-        fetchData()
-      } else {
-        console.error('Failed to fetch data')
-        showToast('Xuất kho thất bại')
-      }
-    } catch (error) {
-      console.error('Error fetching data:', error)
-    }
-  }
 
   // Tính toán mục để hiển thị cho trang hiện tại
   const indexOfLastItem = currentPage * itemsPerPage
@@ -159,34 +135,45 @@ function SanPhamLayout ({ opendetail, setopendetail, idloaisp }) {
               <tbody className='tbodynhap'>
                 {currentItems.length > 0 ? (
                   currentItems.map(ncc => (
-                    <tr key={ncc._id}>
-                      <td>{ncc.masp}</td>
-                      <td>{ncc.imel}</td>
-                      {!isMobile && (
-                        <>
-                          <td>{ncc.name}</td>
-                          <td>{ncc.capacity}</td>
-                          <td>{ncc.color}</td>
-                          <td>{ncc.xuatStatus}</td>
-                        </>
-                      )}
-                      <td className='tdchucnang'>
-                        <button className='btnchitietncc'>
-                          <h3>Chi tiết</h3>
-                        </button>
-                        <button className='btncnncc'>
-                          <h3>Cập nhật</h3>
-                        </button>
-                        {ncc.xuatStatus === 'tồn kho' && (
-                          <button
-                            onClick={() => postxuatkho(ncc._id)}
-                            className='btncnncc'
-                          >
-                            <h3>Xuất kho</h3>
-                          </button>
+                    <>
+                      <tr key={ncc._id}>
+                        <td>{ncc.masp}</td>
+                        <td>{ncc.imel}</td>
+                        {!isMobile && (
+                          <>
+                            <td>{ncc.name}</td>
+                            <td>{ncc.capacity}</td>
+                            <td>{ncc.color}</td>
+                            <td>{ncc.xuat ? 'đã xuất' : 'tồn kho'}</td>
+                          </>
                         )}
-                      </td>
-                    </tr>
+                        <td className='tdchucnang'>
+                          <button className='btnchitietncc'>
+                            <h3>Chi tiết</h3>
+                          </button>
+                          <button className='btncnncc'>
+                            <h3>Cập nhật</h3>
+                          </button>
+                          {ncc.xuat === false && (
+                            <button
+                              onClick={() => setIsOpenXuakho(true)}
+                              className='btncnncc'
+                            >
+                              <h3>Xuất kho</h3>
+                            </button>
+                          )}
+                        </td>
+                      </tr>
+                      <ModalXuatKho
+                        isOpen={isOpenXuakho}
+                        onClose={handleCloseModalXuakho}
+                        setsanpham={setSanPham}
+                        idsanpham={ncc._id}
+                        idloaisp={idloaisp}
+                        khoID={khoID}
+                        fetchData={fetchData}
+                      />
+                    </>
                   ))
                 ) : (
                   <tr>
@@ -214,6 +201,7 @@ function SanPhamLayout ({ opendetail, setopendetail, idloaisp }) {
             onClose={handleCloseModal}
             loaispid={idloaisp}
             setsanpham={setSanPham}
+            fetchData={fetchData}
           />
         </div>
       )}

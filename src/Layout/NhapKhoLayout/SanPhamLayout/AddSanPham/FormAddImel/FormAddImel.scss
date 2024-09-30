@@ -36,6 +36,11 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
+        border: 2px solid red;
+    }
+    
+    .video.thanhcong {
+        border: 2px solid rgb(0, 180, 0);
     }
     
     @media screen and (max-width: 46.1875em) {

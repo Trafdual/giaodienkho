@@ -36,6 +36,25 @@
     }
 }
 
+.btntieptucquet {
+    width: 100%;
+    height: 50px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    background-color: #0678f9;
+    color: #fffefe;
+    font-family: var(--font-family);
+    font-weight: bold;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+    border-radius: 5px;
+    margin-top: 20px;
+    cursor: pointer;
+    &:hover {
+        background-color: #c20202;
+    }
+}
+
 .separator {
     margin: 10px 0;
     /* Adjust spacing as needed */

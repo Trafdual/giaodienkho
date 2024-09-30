@@ -27,7 +27,7 @@ function Sidebar({ isActive, setIsActive }) {
   const toggleDropdown = (index) => {
     setIsDropdownOpen(isDropdownOpen === index ? null : index);
   };
-  
+
 
   useEffect(() => {
     const savedActiveItem = localStorage.getItem('activeItem')
@@ -150,32 +150,32 @@ function Sidebar({ isActive, setIsActive }) {
         </li>
 
 
-       
-        <li
-  className={activeItem === '/category' ? 'hovered' : ''} // Kiểm tra trạng thái của dropdown
-  onClick={() => toggleDropdown(0)} // Mở/đóng dropdown khi click
->
-  <Link to={'#'}>
-    <span className="icon">
-      <FontAwesomeIcon className="fonticon" icon={faCircleQuestion} />
-    </span>
-    <span className="title">Category</span>
-  </Link>
 
-  {isDropdownOpen === 0 && ( 
-    <ul className="submenu open"> 
-      <li onClick={() => handleItemClick('/category/html-css')}>
-        <Link to="/nhapkho">HTML & CSS</Link>
-      </li>
-      <li onClick={() => handleItemClick('/category/javascript')}>
-        <Link to="/nhapkho">JavaScript</Link>
-      </li>
-      <li onClick={() => handleItemClick('/category/php-mysql')}>
-        <Link to="/nhapkho">PHP & MySQL</Link>
-      </li>
-    </ul>
-  )}
-</li>
+            <li
+              className={activeItem === '/category' ? 'hovered' : ''}
+              onClick={() => toggleDropdown(0)}
+            >
+              <Link to={'#'}>
+                <span className="icon">
+                  <FontAwesomeIcon className="fonticon" icon={faCircleQuestion} />
+                </span>
+                <span className="title">Category</span>
+              </Link>
+
+              {isDropdownOpen === 0 && (
+                <ul className="submenu open">
+                  <li onClick={() => handleItemClick('/category/html-css')}>
+                    <Link to="/nhapkho">HTML & CSS</Link>
+                  </li>
+                  <li onClick={() => handleItemClick('/category/javascript')}>
+                    <Link to="/nhapkho">JavaScript</Link>
+                  </li>
+                  <li onClick={() => handleItemClick('/category/php-mysql')}>
+                    <Link to="/nhapkho">PHP & MySQL</Link>
+                  </li>
+                </ul>
+              )}
+            </li>
 
 
         <li

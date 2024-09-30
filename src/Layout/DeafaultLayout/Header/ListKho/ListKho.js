@@ -76,6 +76,7 @@ function ListKho ({datakho,setdatakho}) {
     setSelectedKho(kho)
     localStorage.setItem('khoID', kho._id)
     setIsOpen(false)
+    window.location.reload()
   }
 
   return (
