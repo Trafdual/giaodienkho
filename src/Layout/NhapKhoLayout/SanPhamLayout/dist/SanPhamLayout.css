@@ -9,6 +9,10 @@
   /* Chiều cao toàn màn hình */
   background-color: #f8f9fa;
   /* Màu nền nhẹ */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  /* Thêm bóng đổ cho container */
+  border-radius: 10px;
+  /* Bo góc cho container */
 }
 
 .spinner {
@@ -17,10 +21,14 @@
   border-top: 8px solid #3498db;
   /* Viền trên có màu để tạo vòng quay */
   border-radius: 50%;
-  width: 60px;
-  height: 60px;
+  width: 80px;
+  /* Tăng kích thước spinner */
+  height: 80px;
+  /* Tăng kích thước spinner */
   animation: spin 1s linear infinite;
   /* Tạo hiệu ứng xoay */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  /* Thêm bóng đổ cho spinner */
 }
 
 @keyframes spin {
@@ -31,7 +39,28 @@
     transform: rotate(360deg);
   }
 }
-h3 {
-  font-size: 18px;
+.h3loading {
+  font-size: 20px;
+  /* Tăng kích thước chữ */
   font-weight: 500;
+  margin-top: 20px;
+  /* Tạo khoảng cách giữa spinner và tiêu đề */
+  color: #333;
+  /* Màu chữ tối để dễ đọc */
+  text-align: center;
+  /* Căn giữa chữ */
+}
+
+/* Hiệu ứng thêm cho tiêu đề */
+.h3loading::after {
+  content: "";
+  display: block;
+  width: 50px;
+  /* Độ rộng của đường kẻ dưới */
+  height: 3px;
+  /* Độ cao của đường kẻ dưới */
+  background: #3498db;
+  /* Màu đường kẻ dưới */
+  margin: 10px auto;
+  /* Căn giữa đường kẻ dưới */
 }

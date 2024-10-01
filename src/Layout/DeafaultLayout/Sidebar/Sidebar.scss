@@ -29,6 +29,7 @@
     list-style: none;
     border-top-left-radius: 30px;
     border-bottom-left-radius: 30px;
+    margin-top: 10px;
 }
 
 .navigation ul li:hover,
@@ -37,8 +38,8 @@
 }
 
 .navigation ul li.hovered {
-    background-color: white;
-    color: var(--blue);
+    background-color: white!important;
+    color: var(--blue)!important;
 }
 
 .navigation ul li:nth-child(1) {
@@ -77,10 +78,7 @@
     position: relative;
     display: block;
     padding: 0 10px;
-    height: 60px;
-    line-height: 60px;
     text-align: start;
-    white-space: nowrap;
     cursor: pointer;
 }
 
@@ -130,21 +128,22 @@
     margin-top: 10px;
     /* Tạo khoảng cách với mục menu cha */
     border-bottom-left-radius: 20px;
+    padding-left: 10px;
+    padding-top: 10px;
 }
 
 .dropdown-menu li a {
-    color: #ffffff !important;
-    background-color: #0882f5;
     border-radius: 20px;
     /* Đảm bảo màu nền không bị ảnh hưởng */
 }
 
 .dropdown-menu li:hover a {
-    color: #0882f5!important;
+    color: #0882f5;
     background-color: white;
 }
 
 .dropdown-icon {
     margin-left: auto;
+    cursor: pointer;
     /* Đẩy mũi tên về phía cuối */
 }

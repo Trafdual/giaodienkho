@@ -17,6 +17,10 @@ var _NhaCungCapLayout = require("~/Layout/NhaCungCapLayout");
 
 var _NhapKhoLayout = require("~/Layout/NhapKhoLayout");
 
+var _DieuChuyenLayout = require("~/Layout/DieuChuyenLayout");
+
+var _KhachHangLayout = require("~/Layout/KhachHangLayout");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var publicRoutes = [{
@@ -35,6 +39,12 @@ var publicRoutes = [{
 }, {
   path: '/nhacungcap',
   component: _NhaCungCapLayout.NhaCungCap
+}, {
+  path: '/khachhang',
+  component: _KhachHangLayout.KhachHangLayout
+}, {
+  path: '/dieuchuyen',
+  component: _DieuChuyenLayout.DieuChuyenLayout
 }, {
   path: '/register',
   component: _RegisterLayout.Register,
