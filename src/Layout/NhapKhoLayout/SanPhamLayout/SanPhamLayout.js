@@ -6,6 +6,8 @@ import { faLeftLong, faPlus } from '@fortawesome/free-solid-svg-icons'
 import { AddSanPham } from './AddSanPham'
 import { ModalXuatKho } from './ModalXuatkho'
 import './SanPhamLayout.scss'
+import { ModalXuatKhoFull } from './ModalXuatKhoFull'
+import { useToast } from '../../../components/GlobalStyles/ToastContext'
 
 // Component hiển thị khi đang loading
 const Loading = () => {
@@ -18,6 +20,7 @@ const Loading = () => {
 }
 
 function SanPhamLayout ({ opendetail, setopendetail, idloaisp }) {
+  const { showToast } = useToast()
   const [isOpen, setIsOpen] = useState(false)
   const [isOpenXuakho, setIsOpenXuakho] = useState(false)
   const [SanPham, setSanPham] = useState([])
@@ -26,6 +29,34 @@ function SanPhamLayout ({ opendetail, setopendetail, idloaisp }) {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
   const [khoID, setKhoID] = useState(localStorage.getItem('khoID') || '')
   const [loading, setLoading] = useState(true) // Trạng thái loading
+  const [selectAll, setSelectAll] = useState(false)
+  const [selectedItems, setSelectedItems] = useState([])
+  const [isOpenChuyenKhoFull, setIsOpenChuyenKhoFull] = useState(false)
+
+  const handleSelectAll = () => {
+    const newSelectAll = !selectAll
+    setSelectAll(newSelectAll)
+
+    if (newSelectAll) {
+      const allIds = SanPham.map(item => item._id)
+      setSelectedItems(allIds)
+    } else {
+      setSelectedItems([])
+    }
+  }
+
+  const handleSelectItem = id => {
+    let updatedSelectedItems = [...selectedItems]
+
+    if (selectedItems.includes(id)) {
+      updatedSelectedItems = updatedSelectedItems.filter(item => item !== id)
+    } else {
+      updatedSelectedItems.push(id)
+    }
+
+    setSelectedItems(updatedSelectedItems)
+    setSelectAll(updatedSelectedItems.length === SanPham.length)
+  }
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -62,6 +93,9 @@ function SanPhamLayout ({ opendetail, setopendetail, idloaisp }) {
   }
   const handleCloseModalXuakho = () => {
     setIsOpenXuakho(false)
+  }
+  const handleCloseModalChuyenKhoFull = () => {
+    setIsOpenChuyenKhoFull(false)
   }
 
   const fetchData = async () => {
@@ -108,6 +142,33 @@ function SanPhamLayout ({ opendetail, setopendetail, idloaisp }) {
   const handlePageChange = pageNumber => {
     setCurrentPage(pageNumber)
   }
+  const XuatKhoHangLoat = async () => {
+    try {
+      const response = await fetch(
+        `https://www.ansuataohanoi.com/xuatkho1/${idloaisp}/${khoID}`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            idsanpham1: selectedItems
+          })
+        }
+      )
+      const data = await response.json()
+
+      if (data) {
+        showToast(`Xuất kho thành công`)
+        fetchData()
+      } else {
+        console.error('Failed to fetch data')
+        showToast('xuất kho thất bại', 'error')
+      }
+    } catch (error) {
+      console.error('Error fetching data:', error)
+    }
+  }
 
   return (
     <>
@@ -131,9 +192,33 @@ function SanPhamLayout ({ opendetail, setopendetail, idloaisp }) {
                   <h3>Thêm Sản Phẩm</h3>
                 </button>
               </div>
+              {selectedItems.length > 0 && (
+                <div className='action-menu'>
+                  <h4>{selectedItems.length} sản phẩm được chọn</h4>
+                  <button className='btn-xoa'>Xóa Tất Cả</button>
+                  <button className='btn-xuat' onClick={XuatKhoHangLoat}>
+                    Xuất Tất Cả
+                  </button>
+                  <button
+                    className='btn-xuat'
+                    onClick={() => setIsOpenChuyenKhoFull(true)}
+                  >
+                    Chuyển Kho
+                  </button>
+                </div>
+              )}
+
               <table className='tablenhap'>
                 <thead className='theadnhap'>
                   <tr>
+                    <td className='tdnhap'>
+                      <input
+                        type='checkbox'
+                        checked={selectAll}
+                        onChange={handleSelectAll}
+                      />
+                    </td>
+
                     <td className='tdnhap'>Mã sản phẩm</td>
                     <td className='tdnhap'>Imel</td>
                     {!isMobile && (
@@ -152,6 +237,13 @@ function SanPhamLayout ({ opendetail, setopendetail, idloaisp }) {
                     currentItems.map(ncc => (
                       <>
                         <tr key={ncc._id}>
+                          <td>
+                            <input
+                              type='checkbox'
+                              checked={selectedItems.includes(ncc._id)}
+                              onChange={() => handleSelectItem(ncc._id)}
+                            />
+                          </td>
                           <td>{ncc.masp}</td>
                           <td>{ncc.imel}</td>
                           {!isMobile && (
@@ -188,11 +280,17 @@ function SanPhamLayout ({ opendetail, setopendetail, idloaisp }) {
                           khoID={khoID}
                           fetchData={fetchData}
                         />
+                        <ModalXuatKhoFull
+                          isOpen={isOpenChuyenKhoFull}
+                          onClose={handleCloseModalChuyenKhoFull}
+                          selectedItems={selectedItems}
+                          fetchData={fetchData}
+                        />
                       </>
                     ))
                   ) : (
                     <tr>
-                      <td colSpan={isMobile ? '3' : '7'}>
+                      <td colSpan={isMobile ? '4' : '8'}>
                         Không có sản phẩm nào
                       </td>
                     </tr>

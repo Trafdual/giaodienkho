@@ -64,3 +64,34 @@
   margin: 10px auto;
   /* Căn giữa đường kẻ dưới */
 }
+
+.action-menu {
+  display: flex;
+  align-items: center;
+  background-color: #f1f1f1;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+
+.action-menu h4 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.action-menu .btn-xoa,
+.action-menu .btn-xuat {
+  padding: 5px 10px;
+  font-size: 15px;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  margin-left: 10px;
+}
+
+.action-menu .btn-xoa:hover,
+.action-menu .btn-xuat:hover {
+  background-color: #0056b3;
+}
