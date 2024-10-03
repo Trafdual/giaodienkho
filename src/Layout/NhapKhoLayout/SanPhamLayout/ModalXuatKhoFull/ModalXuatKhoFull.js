@@ -2,7 +2,14 @@
 import { useState, useEffect } from 'react'
 import { useToast } from '../../../../components/GlobalStyles/ToastContext'
 import { Modal } from '../../../../components/Modal'
-function ModalXuatKhoFull ({ isOpen, onClose, fetchData, selectedItems }) {
+function ModalXuatKhoFull ({
+  isOpen,
+  onClose,
+  fetchData,
+  selectedItems,
+  setSelectedItems,
+  setSelectAll
+}) {
   const { showToast } = useToast()
   const [datakho, setdatakho] = useState([])
   const [tenkho, setTenkho] = useState('')
@@ -70,6 +77,8 @@ function ModalXuatKhoFull ({ isOpen, onClose, fetchData, selectedItems }) {
         showToast(`${data.message}`)
         fetchData()
         onClose()
+        setSelectedItems([])
+        setSelectAll(false)
       } else {
         console.error('Failed to fetch data')
         showToast('chuyển kho thất bại', 'error')

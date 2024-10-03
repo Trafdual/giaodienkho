@@ -5,7 +5,6 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { AddKhachHang } from './AddKhachHang'
 
 function KhachHangLayout () {
-  let isMounted = true
   const [isOpen, setIsOpen] = useState(false)
   const [khachhang, setkhachhang] = useState([])
   const [khoID, setKhoID] = useState(localStorage.getItem('khoID') || '')
@@ -67,27 +66,20 @@ function KhachHangLayout () {
         }
       )
 
-      if (response.ok && isMounted) {
+      if (response.ok) {
         const data = await response.json()
         setkhachhang(data)
       } else {
         console.error('Failed to fetch data')
       }
     } catch (error) {
-      if (isMounted) {
-        console.error('Error fetching data:', error)
-      }
+      console.error('Error fetching data:', error)
     }
   }
 
   useEffect(() => {
     console.log(localStorage.getItem('khoID'))
-
     fetchData()
-
-    return () => {
-      isMounted = false
-    }
   }, [khoID])
 
   // Tính toán mục để hiển thị cho trang hiện tại

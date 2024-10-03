@@ -10,14 +10,7 @@ import { ModalXuatKhoFull } from './ModalXuatKhoFull'
 import { useToast } from '../../../components/GlobalStyles/ToastContext'
 
 // Component hiển thị khi đang loading
-const Loading = () => {
-  return (
-    <div className='loading-container'>
-      <div className='spinner'></div>
-      <h3 className='h3loading'>Loading...</h3>
-    </div>
-  )
-}
+
 
 function SanPhamLayout ({ opendetail, setopendetail, idloaisp }) {
   const { showToast } = useToast()
@@ -33,6 +26,15 @@ function SanPhamLayout ({ opendetail, setopendetail, idloaisp }) {
   const [selectedItems, setSelectedItems] = useState([])
   const [isOpenChuyenKhoFull, setIsOpenChuyenKhoFull] = useState(false)
 
+  const Loading = () => {
+  return (
+    <div className='loading-container'>
+      <div className='spinner'></div>
+      <h3 className='h3loading'>Loading...</h3>
+    </div>
+  )
+}
+
   const handleSelectAll = () => {
     const newSelectAll = !selectAll
     setSelectAll(newSelectAll)
@@ -43,6 +45,11 @@ function SanPhamLayout ({ opendetail, setopendetail, idloaisp }) {
     } else {
       setSelectedItems([])
     }
+  }
+  const OpenDetail = () => {
+    setopendetail(true)
+    setSelectedItems([])
+    setSelectAll(false)
   }
 
   const handleSelectItem = id => {
@@ -161,6 +168,8 @@ function SanPhamLayout ({ opendetail, setopendetail, idloaisp }) {
       if (data) {
         showToast(`Xuất kho thành công`)
         fetchData()
+        setSelectedItems([])
+        setSelectAll(false)
       } else {
         console.error('Failed to fetch data')
         showToast('xuất kho thất bại', 'error')
@@ -183,7 +192,7 @@ function SanPhamLayout ({ opendetail, setopendetail, idloaisp }) {
                   <FontAwesomeIcon
                     className='iconout'
                     icon={faLeftLong}
-                    onClick={() => setopendetail(true)}
+                    onClick={OpenDetail}
                   />
                   <h2 className='h2ncc'>Sản phẩm</h2>
                 </div>
@@ -285,6 +294,8 @@ function SanPhamLayout ({ opendetail, setopendetail, idloaisp }) {
                           onClose={handleCloseModalChuyenKhoFull}
                           selectedItems={selectedItems}
                           fetchData={fetchData}
+                          setSelectedItems={setSelectedItems}
+                          setSelectAll={setSelectAll}
                         />
                       </>
                     ))
