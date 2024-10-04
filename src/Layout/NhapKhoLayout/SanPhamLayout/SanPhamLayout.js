@@ -12,7 +12,8 @@ import { useToast } from '../../../components/GlobalStyles/ToastContext'
 // Component hiển thị khi đang loading
 
 
-function SanPhamLayout ({ opendetail, setopendetail, idloaisp }) {
+function SanPhamLayout ({ opendetail, setopendetail, idloaisp,setloadingsanpham,loadingsanpham
+ }) {
   const { showToast } = useToast()
   const [isOpen, setIsOpen] = useState(false)
   const [isOpenXuakho, setIsOpenXuakho] = useState(false)
@@ -21,7 +22,6 @@ function SanPhamLayout ({ opendetail, setopendetail, idloaisp }) {
   const [itemsPerPage, setItemsPerPage] = useState(9)
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
   const [khoID, setKhoID] = useState(localStorage.getItem('khoID') || '')
-  const [loading, setLoading] = useState(true) // Trạng thái loading
   const [selectAll, setSelectAll] = useState(false)
   const [selectedItems, setSelectedItems] = useState([])
   const [isOpenChuyenKhoFull, setIsOpenChuyenKhoFull] = useState(false)
@@ -132,10 +132,9 @@ function SanPhamLayout ({ opendetail, setopendetail, idloaisp }) {
 
   // Sử dụng useEffect để tạo thời gian chờ loading 5 giây
   useEffect(() => {
-    setLoading(true)
     fetchData()
     const timer = setTimeout(() => {
-      setLoading(false) // Sau 5 giây, tắt trạng thái loading
+      setloadingsanpham(false) // Sau 5 giây, tắt trạng thái loading
     }, 3000)
 
     return () => clearTimeout(timer) // Dọn dẹp bộ hẹn giờ nếu component bị hủy
@@ -181,7 +180,7 @@ function SanPhamLayout ({ opendetail, setopendetail, idloaisp }) {
 
   return (
     <>
-      {loading ? (
+      {loadingsanpham ? (
         <Loading /> // Hiển thị loading nếu đang tải
       ) : (
         !opendetail && (

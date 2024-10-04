@@ -16,7 +16,8 @@ import {
   faWrench,
   faShieldHalved,
   faTruckFast,
-  faUserGroup
+  faUserGroup,
+  faFileInvoiceDollar
 } from '@fortawesome/free-solid-svg-icons'
 import { publicRoutes } from '../../../router'
 import { Link, useLocation } from 'react-router-dom'
@@ -149,15 +150,15 @@ function Sidebar ({ isActive, setIsActive }) {
           {isDropdownOpenBaoCao && (
             <ul className='dropdown-menu'>
               <li
-                className={activeItem === '/thietlap/cauhinh' ? 'hovered' : ''}
-                onClick={() => handleItemClick('/thietlap/cauhinh')}
+                className={activeItem === '/doanhthu' ? 'hovered' : ''}
+                onClick={() => handleItemClick('/doanhthu')}
               >
-                <Link to={'/thietlap/cauhinh'}>
+                <Link to={'/doanhthu'}>
                   <a>
                     <span className='icon'>
                       <FontAwesomeIcon className='fonticon' icon={faWrench} />
                     </span>
-                    <span className='title'>Cấu hình</span>
+                    <span className='title'>Doanh Thu</span>
                   </a>
                 </Link>
               </li>
@@ -173,7 +174,7 @@ function Sidebar ({ isActive, setIsActive }) {
                         icon={faShieldHalved}
                       />
                     </span>
-                    <span className='title'>Bảo mật</span>
+                    <span className='title'>Công Nợ</span>
                   </a>
                 </Link>
               </li>
@@ -254,6 +255,20 @@ function Sidebar ({ isActive, setIsActive }) {
               </li>
             </ul>
           )}
+        </li>
+
+        <li
+          className={activeItem === '/hoadon' ? 'hovered' : ''}
+          onClick={() => handleItemClick('/hoadon')}
+        >
+          <Link to={'/hoadon'}>
+            <a>
+              <span className='icon'>
+                <FontAwesomeIcon className='fonticon' icon={faFileInvoiceDollar} />
+              </span>
+              <span className='title'>Hóa Đơn</span>
+            </a>
+          </Link>
         </li>
 
         <li

@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import './NhapKhoLayout.scss'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { AddLoHang } from './AddLoHang'
@@ -13,6 +13,7 @@ function NhapKhoLayout () {
   const [khoID, setKhoID] = useState(localStorage.getItem('khoID') || '')
   const [idlohang, setidlohang] = useState('')
   const [loading, setLoading] = useState(true)
+  const [loadingsanpham, setloadingsanpham] = useState(false)
 
   // Trạng thái phân trang
   const [currentPage, setCurrentPage] = useState(1)
@@ -83,10 +84,11 @@ function NhapKhoLayout () {
     setIsOpen(false)
   }
 
-  const handleLohang = id => {
+  const handleLohang = useCallback(id => {
     setidlohang(id)
+    setloadingsanpham(true)
     setopendetail(false)
-  }
+  }, [])
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -99,7 +101,6 @@ function NhapKhoLayout () {
 
     return () => clearInterval(intervalId)
   }, [khoID])
-
 
   // Tính toán mục để hiển thị cho trang hiện tại
   const indexOfLastItem = currentPage * itemsPerPage
@@ -116,10 +117,10 @@ function NhapKhoLayout () {
     setLoading(true)
     fetchData()
     const timer = setTimeout(() => {
-      setLoading(false) 
+      setLoading(false)
     }, 3000)
 
-    return () => clearTimeout(timer) 
+    return () => clearTimeout(timer)
   }, [khoID])
 
   return (
@@ -214,6 +215,8 @@ function NhapKhoLayout () {
         opendetail={opendetail}
         setopendetail={setopendetail}
         idloaisp={idlohang}
+        setloadingsanpham={setloadingsanpham}
+        loadingsanpham={loadingsanpham}
       />
     </>
   )

@@ -21,6 +21,10 @@ var _DieuChuyenLayout = require("~/Layout/DieuChuyenLayout");
 
 var _KhachHangLayout = require("~/Layout/KhachHangLayout");
 
+var _DoanhThuLayout = require("~/Layout/DoanhThuLayout");
+
+var _HoaDonLayout = require("~/Layout/HoaDonLayout");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var publicRoutes = [{
@@ -45,6 +49,12 @@ var publicRoutes = [{
 }, {
   path: '/dieuchuyen',
   component: _DieuChuyenLayout.DieuChuyenLayout
+}, {
+  path: '/doanhthu',
+  component: _DoanhThuLayout.DoanhThuLayout
+}, {
+  path: '/hoadon',
+  component: _HoaDonLayout.HoaDonLayout
 }, {
   path: '/register',
   component: _RegisterLayout.Register,
