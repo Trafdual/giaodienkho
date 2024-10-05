@@ -37,7 +37,6 @@ function FormAddImel ({ isOpen, onClose, loaispid, fetchData }) {
 
         if (data.message) {
           showToast(`${data.message}`, 'error')
-          onClose()
         } else {
           fetchData()
           handleClose()
