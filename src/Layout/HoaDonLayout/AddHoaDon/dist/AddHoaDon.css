@@ -35,3 +35,30 @@
 .btnhuyAddHoaDon:hover {
   background-color: #c20202;
 }
+
+.ulmangmasp {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 10px;
+}
+
+.mangmasp-item {
+  list-style: none;
+  border: 2px solid #ccc;
+  border-radius: 20px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  margin-bottom: 10px;
+}
+
+.remove-btn {
+  border: none;
+  margin-left: 10px;
+  background-color: white;
+}
+
+.remove-icon {
+  width: 10px;
+}

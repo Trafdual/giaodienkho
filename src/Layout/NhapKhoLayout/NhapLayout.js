@@ -173,13 +173,13 @@ function NhapKhoLayout () {
                             className='btnchitietncc'
                             onClick={() => handleLohang(ncc._id)}
                           >
-                            <h3>Chi tiết</h3>
+                           Chi tiết
                           </button>
                           <button
                             className='btncnncc'
                             onClick={() => setIsOpen(true)}
                           >
-                            <h3>Cập nhật</h3>
+                           Cập nhật
                           </button>
                         </td>
                       </tr>

@@ -8,12 +8,18 @@ import { ModalXuatKho } from './ModalXuatkho'
 import './SanPhamLayout.scss'
 import { ModalXuatKhoFull } from './ModalXuatKhoFull'
 import { useToast } from '../../../components/GlobalStyles/ToastContext'
+import Barcode from 'react-barcode'
+import { Modal } from '../../../components/Modal'
 
 // Component hiển thị khi đang loading
 
-
-function SanPhamLayout ({ opendetail, setopendetail, idloaisp,setloadingsanpham,loadingsanpham
- }) {
+function SanPhamLayout ({
+  opendetail,
+  setopendetail,
+  idloaisp,
+  setloadingsanpham,
+  loadingsanpham
+}) {
   const { showToast } = useToast()
   const [isOpen, setIsOpen] = useState(false)
   const [isOpenXuakho, setIsOpenXuakho] = useState(false)
@@ -25,15 +31,24 @@ function SanPhamLayout ({ opendetail, setopendetail, idloaisp,setloadingsanpham,
   const [selectAll, setSelectAll] = useState(false)
   const [selectedItems, setSelectedItems] = useState([])
   const [isOpenChuyenKhoFull, setIsOpenChuyenKhoFull] = useState(false)
+  const [printBarcodeItem, setPrintBarcodeItem] = useState(null)
+  const [openModalbarcode, setOpenmodalbarcode]=useState(false)
 
   const Loading = () => {
-  return (
-    <div className='loading-container'>
-      <div className='spinner'></div>
-      <h3 className='h3loading'>Loading...</h3>
-    </div>
-  )
-}
+    return (
+      <div className='loading-container'>
+        <div className='spinner'></div>
+        <h3 className='h3loading'>Loading...</h3>
+      </div>
+    )
+  }
+  const handlePrintBarcode = imel => {
+    setOpenmodalbarcode(true)
+    setPrintBarcodeItem(imel) // Lưu lại sản phẩm cần in
+    setTimeout(() => {
+      window.print() // Thực hiện in
+    }, 10000) // Đợi một chút trước khi gọi hàm in
+  }
 
   const handleSelectAll = () => {
     const newSelectAll = !selectAll
@@ -264,19 +279,25 @@ function SanPhamLayout ({ opendetail, setopendetail, idloaisp,setloadingsanpham,
                           )}
                           <td className='tdchucnang'>
                             <button className='btnchitietncc'>
-                              <h3>Chi tiết</h3>
+                              Chi tiết
                             </button>
                             <button className='btncnncc'>
-                              <h3>Cập nhật</h3>
+                              Cập nhật
                             </button>
                             {ncc.xuat === false && (
                               <button
                                 onClick={() => setIsOpenXuakho(true)}
                                 className='btncnncc'
                               >
-                                <h3>Xuất kho</h3>
+                                Xuất kho
                               </button>
                             )}
+                            <button
+                              className='btninimel'
+                              onClick={() => handlePrintBarcode(ncc.imel)}
+                            >
+                              In imel
+                            </button>
                           </td>
                         </tr>
                         <ModalXuatKho
@@ -326,6 +347,13 @@ function SanPhamLayout ({ opendetail, setopendetail, idloaisp,setloadingsanpham,
               setsanpham={setSanPham}
               fetchData={fetchData}
             />
+            
+              <Modal isOpen={openModalbarcode} onClose={() => setOpenmodalbarcode(false)}>
+                <div className='barcode-print'>
+                  <Barcode className = 'barcode-print1'  value={printBarcodeItem} />
+                </div>
+              </Modal>
+            
           </div>
         )
       )}

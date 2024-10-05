@@ -31,23 +31,25 @@
     border-top-left-radius: 30px;
     border-bottom-left-radius: 30px;
     margin-top: 10px;
+    cursor: pointer;
 }
 
-.navigation ul li:hover,
-.navigation ul li.hovered {
+
+.navigation ul .litong:hover,
+.navigation ul .litong.hovered {
     background: var(--white);
 }
 
-.navigation ul li.hovered {
+.navigation ul .litong.hovered {
     background-color: white!important;
     color: var(--blue)!important;
 }
 
-.navigation ul li:nth-child(1) {
+.navigation ul .litong:nth-child(1) {
     margin-bottom: 20px;
 }
 
-.navigation ul li a {
+.navigation ul .litong a {
     position: relative;
     display: block;
     width: 100%;
@@ -56,13 +58,28 @@
     color: var(--white);
     align-items: center;
 }
+.navigation ul .litong1 a {
+    position: relative;
+    display: block;
+    width: 100%;
+    display: flex;
+    text-decoration: none;
+    color: var(--white);
+    align-items: center;
+    &:hover{
+        background-color: var(--white);
+        color: var(--blue);
+        border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
+    }
+}
 
-.navigation ul li:hover a,
-.navigation ul li.hovered a {
+.navigation ul .litong:hover a,
+.navigation ul .litong.hovered a {
     color: var(--blue);
 }
 
-.navigation ul li a .icon {
+.navigation ul .litong a .icon {
     position: relative;
     display: block;
     min-width: 60px;
@@ -71,11 +88,11 @@
     text-align: center;
 }
 
-.navigation ul li a .icon .fonticon {
+.navigation ul .litong a .icon .fonticon {
     font-size: 1.25em;
 }
 
-.navigation ul li a .title {
+.navigation ul .litong a .title {
     position: relative;
     display: block;
     padding: 0 10px;
@@ -83,13 +100,33 @@
     cursor: pointer;
 }
 
+.navigation ul .litong1 a .icon {
+    position: relative;
+    display: block;
+    min-width: 60px;
+    height: 60px;
+    line-height: 70px;
+    text-align: center;
+}
+
+.navigation ul .litong1 a .icon .fonticon {
+    font-size: 1.25em;
+}
+
+.navigation ul .litong1 a .title {
+    position: relative;
+    display: block;
+    padding: 0 10px;
+    text-align: start;
+    cursor: pointer;
+}
 
 /* curve outside */
 
-.navigation ul li:hover a:not(.dropdown-menu li):hover::before,
-.navigation ul li.hovered a:not(.dropdown-menu li):hover::before,
-.navigation ul li:hover a:not(.dropdown-menu li):hover::after,
-.navigation ul li.hovered a:not(.dropdown-menu li):hover::after {
+.navigation ul .litong:hover a:not(.dropdown-menu li):hover::before,
+.navigation ul .litong.hovered a:not(.dropdown-menu li):hover::before,
+.navigation ul .litong:hover a:not(.dropdown-menu li):hover::after,
+.navigation ul .litong.hovered a:not(.dropdown-menu li):hover::after {
     content: '';
     position: absolute;
     right: 0;

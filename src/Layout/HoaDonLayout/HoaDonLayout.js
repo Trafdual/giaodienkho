@@ -153,7 +153,7 @@ function HoaDonLayout () {
     setTimeout(() => {
       newWindow.print()
       newWindow.close()
-    }, 500000) // Độ trễ 500ms
+    }, 10000) // Độ trễ 500ms
   }
 
   return (
