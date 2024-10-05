@@ -301,10 +301,10 @@ function Sidebar ({ isActive, setIsActive }) {
           {isDropdownOpen && (
             <ul className='dropdown-menu'>
               <li
-                className={`litong ${activeItem === '/thietlap/cauhinh' ? 'hovered' : ''}`}
-                onClick={() => handleItemClick('/thietlap/cauhinh')}
+                className={`litong ${activeItem === '/thietlap' ? 'hovered' : ''}`}
+                onClick={() => handleItemClick('/thietlap')}
               >
-                <Link to={'/thietlap/cauhinh'}>
+                <Link to={'/thietlap'}>
                   <a>
                     <span className='icon'>
                       <FontAwesomeIcon className='fonticon' icon={faWrench} />

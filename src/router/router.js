@@ -8,6 +8,7 @@ import { DieuChuyenLayout } from '~/Layout/DieuChuyenLayout'
 import { KhachHangLayout } from '~/Layout/KhachHangLayout'
 import { DoanhThuLayout } from '~/Layout/DoanhThuLayout'
 import { HoaDonLayout } from '~/Layout/HoaDonLayout'
+import { ThietLapLayout } from '~/Layout/ThietLapLayout'
 
 const publicRoutes = [
   { path: '/', component: Login, layout: null },
@@ -19,6 +20,7 @@ const publicRoutes = [
   { path: '/dieuchuyen', component: DieuChuyenLayout },
   { path: '/doanhthu', component: DoanhThuLayout },
   { path: '/hoadon', component: HoaDonLayout },
+  { path: '/thietlap', component: ThietLapLayout },
   { path: '/register', component: Register, layout: null }
 ]
 const privateRoutes = []
