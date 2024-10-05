@@ -17,7 +17,6 @@ function FormAddImel ({ isOpen, onClose, loaispid, fetchData }) {
   const [hasScanned, setHasScanned] = useState(false) // Biến để theo dõi đã quét thành công hay chưa
 
   const handleAddSanPham = async result => {
-    if (hasScanned === true) {
       try {
         const response = await fetch(
           `https://www.ansuataohanoi.com/postsp/${loaispid}`,
@@ -49,7 +48,6 @@ function FormAddImel ({ isOpen, onClose, loaispid, fetchData }) {
         showToast('Thêm lô hàng thất bại', 'error')
         handleClose()
       }
-    }
   }
 
   const handleClose = () => {
