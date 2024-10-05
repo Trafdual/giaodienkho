@@ -1,10 +1,54 @@
 import React, { useState } from 'react'
 import './DoanhThuLayout.scss' // Import file CSS để style trang
+import * as XLSX from 'xlsx' // Import thư viện xlsx
 
 function DoanhThuLayout () {
-  const [currentPeriod, setCurrentPeriod] = useState('Kỳ hiện tại') // Quản lý kỳ hiện tại (có thể thêm tùy chọn để thay đổi)
-  const [startDate, setStartDate] = useState('01/07/2024') // Quản lý ngày bắt đầu
-  const [endDate, setEndDate] = useState('31/07/2024') // Quản lý ngày kết thúc
+  const [currentPeriod, setCurrentPeriod] = useState('Kỳ hiện tại') // Quản lý kỳ hiện tại
+  const [startDate, setStartDate] = useState('2024-07-01') // Quản lý ngày bắt đầu
+  const [endDate, setEndDate] = useState('2024-07-31') // Quản lý ngày kết thúc
+
+  // Hàm xuất dữ liệu ra file Excel
+  const exportToExcel = () => {
+    // Tạo dữ liệu cần xuất
+    const data = [
+      {
+        'Khoản mục': '1. Doanh thu bán hàng',
+        'Kỳ hiện tại': 238533826,
+        'Kỳ trước': 41055000,
+        'Thay đổi (%)': '-83%',
+        'Thay đổi (Số tiền)': -197478826
+      },
+      {
+        'Khoản mục': '2. Tiền hàng bán ra',
+        'Kỳ hiện tại': 238533826,
+        'Kỳ trước': 41055000,
+        'Thay đổi (%)': '-83%',
+        'Thay đổi (Số tiền)': -197478826
+      },
+      {
+        'Khoản mục': '1. Chi phí giá vốn hàng hóa',
+        'Kỳ hiện tại': 214328166,
+        'Kỳ trước': 41047425,
+        'Thay đổi (%)': '-81%',
+        'Thay đổi (Số tiền)': -173280741
+      },
+      {
+        'Khoản mục': 'Lợi nhuận',
+        'Kỳ hiện tại': 24205660,
+        'Kỳ trước': 41047575,
+        'Thay đổi (%)': '-100%',
+        'Thay đổi (Số tiền)': -24198085
+      }
+    ]
+
+    // Tạo workbook và worksheet
+    const worksheet = XLSX.utils.json_to_sheet(data)
+    const workbook = XLSX.utils.book_new()
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Doanh Thu')
+
+    // Xuất file
+    XLSX.writeFile(workbook, `Doanh_Thu_${currentPeriod}.xlsx`)
+  }
 
   return (
     <div className='doanh-thu-layout'>
@@ -102,7 +146,9 @@ function DoanhThuLayout () {
 
       <div className='actions'>
         <button className='btn-print'>In</button>
-        <button className='btn-export'>Xuất Excel</button>
+        <button className='btn-export' onClick={exportToExcel}>
+          Xuất Excel
+        </button>
       </div>
     </div>
   )

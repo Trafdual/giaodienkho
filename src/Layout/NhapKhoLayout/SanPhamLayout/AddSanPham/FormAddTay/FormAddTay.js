@@ -3,7 +3,7 @@ import { useState, useCallback } from 'react'
 import { Modal } from '../../../../../components/Modal'
 import { useToast } from '../../../../../components/GlobalStyles/ToastContext'
 
-function FormAddTay ({ isOpen, onClose, loaispid, setsanpham, fetchData }) {
+function FormAddTay ({ isOpen, onClose, loaispid, fetchData }) {
   const [name, setName] = useState('')
   const [imel, setimel] = useState('')
   const [dungluong, setdungluong] = useState('')

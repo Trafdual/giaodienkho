@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useRef, useEffect, useState } from 'react'
 import { Modal } from '../../../../../components/Modal'
 import {
@@ -6,12 +7,50 @@ import {
   BarcodeFormat
 } from '@zxing/library'
 import './FormAddImel.scss'
+import { useToast } from '../../../../../components/GlobalStyles/ToastContext'
 
-function FormAddImel ({ isOpen, onClose, loaispid, setsanpham }) {
+function FormAddImel ({ isOpen, onClose, loaispid, fetchData }) {
   const [barcodeData, setBarcodeData] = useState('')
   const videoRef = useRef(null)
+  const { showToast } = useToast()
   const [isScanning, setIsScanning] = useState(false)
   const [hasScanned, setHasScanned] = useState(false) // Biến để theo dõi đã quét thành công hay chưa
+
+  const handleAddSanPham = async result => {
+    if (hasScanned === true) {
+      try {
+        const response = await fetch(
+          `https://www.ansuataohanoi.com/postsp/${loaispid}`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              imel: result,
+              capacity: '',
+              name: '',
+              color: ''
+            })
+          }
+        )
+        const data = await response.json()
+
+        if (data.message) {
+          showToast(`${data.message}`, 'error')
+          onClose()
+        } else {
+          fetchData()
+          handleClose()
+          showToast('Thêm sản phẩm thành công')
+        }
+      } catch (error) {
+        console.error('Lỗi khi gửi yêu cầu thêm sản phẩm:', error)
+        showToast('Thêm lô hàng thất bại', 'error')
+        handleClose()
+      }
+    }
+  }
 
   const handleClose = () => {
     onClose()
@@ -61,6 +100,7 @@ function FormAddImel ({ isOpen, onClose, loaispid, setsanpham }) {
                 setBarcodeData(result.text)
                 setIsScanning(false) // Stop scanning after a successful scan
                 setHasScanned(true) // Đánh dấu đã quét thành công
+                handleAddSanPham(result.text)
               }
               if (error && !result) {
                 if (error.name !== 'NotFoundException') {

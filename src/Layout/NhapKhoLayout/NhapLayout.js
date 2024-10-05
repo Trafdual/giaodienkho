@@ -164,8 +164,8 @@ function NhapKhoLayout () {
                         {!isMobile && (
                           <>
                             <td>{ncc.date}</td>
-                            <td>{ncc.tongtien}</td>
-                            <td>{ncc.average}</td>
+                            <td>{ncc.tongtien.toLocaleString()} VNĐ</td>
+                            <td>{ncc.average.toLocaleString()} VNĐ</td>
                           </>
                         )}
                         <td className='tdchucnang'>
