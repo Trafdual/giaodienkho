@@ -1,0 +1,44 @@
+.supplier-table-container {
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.supplier-info-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.supplier-info-table th,
+.supplier-info-table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.supplier-info-table tr:hover {
+    background-color: #f1f1f1;
+    /* Đổi màu khi hover */
+}
+.divinputncc {
+    width: 100%;
+    text-align: center;
+    margin-top: 30px;
+    display: flex;
+    align-items: center;
+}
+.divChonncc{
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-bottom: 10px;
+    margin-left: 10px;
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+.iconNcc{
+    border-left: 2px solid gray;
+    margin-left: 10px;
+    width: 30px;
+}

@@ -10,7 +10,8 @@ import { ModalXuatKhoFull } from './ModalXuatKhoFull'
 import { useToast } from '../../../components/GlobalStyles/ToastContext'
 import Barcode from 'react-barcode'
 import { Modal } from '../../../components/Modal'
-
+import jsPDF from 'jspdf'
+import html2canvas from 'html2canvas'
 // Component hiển thị khi đang loading
 
 function SanPhamLayout ({
@@ -32,7 +33,7 @@ function SanPhamLayout ({
   const [selectedItems, setSelectedItems] = useState([])
   const [isOpenChuyenKhoFull, setIsOpenChuyenKhoFull] = useState(false)
   const [printBarcodeItem, setPrintBarcodeItem] = useState(null)
-  const [openModalbarcode, setOpenmodalbarcode]=useState(false)
+  const [openModalbarcode, setOpenmodalbarcode] = useState(false)
 
   const Loading = () => {
     return (
@@ -42,13 +43,52 @@ function SanPhamLayout ({
       </div>
     )
   }
-  const handlePrintBarcode = imel => {
-    setOpenmodalbarcode(true)
-    setPrintBarcodeItem(imel) // Lưu lại sản phẩm cần in
-    setTimeout(() => {
-      window.print() // Thực hiện in
-    }, 10000) // Đợi một chút trước khi gọi hàm in
+const handlePrintBarcode = imel => {
+  setOpenmodalbarcode(true)
+  setPrintBarcodeItem(imel) // Lưu lại sản phẩm cần in
+
+  const checkIfElementReady = () => {
+    const barcodeElement = document.querySelector('.barcode-print1')
+    if (barcodeElement && barcodeElement.offsetHeight > 0) {
+      window.print() // Thực hiện in khi barcode đã sẵn sàng
+      setOpenmodalbarcode(false) // Đóng modal sau khi in xong
+    } else {
+      setTimeout(checkIfElementReady, 500) // Kiểm tra lại sau 500ms nếu chưa sẵn sàng
+    }
   }
+
+  setTimeout(checkIfElementReady, 500) // Kiểm tra sau 500ms
+}
+
+const handleExportPDFBarcode = async imel => {
+  setOpenmodalbarcode(true)
+  setPrintBarcodeItem(imel) // Lưu lại sản phẩm cần xuất PDF
+
+  // Đợi một chút để modal render xong
+  setTimeout(async () => {
+    const barcodeElement = document.querySelector('.barcode-print') // Chọn phần tử chứa mã barcode
+
+    // Chụp ảnh phần tử barcode dưới dạng canvas
+    const canvas = await html2canvas(barcodeElement, {
+      scale: 2 // Tăng độ phân giải của ảnh lên để giữ chi tiết rõ nét hơn
+    })
+
+    const imgData = canvas.toDataURL('image/png') // Lấy dữ liệu hình ảnh
+
+    const pdf = new jsPDF() // Tạo một đối tượng PDF
+
+    // Lấy kích thước barcode từ canvas để chèn vào PDF với tỉ lệ chính xác
+    const imgWidth = canvas.width / 4 // Tính toán chiều rộng (giảm bớt kích thước)
+    const imgHeight = canvas.height / 4 // Tính toán chiều cao tương ứng
+
+    pdf.addImage(imgData, 'PNG', 10, 10, imgWidth, imgHeight) // Thêm hình ảnh vào file PDF với kích thước chuẩn
+
+    pdf.save(`${imel}_barcode.pdf`) // Lưu file PDF
+    setOpenmodalbarcode(false) // Đóng modal sau khi xuất PDF xong
+  }, 1000) // Đợi 1 giây để đảm bảo modal đã render
+}
+
+
 
   const handleSelectAll = () => {
     const newSelectAll = !selectAll
@@ -278,12 +318,8 @@ function SanPhamLayout ({
                             </>
                           )}
                           <td className='tdchucnang'>
-                            <button className='btnchitietncc'>
-                              Chi tiết
-                            </button>
-                            <button className='btncnncc'>
-                              Cập nhật
-                            </button>
+                            <button className='btnchitietncc'>Chi tiết</button>
+                            <button className='btncnncc'>Cập nhật</button>
                             {ncc.xuat === false && (
                               <button
                                 onClick={() => setIsOpenXuakho(true)}
@@ -297,6 +333,12 @@ function SanPhamLayout ({
                               onClick={() => handlePrintBarcode(ncc.imel)}
                             >
                               In imel
+                            </button>
+                            <button
+                              className='btninimel'
+                              onClick={() => handleExportPDFBarcode(ncc.imel)}
+                            >
+                             xuất pdf
                             </button>
                           </td>
                         </tr>
@@ -347,13 +389,15 @@ function SanPhamLayout ({
               setsanpham={setSanPham}
               fetchData={fetchData}
             />
-            
-              <Modal isOpen={openModalbarcode} onClose={() => setOpenmodalbarcode(false)}>
-                <div className='barcode-print'>
-                  <Barcode className = 'barcode-print1'  value={printBarcodeItem} />
-                </div>
-              </Modal>
-            
+
+            <Modal
+              isOpen={openModalbarcode}
+              onClose={() => setOpenmodalbarcode(false)}
+            >
+              <div className='barcode-print'>
+                <Barcode className='barcode-print1' value={printBarcodeItem} />
+              </div>
+            </Modal>
           </div>
         )
       )}

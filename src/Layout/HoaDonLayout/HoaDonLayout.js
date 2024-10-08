@@ -1,9 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import './HoaDonLayout.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { AddHoaDon } from './AddHoaDon'
+import { useReactToPrint } from 'react-to-print'
+import Invoice from './Invoice'
 
 function HoaDonLayout () {
   const [isOpen, setIsOpen] = useState(false)
@@ -11,6 +13,8 @@ function HoaDonLayout () {
   const [currentPage, setCurrentPage] = useState(1)
   const itemsPerPage = 10
   const [khoID, setKhoID] = useState(localStorage.getItem('khoID') || '')
+  const componentRef = useRef() // Tạo ref để in
+  const [selectedInvoice, setSelectedInvoice] = useState(null)
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -50,6 +54,9 @@ function HoaDonLayout () {
   const handlePageChange = pageNumber => {
     setCurrentPage(pageNumber)
   }
+  const handlePrint1 = useReactToPrint({
+    content: () => componentRef.current // Chỉ định phần nội dung cần in
+  })
 
   const handlePrint = hd => {
     const printContent = `
@@ -157,13 +164,17 @@ function HoaDonLayout () {
   }
 
   return (
-    <div className='hoa-don-layout'>
+    <div className='hoa-don-layout' ref={componentRef}>
       <div className='headernhap'>
         <h2 className='divncc'>Hóa đơn</h2>
         <button className='btnthemlo' onClick={() => setIsOpen(true)}>
           <FontAwesomeIcon className='iconncc' icon={faPlus} />
           <h3>Thêm Hóa Đơn</h3>
         </button>
+      </div>
+
+      <div ref={componentRef}>
+        {selectedInvoice && <Invoice hd={selectedInvoice} />}
       </div>
 
       <table className='table-hoa-don'>
@@ -186,7 +197,13 @@ function HoaDonLayout () {
                 <td>{hd.tongtien ? hd.tongtien.toLocaleString() : 0} VNĐ</td>
                 <td>
                   <button className='btn-view'>chi tiết</button>
-                  <button className='btn-print' onClick={() => handlePrint(hd)}>
+                  <button
+                    className='btn-print'
+                    onClick={() => {
+                      setSelectedInvoice(hd) // Đặt hóa đơn được chọn
+                      handlePrint() // Gọi hàm in
+                    }}
+                  >
                     In
                   </button>
                 </td>
