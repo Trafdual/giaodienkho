@@ -68,15 +68,18 @@
 .action-menu {
   display: flex;
   align-items: center;
-  background-color: #f1f1f1;
-  padding: 10px;
+  background-color: #014aab;
   margin-bottom: 10px;
   border-radius: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 .action-menu h4 {
   margin: 0;
   font-size: 16px;
+  margin-right: 5px;
+  color: white;
 }
 
 .action-menu .btn-xoa,
@@ -87,8 +90,8 @@
   background-color: #007bff;
   color: white;
   border: none;
-  border-radius: 3px;
-  margin-left: 10px;
+  border-left: 1px solid white;
+  height: 50px;
 }
 
 .action-menu .btn-xoa:hover,
@@ -157,4 +160,13 @@
     width: 100%;
     height: auto;
   }
+}
+.iconMenuSanPham {
+  width: 20px;
+}
+
+.disabled {
+  background-color: #013874 !important;
+  color: gray !important;
+  border-left: 1px solid black !important;
 }

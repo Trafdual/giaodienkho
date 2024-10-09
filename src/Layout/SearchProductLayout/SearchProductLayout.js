@@ -1,34 +1,25 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
+import { useLocation } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import Barcode from 'react-barcode'
+import { Modal } from '../../components/Modal'
+import { useToast } from '../../components/GlobalStyles/ToastContext'
+import { ModalXuatKhoFull } from './ModalXuatKhoFull'
+import { ModalXuatKho } from './ModalXuatkho'
+import jsPDF from 'jspdf'
+import html2canvas from 'html2canvas'
 import {
-  faLeftLong,
-  faPlus,
+  faPen,
   faTrashCan,
   faTruckFast,
   faWarehouse
 } from '@fortawesome/free-solid-svg-icons'
 
-import { AddSanPham } from './AddSanPham'
-import { ModalXuatKho } from './ModalXuatkho'
-import './SanPhamLayout.scss'
-import { ModalXuatKhoFull } from './ModalXuatKhoFull'
-import { useToast } from '../../../components/GlobalStyles/ToastContext'
-import Barcode from 'react-barcode'
-import { Modal } from '../../../components/Modal'
-import jsPDF from 'jspdf'
-import html2canvas from 'html2canvas'
-// Component hiển thị khi đang loading
-
-function SanPhamLayout ({
-  opendetail,
-  setopendetail,
-  idloaisp,
-  setloadingsanpham,
-  loadingsanpham
-}) {
+function SearchProductLayout ({ loadingsanpham, opendetail }) {
+  const location = useLocation()
+  const { products } = location.state || { products: [] }
+  console.log(products)
   const { showToast } = useToast()
-  const [isOpen, setIsOpen] = useState(false)
   const [isOpenXuakho, setIsOpenXuakho] = useState(false)
   const [SanPham, setSanPham] = useState([])
   const [currentPage, setCurrentPage] = useState(1)
@@ -40,6 +31,12 @@ function SanPhamLayout ({
   const [isOpenChuyenKhoFull, setIsOpenChuyenKhoFull] = useState(false)
   const [printBarcodeItem, setPrintBarcodeItem] = useState(null)
   const [openModalbarcode, setOpenmodalbarcode] = useState(false)
+
+  useEffect(() => {
+    if (products && products.length > 0) {
+      setSanPham(products)
+    }
+  }, [products])
 
   const Loading = () => {
     return (
@@ -105,11 +102,6 @@ function SanPhamLayout ({
       setSelectedItems([])
     }
   }
-  const OpenDetail = () => {
-    setopendetail(true)
-    setSelectedItems([])
-    setSelectAll(false)
-  }
 
   const handleSelectItem = id => {
     let updatedSelectedItems = [...selectedItems]
@@ -154,50 +146,12 @@ function SanPhamLayout ({
     }
   }, [])
 
-  const handleCloseModal = () => {
-    setIsOpen(false)
-  }
   const handleCloseModalXuakho = () => {
     setIsOpenXuakho(false)
   }
   const handleCloseModalChuyenKhoFull = () => {
     setIsOpenChuyenKhoFull(false)
   }
-
-  const fetchData = async () => {
-    if (!idloaisp) return
-
-    try {
-      const response = await fetch(
-        `https://www.ansuataohanoi.com/getsanpham/${idloaisp}`,
-        {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        }
-      )
-
-      if (response.ok) {
-        const data = await response.json()
-        setSanPham(data)
-      } else {
-        console.error('Failed to fetch data')
-      }
-    } catch (error) {
-      console.error('Error fetching data:', error)
-    }
-  }
-
-  // Sử dụng useEffect để tạo thời gian chờ loading 5 giây
-  useEffect(() => {
-    fetchData()
-    const timer = setTimeout(() => {
-      setloadingsanpham(false) // Sau 5 giây, tắt trạng thái loading
-    }, 3000)
-
-    return () => clearTimeout(timer) // Dọn dẹp bộ hẹn giờ nếu component bị hủy
-  }, [idloaisp])
 
   const indexOfLastItem = currentPage * itemsPerPage
   const indexOfFirstItem = indexOfLastItem - itemsPerPage
@@ -208,36 +162,31 @@ function SanPhamLayout ({
     setCurrentPage(pageNumber)
   }
   const XuatKhoHangLoat = async () => {
-    if (selectedItems.length > 0) {
-      try {
-        const response = await fetch(
-          `https://www.ansuataohanoi.com/xuatkho1/${idloaisp}/${khoID}`,
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-              idsanpham1: selectedItems
-            })
-          }
-        )
-        const data = await response.json()
-
-        if (data) {
-          showToast(`Xuất kho thành công`)
-          fetchData()
-          setSelectedItems([])
-          setSelectAll(false)
-        } else {
-          console.error('Failed to fetch data')
-          showToast('xuất kho thất bại', 'error')
+    try {
+      const response = await fetch(
+        `https://www.ansuataohanoi.com/xuatkho1/${khoID}`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            idsanpham1: selectedItems
+          })
         }
-      } catch (error) {
-        console.error('Error fetching data:', error)
+      )
+      const data = await response.json()
+
+      if (data) {
+        showToast(`Xuất kho thành công`)
+        setSelectedItems([])
+        setSelectAll(false)
+      } else {
+        console.error('Failed to fetch data')
+        showToast('xuất kho thất bại', 'error')
       }
-    } else {
-      showToast('Chưa chọn sản phẩm để xuất kho', 'error')
+    } catch (error) {
+      console.error('Error fetching data:', error)
     }
   }
 
@@ -249,30 +198,17 @@ function SanPhamLayout ({
         !opendetail && (
           <div className='detailsnhap'>
             <div className='recentOrdersnhap'>
-              <div className='headernhap'>
-                <div className='divncc'>
-                  <FontAwesomeIcon
-                    className='iconout'
-                    icon={faLeftLong}
-                    onClick={OpenDetail}
-                  />
-                  <h2 className='h2ncc'>Sản phẩm</h2>
-                </div>
-              </div>
-
               <div className='action-menu'>
-                <h4>{selectedItems.length} sản phẩm được chọn</h4>
+                <h4>{selectedItems.length} sản phẩm được chọn</h4>;
                 <button
-                  className='btn-xoa'
-                  onClick={() => setIsOpen(true)}
+                  className={`btn-xoa ${
+                    selectedItems.length > 1 ? 'disabled' : ''
+                  }`}
+                  disabled={selectedItems.length > 1}
                 >
-                  <FontAwesomeIcon
-                    icon={faPlus}
-                    className='iconMenuSanPham'
-                  />
-                 Thêm sản phẩm
+                  <FontAwesomeIcon icon={faPen} className='iconMenuSanPham' />
+                  Sửa
                 </button>
-
                 <button
                   className={`btn-xoa ${
                     selectedItems.length === 0 ? 'disabled' : ''
@@ -289,27 +225,27 @@ function SanPhamLayout ({
                   className={`btn-xuat ${
                     selectedItems.length === 0 ? 'disabled' : ''
                   }`}
-                  onClick={XuatKhoHangLoat}
                   disabled={selectedItems.length === 0}
+                  onClick={XuatKhoHangLoat}
                 >
                   <FontAwesomeIcon
                     icon={faWarehouse}
                     className='iconMenuSanPham'
                   />
-                  Xuất Kho
+                  Xuất kho
                 </button>
                 <button
                   className={`btn-xuat ${
                     selectedItems.length === 0 ? 'disabled' : ''
                   }`}
-                  onClick={() => setIsOpenChuyenKhoFull(true)}
                   disabled={selectedItems.length === 0}
+                  onClick={() => setIsOpenChuyenKhoFull(true)}
                 >
                   <FontAwesomeIcon
                     icon={faTruckFast}
                     className='iconMenuSanPham'
                   />
-                  Chuyển Kho
+                  Chuyển kho
                 </button>
               </div>
 
@@ -381,15 +317,12 @@ function SanPhamLayout ({
                           onClose={handleCloseModalXuakho}
                           setsanpham={setSanPham}
                           idsanpham={ncc._id}
-                          idloaisp={idloaisp}
                           khoID={khoID}
-                          fetchData={fetchData}
                         />
                         <ModalXuatKhoFull
                           isOpen={isOpenChuyenKhoFull}
                           onClose={handleCloseModalChuyenKhoFull}
                           selectedItems={selectedItems}
-                          fetchData={fetchData}
                           setSelectedItems={setSelectedItems}
                           setSelectAll={setSelectAll}
                         />
@@ -416,14 +349,6 @@ function SanPhamLayout ({
                 ))}
               </div>
             </div>
-            <AddSanPham
-              isOpen={isOpen}
-              onClose={handleCloseModal}
-              loaispid={idloaisp}
-              setsanpham={setSanPham}
-              fetchData={fetchData}
-            />
-
             <Modal
               isOpen={openModalbarcode}
               onClose={() => setOpenmodalbarcode(false)}
@@ -439,4 +364,4 @@ function SanPhamLayout ({
   )
 }
 
-export default SanPhamLayout
+export default SearchProductLayout

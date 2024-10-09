@@ -55,6 +55,23 @@
             cursor: pointer;
         }
         
+        .search-button {
+            position: absolute;
+            right: 0;
+            top: -10px;
+            height: 40px;
+            padding: 0 15px;
+            border: none;
+            background-color: var(--blue);
+            color: white;
+            border-top-right-radius: 20px;
+            border-bottom-right-radius: 20px;
+            cursor: pointer;
+        }
+
+        .search-button:hover {
+            background-color: rgb(2, 55, 104);
+        }
         .user {
             position: relative;
             width: 500px;
