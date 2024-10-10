@@ -72,7 +72,7 @@
 .action-menu {
     display: flex;
     align-items: center;
-    background-color: #014aab;
+    background-color: var(--blue);
     margin-bottom: 10px;
     border-radius: 5px;
     padding-left: 10px;
@@ -91,16 +91,16 @@
     padding: 5px 10px;
     font-size: 15px;
     cursor: pointer;
-    background-color: #007bff;
+    background-color: var(--blue);
     color: white;
     border: none;
-    border-left: 1px solid rgb(255, 255, 255);
+    border-left: 1px solid white;
     height: 50px;
 }
 
 .action-menu .btn-xoa:hover,
 .action-menu .btn-xuat:hover {
-    background-color: #0056b3;
+    background-color: #3e6a9c;
 }
 
 .barcode-print {
@@ -173,7 +173,7 @@
 }
 
 .disabled {
-    background-color: #013874 !important;
-    color: gray  !important;
+    background-color: var(--blue) !important;
+    color: #333333 !important;
     border-left: 1px solid black !important;
 }

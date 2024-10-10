@@ -9,6 +9,8 @@ import { ModalXuatKho } from './ModalXuatkho'
 import jsPDF from 'jspdf'
 import html2canvas from 'html2canvas'
 import {
+  faBarcode,
+  faEye,
   faPen,
   faTrashCan,
   faTruckFast,
@@ -199,7 +201,7 @@ function SearchProductLayout ({ loadingsanpham, opendetail }) {
           <div className='detailsnhap'>
             <div className='recentOrdersnhap'>
               <div className='action-menu'>
-                <h4>{selectedItems.length} sản phẩm được chọn</h4>;
+                <h4>{selectedItems.length} sản phẩm được chọn</h4>
                 <button
                   className={`btn-xoa ${
                     selectedItems.length > 1 ? 'disabled' : ''
@@ -209,6 +211,16 @@ function SearchProductLayout ({ loadingsanpham, opendetail }) {
                   <FontAwesomeIcon icon={faPen} className='iconMenuSanPham' />
                   Sửa
                 </button>
+                <button
+                  className={`btn-xoa ${
+                    selectedItems.length > 1 ? 'disabled' : ''
+                  }`}
+                  disabled={selectedItems.length > 1}
+                >
+                  <FontAwesomeIcon icon={faEye} className='iconMenuSanPham' />
+                  Xem
+                </button>
+
                 <button
                   className={`btn-xoa ${
                     selectedItems.length === 0 ? 'disabled' : ''
@@ -246,6 +258,19 @@ function SearchProductLayout ({ loadingsanpham, opendetail }) {
                     className='iconMenuSanPham'
                   />
                   Chuyển kho
+                </button>
+                <button
+                  className={`btn-xuat ${
+                    selectedItems.length === 0 ? 'disabled' : ''
+                  }`}
+                  disabled={selectedItems.length === 0}
+                  onClick={() => handlePrintBarcode(selectedItems.imel)}
+                >
+                  <FontAwesomeIcon
+                    icon={faBarcode}
+                    className='iconMenuSanPham'
+                  />
+                  In tem Imel
                 </button>
               </div>
 

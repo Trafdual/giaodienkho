@@ -2,7 +2,10 @@
 import { useState, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
+  faBarcode,
+  faEye,
   faLeftLong,
+  faPen,
   faPlus,
   faTrashCan,
   faTruckFast,
@@ -16,8 +19,8 @@ import { ModalXuatKhoFull } from './ModalXuatKhoFull'
 import { useToast } from '../../../components/GlobalStyles/ToastContext'
 import Barcode from 'react-barcode'
 import { Modal } from '../../../components/Modal'
-import jsPDF from 'jspdf'
-import html2canvas from 'html2canvas'
+// import jsPDF from 'jspdf'
+// import html2canvas from 'html2canvas'
 // Component hiển thị khi đang loading
 
 function SanPhamLayout ({
@@ -66,33 +69,33 @@ function SanPhamLayout ({
     setTimeout(checkIfElementReady, 500) // Kiểm tra sau 500ms
   }
 
-  const handleExportPDFBarcode = async imel => {
-    setOpenmodalbarcode(true)
-    setPrintBarcodeItem(imel) // Lưu lại sản phẩm cần xuất PDF
+  // const handleExportPDFBarcode = async imel => {
+  //   setOpenmodalbarcode(true)
+  //   setPrintBarcodeItem(imel) // Lưu lại sản phẩm cần xuất PDF
 
-    // Đợi một chút để modal render xong
-    setTimeout(async () => {
-      const barcodeElement = document.querySelector('.barcode-print') // Chọn phần tử chứa mã barcode
+  //   // Đợi một chút để modal render xong
+  //   setTimeout(async () => {
+  //     const barcodeElement = document.querySelector('.barcode-print') // Chọn phần tử chứa mã barcode
 
-      // Chụp ảnh phần tử barcode dưới dạng canvas
-      const canvas = await html2canvas(barcodeElement, {
-        scale: 2 // Tăng độ phân giải của ảnh lên để giữ chi tiết rõ nét hơn
-      })
+  //     // Chụp ảnh phần tử barcode dưới dạng canvas
+  //     const canvas = await html2canvas(barcodeElement, {
+  //       scale: 2 // Tăng độ phân giải của ảnh lên để giữ chi tiết rõ nét hơn
+  //     })
 
-      const imgData = canvas.toDataURL('image/png') // Lấy dữ liệu hình ảnh
+  //     const imgData = canvas.toDataURL('image/png') // Lấy dữ liệu hình ảnh
 
-      const pdf = new jsPDF() // Tạo một đối tượng PDF
+  //     const pdf = new jsPDF() // Tạo một đối tượng PDF
 
-      // Lấy kích thước barcode từ canvas để chèn vào PDF với tỉ lệ chính xác
-      const imgWidth = canvas.width / 4 // Tính toán chiều rộng (giảm bớt kích thước)
-      const imgHeight = canvas.height / 4 // Tính toán chiều cao tương ứng
+  //     // Lấy kích thước barcode từ canvas để chèn vào PDF với tỉ lệ chính xác
+  //     const imgWidth = canvas.width / 4 // Tính toán chiều rộng (giảm bớt kích thước)
+  //     const imgHeight = canvas.height / 4 // Tính toán chiều cao tương ứng
 
-      pdf.addImage(imgData, 'PNG', 10, 10, imgWidth, imgHeight) // Thêm hình ảnh vào file PDF với kích thước chuẩn
+  //     pdf.addImage(imgData, 'PNG', 10, 10, imgWidth, imgHeight) // Thêm hình ảnh vào file PDF với kích thước chuẩn
 
-      pdf.save(`${imel}_barcode.pdf`) // Lưu file PDF
-      setOpenmodalbarcode(false) // Đóng modal sau khi xuất PDF xong
-    }, 1000) // Đợi 1 giây để đảm bảo modal đã render
-  }
+  //     pdf.save(`${imel}_barcode.pdf`) // Lưu file PDF
+  //     setOpenmodalbarcode(false) // Đóng modal sau khi xuất PDF xong
+  //   }, 1000) // Đợi 1 giây để đảm bảo modal đã render
+  // }
 
   const handleSelectAll = () => {
     const newSelectAll = !selectAll
@@ -262,15 +265,30 @@ function SanPhamLayout ({
 
               <div className='action-menu'>
                 <h4>{selectedItems.length} sản phẩm được chọn</h4>
+                <button className='btn-xoa' onClick={() => setIsOpen(true)}>
+                  <FontAwesomeIcon icon={faPlus} className='iconMenuSanPham' />
+                  Thêm sản phẩm
+                </button>
                 <button
-                  className='btn-xoa'
-                  onClick={() => setIsOpen(true)}
+                  className={`btn-xoa ${
+                    selectedItems.length > 1 ? 'disabled' : ''
+                  }`}
+                  disabled={selectedItems.length > 1}
+                >
+                  <FontAwesomeIcon icon={faPen} className='iconMenuSanPham' />
+                  Sửa
+                </button>
+                <button
+                  className={`btn-xoa ${
+                    selectedItems.length >1 ? 'disabled' : ''
+                  }`}
+                  disabled={selectedItems.length >1}
                 >
                   <FontAwesomeIcon
-                    icon={faPlus}
+                    icon={faEye}
                     className='iconMenuSanPham'
                   />
-                 Thêm sản phẩm
+                  Xem
                 </button>
 
                 <button
@@ -285,6 +303,7 @@ function SanPhamLayout ({
                   />
                   Xóa
                 </button>
+
                 <button
                   className={`btn-xuat ${
                     selectedItems.length === 0 ? 'disabled' : ''
@@ -311,6 +330,19 @@ function SanPhamLayout ({
                   />
                   Chuyển Kho
                 </button>
+                <button
+                  className={`btn-xuat ${
+                    selectedItems.length === 0 ? 'disabled' : ''
+                  }`}
+                  disabled={selectedItems.length === 0}
+                  onClick={() => handlePrintBarcode(selectedItems.imel)}
+                >
+                  <FontAwesomeIcon
+                    icon={faBarcode}
+                    className='iconMenuSanPham'
+                  />
+                  In tem Imel
+                </button>
               </div>
 
               <table className='tablenhap'>
@@ -334,7 +366,7 @@ function SanPhamLayout ({
                         <td className='tdnhap'>Trạng thái xuất kho</td>
                       </>
                     )}
-                    <td className='tdnhap'>Chức năng</td>
+                    {/* <td className='tdnhap'>Chức năng</td> */}
                   </tr>
                 </thead>
                 <tbody className='tbodynhap'>
@@ -359,22 +391,14 @@ function SanPhamLayout ({
                               <td>{ncc.xuat ? 'đã xuất' : 'tồn kho'}</td>
                             </>
                           )}
-                          <td className='tdchucnang'>
-                            <button className='btnchitietncc'>Chi tiết</button>
-                            <button className='btncnncc'>Cập nhật</button>
-                            <button
-                              className='btninimel'
-                              onClick={() => handlePrintBarcode(ncc.imel)}
-                            >
-                              In imel
-                            </button>
+                          {/* <td className='tdchucnang'>
                             <button
                               className='btninimel'
                               onClick={() => handleExportPDFBarcode(ncc.imel)}
                             >
                               xuất pdf
                             </button>
-                          </td>
+                          </td> */}
                         </tr>
                         <ModalXuatKho
                           isOpen={isOpenXuakho}

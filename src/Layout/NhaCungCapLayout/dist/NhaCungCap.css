@@ -45,6 +45,7 @@
 
 .tablenhap td {
   padding-top: 10px;
+  cursor: col-resize;
 }
 
 .btnthemlo {
