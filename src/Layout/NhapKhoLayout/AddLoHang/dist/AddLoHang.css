@@ -9,6 +9,7 @@
 .supplier-info-table {
   width: 100%;
   border-collapse: collapse;
+  color: black;
 }
 
 .supplier-info-table th,
@@ -18,8 +19,10 @@
   border-bottom: 1px solid #ddd;
 }
 
-.supplier-info-table tr:hover {
-  background-color: #f1f1f1;
+.supplier-info-table .trdulieu:hover {
+  background-color: var(--blue);
+  color: white;
+  cursor: pointer;
   /* Đổi màu khi hover */
 }
 
@@ -45,4 +48,53 @@
   border-left: 2px solid gray;
   margin-left: 10px;
   width: 30px;
+}
+
+.tippy-tooltip {
+  background: white;
+  border: 1px solid gray;
+}
+
+.divngaygio {
+  display: flex;
+}
+
+.divhour {
+  width: 100%;
+  text-align: center;
+  position: relative;
+  margin-top: 30px;
+  margin-left: 10px;
+}
+
+.divdate {
+  width: 100%;
+  text-align: center;
+  position: relative;
+  margin-top: 30px;
+}
+
+.timepicker {
+  color: black;
+}
+
+.react-time-picker__inputGroup__input {
+  min-width: 1.2em;
+}
+
+.divphuongthuc {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.divghino {
+  display: flex;
+  align-items: center;
+}
+
+.divthanhtoanngay {
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
 }
