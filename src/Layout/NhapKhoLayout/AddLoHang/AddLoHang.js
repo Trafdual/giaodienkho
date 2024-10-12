@@ -31,9 +31,9 @@ function AddLoHang ({ isOpen, onClose, setlohang }) {
   const [suppliers, setSuppliers] = useState([])
   const [loadingSuppliers, setLoadingSuppliers] = useState(true)
   const [khoID, setKhoID] = useState(localStorage.getItem('khoID') || '')
-
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false)
   const [isTimePickerOpen, setIsTimePickerOpen] = useState(false)
+  const [payment, setpayment] = useState('')
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -80,6 +80,7 @@ function AddLoHang ({ isOpen, onClose, setlohang }) {
 
       setdate(formattedDate)
       settime(formattedTime)
+      setpayment('ghino')
     }
   }, [isOpen]) // Chỉ thực thi khi modal được mở
 
@@ -128,7 +129,7 @@ function AddLoHang ({ isOpen, onClose, setlohang }) {
     if (validateInputs()) {
       try {
         const response = await fetch(
-          `https://www.ansuataohanoi.com/postloaisanpham2`,
+          `http://localhost:8080/postloaisanpham2`,
           {
             method: 'POST',
             headers: {
@@ -139,7 +140,8 @@ function AddLoHang ({ isOpen, onClose, setlohang }) {
               name: name,
               tongtien: tongtien,
               soluong: soluong,
-              date: date
+              date: date,
+              ghino:payment
             })
           }
         )
@@ -190,18 +192,31 @@ function AddLoHang ({ isOpen, onClose, setlohang }) {
     }
   }
 
-
   return (
     <Modal isOpen={isOpen} onClose={handleClose}>
       <div className='divAddLoHang'>
         <h2>Thêm lô hàng</h2>
         <div className='divphuongthuc'>
           <div className='divghino'>
-            <input type='radio' name='paymentMethod' id='ghino'/>
+            <input
+              type='radio'
+              name='paymentMethod'
+              id='ghino'
+              value='ghino'
+              onChange={e => setpayment(e.target.value)}
+              checked={payment === 'ghino'}
+            />
             <label htmlFor='ghino'>Ghi nợ nhà cung cấp</label>
           </div>
           <div className='divthanhtoanngay'>
-            <input type='radio' name='paymentMethod' id='thanhtoanngay'/>
+            <input
+              type='radio'
+              name='paymentMethod'
+              id='thanhtoanngay'
+              value='thanhtoanngay'
+              onChange={e => setpayment(e.target.value)}
+              checked={payment === 'thanhtoanngay'}
+            />
             <label htmlFor='thanhtoanngay'>Thanh toán ngay</label>
           </div>
         </div>
