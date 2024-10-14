@@ -22,6 +22,7 @@ function AddLoHang ({ isOpen, onClose, setlohang }) {
 
   const [mancc, setmancc] = useState('')
   const [isTableVisible, setIsTableVisible] = useState(false)
+  const [isTableMethod, setIsTableMethod] = useState(false)
   const { showToast } = useToast()
   const [nameError, setNameError] = useState('')
   const [soluongError, setsoluongError] = useState('')
@@ -34,6 +35,8 @@ function AddLoHang ({ isOpen, onClose, setlohang }) {
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false)
   const [isTimePickerOpen, setIsTimePickerOpen] = useState(false)
   const [payment, setpayment] = useState('')
+  const methods = ['Tiền mặt', 'Chuyển khoản']
+  const [method, setmethod] = useState('')
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -128,23 +131,20 @@ function AddLoHang ({ isOpen, onClose, setlohang }) {
   const handleAddLoHang = async () => {
     if (validateInputs()) {
       try {
-        const response = await fetch(
-          `http://localhost:8080/postloaisanpham2`,
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-              mancc: mancc,
-              name: name,
-              tongtien: tongtien,
-              soluong: soluong,
-              date: date,
-              ghino:payment
-            })
-          }
-        )
+        const response = await fetch(`http://localhost:8080/postloaisanpham2`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            mancc: mancc,
+            name: name,
+            tongtien: tongtien,
+            soluong: soluong,
+            date: date,
+            ghino: payment
+          })
+        })
         const data = await response.json()
 
         if (response.ok) {
@@ -219,6 +219,50 @@ function AddLoHang ({ isOpen, onClose, setlohang }) {
             />
             <label htmlFor='thanhtoanngay'>Thanh toán ngay</label>
           </div>
+          <div className='divinputmethod'>
+            <Tooltip
+              trigger='click'
+              interactive
+              arrow
+              position='bottom'
+              open={isTableMethod}
+              onRequestClose={() => setIsTableMethod(false)}
+              html={
+                <div className='supplier-table-container'>
+                  <table className='supplier-info-table'>
+                    <thead>
+                      <tr>
+                        <th>Phương thức</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {methods.map((paymentMethod, index) => (
+                        <tr
+                          className='trdulieu'
+                          key={index}
+                          onClick={() => {
+                            setmethod(paymentMethod)
+                            setIsTableMethod(false)
+                          }}
+                        >
+                          <td>{paymentMethod}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              }
+            >
+              <button
+                className='divChonncc'
+                onClick={() => setIsTableMethod(!isTableMethod)}
+                disabled={payment !== 'thanhtoanngay'}
+              >
+                {method ? `${method}` : 'Chọn phương thức'}
+                <FontAwesomeIcon icon={faChevronDown} className='iconNcc' />
+              </button>
+            </Tooltip>
+          </div>
         </div>
         <div className='divinputncc'>
           <h4>Nhà cung cấp</h4>
@@ -226,8 +270,10 @@ function AddLoHang ({ isOpen, onClose, setlohang }) {
             trigger='click'
             interactive
             arrow
+            position='bottom'
             open={isTableVisible}
             onRequestClose={() => setIsTableVisible(false)}
+            
             html={
               <div className='supplier-table-container'>
                 {loadingSuppliers ? (
