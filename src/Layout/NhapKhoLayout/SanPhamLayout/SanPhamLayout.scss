@@ -1,0 +1,38 @@
+/* Loading Spinner Styles */
+
+.loading-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    /* Chiều cao toàn màn hình */
+    background-color: #f8f9fa;
+    /* Màu nền nhẹ */
+}
+
+.spinner {
+    border: 8px solid rgba(0, 0, 0, 0.1);
+    /* Viền ngoài nhạt */
+    border-top: 8px solid #3498db;
+    /* Viền trên có màu để tạo vòng quay */
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 1s linear infinite;
+    /* Tạo hiệu ứng xoay */
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+h3 {
+    font-size: 18px;
+    font-weight: 500;
+}

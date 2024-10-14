@@ -1,3 +1,4 @@
+@charset "UTF-8";
 .navigation {
   position: fixed;
   width: 300px;
@@ -13,10 +14,14 @@
 }
 
 .navigation ul {
-  position: absolute;
+  position: relative;
+  /* Sửa từ absolute thành relative */
   top: 0;
   left: 0;
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  /* Sử dụng flex để các mục được sắp xếp theo chiều dọc */
 }
 
 .navigation ul li {
@@ -39,7 +44,6 @@
 
 .navigation ul li:nth-child(1) {
   margin-bottom: 20px;
-  pointer-events: none;
 }
 
 .navigation ul li a {
@@ -49,6 +53,7 @@
   display: flex;
   text-decoration: none;
   color: var(--white);
+  align-items: center;
 }
 
 .navigation ul li:hover a,
@@ -81,8 +86,10 @@
 }
 
 /* curve outside */
-.navigation ul li:hover a::before,
-.navigation ul li.hovered a::before {
+.navigation ul li:hover a:not(.dropdown-menu li):hover::before,
+.navigation ul li.hovered a:not(.dropdown-menu li):hover::before,
+.navigation ul li:hover a:not(.dropdown-menu li):hover::after,
+.navigation ul li.hovered a:not(.dropdown-menu li):hover::after {
   content: "";
   position: absolute;
   right: 0;
@@ -92,20 +99,6 @@
   background: transparent;
   border-radius: 50%;
   box-shadow: 35px 35px 0 10px var(--white);
-  pointer-events: none;
-}
-
-.navigation ul li:hover a::after,
-.navigation ul li.hovered a::after {
-  content: "";
-  position: absolute;
-  right: 0;
-  bottom: -50px;
-  width: 50px;
-  height: 50px;
-  background: transparent;
-  border-radius: 50%;
-  box-shadow: 35px -35px 0 10px var(--white);
   pointer-events: none;
 }
 
@@ -129,4 +122,28 @@
     width: 100%;
     left: 0;
   }
+}
+.dropdown-menu {
+  display: block;
+  background-color: #0882f5;
+  margin-top: 10px;
+  /* Tạo khoảng cách với mục menu cha */
+  border-bottom-left-radius: 20px;
+}
+
+.dropdown-menu li a {
+  color: #ffffff !important;
+  background-color: #0882f5;
+  border-radius: 20px;
+  /* Đảm bảo màu nền không bị ảnh hưởng */
+}
+
+.dropdown-menu li:hover a {
+  color: #0882f5 !important;
+  background-color: white;
+}
+
+.dropdown-icon {
+  margin-left: auto;
+  /* Đẩy mũi tên về phía cuối */
 }
