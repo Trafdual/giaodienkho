@@ -40,6 +40,7 @@
     background-color: white;
     border: 1px solid black;
     border-radius: 5px;
+    cursor: pointer;
 }
 .iconNcc{
     border-left: 2px solid gray;
@@ -88,4 +89,14 @@
 }
 .tippy-tooltip{
     bottom: -10px !important;
+}
+.icon{
+    width: 40px;
+}
+.btnadd {
+    height: 40px;
+    margin-left: 10px;
+    border-radius: 5px;
+    border: 1px solid black;
+    cursor: pointer;
 }

@@ -3,14 +3,14 @@ import { useState, useCallback, useEffect } from 'react'
 import { Modal } from '../../../components/Modal'
 import { useToast } from '../../../components/GlobalStyles/ToastContext'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
+import { faChevronDown, faPlus } from '@fortawesome/free-solid-svg-icons'
 import { Tooltip } from 'react-tippy'
 import 'react-tippy/dist/tippy.css'
 import DatePicker from 'react-datepicker'
 import TimePicker from 'react-time-picker'
 import 'react-datepicker/dist/react-datepicker.css'
 import 'react-time-picker/dist/TimePicker.css'
-
+import { ModalAddNganHang } from './ModalAddNganHang'
 import './AddLoHang.scss'
 
 function AddLoHang ({ isOpen, onClose, setlohang }) {
@@ -19,19 +19,27 @@ function AddLoHang ({ isOpen, onClose, setlohang }) {
   const [tongtien, settongtien] = useState('')
   const [date, setdate] = useState('')
   const [time, settime] = useState('')
+  const [isOpenAddNH, setisOpenAddNH] = useState(false)
 
   const [mancc, setmancc] = useState('')
   const [isTableVisible, setIsTableVisible] = useState(false)
   const [isTableMethod, setIsTableMethod] = useState(false)
+  const [isTableNganHang, setIsTableNganHang] = useState(false)
+  const [nganhangs, setnganhangs] = useState([])
+  const [manganhang, setmanganhang] = useState('')
+
   const { showToast } = useToast()
   const [nameError, setNameError] = useState('')
   const [soluongError, setsoluongError] = useState('')
   const [tongtienError, settongtienError] = useState('')
   const [dateError, setdateError] = useState('')
   const [manccError, setmanccError] = useState('')
+
   const [suppliers, setSuppliers] = useState([])
   const [loadingSuppliers, setLoadingSuppliers] = useState(true)
   const [khoID, setKhoID] = useState(localStorage.getItem('khoID') || '')
+  const [userID, setuserID] = useState(localStorage.getItem('userId') || '')
+
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false)
   const [isTimePickerOpen, setIsTimePickerOpen] = useState(false)
   const [payment, setpayment] = useState('')
@@ -49,6 +57,18 @@ function AddLoHang ({ isOpen, onClose, setlohang }) {
 
     return () => clearInterval(intervalId)
   }, [localStorage.getItem('khoID')])
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      const newuserID = localStorage.getItem('userId') || ''
+      if (newuserID !== userID) {
+        console.log('Interval detected change, updating khoID:', newuserID)
+        setuserID(newuserID)
+      }
+    }, 1000) // Kiểm tra mỗi giây
+
+    return () => clearInterval(intervalId)
+  }, [localStorage.getItem('userId')])
 
   useEffect(() => {
     const fetchSuppliers = async () => {
@@ -73,6 +93,30 @@ function AddLoHang ({ isOpen, onClose, setlohang }) {
 
     fetchSuppliers()
   }, [khoID, showToast])
+
+  useEffect(() => {
+    const fetchnganhang = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:8080/getnganhang/${userID}`
+        )
+        const data = await response.json()
+
+        if (response.ok) {
+          setnganhangs(data)
+        } else {
+          showToast('Không thể tải danh sách ngân hàng', 'error')
+        }
+      } catch (error) {
+        console.error('Lỗi khi lấy dữ liệu ngân hàng:', error)
+        showToast('Không thể tải danh sách ngân hàng', 'error')
+      } finally {
+        setLoadingSuppliers(false)
+      }
+    }
+
+    fetchnganhang()
+  }, [userID, showToast])
 
   useEffect(() => {
     if (isOpen) {
@@ -273,7 +317,6 @@ function AddLoHang ({ isOpen, onClose, setlohang }) {
             position='bottom'
             open={isTableVisible}
             onRequestClose={() => setIsTableVisible(false)}
-            
             html={
               <div className='supplier-table-container'>
                 {loadingSuppliers ? (
@@ -315,7 +358,82 @@ function AddLoHang ({ isOpen, onClose, setlohang }) {
             </button>
           </Tooltip>
         </div>
+
+        {method === 'Chuyển khoản' && (
+          <div className='divinputncc'>
+            <h4>Ngân hàng</h4>
+            <Tooltip
+              trigger='click'
+              interactive
+              arrow
+              position='bottom'
+              open={isTableNganHang}
+              onRequestClose={() => setIsTableNganHang(false)}
+              html={
+                <div className='supplier-table-container'>
+                  {loadingSuppliers ? (
+                    <p>Đang tải danh sách ngân hàng...</p>
+                  ) : (
+                    <table className='supplier-info-table'>
+                      <thead>
+                        <tr>
+                          <th>Mã Ngân Hàng</th>
+                          <th>Ngân Hàng</th>
+                          <th>Số Tài Khoản</th>
+                          <th>Chủ Sở Hữu</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {nganhangs.length > 0 ? (
+                          nganhangs.map(supplier => (
+                            <tr
+                              className='trdulieu'
+                              key={supplier._id}
+                              onClick={() => {
+                                setmanganhang(supplier.manganhangkho)
+                                setIsTableNganHang(false)
+                              }}
+                            >
+                              <td>{supplier.manganhangkho}</td>
+                              <td>{supplier.name}</td>
+                              <td>{supplier.sotaikhoan}</td>
+                              <td>{supplier.chusohuu}</td>
+                            </tr>
+                          ))
+                        ) : (
+                          <tr>
+                            <td style={{ textAlign: 'center' }} colSpan='4'>
+                              Không có ngân hàng nào
+                            </td>
+                          </tr>
+                        )}
+                      </tbody>
+                    </table>
+                  )}
+                </div>
+              }
+            >
+              <button
+                className='divChonncc'
+                onClick={() => setIsTableNganHang(!isTableNganHang)}
+              >
+                {manganhang ? `${manganhang}` : 'Chọn ngân hàng'}
+                <FontAwesomeIcon icon={faChevronDown} className='iconNcc' />
+              </button>
+            </Tooltip>
+            <button className='btnadd'>
+              <FontAwesomeIcon icon={faPlus} className='icon' onClick={() => setisOpenAddNH(true)} />
+            </button>
+            <ModalAddNganHang
+              isOpen={isOpenAddNH}
+              onClose={() => setisOpenAddNH(false)}
+              userId={userID}
+              setdatakho={setnganhangs}
+            />
+          </div>
+        )}
         {manccError && <div className='error'>{manccError}</div>}
+
         <div className='divtenkho'>
           <input
             type='text'
@@ -417,7 +535,6 @@ function AddLoHang ({ isOpen, onClose, setlohang }) {
             </div>
           </Tooltip>
         </div>
-
         <button onClick={handleAddLoHang} className='btnAddLoHang'>
           Thêm lô hàng
         </button>
