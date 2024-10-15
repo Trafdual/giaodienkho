@@ -9,7 +9,7 @@ import {
 import './FormAddImel.scss'
 import { useToast } from '../../../../../components/GlobalStyles/ToastContext'
 
-function FormAddImel ({ isOpen, onClose, loaispid, fetchData }) {
+function FormAddImel ({ isOpen, onClose, loaispid, setsanpham }) {
   const [barcodeData, setBarcodeData] = useState('')
   const videoRef = useRef(null)
   const { showToast } = useToast()
@@ -62,8 +62,7 @@ function FormAddImel ({ isOpen, onClose, loaispid, fetchData }) {
   }
 
   useEffect(() => {
-    if (isOpen && !hasScanned) {
-      // Chỉ bắt đầu quét nếu chưa quét thành công
+    if (isOpen && !hasScanned) { // Chỉ bắt đầu quét nếu chưa quét thành công
       const codeReader = new BrowserMultiFormatReader()
 
       const hints = new Map()
