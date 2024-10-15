@@ -16,8 +16,10 @@ import {
   faTruckFast,
   faWarehouse
 } from '@fortawesome/free-solid-svg-icons'
+import './SearProductLayout.scss'
+import { SanPhamGioHang } from './SanPhamGioHang'
 
-function SearchProductLayout ({ loadingsanpham, opendetail }) {
+function SearchProductLayout () {
   const location = useLocation()
   const { products } = location.state || { products: [] }
   console.log(products)
@@ -34,20 +36,71 @@ function SearchProductLayout ({ loadingsanpham, opendetail }) {
   const [printBarcodeItem, setPrintBarcodeItem] = useState(null)
   const [openModalbarcode, setOpenmodalbarcode] = useState(false)
 
+  const [height, setHeight] = useState(400)
+  const [isDragging, setIsDragging] = useState(false)
+  const [startY, setStartY] = useState(0)
+  const [resizerPosition, setResizerPosition] = useState(400)
+  const [remainingHeight, setRemainingHeight] = useState(
+    window.innerHeight - 500
+  )
+
+  // Xử lý khi kéo
+  const handleMouseDown = e => {
+    setIsDragging(true)
+    setStartY(e.clientY)
+    document.body.style.cursor = 'ns-resize' // Đổi con trỏ chuột
+  }
+
+  const handleMouseMove = e => {
+    if (isDragging) {
+      const newHeight = height + (e.clientY - startY)
+      if (newHeight > 100 && newHeight <= 554) {
+        // Đảm bảo chiều cao không nhỏ hơn 100px
+        setHeight(newHeight)
+        setResizerPosition(newHeight) // Cập nhật vị trí của resizer khi di chuyển
+        setRemainingHeight(window.innerHeight - newHeight - 100)
+      }
+      setStartY(e.clientY)
+      document.body.style.userSelect = 'none' // Ngăn chọn text khi kéo
+    }
+  }
+
+  const handleMouseUp = () => {
+    setIsDragging(false)
+    document.body.style.cursor = 'auto' // Đổi con trỏ chuột về mặc định
+    document.body.style.userSelect = 'auto'
+  }
+
+  useEffect(() => {
+    // Thêm sự kiện mousemove và mouseup khi kéo
+    window.addEventListener('mousemove', handleMouseMove)
+    window.addEventListener('mouseup', handleMouseUp)
+
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove)
+      window.removeEventListener('mouseup', handleMouseUp)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isDragging])
+
   useEffect(() => {
     if (products && products.length > 0) {
       setSanPham(products)
     }
   }, [products])
 
-  const Loading = () => {
-    return (
-      <div className='loading-container'>
-        <div className='spinner'></div>
-        <h3 className='h3loading'>Loading...</h3>
-      </div>
-    )
-  }
+  useEffect(() => {
+    const savedSelectedItems = localStorage.getItem('selectedItems')
+    if (savedSelectedItems) {
+      setSelectedItems(JSON.parse(savedSelectedItems)) // Khôi phục danh sách đã chọn từ localStorage
+    }
+  }, [])
+
+  // Lưu danh sách sản phẩm đã chọn vào localStorage mỗi khi selectedItems thay đổi
+  useEffect(() => {
+    localStorage.setItem('selectedItems', JSON.stringify(selectedItems))
+  }, [selectedItems])
+
   const handlePrintBarcode = imel => {
     setOpenmodalbarcode(true)
     setPrintBarcodeItem(imel) // Lưu lại sản phẩm cần in
@@ -98,24 +151,23 @@ function SearchProductLayout ({ loadingsanpham, opendetail }) {
     setSelectAll(newSelectAll)
 
     if (newSelectAll) {
-      const allIds = SanPham.map(item => item._id)
-      setSelectedItems(allIds)
+      setSelectedItems(SanPham)
     } else {
       setSelectedItems([])
     }
   }
 
-  const handleSelectItem = id => {
-    let updatedSelectedItems = [...selectedItems]
-
-    if (selectedItems.includes(id)) {
-      updatedSelectedItems = updatedSelectedItems.filter(item => item !== id)
-    } else {
-      updatedSelectedItems.push(id)
-    }
-
-    setSelectedItems(updatedSelectedItems)
-    setSelectAll(updatedSelectedItems.length === SanPham.length)
+  const handleSelectItem = item => {
+    setSelectedItems(prevSelectedItems => {
+      const isSelected = prevSelectedItems.find(
+        selected => selected._id === item._id
+      )
+      if (isSelected) {
+        return prevSelectedItems.filter(selected => selected._id !== item._id)
+      } else {
+        return [...prevSelectedItems, item]
+      }
+    })
   }
 
   useEffect(() => {
@@ -151,6 +203,7 @@ function SearchProductLayout ({ loadingsanpham, opendetail }) {
   const handleCloseModalXuakho = () => {
     setIsOpenXuakho(false)
   }
+
   const handleCloseModalChuyenKhoFull = () => {
     setIsOpenChuyenKhoFull(false)
   }
@@ -194,197 +247,192 @@ function SearchProductLayout ({ loadingsanpham, opendetail }) {
 
   return (
     <>
-      {loadingsanpham ? (
-        <Loading /> // Hiển thị loading nếu đang tải
-      ) : (
-        !opendetail && (
-          <div className='detailsnhap'>
-            <div className='recentOrdersnhap'>
-              <div className='action-menu'>
-                <h4>{selectedItems.length} sản phẩm được chọn</h4>
-                <button
-                  className={`btn-xoa ${
-                    selectedItems.length > 1 ? 'disabled' : ''
-                  }`}
-                  disabled={selectedItems.length > 1}
-                >
-                  <FontAwesomeIcon icon={faPen} className='iconMenuSanPham' />
-                  Sửa
-                </button>
-                <button
-                  className={`btn-xoa ${
-                    selectedItems.length > 1 ? 'disabled' : ''
-                  }`}
-                  disabled={selectedItems.length > 1}
-                >
-                  <FontAwesomeIcon icon={faEye} className='iconMenuSanPham' />
-                  Xem
-                </button>
+      <div className='detailsnhap'>
+        <div
+          className='recentsearch'
+          style={{
+            height: `${height}px`,
+            overflow: 'auto',
+            position: 'relative'
+          }}
+        >
+          <div
+            className='resizer'
+            onMouseDown={handleMouseDown}
+            style={{
+              cursor: 'ns-resize',
+              width: '100%',
+              height: '10px',
+              background: '#ccc',
+              position: 'absolute',
+              top: `${resizerPosition - 10}px`,
+              left: '0'
+            }}
+          ></div>
+          <div className='action-menu'>
+            <h4>{selectedItems.length} sản phẩm được chọn</h4>
+            <button
+              className={`btn-xoa ${
+                selectedItems.length > 1 ? 'disabled' : ''
+              }`}
+              disabled={selectedItems.length > 1}
+            >
+              <FontAwesomeIcon icon={faPen} className='iconMenuSanPham' />
+              Sửa
+            </button>
+            <button
+              className={`btn-xoa ${
+                selectedItems.length > 1 ? 'disabled' : ''
+              }`}
+              disabled={selectedItems.length > 1}
+            >
+              <FontAwesomeIcon icon={faEye} className='iconMenuSanPham' />
+              Xem
+            </button>
+            <button
+              className={`btn-xoa ${
+                selectedItems.length === 0 ? 'disabled' : ''
+              }`}
+              disabled={selectedItems.length === 0}
+            >
+              <FontAwesomeIcon icon={faTrashCan} className='iconMenuSanPham' />
+              Xóa
+            </button>
+            <button
+              className={`btn-xuat ${
+                selectedItems.length === 0 ? 'disabled' : ''
+              }`}
+              disabled={selectedItems.length === 0}
+              onClick={XuatKhoHangLoat}
+            >
+              <FontAwesomeIcon icon={faWarehouse} className='iconMenuSanPham' />
+              Xuất kho
+            </button>
+            <button
+              className={`btn-xuat ${
+                selectedItems.length === 0 ? 'disabled' : ''
+              }`}
+              disabled={selectedItems.length === 0}
+              onClick={() => setIsOpenChuyenKhoFull(true)}
+            >
+              <FontAwesomeIcon icon={faTruckFast} className='iconMenuSanPham' />
+              Chuyển kho
+            </button>
+            <button
+              className={`btn-xuat ${
+                selectedItems.length === 0 ? 'disabled' : ''
+              }`}
+              disabled={selectedItems.length === 0}
+              onClick={() => handlePrintBarcode(selectedItems.imel)}
+            >
+              <FontAwesomeIcon icon={faBarcode} className='iconMenuSanPham' />
+              In tem Imel
+            </button>
+          </div>
 
-                <button
-                  className={`btn-xoa ${
-                    selectedItems.length === 0 ? 'disabled' : ''
-                  }`}
-                  disabled={selectedItems.length === 0}
-                >
-                  <FontAwesomeIcon
-                    icon={faTrashCan}
-                    className='iconMenuSanPham'
+          <table className='tablenhap'>
+            <thead className='theadnhap'>
+              <tr>
+                <td className='tdnhap'>
+                  <input
+                    type='checkbox'
+                    checked={selectAll}
+                    onChange={handleSelectAll}
                   />
-                  Xóa
-                </button>
-                <button
-                  className={`btn-xuat ${
-                    selectedItems.length === 0 ? 'disabled' : ''
-                  }`}
-                  disabled={selectedItems.length === 0}
-                  onClick={XuatKhoHangLoat}
-                >
-                  <FontAwesomeIcon
-                    icon={faWarehouse}
-                    className='iconMenuSanPham'
-                  />
-                  Xuất kho
-                </button>
-                <button
-                  className={`btn-xuat ${
-                    selectedItems.length === 0 ? 'disabled' : ''
-                  }`}
-                  disabled={selectedItems.length === 0}
-                  onClick={() => setIsOpenChuyenKhoFull(true)}
-                >
-                  <FontAwesomeIcon
-                    icon={faTruckFast}
-                    className='iconMenuSanPham'
-                  />
-                  Chuyển kho
-                </button>
-                <button
-                  className={`btn-xuat ${
-                    selectedItems.length === 0 ? 'disabled' : ''
-                  }`}
-                  disabled={selectedItems.length === 0}
-                  onClick={() => handlePrintBarcode(selectedItems.imel)}
-                >
-                  <FontAwesomeIcon
-                    icon={faBarcode}
-                    className='iconMenuSanPham'
-                  />
-                  In tem Imel
-                </button>
-              </div>
-
-              <table className='tablenhap'>
-                <thead className='theadnhap'>
-                  <tr>
-                    <td className='tdnhap'>
-                      <input
-                        type='checkbox'
-                        checked={selectAll}
-                        onChange={handleSelectAll}
-                      />
-                    </td>
-
-                    <td className='tdnhap'>Mã sản phẩm</td>
-                    <td className='tdnhap'>Imel</td>
-                    {!isMobile && (
-                      <>
-                        <td className='tdnhap'>Tên máy</td>
-                        <td className='tdnhap'>Dung lượng</td>
-                        <td className='tdnhap'>Màu sắc</td>
-                        <td className='tdnhap'>Trạng thái xuất kho</td>
-                      </>
-                    )}
-                    <td className='tdnhap'>Chức năng</td>
-                  </tr>
-                </thead>
-                <tbody className='tbodynhap'>
-                  {currentItems.length > 0 ? (
-                    currentItems.map(ncc => (
-                      <>
-                        <tr key={ncc._id}>
-                          <td>
-                            <input
-                              type='checkbox'
-                              checked={selectedItems.includes(ncc._id)}
-                              onChange={() => handleSelectItem(ncc._id)}
-                            />
-                          </td>
-                          <td>{ncc.masp}</td>
-                          <td>{ncc.imel}</td>
-                          {!isMobile && (
-                            <>
-                              <td>{ncc.name}</td>
-                              <td>{ncc.capacity}</td>
-                              <td>{ncc.color}</td>
-                              <td>{ncc.xuat ? 'đã xuất' : 'tồn kho'}</td>
-                            </>
-                          )}
-                          <td className='tdchucnang'>
-                            <button className='btnchitietncc'>Chi tiết</button>
-                            <button className='btncnncc'>Cập nhật</button>
-                            <button
-                              className='btninimel'
-                              onClick={() => handlePrintBarcode(ncc.imel)}
-                            >
-                              In imel
-                            </button>
-                            <button
-                              className='btninimel'
-                              onClick={() => handleExportPDFBarcode(ncc.imel)}
-                            >
-                              xuất pdf
-                            </button>
-                          </td>
-                        </tr>
-                        <ModalXuatKho
-                          isOpen={isOpenXuakho}
-                          onClose={handleCloseModalXuakho}
-                          setsanpham={setSanPham}
-                          idsanpham={ncc._id}
-                          khoID={khoID}
+                </td>
+                <td className='tdnhap'>Mã sản phẩm</td>
+                <td className='tdnhap'>Imel</td>
+                {!isMobile && (
+                  <>
+                    <td className='tdnhap'>Tên máy</td>
+                    <td className='tdnhap'>Dung lượng</td>
+                    <td className='tdnhap'>Màu sắc</td>
+                    <td className='tdnhap'>Trạng thái xuất kho</td>
+                  </>
+                )}
+                <td className='tdnhap'>Chức năng</td>
+              </tr>
+            </thead>
+            <tbody className='tbodynhap'>
+              {currentItems.length > 0 ? (
+                currentItems.map(ncc => (
+                  <>
+                    <tr key={ncc._id}>
+                      <td>
+                        <input
+                          type='checkbox'
+                          checked={selectedItems.some(
+                            item => item._id === ncc._id
+                          )} // Kiểm tra xem sản phẩm có trong selectedItems không
+                          onChange={() => handleSelectItem(ncc)} // Gọi hàm để chọn hoặc bỏ chọn sản phẩm
                         />
-                        <ModalXuatKhoFull
-                          isOpen={isOpenChuyenKhoFull}
-                          onClose={handleCloseModalChuyenKhoFull}
-                          selectedItems={selectedItems}
-                          setSelectedItems={setSelectedItems}
-                          setSelectAll={setSelectAll}
-                        />
-                      </>
-                    ))
-                  ) : (
-                    <tr>
-                      <td colSpan={isMobile ? '4' : '8'}>
-                        Không có sản phẩm nào
+                      </td>
+                      <td>{ncc.masp}</td>
+                      <td>{ncc.imel}</td>
+                      {!isMobile && (
+                        <>
+                          <td>{ncc.name}</td>
+                          <td>{ncc.capacity}</td>
+                          <td>{ncc.color}</td>
+                          <td>{ncc.xuat ? 'đã xuất' : 'tồn kho'}</td>
+                        </>
+                      )}
+                      <td className='tdchucnang'>
+                        <button className='btnchitietncc'>Chi tiết</button>
+                        <button className='btncnncc'>Cập nhật</button>
+                        <button
+                          className='btninimel'
+                          onClick={() => handlePrintBarcode(ncc.imel)}
+                        >
+                          In imel
+                        </button>
                       </td>
                     </tr>
-                  )}
-                </tbody>
-              </table>
-              <div className='pagination'>
-                {Array.from({ length: totalPages }, (_, index) => (
-                  <button
-                    key={index + 1}
-                    onClick={() => handlePageChange(index + 1)}
-                    className={index + 1 === currentPage ? 'active' : ''}
-                  >
-                    {index + 1}
-                  </button>
-                ))}
-              </div>
-            </div>
-            <Modal
-              isOpen={openModalbarcode}
-              onClose={() => setOpenmodalbarcode(false)}
-            >
-              <div className='barcode-print'>
-                <Barcode className='barcode-print1' value={printBarcodeItem} />
-              </div>
-            </Modal>
+                  </>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan='7'>Không có sản phẩm nào!</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+          <div className='pagination'>
+            {Array.from({ length: totalPages }, (_, index) => (
+              <button
+                key={index + 1}
+                onClick={() => handlePageChange(index + 1)}
+                className={index + 1 === currentPage ? 'active' : ''}
+              >
+                {index + 1}
+              </button>
+            ))}
           </div>
-        )
+        </div>
+      </div>
+      {isOpenXuakho && <ModalXuatKho setIsOpenXuakho={setIsOpenXuakho} />}
+      {isOpenChuyenKhoFull && (
+        <ModalXuatKhoFull
+          isOpen={isOpenChuyenKhoFull}
+          onClose={handleCloseModalChuyenKhoFull}
+          setIsOpenChuyenKhoFull={setIsOpenChuyenKhoFull}
+          selectedItems={selectedItems}
+        />
       )}
+      {openModalbarcode && (
+        <Modal
+          onClose={() => setOpenmodalbarcode(false)}
+          width='300px'
+          height='300px'
+          title='In tem Imel'
+        >
+          <Barcode value={printBarcodeItem} />
+        </Modal>
+      )}
+      <SanPhamGioHang
+        remainingHeight={remainingHeight}
+        selectedsanpham={selectedItems}
+      />
     </>
   )
 }

@@ -9,7 +9,7 @@ import {
 import './FormAddImel.scss'
 import { useToast } from '../../../../../components/GlobalStyles/ToastContext'
 
-function FormAddImel ({ isOpen, onClose, loaispid, setsanpham }) {
+function FormAddImel ({ isOpen, onClose, loaispid, fetchData }) {
   const [barcodeData, setBarcodeData] = useState('')
   const videoRef = useRef(null)
   const { showToast } = useToast()
@@ -17,36 +17,36 @@ function FormAddImel ({ isOpen, onClose, loaispid, setsanpham }) {
   const [hasScanned, setHasScanned] = useState(false) // Biến để theo dõi đã quét thành công hay chưa
 
   const handleAddSanPham = async result => {
-      try {
-        const response = await fetch(
-          `https://www.ansuataohanoi.com/postsp/${loaispid}`,
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-              imel: result,
-              capacity: '',
-              name: '',
-              color: ''
-            })
-          }
-        )
-        const data = await response.json()
-
-        if (data.message) {
-          showToast(`${data.message}`, 'error')
-        } else {
-          fetchData()
-          handleClose()
-          showToast('Thêm sản phẩm thành công')
+    try {
+      const response = await fetch(
+        `https://www.ansuataohanoi.com/postsp/${loaispid}`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            imel: result,
+            capacity: '',
+            name: '',
+            color: ''
+          })
         }
-      } catch (error) {
-        console.error('Lỗi khi gửi yêu cầu thêm sản phẩm:', error)
-        showToast('Thêm lô hàng thất bại', 'error')
+      )
+      const data = await response.json()
+
+      if (data.message) {
+        showToast(`${data.message}`, 'error')
+      } else {
+        fetchData()
         handleClose()
+        showToast('Thêm sản phẩm thành công')
       }
+    } catch (error) {
+      console.error('Lỗi khi gửi yêu cầu thêm sản phẩm:', error)
+      showToast('Thêm lô hàng thất bại', 'error')
+      handleClose()
+    }
   }
 
   const handleClose = () => {
@@ -62,7 +62,8 @@ function FormAddImel ({ isOpen, onClose, loaispid, setsanpham }) {
   }
 
   useEffect(() => {
-    if (isOpen && !hasScanned) { // Chỉ bắt đầu quét nếu chưa quét thành công
+    if (isOpen && !hasScanned) {
+      // Chỉ bắt đầu quét nếu chưa quét thành công
       const codeReader = new BrowserMultiFormatReader()
 
       const hints = new Map()

@@ -6,6 +6,10 @@
     border-left: 10px solid var(--blue);
     transition: 0.5s;
     overflow: hidden;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    overflow-y: auto;
 }
 
 .navigation.active {
@@ -40,8 +44,8 @@
 }
 
 .navigation ul .litong.hovered {
-    background-color: white!important;
-    color: var(--blue)!important;
+    background-color: white !important;
+    color: var(--blue) !important;
 }
 
 // .navigation ul .litong:nth-child(1) {
@@ -50,26 +54,26 @@
 .a {
     margin-top: 20px;
     display: flex;
-  }
-  
-  .a .link {
+}
+
+.a .link {
     display: flex;
     align-items: center;
     text-decoration: none;
-  }
-  
-  .a .fonticon {
+}
+
+.a .fonticon {
     width: 60px;
     height: 60px;
-    margin-right: 10px; 
-  }
-  
-  .a .title {
+    margin-right: 10px;
+}
+
+.a .title {
     font-size: 30px;
     font-weight: bold;
     color: var(--white);
-  }
-  
+}
+
 .navigation ul .litong a {
     position: relative;
     display: block;
@@ -80,6 +84,7 @@
     color: var(--white);
     align-items: center;
 }
+
 .navigation ul .litong1 a {
     position: relative;
     display: block;
@@ -90,11 +95,12 @@
     text-decoration: none;
     color: var(--white);
     align-items: center;
-    &:hover{
+
+    &:hover {
         background-color: var(--white);
         color: var(--blue);
         border-top-left-radius: 30px;
-    border-bottom-left-radius: 30px;
+        border-bottom-left-radius: 30px;
     }
 }
 
@@ -168,6 +174,7 @@
     .navigation {
         left: -300px;
     }
+
     .navigation.active {
         width: 300px;
         left: 0;
@@ -179,6 +186,7 @@
         left: -100%;
         z-index: 1000;
     }
+
     .navigation.active {
         width: 100%;
         left: 0;
@@ -198,11 +206,11 @@
 
 .dropdown-menu li a {
     border-radius: 20px;
-    
+
 }
 
 .dropdown-menu li:hover a {
-    color: #0882f5!important;
+    color: #0882f5 !important;
     background-color: white;
 }
 

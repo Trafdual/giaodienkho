@@ -1,0 +1,11 @@
+.recentsearch {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 850px;
+  background: var(--white);
+  padding: 20px;
+  box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
+  border-radius: 20px;
+  margin-top: 30px;
+}

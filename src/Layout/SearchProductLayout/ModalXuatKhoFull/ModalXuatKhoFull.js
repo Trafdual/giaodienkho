@@ -60,6 +60,7 @@ function ModalXuatKhoFull ({
   }, [userID])
 
   const postchuyenkho = async () => {
+    const idsanpham1 = selectedItems.map(item => item._id)
     try {
       const response = await fetch(`https://www.ansuataohanoi.com/chuyenkho1`, {
         method: 'POST',
@@ -68,7 +69,7 @@ function ModalXuatKhoFull ({
         },
         body: JSON.stringify({
           tenkho: tenkho,
-          idsanpham1: selectedItems
+          idsanpham1: idsanpham1
         })
       })
       const data = await response.json()

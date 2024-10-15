@@ -133,8 +133,6 @@ function HoaDonLayout () {
               <td class='text-center'>${sp.dungluong}</td>
               <td class='text-center'>${sp.mausac}</td>
               <td class="text-center">${sp.price.toLocaleString()} VND</td>
-              <td class='text-center'>${sp.price.toLocaleString()} VND</td>
-
             </tr>
           `
             )
@@ -200,8 +198,8 @@ function HoaDonLayout () {
                   <button
                     className='btn-print'
                     onClick={() => {
-                      setSelectedInvoice(hd) // Đặt hóa đơn được chọn
-                      handlePrint() // Gọi hàm in
+                      // setSelectedInvoice(hd) // Đặt hóa đơn được chọn
+                      handlePrint(hd) // Gọi hàm in
                     }}
                   >
                     In
