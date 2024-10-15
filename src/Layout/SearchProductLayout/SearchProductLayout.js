@@ -340,6 +340,7 @@ function SearchProductLayout () {
                     onChange={handleSelectAll}
                   />
                 </td>
+                <td className='tdnhap'>Mã lô hàng</td>
                 <td className='tdnhap'>Mã sản phẩm</td>
                 <td className='tdnhap'>Imel</td>
                 {!isMobile && (
@@ -367,6 +368,7 @@ function SearchProductLayout () {
                           onChange={() => handleSelectItem(ncc)} // Gọi hàm để chọn hoặc bỏ chọn sản phẩm
                         />
                       </td>
+                      <td>{ncc.malohang}</td>
                       <td>{ncc.masp}</td>
                       <td>{ncc.imel}</td>
                       {!isMobile && (
