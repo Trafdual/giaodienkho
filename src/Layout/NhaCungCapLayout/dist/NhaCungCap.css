@@ -38,14 +38,14 @@
 }
 
 .tablenhap td {
-  font-size: 20px;
-  border: 2px solid #ddd;
-  padding: 8px;
+  border: 1px solid #ddd;
+  padding: 10px;
   text-align: center;
 }
 
 .tablenhap td {
   padding-top: 10px;
+  cursor: col-resize;
 }
 
 .btnthemlo {
@@ -122,7 +122,6 @@
 }
 
 .tdchucnang {
-  display: flex;
   align-items: center;
 }
 

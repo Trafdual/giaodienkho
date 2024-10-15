@@ -1,5 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import './NhapKhoLayout.scss'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { AddLoHang } from './AddLoHang'
@@ -11,11 +12,51 @@ function NhapKhoLayout () {
   const [opendetail, setopendetail] = useState(true)
   const [khoID, setKhoID] = useState(localStorage.getItem('khoID') || '')
   const [idlohang, setidlohang] = useState('')
+  const [loading, setLoading] = useState(true)
+  const [loadingsanpham, setloadingsanpham] = useState(false)
 
   // Trạng thái phân trang
   const [currentPage, setCurrentPage] = useState(1)
   const [itemsPerPage, setItemsPerPage] = useState(9) // Mặc định là 9
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
+
+  let isMounted = true
+
+  const fetchData = async () => {
+    if (!khoID) return
+
+    try {
+      const response = await fetch(
+        `https://www.ansuataohanoi.com/getloaisanpham2/${khoID}`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+      )
+
+      if (response.ok && isMounted) {
+        const data = await response.json()
+        setlohang(data)
+      } else {
+        console.error('Failed to fetch data')
+      }
+    } catch (error) {
+      if (isMounted) {
+        console.error('Error fetching data:', error)
+      }
+    }
+  }
+
+  const Loading = () => {
+    return (
+      <div className='loading-container'>
+        <div className='spinner'></div>
+        <h3 className='h3loading'>Loading...</h3>
+      </div>
+    )
+  }
 
   useEffect(() => {
     const handleResize = () => {
@@ -43,10 +84,11 @@ function NhapKhoLayout () {
     setIsOpen(false)
   }
 
-  const handleLohang = id => {
+  const handleLohang = useCallback(id => {
     setidlohang(id)
+    setloadingsanpham(true)
     setopendetail(false)
-  }
+  }, [])
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -60,44 +102,6 @@ function NhapKhoLayout () {
     return () => clearInterval(intervalId)
   }, [khoID])
 
-  useEffect(() => {
-    console.log(localStorage.getItem('khoID'))
-    let isMounted = true
-
-    const fetchData = async () => {
-      if (!khoID) return
-
-      try {
-        const response = await fetch(
-          `https://www.ansuataohanoi.com/getloaisanpham2/${khoID}`,
-          {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json'
-            }
-          }
-        )
-
-        if (response.ok && isMounted) {
-          const data = await response.json()
-          setlohang(data)
-        } else {
-          console.error('Failed to fetch data')
-        }
-      } catch (error) {
-        if (isMounted) {
-          console.error('Error fetching data:', error)
-        }
-      }
-    }
-
-    fetchData()
-
-    return () => {
-      isMounted = false
-    }
-  }, [khoID])
-
   // Tính toán mục để hiển thị cho trang hiện tại
   const indexOfLastItem = currentPage * itemsPerPage
   const indexOfFirstItem = indexOfLastItem - itemsPerPage
@@ -109,94 +113,110 @@ function NhapKhoLayout () {
     setCurrentPage(pageNumber)
   }
 
+  useEffect(() => {
+    setLoading(true)
+    fetchData()
+    const timer = setTimeout(() => {
+      setLoading(false)
+    }, 3000)
+
+    return () => clearTimeout(timer)
+  }, [khoID])
+
   return (
     <>
-      {opendetail && (
-        <div className='detailsnhap'>
-          <div className='recentOrdersnhap'>
-            <div className='headernhap'>
-              <h2 className='divncc'>Lô hàng</h2>
-              <button className='btnthemlo' onClick={() => setIsOpen(true)}>
-                <FontAwesomeIcon className='iconncc' icon={faPlus} />
-                <h3>Thêm lô hàng</h3>
-              </button>
-            </div>
-            <table className='tablenhap'>
-              <thead className='theadnhap'>
-                <tr>
-                  <td className='tdnhap'>Mã lô hàng</td>
-                  <td className='tdnhap'>Tên lô hàng</td>
-                  <td className='tdnhap'>Số lượng máy</td>
-                  {!isMobile && (
-                    <>
-                      <td className='tdnhap'>Ngày nhập</td>
-                      <td className='tdnhap'>Tổng tiền</td>
-                      <td className='tdnhap'>Trung bình máy</td>
-                    </>
-                  )}
-                  <td className='tdnhap'>Chức năng</td>
-                </tr>
-              </thead>
-              <tbody className='tbodynhap'>
-                {currentItems.length > 0 ? (
-                  currentItems.map(ncc => (
-                    <tr key={ncc._id}>
-                      <td>{ncc.malsp}</td>
-                      <td>{ncc.name}</td>
-                      <td>{ncc.soluong}</td>
-                      {!isMobile && (
-                        <>
-                          <td>{ncc.date}</td>
-                          <td>{ncc.tongtien}</td>
-                          <td>{ncc.average}</td>
-                        </>
-                      )}
-                      <td className='tdchucnang'>
-                        <button
-                          className='btnchitietncc'
-                          onClick={() => handleLohang(ncc._id)}
-                        >
-                          <h3>Chi tiết</h3>
-                        </button>
-                        <button
-                          className='btncnncc'
-                          onClick={() => setIsOpen(true)}
-                        >
-                          <h3>Cập nhật</h3>
-                        </button>
-                      </td>
-                    </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td colSpan='7'>Không có lô hàng nào</td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-            <div className='pagination'>
-              {Array.from({ length: totalPages }, (_, index) => (
-                <button
-                  key={index + 1}
-                  onClick={() => handlePageChange(index + 1)}
-                  className={index + 1 === currentPage ? 'active' : ''}
-                >
-                  {index + 1}
+      {loading ? (
+        <Loading /> // Hiển thị component Loading khi đang tải
+      ) : (
+        opendetail && (
+          <div className='detailsnhap'>
+            <div className='recentOrdersnhap'>
+              <div className='headernhap'>
+                <h2 className='divncc'>Lô hàng</h2>
+                <button className='btnthemlo' onClick={() => setIsOpen(true)}>
+                  <FontAwesomeIcon className='iconncc' icon={faPlus} />
+                  <h3>Thêm lô hàng</h3>
                 </button>
-              ))}
+              </div>
+              <table className='tablenhap'>
+                <thead className='theadnhap'>
+                  <tr>
+                    <td className='tdnhap'>Mã lô hàng</td>
+                    <td className='tdnhap'>Tên lô hàng</td>
+                    <td className='tdnhap'>Số lượng máy</td>
+                    {!isMobile && (
+                      <>
+                        <td className='tdnhap'>Ngày nhập</td>
+                        <td className='tdnhap'>Tổng tiền</td>
+                        <td className='tdnhap'>Trung bình máy</td>
+                      </>
+                    )}
+                    <td className='tdnhap'>Chức năng</td>
+                  </tr>
+                </thead>
+                <tbody className='tbodynhap'>
+                  {currentItems.length > 0 ? (
+                    currentItems.map(ncc => (
+                      <tr key={ncc._id}>
+                        <td>{ncc.malsp}</td>
+                        <td>{ncc.name}</td>
+                        <td>{ncc.soluong}</td>
+                        {!isMobile && (
+                          <>
+                            <td>{ncc.date}</td>
+                            <td>{ncc.tongtien.toLocaleString()} VNĐ</td>
+                            <td>{ncc.average.toLocaleString()} VNĐ</td>
+                          </>
+                        )}
+                        <td className='tdchucnang'>
+                          <button
+                            className='btnchitietncc'
+                            onClick={() => handleLohang(ncc._id)}
+                          >
+                           Chi tiết
+                          </button>
+                          <button
+                            className='btncnncc'
+                            onClick={() => setIsOpen(true)}
+                          >
+                           Cập nhật
+                          </button>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan='7'>Không có lô hàng nào</td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+              <div className='pagination'>
+                {Array.from({ length: totalPages }, (_, index) => (
+                  <button
+                    key={index + 1}
+                    onClick={() => handlePageChange(index + 1)}
+                    className={index + 1 === currentPage ? 'active' : ''}
+                  >
+                    {index + 1}
+                  </button>
+                ))}
+              </div>
             </div>
+            <AddLoHang
+              isOpen={isOpen}
+              onClose={handleCloseModal}
+              setlohang={setlohang}
+            />
           </div>
-          <AddLoHang
-            isOpen={isOpen}
-            onClose={handleCloseModal}
-            setlohang={setlohang}
-          />
-        </div>
+        )
       )}
       <SanPhamLayout
         opendetail={opendetail}
         setopendetail={setopendetail}
         idloaisp={idlohang}
+        setloadingsanpham={setloadingsanpham}
+        loadingsanpham={loadingsanpham}
       />
     </>
   )

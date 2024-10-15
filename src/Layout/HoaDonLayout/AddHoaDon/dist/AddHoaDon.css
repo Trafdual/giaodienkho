@@ -1,0 +1,64 @@
+.btnAddHoaDon {
+  width: 100%;
+  height: 50px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  background-color: var(--blue);
+  font-family: var(--font-family);
+  color: #fffefe;
+  font-weight: bold;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
+  border-radius: 5px;
+  margin-top: 20px;
+  cursor: pointer;
+}
+.btnAddHoaDon:hover {
+  background-color: #0063c0;
+}
+
+.btnhuyAddHoaDon {
+  width: 100%;
+  height: 50px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  background-color: #ff4747;
+  color: #fffefe;
+  font-family: var(--font-family);
+  font-weight: bold;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
+  border-radius: 5px;
+  margin-top: 20px;
+  cursor: pointer;
+}
+.btnhuyAddHoaDon:hover {
+  background-color: #c20202;
+}
+
+.ulmangmasp {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 10px;
+}
+
+.mangmasp-item {
+  list-style: none;
+  border: 2px solid #ccc;
+  border-radius: 20px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  margin-bottom: 10px;
+}
+
+.remove-btn {
+  border: none;
+  margin-left: 10px;
+  background-color: white;
+}
+
+.remove-icon {
+  width: 10px;
+}

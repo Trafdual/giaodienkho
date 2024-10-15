@@ -1,0 +1,115 @@
+.doanh-thu-layout {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  margin-top: 80px;
+}
+
+h1 {
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.filter-section {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.filter-section .filter-group {
+  display: flex;
+  align-items: center;
+}
+.filter-section .filter-group label {
+  margin-right: 10px;
+  font-weight: bold;
+}
+.filter-section .filter-group select {
+  padding: 5px;
+  font-size: 14px;
+}
+.filter-section .date-filter {
+  display: flex;
+  align-items: center;
+}
+.filter-section .date-filter label {
+  margin-right: 10px;
+  font-weight: bold;
+}
+.filter-section .date-filter input {
+  padding: 5px;
+  font-size: 14px;
+  margin-right: 10px;
+}
+.filter-section .date-filter .btn-get-data {
+  padding: 5px 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.filter-section .date-filter .btn-get-data:hover {
+  background-color: #0056b3;
+}
+
+.table-section {
+  margin-bottom: 20px;
+}
+.table-section table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+.table-section table th,
+.table-section table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+.table-section table th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+.table-section table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+.table-section table tbody tr:hover {
+  background-color: #f1f1f1;
+}
+.table-section table tbody tr td:first-child {
+  text-align: left;
+}
+.table-section table .highlight-row {
+  background-color: #ffdddd;
+}
+
+.actions {
+  text-align: right;
+}
+.actions .btn-print,
+.actions .btn-export {
+  padding: 10px 20px;
+  margin-left: 10px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.actions .btn-print:hover,
+.actions .btn-export:hover {
+  background-color: #218838;
+}
+
+@media (max-width: 480px) {
+  .filter-section {
+    display: block;
+  }
+
+  .doanh-thu-layout {
+    margin-top: 50px;
+    padding-top: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}

@@ -3,7 +3,7 @@ import { useState, useCallback } from 'react'
 import { Modal } from '../../../../../components/Modal'
 import { useToast } from '../../../../../components/GlobalStyles/ToastContext'
 
-function FormAddTay ({ isOpen, onClose, loaispid, setsanpham, fetchData }) {
+function FormAddTay ({ isOpen, onClose, loaispid, fetchData }) {
   const [name, setName] = useState('')
   const [imel, setimel] = useState('')
   const [dungluong, setdungluong] = useState('')
@@ -67,14 +67,15 @@ function FormAddTay ({ isOpen, onClose, loaispid, setsanpham, fetchData }) {
             })
           }
         )
+        const data = await response.json()
 
-        if (response.ok) {
+        if (data.message) {
+          showToast(`${data.message}`, 'error')
+          onClose()
+        } else {
           fetchData()
           handleClose()
           showToast('Thêm sản phẩm thành công')
-        } else {
-          showToast('Thêm sản phẩm thất bại', 'error')
-          onClose()
         }
       } catch (error) {
         console.error('Lỗi khi gửi yêu cầu thêm sản phẩm:', error)

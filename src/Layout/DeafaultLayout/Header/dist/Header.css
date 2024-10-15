@@ -52,6 +52,25 @@
   top: 0;
   left: 0px;
   font-size: 1em;
+  cursor: pointer;
+}
+
+.search-button {
+  position: absolute;
+  right: 0;
+  top: -10px;
+  height: 40px;
+  padding: 0 15px;
+  border: none;
+  background-color: var(--blue);
+  color: white;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  cursor: pointer;
+}
+
+.search-button:hover {
+  background-color: #023768;
 }
 
 .user {
@@ -150,4 +169,23 @@
   .topbar {
     width: calc(100% - 5px);
   }
+}
+.filter-dropdown {
+  position: absolute;
+  background-color: white;
+  border: 1px solid #ccc;
+  list-style: none;
+  padding: 0;
+  margin-top: 5px;
+  width: 150px;
+  z-index: 1000;
+}
+
+.filter-dropdown li {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.filter-dropdown li:hover {
+  background-color: #f0f0f0;
 }

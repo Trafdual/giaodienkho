@@ -6,7 +6,6 @@
     border-left: 10px solid var(--blue);
     transition: 0.5s;
     overflow: hidden;
-    // position: relative;
 }
 
 .navigation.active {
@@ -30,23 +29,26 @@
     list-style: none;
     border-top-left-radius: 30px;
     border-bottom-left-radius: 30px;
+    margin-top: 10px;
+    cursor: pointer;
 }
 
-.navigation ul li:hover,
-.navigation ul li.hovered {
+
+.navigation ul .litong:hover,
+.navigation ul .litong.hovered {
     background: var(--white);
 }
 
-.navigation ul li.hovered {
-    background-color: white;
-    color: var(--blue);
+.navigation ul .litong.hovered {
+    background-color: white!important;
+    color: var(--blue)!important;
 }
 
-.navigation ul li:nth-child(1) {
-    margin-bottom: 20px;
-}
+// .navigation ul .litong:nth-child(1) {
+//     margin-bottom: 20px;
+// }
 
-.navigation ul li a {
+.navigation ul .litong a {
     position: relative;
     display: block;
     width: 100%;
@@ -55,13 +57,28 @@
     color: var(--white);
     align-items: center;
 }
+.navigation ul .litong1 a {
+    position: relative;
+    display: block;
+    width: 100%;
+    display: flex;
+    text-decoration: none;
+    color: var(--white);
+    align-items: center;
+    &:hover{
+        background-color: var(--white);
+        color: var(--blue);
+        border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
+    }
+}
 
-.navigation ul li:hover a,
-.navigation ul li.hovered a {
+.navigation ul .litong:hover a,
+.navigation ul .litong.hovered a {
     color: var(--blue);
 }
 
-.navigation ul li a .icon {
+.navigation ul .litong a .icon {
     position: relative;
     display: block;
     min-width: 60px;
@@ -70,53 +87,46 @@
     text-align: center;
 }
 
-.navigation ul li a .icon .fonticon {
+.navigation ul .litong a .icon .fonticon {
     font-size: 1.25em;
 }
 
-.navigation ul li a .title {
+.navigation ul .litong a .title {
     position: relative;
     display: block;
     padding: 0 10px;
-    height: 60px;
-    line-height: 60px;
     text-align: start;
-    white-space: nowrap;
     cursor: pointer;
 }
-.submenu {
-    display: block; /* Ẩn submenu mặc định */
-    // position: relative;
-    padding-left: 20px;
-    // background-color: blue;                                                                                                                                                                                                                  
-    // border-radius: 5px;
-  }
-  
-  .submenu.open {
-    display: block; /* Hiển thị submenu khi được mở */
-  }
-.navigation ul li .submenu {
-    display: block; /* Ẩn submenu khi dropdown đóng */
-    position: relative; /* Đặt relative thay vì absolute để submenu không bị đẩy ngoài phạm vi của cha */
-    padding-left: 20px; /* Căn lề cho đẹp */
-}
 
-.navigation ul li .submenu a {
-    color: black; 
-   
+.navigation ul .litong1 a .icon {
+    position: relative;
     display: block;
+    min-width: 60px;
+    height: 60px;
+    line-height: 70px;
+    text-align: center;
 }
 
-.navigation ul li .submenu a:hover {
-    background-color: red; /* Màu nền khi hover */
+.navigation ul .litong1 a .icon .fonticon {
+    font-size: 1.25em;
 }
+
+.navigation ul .litong1 a .title {
+    position: relative;
+    display: block;
+    padding: 0 10px;
+    text-align: start;
+    cursor: pointer;
+}
+
 
 /* curve outside */
 
-.navigation ul li:hover a:not(.dropdown-menu li):hover::before,
-.navigation ul li.hovered a:not(.dropdown-menu li):hover::before,
-.navigation ul li:hover a:not(.dropdown-menu li):hover::after,
-.navigation ul li.hovered a:not(.dropdown-menu li):hover::after {
+.navigation ul .litong:hover a:not(.dropdown-menu li):hover::before,
+.navigation ul .litong.hovered a:not(.dropdown-menu li):hover::before,
+.navigation ul .litong:hover a:not(.dropdown-menu li):hover::after,
+.navigation ul .litong.hovered a:not(.dropdown-menu li):hover::after {
     content: '';
     position: absolute;
     right: 0;
@@ -152,25 +162,26 @@
 
 .dropdown-menu {
     display: block;
-    background-color: #0882f5;
+    background-color: #1f75c5;
     padding-left: 15px;
-    /* Tạo khoảng cách với mục menu cha */
     border-bottom-left-radius: 20px;
+    // padding-top: 10px;
+    margin-top: 5px;
+    padding-bottom: 5px;
+    // margin-left: 20px;
 }
 
 .dropdown-menu li a {
-    color: #ffffff !important;
-    background-color: #0882f5;
     border-radius: 20px;
     
 }
 
 .dropdown-menu li:hover a {
-    // display: block;
     color: #0882f5!important;
     background-color: white;
 }
 
 .dropdown-icon {
     margin-left: auto;
+    /* Đẩy mũi tên về phía cuối */
 }

@@ -14,7 +14,10 @@ import {
   faChevronUp,
   faChevronDown,
   faWrench,
-  faShieldHalved
+  faShieldHalved,
+  faTruckFast,
+  faUserGroup,
+  faFileInvoiceDollar
 } from '@fortawesome/free-solid-svg-icons'
 import { publicRoutes } from '../../../router'
 import { Link, useLocation } from 'react-router-dom'
@@ -26,12 +29,16 @@ function Sidebar ({ isActive, setIsActive }) {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const [isDropdownOpenBaoCao, setIsDropdownOpenBaoCao] = useState(false)
+  const [isDropdownOpenKho, setIsDropdownOpenKho] = useState(false)
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen)
   }
   const toggleDropdownBapCao = () => {
     setIsDropdownOpenBaoCao(!isDropdownOpenBaoCao)
+  }
+  const toggleDropdownKho = () => {
+    setIsDropdownOpenKho(!isDropdownOpenKho)
   }
 
   // Lấy trạng thái active từ localStorage khi trang load
@@ -84,7 +91,7 @@ function Sidebar ({ isActive, setIsActive }) {
   return (
     <div className={`navigation ${isActive ? 'active' : ''}`}>
       <ul>
-        <li style={{ marginTop: 20 }}>
+        <li className='litong' style={{ marginTop: 20 }} >
           <a href='#'>
             <span className='icon'>
               <img
@@ -103,8 +110,9 @@ function Sidebar ({ isActive, setIsActive }) {
           </a>
         </li>
         <li
-          className={activeItem === '/home' ? 'hovered' : ''}
+         className={`litong ${activeItem === '/home' ? 'hovered' : ''}`}
           onClick={() => handleItemClick('/home')}
+
         >
           <Link to={'/home'}>
             <a>
@@ -115,7 +123,21 @@ function Sidebar ({ isActive, setIsActive }) {
             </a>
           </Link>
         </li>
-        <li className={activeItem === '/baocao' ? 'hovered' : ''}>
+        <li
+          className={`litong ${activeItem === '/khachhang' ? 'hovered' : ''}`}
+          onClick={() => handleItemClick('/khachhang')}
+        >
+          <Link to={'/khachhang'}>
+            <a>
+              <span className='icon'>
+                <FontAwesomeIcon className='fonticon' icon={faUserGroup} />
+              </span>
+              <span className='title'>Khách hàng</span>
+            </a>
+          </Link>
+        </li>
+
+        <li className={`litong1 ${activeItem === '/baocao' ? 'hovered' : ''}`}>
           <a onClick={toggleDropdownBapCao}>
             <span className='icon'>
               <FontAwesomeIcon className='fonticon' icon={faChartPie} />
@@ -129,20 +151,20 @@ function Sidebar ({ isActive, setIsActive }) {
           {isDropdownOpenBaoCao && (
             <ul className='dropdown-menu'>
               <li
-                className={activeItem === '/thietlap/cauhinh' ? 'hovered' : ''}
-                onClick={() => handleItemClick('/thietlap/cauhinh')}
+                className={`litong ${activeItem === '/doanhthu' ? 'hovered' : ''}`}
+                onClick={() => handleItemClick('/doanhthu')}
               >
-                <Link to={'/thietlap/cauhinh'}>
+                <Link to={'/doanhthu'}>
                   <a>
                     <span className='icon'>
                       <FontAwesomeIcon className='fonticon' icon={faWrench} />
                     </span>
-                    <span className='title'>Cấu hình</span>
+                    <span className='title'>Doanh Thu</span>
                   </a>
                 </Link>
               </li>
               <li
-                className={activeItem === '/thietlap/baomat' ? 'hovered' : ''}
+               className={`litong ${activeItem === '/thietlap/baomat' ? 'hovered' : ''}`}
                 onClick={() => handleItemClick('/thietlap/baomat')}
               >
                 <Link to={'/thietlap/baomat'}>
@@ -153,7 +175,7 @@ function Sidebar ({ isActive, setIsActive }) {
                         icon={faShieldHalved}
                       />
                     </span>
-                    <span className='title'>Bảo mật</span>
+                    <span className='title'>Công Nợ</span>
                   </a>
                 </Link>
               </li>
@@ -161,7 +183,7 @@ function Sidebar ({ isActive, setIsActive }) {
           )}
         </li>
         <li
-          className={activeItem === '/nhacungcap' ? 'hovered' : ''}
+         className={`litong ${activeItem === '/nhacungcap' ? 'hovered' : ''}`}
           onClick={() => handleItemClick('/nhacungcap')}
         >
           <Link to={'/nhacungcap'}>
@@ -174,35 +196,84 @@ function Sidebar ({ isActive, setIsActive }) {
           </Link>
         </li>
 
+        <li className = 'litong1'>
+          <a onClick={toggleDropdownKho}>
+            <span className='icon'>
+              <FontAwesomeIcon className='fonticon' icon={faLandmark} />
+            </span>
+            <span className='title'>Kho</span>
+            <FontAwesomeIcon
+              icon={isDropdownOpenKho ? faChevronUp : faChevronDown}
+              className='dropdown-icon'
+            />
+          </a>
+          {isDropdownOpenKho && (
+            <ul className='dropdown-menu'>
+              <li
+               className={`litong ${activeItem === '/nhapkho' ? 'hovered' : ''}`}
+                onClick={() => handleItemClick('/nhapkho')}
+              >
+                <Link to={'/nhapkho'}>
+                  <a>
+                    <span className='icon'>
+                      <FontAwesomeIcon className='fonticon' icon={faLandmark} />
+                    </span>
+                    <span className='title'>Nhập Kho</span>
+                  </a>
+                </Link>
+              </li>
+              <li
+                className={`litong ${activeItem === '/xuatkho' ? 'hovered' : ''}`}
+                onClick={() => handleItemClick('/xuatkho')}
+              >
+                <Link to={'/xuatkho'}>
+                  <a>
+                    <span className='icon'>
+                      <FontAwesomeIcon
+                        className='fonticon'
+                        icon={faWarehouse}
+                      />
+                    </span>
+                    <span className='title'>Xuất Kho</span>
+                  </a>
+                </Link>
+              </li>
+              <li
+                className={`litong ${activeItem === '/dieuchuyen' ? 'hovered' : ''}`}
+                onClick={() => handleItemClick('/dieuchuyen')}
+              >
+                <Link to={'/dieuchuyen'}>
+                  <a>
+                    <span className='icon'>
+                      <FontAwesomeIcon
+                        className='fonticon'
+                        icon={faTruckFast}
+                      />
+                    </span>
+                    <span className='title'>Điều chuyển từ cửa hàng khác</span>
+                  </a>
+                </Link>
+              </li>
+            </ul>
+          )}
+        </li>
+
         <li
-          className={activeItem === '/nhapkho' ? 'hovered' : ''}
-          onClick={() => handleItemClick('/nhapkho')}
+          className={`litong ${activeItem === '/hoadon' ? 'hovered' : ''}`}
+          onClick={() => handleItemClick('/hoadon')}
         >
-          <Link to={'/nhapkho'}>
+          <Link to={'/hoadon'}>
             <a>
               <span className='icon'>
-                <FontAwesomeIcon className='fonticon' icon={faLandmark} />
+                <FontAwesomeIcon className='fonticon' icon={faFileInvoiceDollar} />
               </span>
-              <span className='title'>Nhập kho</span>
+              <span className='title'>Hóa Đơn</span>
             </a>
           </Link>
         </li>
 
         <li
-          className={activeItem === '/xuatkho' ? 'hovered' : ''}
-          onClick={() => handleItemClick('/xuatkho')}
-        >
-          <Link to={'/xuatkho'}>
-            <a>
-              <span className='icon'>
-                <FontAwesomeIcon className='fonticon' icon={faWarehouse} />
-              </span>
-              <span className='title'>Xuất kho</span>
-            </a>
-          </Link>
-        </li>
-        <li
-          className={activeItem === '/trogiup' ? 'hovered' : ''}
+         className={`litong ${activeItem === '/trogiup' ? 'hovered' : ''}`}
           onClick={() => handleItemClick('/trogiup')}
         >
           <Link to={'/trogiup'}>
@@ -214,7 +285,7 @@ function Sidebar ({ isActive, setIsActive }) {
             </a>
           </Link>
         </li>
-        <li className={activeItem === '/thietlap' ? 'hovered' : ''}>
+        <li className={`litong1 ${activeItem === '/thietlap' ? 'hovered' : ''}`}>
           <a onClick={toggleDropdown}>
             <span className='icon'>
               <FontAwesomeIcon className='fonticon' icon={faGear} />
@@ -230,10 +301,10 @@ function Sidebar ({ isActive, setIsActive }) {
           {isDropdownOpen && (
             <ul className='dropdown-menu'>
               <li
-                className={activeItem === '/thietlap/cauhinh' ? 'hovered' : ''}
-                onClick={() => handleItemClick('/thietlap/cauhinh')}
+                className={`litong ${activeItem === '/thietlap' ? 'hovered' : ''}`}
+                onClick={() => handleItemClick('/thietlap')}
               >
-                <Link to={'/thietlap/cauhinh'}>
+                <Link to={'/thietlap'}>
                   <a>
                     <span className='icon'>
                       <FontAwesomeIcon className='fonticon' icon={faWrench} />
@@ -243,7 +314,7 @@ function Sidebar ({ isActive, setIsActive }) {
                 </Link>
               </li>
               <li
-                className={activeItem === '/thietlap/baomat' ? 'hovered' : ''}
+                className={`litong ${activeItem === '/thietlap/baomat' ? 'hovered' : ''}`}
                 onClick={() => handleItemClick('/thietlap/baomat')}
               >
                 <Link to={'/thietlap/baomat'}>
@@ -262,7 +333,7 @@ function Sidebar ({ isActive, setIsActive }) {
           )}
         </li>
 
-        <li>
+        <li className='litong'>
           <a onClick={handleLogout}>
             <span className='icon'>
               <FontAwesomeIcon className='fonticon' icon={faRightFromBracket} />
