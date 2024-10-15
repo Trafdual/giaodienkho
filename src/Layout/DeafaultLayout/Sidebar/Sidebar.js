@@ -90,25 +90,22 @@ function Sidebar ({ isActive, setIsActive }) {
 
   return (
     <div className={`navigation ${isActive ? 'active' : ''}`}>
+      <div className='a'>
+  <a href='#' className='link'>
+    <img
+      className='fonticon'
+      src={require('../../../assets/images/LOGO.png')}
+      alt='icon'
+    />
+    <span className='title'>
+      BICRAFT
+    </span>
+  </a>
+</div>
+
+
       <ul>
-        <li className='litong' style={{ marginTop: 20 }} >
-          <a href='#'>
-            <span className='icon'>
-              <img
-                className='fonticon'
-                style={{ width: 60, height: 60 }}
-                src={require('../../../assets/images/LOGO.png')}
-                alt='icon'
-              />
-            </span>
-            <span
-              className='title'
-              style={{ fontSize: 30, fontWeight: 'bold' }}
-            >
-              BICRAFT
-            </span>
-          </a>
-        </li>
+       
         <li
          className={`litong ${activeItem === '/home' ? 'hovered' : ''}`}
           onClick={() => handleItemClick('/home')}
