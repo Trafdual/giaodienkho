@@ -3,20 +3,39 @@ import { useState } from 'react'
 import { Modal } from '../../../../components/Modal'
 import { useToast } from '../../../../components/GlobalStyles/ToastContext'
 
-function ModalAddNganHang
- ({ isOpen, onClose, userId, setdatakho }) {
-  const [tenkho, setTenkho] = useState('')
+function ModalAddNganHang ({ isOpen, onClose, userId, fetchdata }) {
+  const [name, setName] = useState('')
+  const [sotaikhoan, setSoTaiKhoan] = useState('')
+
+  const [chusohuu, setChuSoHuu] = useState('')
+
   const { showToast } = useToast()
-  const [tenkhoError, setTenKhoError] = useState('')
+  const [nameError, setnameError] = useState('')
+  const [sotaikhoanError, setsotaikhoanError] = useState('')
+
+  const [chusohuuError, setchusohuuError] = useState('')
 
   const validateInputs = () => {
     let valid = true
 
-    if (!tenkho) {
-      setTenKhoError('Vui lòng nhập tên kho.')
+    if (!name) {
+      setnameError('Vui lòng nhập tên ngân hàng.')
       valid = false
     } else {
-      setTenKhoError('')
+      setnameError('')
+    }
+    if (!sotaikhoan) {
+      setsotaikhoanError('Vui lòng nhập số tài khoản.')
+      valid = false
+    } else {
+      setsotaikhoanError('')
+    }
+
+    if (!chusohuu) {
+      setchusohuuError('Vui lòng nhập chủ sở hữu.')
+      valid = false
+    } else {
+      setchusohuuError('')
     }
 
     return valid
@@ -26,29 +45,30 @@ function ModalAddNganHang
     if (validateInputs()) {
       try {
         const response = await fetch(
-          `https://www.ansuataohanoi.com/postdepot/${userId}`,
+          `http://localhost:8080/postnganhang/${userId}`,
           {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-              name: tenkho,
+              name: name,
+              sotaikhoan: sotaikhoan,
+              chusohuu: chusohuu
             })
           }
         )
-        const data = await response.json()
         if (response.ok) {
-          setdatakho(prevkho => [...prevkho, data])
+         fetchdata()
           onClose()
-          showToast('Thêm kho thành công')
+          showToast('Thêm ngân hàng thành công')
         } else {
-          showToast('Thêm kho thất bại', 'error')
+          showToast('Thêm ngân hàng thất bại', 'error')
           onClose()
         }
       } catch (error) {
-        console.error('Lỗi khi gửi yêu cầu thêm kho:', error)
-        showToast('Thêm kho thất bại', 'error')
+        console.error('Lỗi khi gửi yêu cầu thêm ngân hàng:', error)
+        showToast('Thêm ngân hàng thất bại', 'error')
         onClose()
       }
     }
@@ -60,21 +80,50 @@ function ModalAddNganHang
         <div className='divtenkho'>
           <input
             type='text'
-            className={`tenkho ${tenkhoError ? 'input-error' : ''}`}
+            className={`tenkho ${nameError ? 'input-error' : ''}`}
             placeholder=''
-            onChange={e => setTenkho(e.target.value)}
+            onChange={e => setName(e.target.value)}
           />
           <label htmlFor='' className='label'>
-            Nhập tên kho hàng
+            Nhập tên ngân hàng
           </label>
         </div>
-        {tenkhoError && <div className='error'>{tenkhoError}</div>}
+        {nameError && <div className='error'>{nameError}</div>}
+
+        <div className='divtenkho'>
+          <input
+            type='text'
+            className={`tenkho ${sotaikhoanError ? 'input-error' : ''}`}
+            placeholder=''
+            onChange={e => setSoTaiKhoan(e.target.value)}
+          />
+          <label htmlFor='' className='label'>
+            Nhập số tài khoản
+          </label>
+        </div>
+        {sotaikhoanError && <div className='error'>{sotaikhoanError}</div>}
+
+        <div className='divtenkho'>
+          <input
+            type='text'
+            className={`tenkho ${chusohuuError ? 'input-error' : ''}`}
+            placeholder=''
+            onChange={e => setChuSoHuu(e.target.value)}
+          />
+          <label htmlFor='' className='label'>
+            Nhập tên chủ sở hữu
+          </label>
+        </div>
+        {chusohuuError && <div className='error'>{chusohuuError}</div>}
 
         <hr />
         <button onClick={handleAddKho} className='btnaddkho'>
-          Thêm Kho
+          Thêm ngân hàng
         </button>
-        <button onClick={() => alert('Hủy thêm kho')} className='btnhuyaddkho'>
+        <button
+          onClick={() => alert('Hủy thêm ngân hàng')}
+          className='btnhuyaddkho'
+        >
           Hủy
         </button>
       </div>
@@ -83,4 +132,3 @@ function ModalAddNganHang
 }
 
 export default ModalAddNganHang
-

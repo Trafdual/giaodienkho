@@ -10,6 +10,7 @@ import DatePicker from 'react-datepicker'
 import TimePicker from 'react-time-picker'
 import 'react-datepicker/dist/react-datepicker.css'
 import 'react-time-picker/dist/TimePicker.css'
+import 'react-clock/dist/Clock.css'
 import { ModalAddNganHang } from './ModalAddNganHang'
 import './AddLoHang.scss'
 
@@ -18,7 +19,7 @@ function AddLoHang ({ isOpen, onClose, setlohang }) {
   const [soluong, setsoluong] = useState('')
   const [tongtien, settongtien] = useState('')
   const [date, setdate] = useState('')
-  const [time, settime] = useState('')
+  const [time, settime] = useState(new Date())
   const [isOpenAddNH, setisOpenAddNH] = useState(false)
 
   const [mancc, setmancc] = useState('')
@@ -93,28 +94,27 @@ function AddLoHang ({ isOpen, onClose, setlohang }) {
 
     fetchSuppliers()
   }, [khoID, showToast])
+  const fetchnganhang = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:8080/getnganhang/${userID}`
+      )
+      const data = await response.json()
+
+      if (response.ok) {
+        setnganhangs(data)
+      } else {
+        showToast('Không thể tải danh sách ngân hàng', 'error')
+      }
+    } catch (error) {
+      console.error('Lỗi khi lấy dữ liệu ngân hàng:', error)
+      showToast('Không thể tải danh sách ngân hàng', 'error')
+    } finally {
+      setLoadingSuppliers(false)
+    }
+  }
 
   useEffect(() => {
-    const fetchnganhang = async () => {
-      try {
-        const response = await fetch(
-          `http://localhost:8080/getnganhang/${userID}`
-        )
-        const data = await response.json()
-
-        if (response.ok) {
-          setnganhangs(data)
-        } else {
-          showToast('Không thể tải danh sách ngân hàng', 'error')
-        }
-      } catch (error) {
-        console.error('Lỗi khi lấy dữ liệu ngân hàng:', error)
-        showToast('Không thể tải danh sách ngân hàng', 'error')
-      } finally {
-        setLoadingSuppliers(false)
-      }
-    }
-
     fetchnganhang()
   }, [userID, showToast])
 
@@ -123,10 +123,8 @@ function AddLoHang ({ isOpen, onClose, setlohang }) {
       // Khi modal mở, thiết lập ngày và giờ hiện tại
       const currentDate = new Date()
       const formattedDate = currentDate.toLocaleDateString('en-US') // dd/mm/yyyy
-      const formattedTime = currentDate.toLocaleTimeString('en-GB') // hh:mm:ss
 
       setdate(formattedDate)
-      settime(formattedTime)
       setpayment('ghino')
     }
   }, [isOpen]) // Chỉ thực thi khi modal được mở
@@ -422,13 +420,17 @@ function AddLoHang ({ isOpen, onClose, setlohang }) {
               </button>
             </Tooltip>
             <button className='btnadd'>
-              <FontAwesomeIcon icon={faPlus} className='icon' onClick={() => setisOpenAddNH(true)} />
+              <FontAwesomeIcon
+                icon={faPlus}
+                className='icon'
+                onClick={() => setisOpenAddNH(true)}
+              />
             </button>
             <ModalAddNganHang
               isOpen={isOpenAddNH}
               onClose={() => setisOpenAddNH(false)}
               userId={userID}
-              setdatakho={setnganhangs}
+              fetchdata={fetchnganhang}
             />
           </div>
         )}
@@ -510,13 +512,17 @@ function AddLoHang ({ isOpen, onClose, setlohang }) {
             arrow
             open={isTimePickerOpen}
             onRequestClose={() => setIsTimePickerOpen(false)}
+            position='top'
             html={
-              <TimePicker
+              <DatePicker
+                selected={time}
                 onChange={handleTimeChange}
-                value={time}
-                clockIcon={true}
-                disableClock={true}
-                className='timepicker'
+                showTimeSelect
+                 timeIntervals={1}
+                showTimeSelectOnly
+                timeCaption='Thời gian'
+                dateFormat='HH:mm'
+                placeholderText='Chọn giờ'
               />
             }
           >
@@ -525,7 +531,7 @@ function AddLoHang ({ isOpen, onClose, setlohang }) {
                 type='text'
                 className={`diachi`}
                 placeholder='HH:mm'
-                value={time}
+                value={time.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })}
                 onClick={() => setIsTimePickerOpen(!isTimePickerOpen)}
                 readOnly
               />
