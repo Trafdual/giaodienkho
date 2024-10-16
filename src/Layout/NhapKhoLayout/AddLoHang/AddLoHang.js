@@ -122,9 +122,8 @@ function AddLoHang ({ isOpen, onClose, setlohang }) {
     if (isOpen) {
       // Khi modal mở, thiết lập ngày và giờ hiện tại
       const currentDate = new Date()
-      const formattedDate = currentDate.toLocaleDateString('en-US') // dd/mm/yyyy
 
-      setdate(formattedDate)
+      setdate(currentDate)
       setpayment('ghino')
     }
   }, [isOpen]) // Chỉ thực thi khi modal được mở
@@ -189,16 +188,16 @@ function AddLoHang ({ isOpen, onClose, setlohang }) {
         })
         const data = await response.json()
 
-        if (response.ok) {
+        if (data.message) {
+          showToast(`Thêm lô hàng thất bại${data.message}`, 'error')
+        } else {
           setlohang(prevlohang => [...prevlohang, data])
           handleClose()
           showToast('Thêm lô hàng thành công')
-        } else {
-          showToast('Thêm lô hàng thất bại', 'error')
         }
       } catch (error) {
         console.error('Lỗi khi gửi yêu cầu thêm lô hàng:', error)
-        showToast('Thêm lô hàng thất bại', 'error')
+        showToast(`Thêm lô hàng thất bại${error}`, 'error')
         handleClose()
       }
     }
@@ -497,7 +496,7 @@ function AddLoHang ({ isOpen, onClose, setlohang }) {
                 type='text'
                 className={`diachi`}
                 placeholder='dd/mm/yyyy'
-                value={date ? new Date(date).toLocaleDateString('vi-VN') : ''}
+                value={date ? date.toLocaleDateString('vi-VN') : ''}
                 onClick={() => setIsDatePickerOpen(!isDatePickerOpen)}
                 readOnly // Để ngăn người dùng tự sửa input mà chỉ dùng DatePicker
               />
@@ -518,7 +517,7 @@ function AddLoHang ({ isOpen, onClose, setlohang }) {
                 selected={time}
                 onChange={handleTimeChange}
                 showTimeSelect
-                 timeIntervals={1}
+                timeIntervals={1}
                 showTimeSelectOnly
                 timeCaption='Thời gian'
                 dateFormat='HH:mm'
@@ -531,7 +530,10 @@ function AddLoHang ({ isOpen, onClose, setlohang }) {
                 type='text'
                 className={`diachi`}
                 placeholder='HH:mm'
-                value={time.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })}
+                value={time.toLocaleTimeString('en-GB', {
+                  hour: '2-digit',
+                  minute: '2-digit'
+                })}
                 onClick={() => setIsTimePickerOpen(!isTimePickerOpen)}
                 readOnly
               />

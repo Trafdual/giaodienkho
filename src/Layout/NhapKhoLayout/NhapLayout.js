@@ -164,8 +164,14 @@ function NhapKhoLayout () {
                         {!isMobile && (
                           <>
                             <td>{ncc.date}</td>
-                            <td>{ncc.tongtien.toLocaleString()} VNĐ</td>
-                            <td>{ncc.average.toLocaleString()} VNĐ</td>
+                            <td>
+                              {ncc.tongtien ? ncc.tongtien.toLocaleString() : 0}{' '}
+                              VNĐ
+                            </td>
+                            <td>
+                              {ncc.average ? ncc.average.toLocaleString() : 0}{' '}
+                              VNĐ
+                            </td>
                           </>
                         )}
                         <td className='tdchucnang'>
@@ -173,13 +179,13 @@ function NhapKhoLayout () {
                             className='btnchitietncc'
                             onClick={() => handleLohang(ncc._id)}
                           >
-                           Chi tiết
+                            Chi tiết
                           </button>
                           <button
                             className='btncnncc'
                             onClick={() => setIsOpen(true)}
                           >
-                           Cập nhật
+                            Cập nhật
                           </button>
                         </td>
                       </tr>
