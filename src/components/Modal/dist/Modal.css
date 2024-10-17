@@ -17,10 +17,9 @@
   border-radius: 8px;
   width: 80%;
   max-width: 550px;
-  position: relative;
-  margin-top: 500px;
-  margin-bottom: 500px;
+  position: absolute;
   overflow: hidden;
+  cursor: grab;
 }
 
 .modal-close {
@@ -41,9 +40,7 @@
     border-radius: 8px;
     width: 100%;
     max-width: 46.1875em;
-    position: relative;
-    margin-top: 300px;
-    margin-bottom: 500px;
+    position: absolute;
     overflow: hidden;
   }
 }

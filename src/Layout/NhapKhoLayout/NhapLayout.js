@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { AddLoHang } from './AddLoHang'
 import { SanPhamLayout } from './SanPhamLayout'
+import { EditLoHang } from './EditLoHang'
 
 function NhapKhoLayout () {
   const [lohang, setlohang] = useState([])
@@ -14,11 +15,13 @@ function NhapKhoLayout () {
   const [idlohang, setidlohang] = useState('')
   const [loading, setLoading] = useState(true)
   const [loadingsanpham, setloadingsanpham] = useState(false)
+  const [isOpenEdit, setIsOpenEdit] = useState(false)
 
   // Trạng thái phân trang
   const [currentPage, setCurrentPage] = useState(1)
   const [itemsPerPage, setItemsPerPage] = useState(9) // Mặc định là 9
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
+  const [idloaisanpham, setIdloaisanpham] = useState(null)
 
   let isMounted = true
 
@@ -27,7 +30,7 @@ function NhapKhoLayout () {
 
     try {
       const response = await fetch(
-        `https://www.ansuataohanoi.com/getloaisanpham2/${khoID}`,
+        `http://localhost:8080/getloaisanpham2/${khoID}`,
         {
           method: 'GET',
           headers: {
@@ -82,6 +85,13 @@ function NhapKhoLayout () {
 
   const handleCloseModal = () => {
     setIsOpen(false)
+  }
+  const handleCloseEdit = () => {
+    setIsOpenEdit(false)
+  }
+  const handleEditClick = id => {
+    setIdloaisanpham(id) // Lưu ID của sản phẩm cần cập nhật
+    setIsOpenEdit(true) // Mở modal
   }
 
   const handleLohang = useCallback(id => {
@@ -149,6 +159,7 @@ function NhapKhoLayout () {
                         <td className='tdnhap'>Ngày nhập</td>
                         <td className='tdnhap'>Tổng tiền</td>
                         <td className='tdnhap'>Trung bình máy</td>
+                        <td className='tdnhap'>Còn lại máy</td>
                       </>
                     )}
                     <td className='tdnhap'>Chức năng</td>
@@ -157,38 +168,43 @@ function NhapKhoLayout () {
                 <tbody className='tbodynhap'>
                   {currentItems.length > 0 ? (
                     currentItems.map(ncc => (
-                      <tr key={ncc._id}>
-                        <td>{ncc.malsp}</td>
-                        <td>{ncc.name}</td>
-                        <td>{ncc.soluong}</td>
-                        {!isMobile && (
-                          <>
-                            <td>{ncc.date}</td>
-                            <td>
-                              {ncc.tongtien ? ncc.tongtien.toLocaleString() : 0}{' '}
-                              VNĐ
-                            </td>
-                            <td>
-                              {ncc.average ? ncc.average.toLocaleString() : 0}{' '}
-                              VNĐ
-                            </td>
-                          </>
-                        )}
-                        <td className='tdchucnang'>
-                          <button
-                            className='btnchitietncc'
-                            onClick={() => handleLohang(ncc._id)}
-                          >
-                            Chi tiết
-                          </button>
-                          <button
-                            className='btncnncc'
-                            onClick={() => setIsOpen(true)}
-                          >
-                            Cập nhật
-                          </button>
-                        </td>
-                      </tr>
+                      <>
+                        <tr key={ncc._id}>
+                          <td>{ncc.malsp}</td>
+                          <td>{ncc.name}</td>
+                          <td>{ncc.soluong}</td>
+                          {!isMobile && (
+                            <>
+                              <td>{ncc.date}</td>
+                              <td>
+                                {ncc.tongtien
+                                  ? ncc.tongtien.toLocaleString()
+                                  : 0}{' '}
+                                VNĐ
+                              </td>
+                              <td>
+                                {ncc.average ? ncc.average.toLocaleString() : 0}{' '}
+                                VNĐ
+                              </td>
+                              <td>{ncc.conlai}</td>
+                            </>
+                          )}
+                          <td className='tdchucnang'>
+                            <button
+                              className='btnchitietncc'
+                              onClick={() => handleLohang(ncc._id)}
+                            >
+                              Chi tiết
+                            </button>
+                            <button
+                              className='btncnncc'
+                              onClick={() => handleEditClick(ncc._id)}
+                            >
+                              Cập nhật
+                            </button>
+                          </td>
+                        </tr>
+                      </>
                     ))
                   ) : (
                     <tr>
@@ -213,6 +229,11 @@ function NhapKhoLayout () {
               isOpen={isOpen}
               onClose={handleCloseModal}
               setlohang={setlohang}
+            />
+            <EditLoHang
+              idloaisanpham={idloaisanpham}
+              isOpen={isOpenEdit}
+              onClose={handleCloseEdit}
             />
           </div>
         )

@@ -7,14 +7,13 @@ import { faChevronDown, faPlus } from '@fortawesome/free-solid-svg-icons'
 import { Tooltip } from 'react-tippy'
 import 'react-tippy/dist/tippy.css'
 import DatePicker from 'react-datepicker'
-import TimePicker from 'react-time-picker'
 import 'react-datepicker/dist/react-datepicker.css'
 import 'react-time-picker/dist/TimePicker.css'
 import 'react-clock/dist/Clock.css'
-import { ModalAddNganHang } from './ModalAddNganHang'
-import './AddLoHang.scss'
+import { ModalAddNganHang } from '../AddLoHang/ModalAddNganHang'
+import { setDate } from 'date-fns'
 
-function AddLoHang ({ isOpen, onClose, setlohang }) {
+function EditLoHang ({ isOpen, onClose, idloaisanpham }) {
   const [name, setName] = useState('')
   const [soluong, setsoluong] = useState('')
   const [tongtien, settongtien] = useState('')
@@ -118,16 +117,6 @@ function AddLoHang ({ isOpen, onClose, setlohang }) {
     fetchnganhang()
   }, [userID, showToast])
 
-  useEffect(() => {
-    if (isOpen) {
-      // Khi modal mở, thiết lập ngày và giờ hiện tại
-      const currentDate = new Date()
-
-      setdate(currentDate)
-      setpayment('ghino')
-    }
-  }, [isOpen]) // Chỉ thực thi khi modal được mở
-
   const validateInputs = () => {
     let valid = true
 
@@ -169,52 +158,55 @@ function AddLoHang ({ isOpen, onClose, setlohang }) {
     return valid
   }
 
-  const handleAddLoHang = async () => {
-    if (validateInputs()) {
-      try {
-        const response = await fetch(`http://localhost:8080/postloaisanpham2`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            mancc: mancc,
-            name: name,
-            tongtien: tongtien,
-            soluong: soluong,
-            date: date,
-            ghino: payment,
-            method:method
-          })
-        })
-        const data = await response.json()
+  // Hàm fetch chi tiết loại sản phẩm
 
-        if (data.message) {
-          showToast(`Thêm lô hàng thất bại${data.message}`, 'error')
-        } else {
-          setlohang(prevlohang => [...prevlohang, data])
-          handleClose()
-          showToast('Thêm lô hàng thành công')
+  useEffect(() => {
+    if (isOpen && idloaisanpham) {
+      resetForm()
+      const fetchChitiet = async () => {
+        try {
+          const response = await fetch(
+            `http://localhost:8080/getchitietloaisanpham/${idloaisanpham}`
+          )
+          const data = await response.json()
+          if (response.ok) {
+            setmancc(data.mancc)
+            setName(data.name)
+            setsoluong(data.soluong)
+            settongtien(data.tongtien)
+            const dateValue = new Date(data.date)
+            if (!isNaN(dateValue.getTime())) {
+              // Kiểm tra nếu là ngày hợp lệ
+              setdate(dateValue)
+            } else {
+              setdate(null) // Hoặc xử lý nếu ngày không hợp lệ
+            }
+
+            setmanganhang(data.manganhang)
+            setpayment(data.ghino ? 'ghino' : 'thanhtoanngay')
+          } else {
+            showToast('Không thể tải dữ liệu lô hàng', 'error')
+          }
+        } catch (error) {
+          console.error('Lỗi khi tải dữ liệu lô hàng:', error)
+          showToast(`tải dữ liệu lô hàng thất bại ${error}`, 'error')
+          onClose() // Đóng modal nếu có lỗi
         }
-      } catch (error) {
-        console.error('Lỗi khi gửi yêu cầu thêm lô hàng:', error)
-        showToast(`Thêm lô hàng thất bại${error}`, 'error')
-        handleClose()
       }
+
+      fetchChitiet() // Tải dữ liệu mới
     }
-  }
+    console.log(idloaisanpham)
+  }, [idloaisanpham, isOpen])
 
   const resetForm = useCallback(() => {
+    setmancc('')
     setName('')
     setsoluong('')
     settongtien('')
-    setdate('')
-    setmancc('')
-    setNameError('')
-    setsoluongError('')
-    settongtienError('')
-    setdateError('')
-    setmanccError('')
+    setDate('')
+    setmanganhang('')
+    setpayment('')
   }, [])
 
   const handleClose = () => {
@@ -544,9 +536,7 @@ function AddLoHang ({ isOpen, onClose, setlohang }) {
             </div>
           </Tooltip>
         </div>
-        <button onClick={handleAddLoHang} className='btnAddLoHang'>
-          Thêm lô hàng
-        </button>
+        <button className='btnAddLoHang'>Cập nhật lô hàng</button>
         <button onClick={handleClose} className='btnhuyAddLoHang'>
           Hủy
         </button>
@@ -555,4 +545,4 @@ function AddLoHang ({ isOpen, onClose, setlohang }) {
   )
 }
 
-export default AddLoHang
+export default EditLoHang
