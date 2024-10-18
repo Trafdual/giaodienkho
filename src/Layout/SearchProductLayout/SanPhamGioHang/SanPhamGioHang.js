@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-function SanPhamGioHang ({remainingHeight , selectedsanpham}) {
+function SanPhamGioHang ({ remainingHeight, selectedsanpham }) {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
 
   return (
@@ -14,14 +14,15 @@ function SanPhamGioHang ({remainingHeight , selectedsanpham}) {
             position: 'relative'
           }}
         >
+          <div className='headernhap'>
+            <h2>Sản phẩm đã chọn</h2>
+          </div>
 
           <table className='tablenhap'>
             <thead className='theadnhap'>
               <tr>
                 <td className='tdnhap'>
-                  <input
-                    type='checkbox'
-                  />
+                  <input type='checkbox' />
                 </td>
                 <td className='tdnhap'>Mã sản phẩm</td>
                 <td className='tdnhap'>Imel</td>

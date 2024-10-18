@@ -96,7 +96,7 @@ function EditLoHang ({ isOpen, onClose, idloaisanpham }) {
   const fetchnganhang = async () => {
     try {
       const response = await fetch(
-        `http://localhost:8080/getnganhang/${userID}`
+        `https://www.ansuataohanoi.com/getnganhang/${userID}`
       )
       const data = await response.json()
 
@@ -166,7 +166,7 @@ function EditLoHang ({ isOpen, onClose, idloaisanpham }) {
       const fetchChitiet = async () => {
         try {
           const response = await fetch(
-            `http://localhost:8080/getchitietloaisanpham/${idloaisanpham}`
+            `https://www.ansuataohanoi.com/getchitietloaisanpham/${idloaisanpham}`
           )
           const data = await response.json()
           if (response.ok) {
@@ -207,6 +207,7 @@ function EditLoHang ({ isOpen, onClose, idloaisanpham }) {
     setDate('')
     setmanganhang('')
     setpayment('')
+    setmethod('')
   }, [])
 
   const handleClose = () => {

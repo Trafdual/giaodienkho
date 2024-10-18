@@ -88,7 +88,7 @@ function Header ({ toggleMenu, userId, name, isActive }) {
   const searchproduct = async () => {
     try {
       const response = await fetch(
-        `http://localhost:8080/searchsanpham/${khoID}`,
+        `https://www.ansuataohanoi.com/searchsanpham/${khoID}`,
         {
           method: 'POST',
           headers: {
@@ -103,8 +103,8 @@ function Header ({ toggleMenu, userId, name, isActive }) {
       const data = await response.json()
 
       if (response.ok) {
-       navigate('/search-products', { state: { products: data } })
-       setKeyword('')
+        navigate('/search-products', { state: { products: data } })
+        setKeyword('')
       } else {
         showToast('không tìm thấy sản phẩm', 'error')
       }
@@ -132,7 +132,9 @@ function Header ({ toggleMenu, userId, name, isActive }) {
             icon={faFilter}
             onClick={toggleDropdown} // Khi bấm vào thì dropdown hiển thị
           />
-          <button className='search-button' onClick={searchproduct}>Search</button>
+          <button className='search-button' onClick={searchproduct}>
+            Search
+          </button>
         </label>
 
         {isDropdownVisible && (

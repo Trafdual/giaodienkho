@@ -394,7 +394,7 @@ function SearchProductLayout () {
                 ))
               ) : (
                 <tr>
-                  <td colSpan='7'>Không có sản phẩm nào!</td>
+                  <td colSpan='9'>Không có sản phẩm nào!</td>
                 </tr>
               )}
             </tbody>
