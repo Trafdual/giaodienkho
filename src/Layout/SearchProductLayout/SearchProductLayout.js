@@ -244,6 +244,14 @@ function SearchProductLayout () {
       console.error('Error fetching data:', error)
     }
   }
+  const clearsanpham = () => {
+  // Cập nhật selectedItems trong state
+  setSanPham([])
+
+  // Đặt selectedItems trong localStorage về mảng rỗng
+ setSelectedItems([])
+}
+
 
   return (
     <>
@@ -419,6 +427,7 @@ function SearchProductLayout () {
           onClose={handleCloseModalChuyenKhoFull}
           setIsOpenChuyenKhoFull={setIsOpenChuyenKhoFull}
           selectedItems={selectedItems}
+          fetchData={clearsanpham}
         />
       )}
       {openModalbarcode && (

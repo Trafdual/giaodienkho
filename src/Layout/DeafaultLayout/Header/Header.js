@@ -29,6 +29,8 @@ function Header ({ toggleMenu, userId, name, isActive }) {
   const [filterOption, setFilterOption] = useState('theo tên máy') // Tùy chọn filter hiện tại
   const [keywword, setKeyword] = useState('')
   const [khoID, setKhoID] = useState(localStorage.getItem('khoID') || '')
+  const [products, setProducts] = useState([])
+
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -75,6 +77,18 @@ function Header ({ toggleMenu, userId, name, isActive }) {
     setFilterOption(option)
     setDropdownVisible(false)
   }
+
+  useEffect(() => {
+    const newKhoID = localStorage.getItem('khoID') || ''
+
+    if (newKhoID !== khoID) {
+      console.log('Kho ID đã thay đổi:', newKhoID)
+      setKhoID(newKhoID)
+      setKeyword('')
+      setProducts([])
+    }
+  }, [khoID])
+
   const getPlaceholder = () => {
     if (filterOption === 'theo tên máy') {
       return 'Nhập tên sản phẩm...'
@@ -103,6 +117,7 @@ function Header ({ toggleMenu, userId, name, isActive }) {
       const data = await response.json()
 
       if (response.ok) {
+        setProducts(data)
         navigate('/search-products', { state: { products: data } })
         setKeyword('')
       } else {
