@@ -186,7 +186,9 @@ function AddLoHang ({ isOpen, onClose, setlohang }) {
               soluong: soluong,
               date: date,
               ghino: payment,
-              method: method
+              method: method,
+              hour: time,
+              manganhangkho: manganhang
             })
           }
         )

@@ -28,7 +28,8 @@ function SanPhamLayout ({
   setopendetail,
   idloaisp,
   setloadingsanpham,
-  loadingsanpham
+  loadingsanpham,
+  fetchlohang
 }) {
   const { showToast } = useToast()
   const [isOpen, setIsOpen] = useState(false)
@@ -112,6 +113,7 @@ function SanPhamLayout ({
     setopendetail(true)
     setSelectedItems([])
     setSelectAll(false)
+    fetchlohang()
   }
 
   const handleSelectItem = id => {
@@ -180,6 +182,7 @@ function SanPhamLayout ({
           }
         }
       )
+      console.log(idloaisp)
 
       if (response.ok) {
         const data = await response.json()
@@ -446,6 +449,7 @@ function SanPhamLayout ({
               loaispid={idloaisp}
               setsanpham={setSanPham}
               fetchData={fetchData}
+              fetchlohang={fetchlohang}
             />
 
             <Modal

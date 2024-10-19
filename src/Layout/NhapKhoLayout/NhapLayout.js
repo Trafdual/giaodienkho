@@ -208,7 +208,7 @@ function NhapKhoLayout () {
                     ))
                   ) : (
                     <tr>
-                      <td colSpan='7'>Không có lô hàng nào</td>
+                      <td colSpan='8'>Không có lô hàng nào</td>
                     </tr>
                   )}
                 </tbody>
@@ -234,6 +234,7 @@ function NhapKhoLayout () {
               idloaisanpham={idloaisanpham}
               isOpen={isOpenEdit}
               onClose={handleCloseEdit}
+              fetchlohang={fetchData}
             />
           </div>
         )
@@ -244,6 +245,7 @@ function NhapKhoLayout () {
         idloaisp={idlohang}
         setloadingsanpham={setloadingsanpham}
         loadingsanpham={loadingsanpham}
+        fetchlohang={fetchData}
       />
     </>
   )

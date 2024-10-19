@@ -13,7 +13,7 @@ import 'react-clock/dist/Clock.css'
 import { ModalAddNganHang } from '../AddLoHang/ModalAddNganHang'
 import { setDate } from 'date-fns'
 
-function EditLoHang ({ isOpen, onClose, idloaisanpham }) {
+function EditLoHang ({ isOpen, onClose, idloaisanpham, fetchlohang }) {
   const [name, setName] = useState('')
   const [soluong, setsoluong] = useState('')
   const [tongtien, settongtien] = useState('')
@@ -158,6 +158,46 @@ function EditLoHang ({ isOpen, onClose, idloaisanpham }) {
     return valid
   }
 
+  const handleCapNhatLoHang = async () => {
+    if (validateInputs()) {
+      try {
+        const response = await fetch(
+          `https://www.ansuataohanoi.com/putloaisanpham/${idloaisanpham}`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              mancc: mancc,
+              name: name,
+              tongtien: tongtien,
+              soluong: soluong,
+              date: date,
+              ghino: payment,
+              method: method,
+              hour: time,
+              manganhangkho: manganhang
+            })
+          }
+        )
+        const data = await response.json()
+
+        if (data.message) {
+          showToast(`cập nhật lô hàng thất bại${data.message}`, 'error')
+        } else {
+          fetchlohang()
+          handleClose()
+          showToast('cập nhật lô hàng thành công')
+        }
+      } catch (error) {
+        console.error('Lỗi khi gửi yêu cầu cập nhật lô hàng:', error)
+        showToast(`cập nhật lô hàng thất bại${error}`, 'error')
+        handleClose()
+      }
+    }
+  }
+
   // Hàm fetch chi tiết loại sản phẩm
 
   useEffect(() => {
@@ -170,20 +210,32 @@ function EditLoHang ({ isOpen, onClose, idloaisanpham }) {
           )
           const data = await response.json()
           if (response.ok) {
-            setmancc(data.mancc)
+            setmancc(data.manhacungcap)
             setName(data.name)
             setsoluong(data.soluong)
             settongtien(data.tongtien)
             const dateValue = new Date(data.date)
             if (!isNaN(dateValue.getTime())) {
-              // Kiểm tra nếu là ngày hợp lệ
               setdate(dateValue)
             } else {
-              setdate(null) // Hoặc xử lý nếu ngày không hợp lệ
+              setdate(null)
             }
 
             setmanganhang(data.manganhang)
             setpayment(data.ghino ? 'ghino' : 'thanhtoanngay')
+            let methodLabel = ''
+
+            if (data.method === 'chuyenkhoan') {
+              methodLabel = 'Chuyển khoản'
+            } else if (data.method === 'tienmat') {
+              methodLabel = 'Tiền mặt'
+            } else {
+              methodLabel = 'Chọn phương thức' // Hoặc để chuỗi rỗng ''
+            }
+
+            setmethod(methodLabel)
+
+            setmanganhang(data.method === 'chuyenkhoan' ? data.manganhang : '')
           } else {
             showToast('Không thể tải dữ liệu lô hàng', 'error')
           }
@@ -293,7 +345,8 @@ function EditLoHang ({ isOpen, onClose, idloaisanpham }) {
                 onClick={() => setIsTableMethod(!isTableMethod)}
                 disabled={payment !== 'thanhtoanngay'}
               >
-                {method ? `${method}` : 'Chọn phương thức'}
+                {method || 'Chọn phương thức'}
+
                 <FontAwesomeIcon icon={faChevronDown} className='iconNcc' />
               </button>
             </Tooltip>
@@ -350,7 +403,7 @@ function EditLoHang ({ isOpen, onClose, idloaisanpham }) {
           </Tooltip>
         </div>
 
-        {method === 'Chuyển khoản' && (
+        {method === 'Chuyển khoản' && payment === 'thanhtoanngay' && (
           <div className='divinputncc'>
             <h4>Ngân hàng</h4>
             <Tooltip
@@ -537,7 +590,9 @@ function EditLoHang ({ isOpen, onClose, idloaisanpham }) {
             </div>
           </Tooltip>
         </div>
-        <button className='btnAddLoHang'>Cập nhật lô hàng</button>
+        <button className='btnAddLoHang' onClick={handleCapNhatLoHang}>
+          Cập nhật lô hàng
+        </button>
         <button onClick={handleClose} className='btnhuyAddLoHang'>
           Hủy
         </button>

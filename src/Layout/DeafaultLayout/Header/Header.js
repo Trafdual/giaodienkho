@@ -29,7 +29,7 @@ function Header ({ toggleMenu, userId, name, isActive }) {
   const [filterOption, setFilterOption] = useState('theo tên máy') // Tùy chọn filter hiện tại
   const [keywword, setKeyword] = useState('')
   const [khoID, setKhoID] = useState(localStorage.getItem('khoID') || '')
-  const [products, setProducts] = useState([])
+const previousKhoID = useRef(khoID)
 
   const navigate = useNavigate()
 
@@ -85,7 +85,6 @@ function Header ({ toggleMenu, userId, name, isActive }) {
       console.log('Kho ID đã thay đổi:', newKhoID)
       setKhoID(newKhoID)
       setKeyword('')
-      setProducts([])
     }
   }, [khoID])
 
@@ -117,9 +116,10 @@ function Header ({ toggleMenu, userId, name, isActive }) {
       const data = await response.json()
 
       if (response.ok) {
-        setProducts(data)
-        navigate('/search-products', { state: { products: data } })
+        const dataToSend = previousKhoID.current !== khoID ? [] : data
+        navigate('/search-products', { state: { products: dataToSend } })
         setKeyword('')
+        
       } else {
         showToast('không tìm thấy sản phẩm', 'error')
       }
