@@ -38,15 +38,14 @@
 }
 
 .tablenhap td {
-  border: 1px solid #ddd;
   padding: 10px;
   text-align: center;
+  border: 1px solid #ddd;
+  resize: horizontal; /* Cho phép kéo giãn theo chiều ngang */
+  overflow: hidden;   /* Giới hạn nội dung khi thay đổi kích thước */
+  min-width: 100px;   /* Kích thước tối thiểu của cột */
 }
 
-.tablenhap td {
-  padding-top: 10px;
-  cursor: col-resize;
-}
 
 .btnthemlo {
   border: none;

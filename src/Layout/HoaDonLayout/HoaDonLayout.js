@@ -175,14 +175,14 @@ function HoaDonLayout () {
         {selectedInvoice && <Invoice hd={selectedInvoice} />}
       </div>
 
-      <table className='table-hoa-don'>
-        <thead>
+      <table className='tablenhap'>
+        <thead className='theadnhap'>
           <tr>
-            <th>Mã hóa đơn</th>
-            <th>Mã khách hàng</th>
-            <th>Ngày xuất</th>
-            <th>Tổng tiền</th>
-            <th>Chức năng</th>
+            <td className='tdnhap'>Mã hóa đơn</td>
+            <td className='tdnhap'>Mã khách hàng</td>
+            <td className='tdnhap'>Ngày xuất</td>
+            <td className='tdnhap'>Tổng tiền</td>
+            <td className='tdnhap'>Chức năng</td>
           </tr>
         </thead>
         <tbody>

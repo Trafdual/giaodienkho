@@ -4,8 +4,8 @@ import { publicRoutes } from './router'
 import { DefaultLayout } from './Layout/DeafaultLayout'
 import ToastProvider from './components/GlobalStyles/ToastContext'
 
-
 function App() {
+
   return (
     <ToastProvider>
       <Router>

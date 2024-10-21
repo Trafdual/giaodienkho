@@ -4,6 +4,9 @@ import { useState, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { LoHangLayout } from './LoHangLayout'
+import '../ColumnResizer/columnResizer.scss'
+import { enableColumnResizing } from '../ColumnResizer/columnResizer';
+
 
 import { AddNhaCungCap } from './AddNhaCungCap'
 function NhaCungCapLayout () {
@@ -89,7 +92,9 @@ function NhaCungCapLayout () {
       isMounted = false
     }
   }, [khoID])
-
+  useEffect(() => {
+    enableColumnResizing('.tablenhap'); 
+  }, []);
   return (
     <>
       {opendetail && (
@@ -167,6 +172,8 @@ function NhaCungCapLayout () {
       />
     </>
   )
+  
 }
+
 
 export default NhaCungCapLayout
