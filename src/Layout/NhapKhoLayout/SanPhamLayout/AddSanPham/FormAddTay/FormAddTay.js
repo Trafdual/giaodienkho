@@ -1,4 +1,5 @@
-import { useState, useCallback } from 'react'
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useState, useCallback,useEffect } from 'react'
 
 import { Modal } from '../../../../../components/Modal'
 import { useToast } from '../../../../../components/GlobalStyles/ToastContext'
@@ -53,7 +54,7 @@ function FormAddTay ({ isOpen, onClose, loaispid, fetchData,fetchlohang }) {
     if (valicolorInputs()) {
       try {
         const response = await fetch(
-          `https://www.ansuataohanoi.com/postsp/${loaispid}`,
+          `http://localhost:8080/postsp/${loaispid}`,
           {
             method: 'POST',
             headers: {
@@ -101,6 +102,21 @@ function FormAddTay ({ isOpen, onClose, loaispid, fetchData,fetchlohang }) {
     resetForm()
     onClose()
   }
+  
+  useEffect(() => {
+  const eventSource = new EventSource('http://localhost:8080/events')
+
+  eventSource.onmessage = event => {
+    const newMessage = JSON.parse(event.data)
+    showToast(newMessage.message)
+    fetchData()
+  }
+
+  return () => {
+    eventSource.close()
+  }
+}, [])
+
 
   return (
     <Modal isOpen={isOpen} onClose={handleClose}>

@@ -247,6 +247,22 @@ function SanPhamLayout ({
     }
   }
 
+useEffect(() => {
+  const eventSource = new EventSource('http://localhost:8080/events')
+
+  eventSource.onmessage = event => {
+    const newMessage = JSON.parse(event.data)
+    showToast(newMessage.message)
+    fetchData()
+  }
+
+  return () => {
+    eventSource.close()
+  }
+}, [])
+
+
+
   return (
     <>
       {loadingsanpham ? (
