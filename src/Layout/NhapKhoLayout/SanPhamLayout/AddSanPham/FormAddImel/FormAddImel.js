@@ -49,6 +49,21 @@ function FormAddImel ({ isOpen, onClose, loaispid, fetchData }) {
     }
   }
 
+  useEffect(() => {
+  const eventSource = new EventSource('https://www.ansuataohanoi.com/events')
+
+  eventSource.onmessage = event => {
+    const newMessage = JSON.parse(event.data)
+    showToast(newMessage.message)
+    fetchData()
+  }
+
+  return () => {
+    eventSource.close()
+  }
+}, [])
+
+
   const handleClose = () => {
     onClose()
     setBarcodeData('') // Clear scanned data when closing
