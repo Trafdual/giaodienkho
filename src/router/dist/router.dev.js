@@ -29,6 +29,8 @@ var _ThietLapLayout = require("~/Layout/ThietLapLayout");
 
 var _SearchProductLayout = require("~/Layout/SearchProductLayout");
 
+var _TestLayout = require("~/Layout/TestLayout");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var publicRoutes = [{
@@ -65,6 +67,9 @@ var publicRoutes = [{
 }, {
   path: '/search-products',
   component: _SearchProductLayout.SearchProductLayout
+}, {
+  path: '/test',
+  component: _TestLayout.TestLayout
 }, {
   path: '/register',
   component: _RegisterLayout.Register,
