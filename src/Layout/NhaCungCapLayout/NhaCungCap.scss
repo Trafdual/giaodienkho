@@ -22,33 +22,7 @@
                     align-items: center;
                 }
                 
-                .tablenhap {
-                    width: 100%;
-                    border-collapse: collapse;
-                    margin-top: 10px;
-                }
-                
-                .tablenhap thead {
-                    background-color: #f4f4f4; // Bạn có thể tùy chỉnh màu nền cho thead
-                    border-bottom: 2px solid #ddd; // Thêm border dưới thead
-                }
-                
-                .theadnhap .tdnhap {
-                    font-weight: bold;
-                }
-                
-                .tablenhap td {
-                    border: 1px solid #ddd;
-                    padding: 10px;
-                    text-align: center;
-                }
-                
-                .tablenhap td {
-                    padding-top: 10px;
-                    cursor: col-resize;
-                }
-
-                
+             
                 
                 .btnthemlo {
                     border: none;
