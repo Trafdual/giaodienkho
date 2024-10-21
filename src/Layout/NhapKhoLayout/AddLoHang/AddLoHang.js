@@ -14,7 +14,7 @@ import 'react-clock/dist/Clock.css'
 import { ModalAddNganHang } from './ModalAddNganHang'
 import './AddLoHang.scss'
 
-function AddLoHang ({ isOpen, onClose, setlohang }) {
+function AddLoHang({ isOpen, onClose, setlohang }) {
   const [name, setName] = useState('')
   const [soluong, setsoluong] = useState('')
   const [tongtien, settongtien] = useState('')
@@ -472,14 +472,18 @@ function AddLoHang ({ isOpen, onClose, setlohang }) {
             type='text'
             className={`diachi ${tongtienError ? 'input-error' : ''}`}
             placeholder=''
-            value={tongtien}
-            onChange={e => settongtien(e.target.value)}
+            value={new Intl.NumberFormat().format(tongtien.replace(/\./g, ''))}
+            onChange={e => {
+              const rawValue = e.target.value.replace(/\./g, ''); 
+              settongtien(rawValue);                              
+            }}
           />
           <label htmlFor='' className='label'>
             Nhập tổng tiền lô hàng
           </label>
         </div>
         {tongtienError && <div className='error'>{tongtienError}</div>}
+
         <div className='divngaygio'>
           {/* Input cho ngày */}
           <Tooltip
