@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useState, useCallback,useEffect } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 
 import { Modal } from '../../../../../components/Modal'
 import { useToast } from '../../../../../components/GlobalStyles/ToastContext'
 
-function FormAddTay ({ isOpen, onClose, loaispid, fetchData,fetchlohang }) {
+function FormAddTay ({ isOpen, onClose, loaispid, fetchData, fetchlohang }) {
   const [name, setName] = useState('')
   const [imel, setimel] = useState('')
   const [dungluong, setdungluong] = useState('')
@@ -54,7 +54,7 @@ function FormAddTay ({ isOpen, onClose, loaispid, fetchData,fetchlohang }) {
     if (valicolorInputs()) {
       try {
         const response = await fetch(
-          `http://localhost:8080/postsp/${loaispid}`,
+          `https://www.ansuataohanoi.com/postsp/${loaispid}`,
           {
             method: 'POST',
             headers: {
@@ -103,21 +103,20 @@ function FormAddTay ({ isOpen, onClose, loaispid, fetchData,fetchlohang }) {
     resetForm()
     onClose()
   }
-  
-  useEffect(() => {
-  const eventSource = new EventSource('http://localhost:8080/events')
 
-  eventSource.onmessage = event => {
-    const newMessage = JSON.parse(event.data)
-    showToast(newMessage.message)
-    fetchData()
-  }
+  // useEffect(() => {
+  //   const eventSource = new EventSource('https://www.ansuataohanoi.com/events')
 
-  return () => {
-    eventSource.close()
-  }
-}, [])
+  //   eventSource.onmessage = event => {
+  //     const newMessage = JSON.parse(event.data)
+  //     showToast(newMessage.message)
+  //     fetchData()
+  //   }
 
+  //   return () => {
+  //     eventSource.close()
+  //   }
+  // }, [])
 
   return (
     <Modal isOpen={isOpen} onClose={handleClose}>

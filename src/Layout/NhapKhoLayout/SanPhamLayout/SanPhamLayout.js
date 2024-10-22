@@ -160,19 +160,19 @@ function SanPhamLayout ({ idloaisp, fetchlohang, remainingHeight }) {
     fetchData()
   }, [idloaisp])
 
-  useEffect(() => {
-    const eventSource = new EventSource('http://localhost:8080/events')
+  // useEffect(() => {
+  //   const eventSource = new EventSource('https://www.ansuataohanoi.com/events')
 
-    eventSource.onmessage = event => {
-      const newMessage = JSON.parse(event.data)
-      showToast(newMessage.message)
-      fetchData()
-    }
+  //   eventSource.onmessage = event => {
+  //     const newMessage = JSON.parse(event.data)
+  //     showToast(newMessage.message)
+  //     fetchData()
+  //   }
 
-    return () => {
-      eventSource.close()
-    }
-  }, [])
+  //   return () => {
+  //     eventSource.close()
+  //   }
+  // }, [])
 
   return (
     <>

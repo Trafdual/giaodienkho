@@ -264,12 +264,6 @@ function NhapKhoLayout () {
                           )}
                           <td className='tdchucnang'>
                             <button
-                              className='btnchitietncc'
-                              onClick={() => handleLohang(ncc._id)}
-                            >
-                              Chi tiết
-                            </button>
-                            <button
                               className='btncnncc'
                               onClick={() => handleEditClick(ncc._id)}
                             >
