@@ -2,13 +2,15 @@
 import { useState, useEffect } from 'react'
 import { useToast } from '../../../../components/GlobalStyles/ToastContext'
 import { Modal } from '../../../../components/Modal'
-function ModalXuatKhoFull ({
+function ModalChuyenKhoFull ({
   isOpen,
   onClose,
   fetchData,
   selectedItems,
   setSelectedItems,
-  setSelectAll
+  setSelectAll,
+  fetchlohang
+
 }) {
   const { showToast } = useToast()
   const [datakho, setdatakho] = useState([])
@@ -76,6 +78,7 @@ function ModalXuatKhoFull ({
       if (data.message) {
         showToast(`${data.message}`)
         fetchData()
+        fetchlohang()
         onClose()
         setSelectedItems([])
         setSelectAll(false)
@@ -124,4 +127,4 @@ function ModalXuatKhoFull ({
   )
 }
 
-export default ModalXuatKhoFull
+export default ModalChuyenKhoFull

@@ -3,13 +3,13 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-Object.defineProperty(exports, "ModalXuatKhoFull", {
+Object.defineProperty(exports, "ModalChuyenKhoFull", {
   enumerable: true,
   get: function get() {
-    return _ModalXuatKhoFull["default"];
+    return _ModalChuyenKhoFull["default"];
   }
 });
 
-var _ModalXuatKhoFull = _interopRequireDefault(require("./ModalXuatKhoFull"));
+var _ModalChuyenKhoFull = _interopRequireDefault(require("./ModalChuyenKhoFull"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }

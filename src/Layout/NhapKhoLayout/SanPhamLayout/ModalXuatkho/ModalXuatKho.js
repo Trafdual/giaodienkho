@@ -8,11 +8,11 @@ import { useToast } from '../../../../components/GlobalStyles/ToastContext'
 function ModalXuatKho ({
   isOpen,
   onClose,
-  setsanpham,
   idsanpham,
   idloaisp,
   khoID,
-  fetchData
+  fetchData,
+  fetchlohang
 }) {
   const [isOpenForm, setIsOpenForm] = useState(false)
   const { showToast } = useToast()
@@ -38,6 +38,7 @@ function ModalXuatKho ({
       if (response.ok) {
         showToast('xuất kho thành công')
         fetchData()
+        fetchlohang()
         onClose()
       } else {
         console.error('Failed to fetch data')
@@ -53,7 +54,12 @@ function ModalXuatKho ({
     <>
       <Modal isOpen={isOpen} onClose={onClose}>
         <div className='divAddSanPham'>
-          <button onClick={() => postxuatkho(idsanpham)} className='btnAddLoHang'>Xuất kho</button>
+          <button
+            onClick={() => postxuatkho(idsanpham)}
+            className='btnAddLoHang'
+          >
+            Xuất kho
+          </button>
           <div className='separator'>
             <span>Hoặc</span>
           </div>

@@ -75,6 +75,7 @@ function FormAddTay ({ isOpen, onClose, loaispid, fetchData,fetchlohang }) {
           fetchlohang()
           onClose()
         } else {
+          fetchlohang()
           fetchData()
           handleClose()
           showToast('Thêm sản phẩm thành công')

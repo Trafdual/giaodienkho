@@ -10,18 +10,66 @@ import { EditLoHang } from './EditLoHang'
 function NhapKhoLayout () {
   const [lohang, setlohang] = useState([])
   const [isOpen, setIsOpen] = useState(false)
-  const [opendetail, setopendetail] = useState(true)
   const [khoID, setKhoID] = useState(localStorage.getItem('khoID') || '')
   const [idlohang, setidlohang] = useState('')
   const [loading, setLoading] = useState(true)
-  const [loadingsanpham, setloadingsanpham] = useState(false)
   const [isOpenEdit, setIsOpenEdit] = useState(false)
+  const [selectedRow, setSelectedRow] = useState(null)
 
   // Trạng thái phân trang
   const [currentPage, setCurrentPage] = useState(1)
   const [itemsPerPage, setItemsPerPage] = useState(9) // Mặc định là 9
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
   const [idloaisanpham, setIdloaisanpham] = useState(null)
+
+  //xử lý kéo
+  const [height, setHeight] = useState(400)
+  const [isDragging, setIsDragging] = useState(false)
+  const [startY, setStartY] = useState(0)
+  const [resizerPosition, setResizerPosition] = useState(400)
+  const [remainingHeight, setRemainingHeight] = useState(
+    window.innerHeight - 500
+  )
+
+  const handleMouseDown = e => {
+    setIsDragging(true)
+    setStartY(e.clientY)
+    document.body.style.cursor = 'ns-resize' // Đổi con trỏ chuột
+  }
+
+  const handleMouseMove = e => {
+    if (isDragging) {
+      const newHeight = height + (e.clientY - startY)
+      if (newHeight > 100 && newHeight <= 554) {
+        // Đảm bảo chiều cao không nhỏ hơn 100px
+        setHeight(newHeight)
+        setResizerPosition(newHeight) // Cập nhật vị trí của resizer khi di chuyển
+        setRemainingHeight(window.innerHeight - newHeight - 100)
+      }
+      setStartY(e.clientY)
+      document.body.style.userSelect = 'none' // Ngăn chọn text khi kéo
+    }
+  }
+
+  const handleMouseUp = () => {
+    setIsDragging(false)
+    document.body.style.cursor = 'auto' // Đổi con trỏ chuột về mặc định
+    document.body.style.userSelect = 'auto'
+  }
+
+  useEffect(() => {
+    // Thêm sự kiện mousemove và mouseup khi kéo
+    window.addEventListener('mousemove', handleMouseMove)
+    window.addEventListener('mouseup', handleMouseUp)
+
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove)
+      window.removeEventListener('mouseup', handleMouseUp)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isDragging])
+
+  //hết kéo
 
   let isMounted = true
 
@@ -96,8 +144,7 @@ function NhapKhoLayout () {
 
   const handleLohang = useCallback(id => {
     setidlohang(id)
-    setloadingsanpham(true)
-    setopendetail(false)
+    setSelectedRow(id)
   }, [])
 
   useEffect(() => {
@@ -138,9 +185,30 @@ function NhapKhoLayout () {
       {loading ? (
         <Loading /> // Hiển thị component Loading khi đang tải
       ) : (
-        opendetail && (
-          <div className='detailsnhap'>
-            <div className='recentOrdersnhap'>
+        <>
+          <div className='detailsnhapkho'>
+            <div
+              className='recentOrdersnhapkho'
+              style={{
+                height: `${height}px`,
+                overflow: 'auto',
+                position: 'relative'
+              }}
+            >
+              <div
+                className='resizer'
+                onMouseDown={handleMouseDown}
+                style={{
+                  cursor: 'ns-resize',
+                  width: '100%',
+                  height: '10px',
+                  background: '#ccc',
+                  position: 'absolute',
+                  top: `${resizerPosition - 10}px`,
+                  left: '0'
+                }}
+              ></div>
+
               <div className='headernhap'>
                 <h2 className='divncc'>Lô hàng</h2>
                 <button className='btnthemlo' onClick={() => setIsOpen(true)}>
@@ -169,7 +237,12 @@ function NhapKhoLayout () {
                   {currentItems.length > 0 ? (
                     currentItems.map(ncc => (
                       <>
-                        <tr key={ncc._id}>
+                        <tr
+                          key={ncc._id}
+                          className={selectedRow === ncc._id ? 'selectedrow' : ''}
+                          onClick={() => handleLohang(ncc._id)}
+                          style={{ cursor: 'pointer' }}
+                        >
                           <td>{ncc.malsp}</td>
                           <td>{ncc.name}</td>
                           <td>{ncc.soluong}</td>
@@ -237,16 +310,13 @@ function NhapKhoLayout () {
               fetchlohang={fetchData}
             />
           </div>
-        )
+          <SanPhamLayout
+            remainingHeight={remainingHeight}
+            idloaisp={idlohang}
+            fetchlohang={fetchData}
+          />
+        </>
       )}
-      <SanPhamLayout
-        opendetail={opendetail}
-        setopendetail={setopendetail}
-        idloaisp={idlohang}
-        setloadingsanpham={setloadingsanpham}
-        loadingsanpham={loadingsanpham}
-        fetchlohang={fetchData}
-      />
     </>
   )
 }
