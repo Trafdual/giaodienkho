@@ -134,7 +134,7 @@ function SanPhamLayout ({ idloaisp, fetchlohang, remainingHeight }) {
 
     try {
       const response = await fetch(
-        `http://localhost:8080/getsanpham/${idloaisp}`,
+        `https://www.ansuataohanoi.com/getsanpham/${idloaisp}`,
         {
           method: 'GET',
           headers: {
@@ -161,7 +161,7 @@ function SanPhamLayout ({ idloaisp, fetchlohang, remainingHeight }) {
   }, [idloaisp])
 
   // useEffect(() => {
-  //   const eventSource = new EventSource('http://localhost:8080/events')
+  //   const eventSource = new EventSource('https://www.ansuataohanoi.com/events')
 
   //   eventSource.onmessage = event => {
   //     const newMessage = JSON.parse(event.data)

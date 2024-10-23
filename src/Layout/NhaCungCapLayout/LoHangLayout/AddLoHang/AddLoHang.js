@@ -54,7 +54,7 @@ function AddLoHang ({ isOpen, onClose, nccId, setlohang }) {
     if (validateInputs()) {
       try {
         const response = await fetch(
-          `http://localhost:8080/postloaisanpham/${nccId}`,
+          `https://www.ansuataohanoi.com/postloaisanpham/${nccId}`,
           {
             method: 'POST',
             headers: {

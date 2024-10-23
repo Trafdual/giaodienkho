@@ -21,7 +21,7 @@ function LoHangLayout ({ opendetail, setopendetail, idncc }) {
 
       try {
         const response = await fetch(
-          `http://localhost:8080/getloaisanpham/${idncc}`,
+          `https://www.ansuataohanoi.com/getloaisanpham/${idncc}`,
           {
             method: 'GET',
             headers: {

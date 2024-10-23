@@ -30,7 +30,9 @@ function HoaDonLayout () {
 
   const fetchHoaDon = async () => {
     try {
-      const response = await fetch(`http://localhost:8080/hoadon/${khoID}`)
+      const response = await fetch(
+        `https://www.ansuataohanoi.com/hoadon/${khoID}`
+      )
       const data = await response.json()
       setHoaDon(data)
     } catch (error) {

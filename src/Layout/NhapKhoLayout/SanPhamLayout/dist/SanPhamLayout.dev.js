@@ -92,12 +92,15 @@ function SanPhamLayout (_ref) {
               _context.prev = 2
               _context.next = 5
               return regeneratorRuntime.awrap(
-                fetch('http://localhost:8080/getsanpham/'.concat(idloaisp), {
-                  method: 'GET',
-                  headers: {
-                    'Content-Type': 'application/json'
+                fetch(
+                  'https://www.ansuataohanoi.com/getsanpham/'.concat(idloaisp),
+                  {
+                    method: 'GET',
+                    headers: {
+                      'Content-Type': 'application/json'
+                    }
                   }
-                })
+                )
               )
 
             case 5:
@@ -167,7 +170,7 @@ function SanPhamLayout (_ref) {
               _context2.next = 5
               return regeneratorRuntime.awrap(
                 fetch(
-                  'http://localhost:8080/xuatkho/'
+                  'https://www.ansuataohanoi.com/xuatkho/'
                     .concat(idsp, '/')
                     .concat(idloaisp, '/')
                     .concat(khoID),

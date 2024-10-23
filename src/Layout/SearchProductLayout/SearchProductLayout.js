@@ -218,15 +218,18 @@ function SearchProductLayout () {
   }
   const XuatKhoHangLoat = async () => {
     try {
-      const response = await fetch(`http://localhost:8080/xuatkho1/${khoID}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          idsanpham1: selectedItems
-        })
-      })
+      const response = await fetch(
+        `https://www.ansuataohanoi.com/xuatkho1/${khoID}`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            idsanpham1: selectedItems
+          })
+        }
+      )
       const data = await response.json()
 
       if (data) {

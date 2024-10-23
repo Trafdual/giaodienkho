@@ -101,7 +101,7 @@ function Header ({ toggleMenu, userId, name, isActive }) {
   const searchproduct = async () => {
     try {
       const response = await fetch(
-        `http://localhost:8080/searchsanpham/${khoID}`,
+        `https://www.ansuataohanoi.com/searchsanpham/${khoID}`,
         {
           method: 'POST',
           headers: {

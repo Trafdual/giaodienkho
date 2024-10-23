@@ -57,7 +57,7 @@ function KhachHangLayout () {
 
     try {
       const response = await fetch(
-        `http://localhost:8080/getkhachhang/${khoID}`,
+        `https://www.ansuataohanoi.com/getkhachhang/${khoID}`,
         {
           method: 'GET',
           headers: {

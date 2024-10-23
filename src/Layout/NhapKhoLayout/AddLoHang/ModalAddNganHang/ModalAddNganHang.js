@@ -45,7 +45,7 @@ function ModalAddNganHang ({ isOpen, onClose, userId, fetchdata }) {
     if (validateInputs()) {
       try {
         const response = await fetch(
-          `http://localhost:8080/postnganhang/${userId}`,
+          `https://www.ansuataohanoi.com/postnganhang/${userId}`,
           {
             method: 'POST',
             headers: {

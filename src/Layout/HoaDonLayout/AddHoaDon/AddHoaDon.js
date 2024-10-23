@@ -61,7 +61,7 @@ function AddHoaDon ({ isOpen, onClose, khoID, fetchData }) {
     if (validateInputs()) {
       try {
         const response = await fetch(
-          `http://localhost:8080/posthoadon/${khoID}`,
+          `https://www.ansuataohanoi.com/posthoadon/${khoID}`,
           {
             method: 'POST',
             headers: {

@@ -100,7 +100,7 @@ function TestLayout () {
   const XoaHangLoat = async () => {
     try {
       const response = await fetch(
-        `http://localhost:8080/deletexuatkho/${khoID}`,
+        `https://www.ansuataohanoi.com/deletexuatkho/${khoID}`,
         {
           method: 'POST',
           headers: {

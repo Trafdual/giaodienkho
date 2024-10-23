@@ -77,7 +77,7 @@ function DieuChuyenLayout () {
 
     try {
       const response = await fetch(
-        `http://localhost:8080/getdieuchuyen/${khoID}`,
+        `https://www.ansuataohanoi.com/getdieuchuyen/${khoID}`,
         {
           method: 'GET',
           headers: {
@@ -115,7 +115,7 @@ function DieuChuyenLayout () {
   const XoaHangLoat = async () => {
     try {
       const response = await fetch(
-        `http://localhost:8080/deletedieuchuyen/${khoID}`,
+        `https://www.ansuataohanoi.com/deletedieuchuyen/${khoID}`,
         {
           method: 'POST',
           headers: {

@@ -78,7 +78,7 @@ function NhapKhoLayout () {
 
     try {
       const response = await fetch(
-        `http://localhost:8080/getloaisanpham2/${khoID}`,
+        `https://www.ansuataohanoi.com/getloaisanpham2/${khoID}`,
         {
           method: 'GET',
           headers: {
