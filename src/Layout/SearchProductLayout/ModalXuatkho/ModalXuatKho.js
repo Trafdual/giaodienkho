@@ -26,7 +26,7 @@ function ModalXuatKho ({
 
     try {
       const response = await fetch(
-        `https://www.ansuataohanoi.com/xuatkho/${idsp}/${idloaisp}/${khoID}`,
+        `http://localhost:8080/xuatkho/${idsp}/${idloaisp}/${khoID}`,
         {
           method: 'POST',
           headers: {
@@ -53,7 +53,12 @@ function ModalXuatKho ({
     <>
       <Modal isOpen={isOpen} onClose={onClose}>
         <div className='divAddSanPham'>
-          <button onClick={() => postxuatkho(idsanpham)} className='btnAddLoHang'>Xuất kho</button>
+          <button
+            onClick={() => postxuatkho(idsanpham)}
+            className='btnAddLoHang'
+          >
+            Xuất kho
+          </button>
           <div className='separator'>
             <span>Hoặc</span>
           </div>

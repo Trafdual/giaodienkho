@@ -6,7 +6,6 @@ import './AddHoaDon.scss'
 import { faXmark } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-
 function AddHoaDon ({ isOpen, onClose, khoID, fetchData }) {
   const [makh, setMakh] = useState('')
   const [masp, setMasp] = useState('') // Mã sản phẩm hiện tại
@@ -62,7 +61,7 @@ function AddHoaDon ({ isOpen, onClose, khoID, fetchData }) {
     if (validateInputs()) {
       try {
         const response = await fetch(
-          `https://www.ansuataohanoi.com/posthoadon/${khoID}`,
+          `http://localhost:8080/posthoadon/${khoID}`,
           {
             method: 'POST',
             headers: {
@@ -156,7 +155,6 @@ function AddHoaDon ({ isOpen, onClose, khoID, fetchData }) {
                     onClick={() => handleRemoveMasp(index)}
                   >
                     <FontAwesomeIcon className='remove-icon' icon={faXmark} />
-
                   </button>
                 </li>
               ))}

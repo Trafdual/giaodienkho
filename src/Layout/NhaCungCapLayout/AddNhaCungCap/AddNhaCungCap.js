@@ -54,7 +54,7 @@ function AddNhaCungCap ({ isOpen, onClose, khoID, setnhacungcap }) {
     if (validateInputs()) {
       try {
         const response = await fetch(
-          `https://www.ansuataohanoi.com/postnhacungcap/${khoID}`,
+          `http://localhost:8080/postnhacungcap/${khoID}`,
           {
             method: 'POST',
             headers: {

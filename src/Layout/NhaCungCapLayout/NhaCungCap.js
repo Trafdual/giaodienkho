@@ -5,8 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { LoHangLayout } from './LoHangLayout'
 import '../ColumnResizer/columnResizer.scss'
-import { enableColumnResizing } from '../ColumnResizer/columnResizer';
-
+import { enableColumnResizing } from '../ColumnResizer/columnResizer'
 
 import { AddNhaCungCap } from './AddNhaCungCap'
 function NhaCungCapLayout () {
@@ -64,7 +63,7 @@ function NhaCungCapLayout () {
 
       try {
         const response = await fetch(
-          `https://www.ansuataohanoi.com/getnhacungcap/${khoID}`,
+          `http://localhost:8080/getnhacungcap/${khoID}`,
           {
             method: 'GET',
             headers: {
@@ -93,8 +92,8 @@ function NhaCungCapLayout () {
     }
   }, [khoID])
   useEffect(() => {
-    enableColumnResizing('.tablenhap'); 
-  }, []);
+    enableColumnResizing('.tablenhap')
+  }, [])
   return (
     <>
       {opendetail && (
@@ -172,8 +171,6 @@ function NhaCungCapLayout () {
       />
     </>
   )
-  
 }
-
 
 export default NhaCungCapLayout

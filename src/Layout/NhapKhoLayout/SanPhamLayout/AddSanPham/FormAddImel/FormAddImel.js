@@ -18,21 +18,18 @@ function FormAddImel ({ isOpen, onClose, loaispid, fetchData }) {
 
   const handleAddSanPham = async result => {
     try {
-      const response = await fetch(
-        `https://www.ansuataohanoi.com/postsp/${loaispid}`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            imel: result,
-            capacity: '',
-            name: '',
-            color: ''
-          })
-        }
-      )
+      const response = await fetch(`http://localhost:8080/postsp/${loaispid}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          imel: result,
+          capacity: '',
+          name: '',
+          color: ''
+        })
+      })
       const data = await response.json()
 
       if (data.message) {
@@ -50,19 +47,18 @@ function FormAddImel ({ isOpen, onClose, loaispid, fetchData }) {
   }
 
   useEffect(() => {
-  const eventSource = new EventSource('https://www.ansuataohanoi.com/events')
+    const eventSource = new EventSource('http://localhost:8080/events')
 
-  eventSource.onmessage = event => {
-    const newMessage = JSON.parse(event.data)
-    showToast(newMessage.message)
-    fetchData()
-  }
+    eventSource.onmessage = event => {
+      const newMessage = JSON.parse(event.data)
+      showToast(newMessage.message)
+      fetchData()
+    }
 
-  return () => {
-    eventSource.close()
-  }
-}, [])
-
+    return () => {
+      eventSource.close()
+    }
+  }, [])
 
   const handleClose = () => {
     onClose()

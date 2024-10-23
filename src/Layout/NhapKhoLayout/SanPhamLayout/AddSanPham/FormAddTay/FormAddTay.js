@@ -54,7 +54,7 @@ function FormAddTay ({ isOpen, onClose, loaispid, fetchData, fetchlohang }) {
     if (valicolorInputs()) {
       try {
         const response = await fetch(
-          `https://www.ansuataohanoi.com/postsp/${loaispid}`,
+          `http://localhost:8080/postsp/${loaispid}`,
           {
             method: 'POST',
             headers: {
@@ -103,7 +103,7 @@ function FormAddTay ({ isOpen, onClose, loaispid, fetchData, fetchlohang }) {
   }
 
   // useEffect(() => {
-  //   const eventSource = new EventSource('https://www.ansuataohanoi.com/events')
+  //   const eventSource = new EventSource('http://localhost:8080/events')
 
   //   eventSource.onmessage = event => {
   //     const newMessage = JSON.parse(event.data)

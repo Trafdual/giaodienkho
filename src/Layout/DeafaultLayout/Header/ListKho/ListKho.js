@@ -2,10 +2,12 @@
 import React, { useEffect, useState, useRef } from 'react'
 import './ListKho.scss'
 
-function ListKho ({datakho,setdatakho}) {
+function ListKho ({ datakho, setdatakho }) {
   const [isOpen, setIsOpen] = useState(false)
   const [selectedKho, setSelectedKho] = useState(null)
-  const [userID, setuserID] = useState(localStorage.getItem('userId') || sessionStorage.getItem('userId') || '')
+  const [userID, setuserID] = useState(
+    localStorage.getItem('userId') || sessionStorage.getItem('userId') || ''
+  )
 
   const dropdownRef = useRef(null)
 
@@ -27,15 +29,12 @@ function ListKho ({datakho,setdatakho}) {
 
   const handleGetKho = async () => {
     try {
-      const response = await fetch(
-        `https://www.ansuataohanoi.com/getdepot/${userID}`,
-        {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json'
-          }
+      const response = await fetch(`http://localhost:8080/getdepot/${userID}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
         }
-      )
+      })
 
       if (response.ok) {
         const data = await response.json()

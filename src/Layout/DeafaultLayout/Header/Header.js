@@ -29,7 +29,7 @@ function Header ({ toggleMenu, userId, name, isActive }) {
   const [filterOption, setFilterOption] = useState('theo tên máy') // Tùy chọn filter hiện tại
   const [keywword, setKeyword] = useState('')
   const [khoID, setKhoID] = useState(localStorage.getItem('khoID') || '')
-const previousKhoID = useRef(khoID)
+  const previousKhoID = useRef(khoID)
 
   const navigate = useNavigate()
 
@@ -101,7 +101,7 @@ const previousKhoID = useRef(khoID)
   const searchproduct = async () => {
     try {
       const response = await fetch(
-        `https://www.ansuataohanoi.com/searchsanpham/${khoID}`,
+        `http://localhost:8080/searchsanpham/${khoID}`,
         {
           method: 'POST',
           headers: {
@@ -119,7 +119,6 @@ const previousKhoID = useRef(khoID)
         const dataToSend = previousKhoID.current !== khoID ? [] : data
         navigate('/search-products', { state: { products: dataToSend } })
         setKeyword('')
-        
       } else {
         showToast('không tìm thấy sản phẩm', 'error')
       }

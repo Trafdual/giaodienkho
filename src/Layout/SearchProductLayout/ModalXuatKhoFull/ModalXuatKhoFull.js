@@ -32,15 +32,12 @@ function ModalXuatKhoFull ({
 
   const handleGetKho = async () => {
     try {
-      const response = await fetch(
-        `https://www.ansuataohanoi.com/getdepot/${userID}`,
-        {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json'
-          }
+      const response = await fetch(`http://localhost:8080/getdepot/${userID}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
         }
-      )
+      })
 
       if (response.ok) {
         const data = await response.json()
@@ -62,7 +59,7 @@ function ModalXuatKhoFull ({
   const postchuyenkho = async () => {
     const idsanpham1 = selectedItems.map(item => item._id)
     try {
-      const response = await fetch(`https://www.ansuataohanoi.com/chuyenkho1`, {
+      const response = await fetch(`http://localhost:8080/chuyenkho1`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

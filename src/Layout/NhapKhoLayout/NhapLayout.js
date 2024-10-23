@@ -78,7 +78,7 @@ function NhapKhoLayout () {
 
     try {
       const response = await fetch(
-        `https://www.ansuataohanoi.com/getloaisanpham2/${khoID}`,
+        `http://localhost:8080/getloaisanpham2/${khoID}`,
         {
           method: 'GET',
           headers: {
@@ -237,13 +237,14 @@ function NhapKhoLayout () {
                       <>
                         <tr
                           key={ncc._id}
-                          className={selectedRow === ncc._id ? 'selectedrow' : ''}
+                          className={
+                            selectedRow === ncc._id ? 'selectedrow' : ''
+                          }
                           onClick={() => handleLohang(ncc._id)}
                           style={{ cursor: 'pointer' }}
                         >
                           <td>{ncc.malsp}</td>
                           <td>{ncc.name}</td>
-                          <td>{ncc.soluong}</td>
                           {!isMobile && (
                             <>
                               <td>{ncc.date}</td>
@@ -251,10 +252,6 @@ function NhapKhoLayout () {
                                 {ncc.tongtien
                                   ? ncc.tongtien.toLocaleString()
                                   : 0}{' '}
-                                VNĐ
-                              </td>
-                              <td>
-                                {ncc.average ? ncc.average.toLocaleString() : 0}{' '}
                                 VNĐ
                               </td>
                               <td>{ncc.conlai}</td>

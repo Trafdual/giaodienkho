@@ -15,7 +15,6 @@ import './AddLoHang.scss'
 
 function AddLoHang ({ isOpen, onClose, setlohang }) {
   const [name, setName] = useState('')
-  const [soluong, setsoluong] = useState('')
   const [tongtien, settongtien] = useState('')
   const [date, setdate] = useState('')
   const [time, settime] = useState(new Date())
@@ -32,7 +31,6 @@ function AddLoHang ({ isOpen, onClose, setlohang }) {
 
   const { showToast } = useToast()
   const [nameError, setNameError] = useState('')
-  const [soluongError, setsoluongError] = useState('')
   const [tongtienError, settongtienError] = useState('')
   const [dateError, setdateError] = useState('')
   const [manccError, setmanccError] = useState('')
@@ -79,7 +77,7 @@ function AddLoHang ({ isOpen, onClose, setlohang }) {
     const fetchSuppliers = async () => {
       try {
         const response = await fetch(
-          `https://www.ansuataohanoi.com/getnhacungcap/${khoID}`
+          `http://localhost:8080/getnhacungcap/${khoID}`
         )
         const data = await response.json()
 
@@ -101,7 +99,7 @@ function AddLoHang ({ isOpen, onClose, setlohang }) {
   const fetchnganhang = async () => {
     try {
       const response = await fetch(
-        `https://www.ansuataohanoi.com/getnganhang/${userID}`
+        `http://localhost:8080/getnganhang/${userID}`
       )
       const data = await response.json()
 
@@ -142,13 +140,6 @@ function AddLoHang ({ isOpen, onClose, setlohang }) {
       setNameError('')
     }
 
-    if (!soluong) {
-      setsoluongError('Vui lòng nhập số lượng.')
-      valid = false
-    } else {
-      setsoluongError('')
-    }
-
     if (!tongtien) {
       settongtienError('Tổng tiền phải lớn hơn 0.')
       valid = false
@@ -182,26 +173,23 @@ function AddLoHang ({ isOpen, onClose, setlohang }) {
   const handleAddLoHang = async () => {
     if (validateInputs()) {
       try {
-        const response = await fetch(
-          `https://www.ansuataohanoi.com/postloaisanpham2`,
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-              mancc: mancc,
-              name: name,
-              tongtien: tongtien,
-              soluong: soluong,
-              date: date,
-              ghino: payment,
-              method: method,
-              hour: time,
-              manganhangkho: manganhang
-            })
-          }
-        )
+        const response = await fetch(`http://localhost:8080/postloaisanpham2`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            mancc: mancc,
+            name: name,
+            tongtien: tongtien,
+            date: date,
+            ghino: payment,
+            method: method,
+            hour: time,
+            manganhangkho: manganhang,
+            loaihanghoa: loaihanghoa
+          })
+        })
         const data = await response.json()
 
         if (data.message) {
@@ -221,13 +209,11 @@ function AddLoHang ({ isOpen, onClose, setlohang }) {
 
   const resetForm = useCallback(() => {
     setName('')
-    setsoluong('')
     settongtien('')
     setdate('')
     setmancc('')
     setloaihanghoa('')
     setNameError('')
-    setsoluongError('')
     settongtienError('')
     setdateError('')
     setmanccError('')
@@ -513,28 +499,10 @@ function AddLoHang ({ isOpen, onClose, setlohang }) {
             }}
           />
           <label htmlFor='' className='label'>
-            Nhập tên lô hàng
+            Diễn giải
           </label>
         </div>
         {nameError && <div className='error'>{nameError}</div>}
-        <div className='divdiachikho'>
-          <input
-            type='text'
-            className={`diachi ${soluongError ? 'input-error' : ''}`}
-            placeholder=''
-            value={soluong}
-            onChange={e => {
-              setsoluong(e.target.value)
-              if(e.target.value){
-                setsoluongError('')
-              }
-            }}
-          />
-          <label htmlFor='' className='label'>
-            Nhập số lượng máy
-          </label>
-        </div>
-        {soluongError && <div className='error'>{soluongError}</div>}
         <div className='divdiachikho'>
           <input
             type='text'

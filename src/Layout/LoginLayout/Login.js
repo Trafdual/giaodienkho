@@ -60,7 +60,7 @@ function Login () {
     if (validateInputs()) {
       setIsLoading(true)
       try {
-        const response = await fetch('https://www.ansuataohanoi.com/login', {
+        const response = await fetch('http://localhost:8080/login', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -71,12 +71,11 @@ function Login () {
           })
         })
 
-        const data = await response.json();
-
+        const data = await response.json()
 
         if (data.data) {
-          const userId = data.data.user[0]._id;
-          const name = data.data.user[0].name;
+          const userId = data.data.user[0]._id
+          const name = data.data.user[0].name
           if (rememberMe) {
             localStorage.setItem('token', data.token)
             localStorage.setItem('userId', userId)
@@ -89,7 +88,7 @@ function Login () {
           showToast('Đăng nhập thành công!')
           navigate(publicRoutes[1].path)
         } else {
-          showToast(data.message, 'error');
+          showToast(data.message, 'error')
         }
       } catch (error) {
         showToast(
@@ -100,7 +99,7 @@ function Login () {
         setIsLoading(false)
       }
     }
-  };
+  }
   return (
     <div className='container'>
       <div className='dualscreen1'>

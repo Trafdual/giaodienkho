@@ -74,7 +74,7 @@ function EditLoHang ({ isOpen, onClose, idloaisanpham, fetchlohang }) {
     const fetchSuppliers = async () => {
       try {
         const response = await fetch(
-          `https://www.ansuataohanoi.com/getnhacungcap/${khoID}`
+          `http://localhost:8080/getnhacungcap/${khoID}`
         )
         const data = await response.json()
 
@@ -96,7 +96,7 @@ function EditLoHang ({ isOpen, onClose, idloaisanpham, fetchlohang }) {
   const fetchnganhang = async () => {
     try {
       const response = await fetch(
-        `https://www.ansuataohanoi.com/getnganhang/${userID}`
+        `http://localhost:8080/getnganhang/${userID}`
       )
       const data = await response.json()
 
@@ -162,7 +162,7 @@ function EditLoHang ({ isOpen, onClose, idloaisanpham, fetchlohang }) {
     if (validateInputs()) {
       try {
         const response = await fetch(
-          `https://www.ansuataohanoi.com/putloaisanpham/${idloaisanpham}`,
+          `http://localhost:8080/putloaisanpham/${idloaisanpham}`,
           {
             method: 'POST',
             headers: {
@@ -206,7 +206,7 @@ function EditLoHang ({ isOpen, onClose, idloaisanpham, fetchlohang }) {
       const fetchChitiet = async () => {
         try {
           const response = await fetch(
-            `https://www.ansuataohanoi.com/getchitietloaisanpham/${idloaisanpham}`
+            `http://localhost:8080/getchitietloaisanpham/${idloaisanpham}`
           )
           const data = await response.json()
           if (response.ok) {
