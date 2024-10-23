@@ -24,9 +24,10 @@ function BanHangLayout() {
 
 
       <div className="row">
-        {/* Left Column: Search and Product Grid */}
+      
         <div className="column left-column">
-          <div className="search-bar-section">
+              <div className="head">
+              <div className="search-bar-section">
             <div className="search-bar">
               <label>Tìm kiếm</label>
               <input
@@ -46,7 +47,7 @@ function BanHangLayout() {
             </div>
           </div>
 
-          {/* Empty Product Message */}
+        
           <div className="empty-product-message">
             <img
               src="https://png.pngtree.com/png-vector/20240309/ourlarge/pngtree-tea-shop-sale-vector-concept-black-illustration-png-image_11902973.png"
@@ -57,7 +58,9 @@ function BanHangLayout() {
             <button className="choose-product-btn">Chọn hàng hóa</button>
             <button className="import-product-btn">Nhập khẩu hàng hóa</button>
           </div>
+              </div>
 
+          <div className="prd">
           <div>
             <h3>Danh sách sản phẩm</h3>
           </div>
@@ -68,6 +71,7 @@ function BanHangLayout() {
             <div className="product-card">15 PRM 1T</div>
             <div className="product-card">XS</div>
             <div className="product-card">Củ sạc nhanh</div>
+          </div>
           </div>
 
 
