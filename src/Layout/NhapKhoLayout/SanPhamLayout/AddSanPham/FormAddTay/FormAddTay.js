@@ -72,8 +72,6 @@ function FormAddTay ({ isOpen, onClose, loaispid, fetchData, fetchlohang }) {
 
         if (data.message) {
           showToast(`${data.message}`, 'error')
-          fetchlohang()
-          onClose()
         } else {
           fetchlohang()
           fetchData()

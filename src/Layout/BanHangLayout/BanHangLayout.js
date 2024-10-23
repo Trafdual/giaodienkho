@@ -17,8 +17,8 @@ function BanHangLayout() {
         </div>
         <div className="header-right">
           <span className="store-name">9 Mobile</span>
-          <FaBell className="icon" />
-          <FaUser className="icon" />
+          <FaBell className="iconbanhang" />
+          <FaUser className="iconbanhang" />
         </div>
       </header>
 
@@ -83,10 +83,10 @@ function BanHangLayout() {
           {/* Customer Information */}
           <div className="customer-info">
             <div className="customer-input-section">
-              <MdSearch className="icon" />
+              <MdSearch className="iconbanhang" />
               <input type="text" placeholder="(F4) SĐT, tên khách hàng" className="customer-input" />
-              <FaBarcode className="icon" />
-              <FaShoppingCart className="icon" />
+              <FaBarcode className="iconbanhang" />
+              <FaShoppingCart className="iconbanhang" />
             </div>
           </div>
 

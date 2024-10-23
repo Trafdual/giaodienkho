@@ -7,14 +7,13 @@ import { faChevronDown, faPlus } from '@fortawesome/free-solid-svg-icons'
 import { Tooltip } from 'react-tippy'
 import 'react-tippy/dist/tippy.css'
 import DatePicker from 'react-datepicker'
-import TimePicker from 'react-time-picker'
 import 'react-datepicker/dist/react-datepicker.css'
 import 'react-time-picker/dist/TimePicker.css'
 import 'react-clock/dist/Clock.css'
 import { ModalAddNganHang } from './ModalAddNganHang'
 import './AddLoHang.scss'
 
-function AddLoHang({ isOpen, onClose, setlohang }) {
+function AddLoHang ({ isOpen, onClose, setlohang }) {
   const [name, setName] = useState('')
   const [soluong, setsoluong] = useState('')
   const [tongtien, settongtien] = useState('')
@@ -26,6 +25,8 @@ function AddLoHang({ isOpen, onClose, setlohang }) {
   const [isTableVisible, setIsTableVisible] = useState(false)
   const [isTableMethod, setIsTableMethod] = useState(false)
   const [isTableNganHang, setIsTableNganHang] = useState(false)
+  const [isTableHangHoa, setIsTableHangHoa] = useState(false)
+
   const [nganhangs, setnganhangs] = useState([])
   const [manganhang, setmanganhang] = useState('')
 
@@ -35,6 +36,7 @@ function AddLoHang({ isOpen, onClose, setlohang }) {
   const [tongtienError, settongtienError] = useState('')
   const [dateError, setdateError] = useState('')
   const [manccError, setmanccError] = useState('')
+  const [loaihanghoaError, setloaihanghoaError] = useState('')
 
   const [suppliers, setSuppliers] = useState([])
   const [loadingSuppliers, setLoadingSuppliers] = useState(true)
@@ -45,6 +47,8 @@ function AddLoHang({ isOpen, onClose, setlohang }) {
   const [isTimePickerOpen, setIsTimePickerOpen] = useState(false)
   const [payment, setpayment] = useState('')
   const methods = ['Tiền mặt', 'Chuyển khoản']
+  const loaihanghoas = ['Linh kiện', 'Điện thoại']
+  const [loaihanghoa, setloaihanghoa] = useState('')
   const [method, setmethod] = useState('')
 
   useEffect(() => {
@@ -146,7 +150,7 @@ function AddLoHang({ isOpen, onClose, setlohang }) {
     }
 
     if (!tongtien) {
-      settongtienError('Vui lòng nhập tổng tiền.')
+      settongtienError('Tổng tiền phải lớn hơn 0.')
       valid = false
     } else {
       settongtienError('')
@@ -164,6 +168,12 @@ function AddLoHang({ isOpen, onClose, setlohang }) {
       valid = false
     } else {
       setmanccError('')
+    }
+    if (!loaihanghoa) {
+      setloaihanghoaError('Vui lòng chọn loại hàng hóa.')
+      valid = false
+    } else {
+      setloaihanghoaError('')
     }
 
     return valid
@@ -215,11 +225,13 @@ function AddLoHang({ isOpen, onClose, setlohang }) {
     settongtien('')
     setdate('')
     setmancc('')
+    setloaihanghoa('')
     setNameError('')
     setsoluongError('')
     settongtienError('')
     setdateError('')
     setmanccError('')
+    setloaihanghoaError('')
   }, [])
 
   const handleClose = () => {
@@ -311,6 +323,54 @@ function AddLoHang({ isOpen, onClose, setlohang }) {
             </Tooltip>
           </div>
         </div>
+
+        <div className='divinputncc'>
+          <h4>Loại hàng hóa</h4>
+          <Tooltip
+            trigger='click'
+            interactive
+            arrow
+            position='bottom'
+            open={isTableHangHoa}
+            onRequestClose={() => setIsTableHangHoa(false)}
+            html={
+              <div className='supplier-table-container'>
+                <table className='supplier-info-table'>
+                  <thead>
+                    <tr>
+                      <th>Loại hàng hóa</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {loaihanghoas.map((hanghoa, index) => (
+                      <tr
+                        className='trdulieu'
+                        key={index}
+                        onClick={() => {
+                          setloaihanghoa(hanghoa)
+                          setIsTableHangHoa(false)
+                          setloaihanghoaError('')
+                        }}
+                      >
+                        <td>{hanghoa}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            }
+          >
+            <button
+              className='divChonncc'
+              onClick={() => setIsTableHangHoa(!isTableHangHoa)}
+            >
+              {loaihanghoa ? `${loaihanghoa}` : 'Chọn loại hàng hóa'}
+              <FontAwesomeIcon icon={faChevronDown} className='iconNcc' />
+            </button>
+          </Tooltip>
+        </div>
+        {loaihanghoaError && <div className='error'>{loaihanghoaError}</div>}
+
         <div className='divinputncc'>
           <h4>Nhà cung cấp</h4>
           <Tooltip
@@ -361,7 +421,6 @@ function AddLoHang({ isOpen, onClose, setlohang }) {
             </button>
           </Tooltip>
         </div>
-
         {method === 'Chuyển khoản' && (
           <div className='divinputncc'>
             <h4>Ngân hàng</h4>
@@ -440,14 +499,18 @@ function AddLoHang({ isOpen, onClose, setlohang }) {
           </div>
         )}
         {manccError && <div className='error'>{manccError}</div>}
-
         <div className='divtenkho'>
           <input
             type='text'
             className={`tenkho ${nameError ? 'input-error' : ''}`}
             placeholder=''
             value={name}
-            onChange={e => setName(e.target.value)}
+            onChange={e => {
+              setName(e.target.value)
+              if (e.target.value) {
+                setNameError('')
+              }
+            }}
           />
           <label htmlFor='' className='label'>
             Nhập tên lô hàng
@@ -460,7 +523,12 @@ function AddLoHang({ isOpen, onClose, setlohang }) {
             className={`diachi ${soluongError ? 'input-error' : ''}`}
             placeholder=''
             value={soluong}
-            onChange={e => setsoluong(e.target.value)}
+            onChange={e => {
+              setsoluong(e.target.value)
+              if(e.target.value){
+                setsoluongError('')
+              }
+            }}
           />
           <label htmlFor='' className='label'>
             Nhập số lượng máy
@@ -474,8 +542,11 @@ function AddLoHang({ isOpen, onClose, setlohang }) {
             placeholder=''
             value={new Intl.NumberFormat().format(tongtien.replace(/\./g, ''))}
             onChange={e => {
-              const rawValue = e.target.value.replace(/\./g, ''); 
-              settongtien(rawValue);                              
+              const rawValue = e.target.value.replace(/\./g, '')
+              settongtien(rawValue)
+              if (e.target.value) {
+                settongtienError('')
+              }
             }}
           />
           <label htmlFor='' className='label'>
@@ -483,7 +554,6 @@ function AddLoHang({ isOpen, onClose, setlohang }) {
           </label>
         </div>
         {tongtienError && <div className='error'>{tongtienError}</div>}
-
         <div className='divngaygio'>
           {/* Input cho ngày */}
           <Tooltip

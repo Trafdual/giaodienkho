@@ -221,12 +221,10 @@ function NhapKhoLayout () {
                   <tr>
                     <td className='tdnhap'>Mã lô hàng</td>
                     <td className='tdnhap'>Tên lô hàng</td>
-                    <td className='tdnhap'>Số lượng máy</td>
                     {!isMobile && (
                       <>
                         <td className='tdnhap'>Ngày nhập</td>
                         <td className='tdnhap'>Tổng tiền</td>
-                        <td className='tdnhap'>Trung bình máy</td>
                         <td className='tdnhap'>Còn lại máy</td>
                       </>
                     )}

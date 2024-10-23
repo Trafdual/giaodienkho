@@ -22,7 +22,6 @@ body {
 .header {
   display: flex;
   justify-content: space-between;
-  // align-items: center;
   background-color: #ffffff;
   padding: 15px 30px;
   border-bottom: 1px solid #e0e0e0;
@@ -87,11 +86,13 @@ body {
 }
 
 .left-column {
-  flex: 2; /* Takes up more space */
+  flex: 2;
+  /* Takes up more space */
 }
 
 .right-column {
-  flex: 1; /* Takes up less space */
+  flex: 1;
+  /* Takes up less space */
 }
 
 .left-section {
