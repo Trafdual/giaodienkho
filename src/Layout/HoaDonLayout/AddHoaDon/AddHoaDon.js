@@ -149,7 +149,7 @@ function AddHoaDon ({ isOpen, onClose, khoID, fetchData }) {
             <ul className='ulmangmasp'>
               {mangmasp.map((item, index) => (
                 <li key={index} className='mangmasp-item'>
-                  {item}{' '}
+                  {item}
                   <button
                     className='remove-btn'
                     onClick={() => handleRemoveMasp(index)}

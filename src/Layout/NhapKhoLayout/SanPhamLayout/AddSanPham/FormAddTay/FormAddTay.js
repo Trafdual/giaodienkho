@@ -3,18 +3,38 @@ import { useState, useCallback, useEffect } from 'react'
 
 import { Modal } from '../../../../../components/Modal'
 import { useToast } from '../../../../../components/GlobalStyles/ToastContext'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faChevronDown, faXmark } from '@fortawesome/free-solid-svg-icons'
+import { Tooltip } from 'react-tippy'
+import 'react-tippy/dist/tippy.css'
 
 function FormAddTay ({ isOpen, onClose, loaispid, fetchData, fetchlohang }) {
   const [name, setName] = useState('')
   const [imel, setimel] = useState('')
-  const [dungluong, setdungluong] = useState('')
-  const [color, setcolor] = useState('')
+  const [mangimel, setmangimel] = useState([])
+  const [skudata, setskudata] = useState([])
+  const [masku, setmasku] = useState('')
+  const [userID, setuserID] = useState(localStorage.getItem('userId') || '')
+  const [loadingSuppliers, setLoadingSuppliers] = useState(true)
+  const [isTableVisible, setIsTableVisible] = useState(false)
 
   const { showToast } = useToast()
   const [nameError, setNameError] = useState('')
   const [imelError, setimelError] = useState('')
-  const [dungluongError, setdungluongError] = useState('')
-  const [colorError, setcolorError] = useState('')
+  const [priceError, setpriceError] = useState('')
+  const [price, setprice] = useState('')
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      const newuserID = localStorage.getItem('userId') || ''
+      if (newuserID !== userID) {
+        console.log('Interval detected change, updating khoID:', newuserID)
+        setuserID(newuserID)
+      }
+    }, 1000) // Kiểm tra mỗi giây
+
+    return () => clearInterval(intervalId)
+  }, [localStorage.getItem('userId')])
 
   const valicolorInputs = () => {
     let valid = true
@@ -26,25 +46,17 @@ function FormAddTay ({ isOpen, onClose, loaispid, fetchData, fetchlohang }) {
       setNameError('')
     }
 
-    if (!imel) {
+    if (mangimel.length === 0) {
       setimelError('Vui lòng nhập imel.')
       valid = false
     } else {
       setimelError('')
     }
-
-    if (!dungluong) {
-      setdungluongError('Vui lòng nhập số dung lượng máy.')
+    if (!price) {
+      setpriceError('giá phải lớn hơn 0.')
       valid = false
     } else {
-      setdungluongError('')
-    }
-
-    if (!color) {
-      setcolorError('Vui lòng nhập màu sắc.')
-      valid = false
-    } else {
-      setcolorError('')
+      setpriceError('')
     }
 
     return valid
@@ -62,9 +74,9 @@ function FormAddTay ({ isOpen, onClose, loaispid, fetchData, fetchlohang }) {
             },
             body: JSON.stringify({
               name: name,
-              capacity: dungluong,
-              imel: imel,
-              color: color
+              imelList: mangimel,
+              madungluongsku: masku,
+              price: price
             })
           }
         )
@@ -89,12 +101,10 @@ function FormAddTay ({ isOpen, onClose, loaispid, fetchData, fetchlohang }) {
   const resetForm = useCallback(() => {
     setName('')
     setimel('')
-    setdungluong('')
-    setcolor('')
+    setprice('')
+    setpriceError('')
     setNameError('')
     setimelError('')
-    setdungluongError('')
-    setcolorError('')
   }, [])
 
   const handleClose = () => {
@@ -116,10 +126,109 @@ function FormAddTay ({ isOpen, onClose, loaispid, fetchData, fetchlohang }) {
   //   }
   // }, [])
 
+  const fetchSku = async () => {
+    try {
+      const response = await fetch(
+        `https://www.ansuataohanoi.com/getdungluongsku/${userID}`
+      )
+      const data = await response.json()
+
+      if (response.ok) {
+        setskudata(data)
+      } else {
+        showToast('Không thể tải danh sách sku', 'error')
+      }
+    } catch (error) {
+      console.error('Lỗi khi lấy dữ liệu sku:', error)
+      showToast('Không thể tải danh sách sku', 'error')
+    } finally {
+      setLoadingSuppliers(false)
+    }
+  }
+
+  useEffect(() => {
+    fetchSku()
+  }, [userID])
+
+  const handleKeyPress = event => {
+    if (event.key === 'Enter') {
+      event.preventDefault()
+      handleAddMasp()
+    }
+  }
+  const handleRemoveimel = index => {
+    const newmangmaimel = [...mangimel]
+    newmangmaimel.splice(index, 1)
+    setmangimel(newmangmaimel)
+  }
+
+  // Thêm mã sản phẩm vào danh sách
+  const handleAddMasp = () => {
+    if (!imel) {
+      setimelError('Vui lòng nhập mã sản phẩm.')
+      return
+    }
+
+    setmangimel(prevMangimel => [...prevMangimel, imel])
+    setimel('')
+    setimelError('')
+  }
+  console.log(skudata)
   return (
     <Modal isOpen={isOpen} onClose={handleClose}>
       <div className='divAddSanPham'>
         <h2>Thêm sản phẩm</h2>
+        <div className='divinputncc'>
+          <h4>Mã sku</h4>
+          <Tooltip
+            trigger='click'
+            interactive
+            arrow
+            position='bottom'
+            open={isTableVisible}
+            onRequestClose={() => setIsTableVisible(false)}
+            html={
+              <div className='supplier-table-container'>
+                {loadingSuppliers ? (
+                  <p>Đang tải danh sách sku...</p>
+                ) : (
+                  <table className='supplier-info-table'>
+                    <thead>
+                      <tr>
+                        <th>Mã sku</th>
+                        <th>Tên</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {skudata.map(supplier => (
+                        <tr
+                          className='trdulieu'
+                          key={supplier._id}
+                          onClick={() => {
+                            setmasku(supplier.madungluong)
+                            setIsTableVisible(false)
+                            setName(supplier.name)
+                          }}
+                        >
+                          <td>{supplier.madungluong}</td>
+                          <td>{supplier.name}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                )}
+              </div>
+            }
+          >
+            <button
+              className='divChonncc'
+              onClick={() => setIsTableVisible(!isTableVisible)}
+            >
+              {masku ? `${masku}` : 'Chọn mã sku'}
+              <FontAwesomeIcon icon={faChevronDown} className='iconNcc' />
+            </button>
+          </Tooltip>
+        </div>
         <div className='divtenkho'>
           <input
             type='text'
@@ -133,7 +242,6 @@ function FormAddTay ({ isOpen, onClose, loaispid, fetchData, fetchlohang }) {
           </label>
         </div>
         {nameError && <div className='error'>{nameError}</div>}
-
         <div className='divdiachikho'>
           <input
             type='text'
@@ -141,41 +249,51 @@ function FormAddTay ({ isOpen, onClose, loaispid, fetchData, fetchlohang }) {
             placeholder=''
             value={imel}
             onChange={e => setimel(e.target.value)}
+            onKeyPress={handleKeyPress}
           />
           <label htmlFor='' className='label'>
             Nhập imel
           </label>
         </div>
         {imelError && <div className='error'>{imelError}</div>}
+        {mangimel.length > 0 && (
+          <div className='mangmasp-list'>
+            <h4>Danh sách mã imel:</h4>
+            <ul className='ulmangmasp'>
+              {mangimel.map((item, index) => (
+                <li key={index} className='mangmasp-item'>
+                  {item}
+                  <button
+                    className='remove-btn'
+                    onClick={() => handleRemoveimel(index)}
+                  >
+                    <FontAwesomeIcon className='remove-icon' icon={faXmark} />
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
 
         <div className='divdiachikho'>
           <input
             type='text'
-            className={`diachi ${dungluongError ? 'input-error' : ''}`}
+            className={`diachi ${priceError ? 'input-error' : ''}`}
             placeholder=''
-            value={dungluong}
-            onChange={e => setdungluong(e.target.value)}
+            value={new Intl.NumberFormat().format(price.replace(/\./g, ''))}
+            onChange={e => {
+              const rawValue = e.target.value.replace(/\./g, '')
+              setprice(rawValue)
+              if (e.target.value) {
+                setpriceError('')
+              }
+            }}
           />
           <label htmlFor='' className='label'>
-            Nhập dung lượng máy
+            Nhập giá
           </label>
         </div>
-        {dungluongError && <div className='error'>{dungluongError}</div>}
-
-        <div className='divdiachikho'>
-          <input
-            type='text'
-            className={`diachi ${colorError ? 'input-error' : ''}`}
-            placeholder=''
-            value={color}
-            onChange={e => setcolor(e.target.value)}
-          />
-          <label htmlFor='' className='label'>
-            Nhập màu sắc
-          </label>
-        </div>
-        {colorError && <div className='error'>{colorError}</div>}
-
+        {priceError && <div className='error'>{priceError}</div>}
         <button onClick={handleAddSanPham} className='btnAddLoHang'>
           Thêm sản phẩm
         </button>

@@ -282,15 +282,14 @@ function SanPhamLayout ({ idloaisp, fetchlohang, remainingHeight }) {
                     onChange={handleSelectAll}
                   />
                 </td>
-
-                <td className='tdnhap'>Mã sản phẩm</td>
+                <td className='tdnhap'>Mã sku</td>
                 <td className='tdnhap'>Imel</td>
                 {!isMobile && (
                   <>
                     <td className='tdnhap'>Tên máy</td>
-                    <td className='tdnhap'>Dung lượng</td>
-                    <td className='tdnhap'>Màu sắc</td>
-                    <td className='tdnhap'>Trạng thái xuất kho</td>
+                    <td className='tdnhap'>Số lượng</td>
+                    <td className='tdnhap'> Đơn giá</td>
+                    <td className='tdnhap'>Thành tiền</td>
                   </>
                 )}
                 {/* <td className='tdnhap'>Chức năng</td> */}
@@ -308,14 +307,14 @@ function SanPhamLayout ({ idloaisp, fetchlohang, remainingHeight }) {
                           onChange={() => handleSelectItem(ncc._id)}
                         />
                       </td>
-                      <td>{ncc.masp}</td>
+                      <td>{ncc.masku}</td>
                       <td>{ncc.imel}</td>
                       {!isMobile && (
                         <>
                           <td>{ncc.name}</td>
-                          <td>{ncc.capacity}</td>
-                          <td>{ncc.color}</td>
-                          <td>{ncc.xuat ? 'đã xuất' : 'tồn kho'}</td>
+                          <td>{ncc.quantity}</td>
+                          <td>{ncc.price.toLocaleString()} VNĐ</td>
+                          <td>{ncc.total.toLocaleString()} VNĐ</td>
                         </>
                       )}
                       {/* <td className='tdchucnang'>
