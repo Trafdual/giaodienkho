@@ -29,8 +29,6 @@ function SanPhamGioHang ({ remainingHeight, selectedsanpham }) {
                 {!isMobile && (
                   <>
                     <td className='tdnhap'>Tên máy</td>
-                    <td className='tdnhap'>Dung lượng</td>
-                    <td className='tdnhap'>Màu sắc</td>
                     <td className='tdnhap'>Trạng thái xuất kho</td>
                   </>
                 )}
@@ -52,8 +50,6 @@ function SanPhamGioHang ({ remainingHeight, selectedsanpham }) {
                       {!isMobile && (
                         <>
                           <td>{ncc.name}</td>
-                          <td>{ncc.capacity}</td>
-                          <td>{ncc.color}</td>
                           <td>{ncc.xuat ? 'đã xuất' : 'tồn kho'}</td>
                         </>
                       )}
