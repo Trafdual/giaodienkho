@@ -3,11 +3,13 @@ import { useState, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { AddKhachHang } from './AddKhachHang'
+import { Loading } from '~/components/Loading'
 
 function KhachHangLayout () {
   const [isOpen, setIsOpen] = useState(false)
   const [khachhang, setkhachhang] = useState([])
   const [khoID, setKhoID] = useState(localStorage.getItem('khoID') || '')
+  const [loading, setLoading] = useState(true)
 
   // Trạng thái phân trang
   const [currentPage, setCurrentPage] = useState(1)
@@ -69,6 +71,7 @@ function KhachHangLayout () {
       if (response.ok) {
         const data = await response.json()
         setkhachhang(data)
+        setLoading(false)
       } else {
         console.error('Failed to fetch data')
       }
@@ -95,75 +98,81 @@ function KhachHangLayout () {
 
   return (
     <>
-      <div className='detailsnhap'>
-        <div className='recentOrdersnhap'>
-          <div className='headernhap'>
-            <h2 className='divncc'>Khách Hàng</h2>
-            <button className='btnthemlo' onClick={() => setIsOpen(true)}>
-              <FontAwesomeIcon className='iconncc' icon={faPlus} />
-              <h3>Thêm khách hàng</h3>
-            </button>
-          </div>
-          <table className='tablenhap'>
-            <thead className='theadnhap'>
-              <tr>
-                <td className='tdnhap'>Mã Khách Hàng</td>
-                <td className='tdnhap'>Tên Khách Hàng</td>
-                <td className='tdnhap'>Số Điện Thoại</td>
-                {!isMobile && (
-                  <>
-                    <td className='tdnhap'>CCCD</td>
-                    <td className='tdnhap'>Email</td>
-                    <td className='tdnhap'>Ngày Sinh</td>
-                    <td className='tdnhap'>Địa Chỉ</td>
-                  </>
-                )}
-              </tr>
-            </thead>
-            <tbody className='tbodynhap'>
-              {currentItems.length > 0 ? (
-                currentItems.map(ncc => (
-                  <tr key={ncc._id}>
-                    <td>{ncc.makh}</td>
-                    <td>{ncc.name}</td>
-                    <td>{ncc.phone}</td>
+      {loading ? (
+        <Loading />
+      ) : (
+        <>
+          <div className='detailsnhap'>
+            <div className='recentOrdersnhap'>
+              <div className='headernhap'>
+                <h2 className='divncc'>Khách Hàng</h2>
+                <button className='btnthemlo' onClick={() => setIsOpen(true)}>
+                  <FontAwesomeIcon className='iconncc' icon={faPlus} />
+                  <h3>Thêm khách hàng</h3>
+                </button>
+              </div>
+              <table className='tablenhap'>
+                <thead className='theadnhap'>
+                  <tr>
+                    <td className='tdnhap'>Mã Khách Hàng</td>
+                    <td className='tdnhap'>Tên Khách Hàng</td>
+                    <td className='tdnhap'>Số Điện Thoại</td>
                     {!isMobile && (
                       <>
-                        <td>{ncc.cancuoc}</td>
-                        <td>{ncc.email}</td>
-                        <td>{ncc.date}</td>
-                        <td>{ncc.address}</td>
+                        <td className='tdnhap'>CCCD</td>
+                        <td className='tdnhap'>Email</td>
+                        <td className='tdnhap'>Ngày Sinh</td>
+                        <td className='tdnhap'>Địa Chỉ</td>
                       </>
                     )}
                   </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan='7'>Không có khách hàng nào</td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-          <div className='pagination'>
-            {Array.from({ length: totalPages }, (_, index) => (
-              <button
-                key={index + 1}
-                onClick={() => handlePageChange(index + 1)}
-                className={index + 1 === currentPage ? 'active' : ''}
-              >
-                {index + 1}
-              </button>
-            ))}
+                </thead>
+                <tbody className='tbodynhap'>
+                  {currentItems.length > 0 ? (
+                    currentItems.map(ncc => (
+                      <tr key={ncc._id}>
+                        <td>{ncc.makh}</td>
+                        <td>{ncc.name}</td>
+                        <td>{ncc.phone}</td>
+                        {!isMobile && (
+                          <>
+                            <td>{ncc.cancuoc}</td>
+                            <td>{ncc.email}</td>
+                            <td>{ncc.date}</td>
+                            <td>{ncc.address}</td>
+                          </>
+                        )}
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan='7'>Không có khách hàng nào</td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+              <div className='pagination'>
+                {Array.from({ length: totalPages }, (_, index) => (
+                  <button
+                    key={index + 1}
+                    onClick={() => handlePageChange(index + 1)}
+                    className={index + 1 === currentPage ? 'active' : ''}
+                  >
+                    {index + 1}
+                  </button>
+                ))}
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-      <AddKhachHang
-        isOpen={isOpen}
-        onClose={handleCloseModal}
-        khoID={khoID}
-        setkhachhang={setkhachhang}
-        fetchData={fetchData}
-      />
+          <AddKhachHang
+            isOpen={isOpen}
+            onClose={handleCloseModal}
+            khoID={khoID}
+            setkhachhang={setkhachhang}
+            fetchData={fetchData}
+          />
+        </>
+      )}
     </>
   )
 }

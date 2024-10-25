@@ -2,6 +2,7 @@
 import './XuatKhoLayout.scss'
 import { useState, useEffect } from 'react'
 import { useToast } from '../../components/GlobalStyles/ToastContext'
+import { Loading } from '~/components/Loading'
 
 function XuatKhoLayout () {
   const { showToast } = useToast()
@@ -9,6 +10,7 @@ function XuatKhoLayout () {
   const [khoID, setKhoID] = useState(localStorage.getItem('khoID') || '')
   const [selectAll, setSelectAll] = useState(false)
   const [selectedItems, setSelectedItems] = useState([])
+  const [loading, setLoading] = useState(true)
 
   const handleSelectAll = () => {
     const newSelectAll = !selectAll
@@ -91,6 +93,7 @@ function XuatKhoLayout () {
       if (response.ok) {
         const data = await response.json()
         setlohang(data)
+        setLoading(false)
       } else {
         console.error('Failed to fetch data')
       }
@@ -145,85 +148,92 @@ function XuatKhoLayout () {
 
   return (
     <>
-      <div className='detailsnhap'>
-        <div className='recentOrdersnhap'>
-          <div className='headernhap'>
-            <h2 className='divncc'>Sản phẩm xuất kho</h2>
-          </div>
-          {selectedItems.length > 0 && (
-            <div className='action-menu'>
-              <h4>{selectedItems.length} sản phẩm được chọn</h4>
-              <button className='btn-xoa' onClick={XoaHangLoat}>
-                Xóa Tất Cả
-              </button>
-            </div>
-          )}
+      {loading ? (
+        <Loading />
+      ) : (
+        <>
+          ;
+          <div className='detailsnhap'>
+            <div className='recentOrdersnhap'>
+              <div className='headernhap'>
+                <h2 className='divncc'>Sản phẩm xuất kho</h2>
+              </div>
+              {selectedItems.length > 0 && (
+                <div className='action-menu'>
+                  <h4>{selectedItems.length} sản phẩm được chọn</h4>
+                  <button className='btn-xoa' onClick={XoaHangLoat}>
+                    Xóa Tất Cả
+                  </button>
+                </div>
+              )}
 
-          <table className='tablenhap'>
-            <thead className='theadnhap'>
-              <tr>
-                <td className='tdnhap'>
-                  <input
-                    type='checkbox'
-                    checked={selectAll}
-                    onChange={handleSelectAll}
-                  />
-                </td>
-
-                <td className='tdnhap'>Mã Lô Hàng</td>
-                <td className='tdnhap'>Mã Sản Phẩm</td>
-                <td className='tdnhap'>Tên Sản Phẩm</td>
-                {!isMobile && (
-                  <>
-                    <td className='tdnhap'>Ngày nhập</td>
-                    <td className='tdnhap'>Ngày Xuất</td>
-                  </>
-                )}
-              </tr>
-            </thead>
-            <tbody className='tbodynhap'>
-              {currentItems.length > 0 ? (
-                currentItems.map(ncc => (
-                  <tr key={ncc._id}>
-                    <td>
+              <table className='tablenhap'>
+                <thead className='theadnhap'>
+                  <tr>
+                    <td className='tdnhap'>
                       <input
                         type='checkbox'
-                        checked={selectedItems.includes(ncc._id)}
-                        onChange={() => handleSelectItem(ncc._id)}
+                        checked={selectAll}
+                        onChange={handleSelectAll}
                       />
                     </td>
 
-                    <td>{ncc.malohang}</td>
-                    <td>{ncc.masp}</td>
-                    <td>{ncc.tenmay}</td>
+                    <td className='tdnhap'>Mã Lô Hàng</td>
+                    <td className='tdnhap'>Mã Sản Phẩm</td>
+                    <td className='tdnhap'>Tên Sản Phẩm</td>
                     {!isMobile && (
                       <>
-                        <td>{ncc.ngaynhap}</td>
-                        <td>{ncc.ngayxuat}</td>
+                        <td className='tdnhap'>Ngày nhập</td>
+                        <td className='tdnhap'>Ngày Xuất</td>
                       </>
                     )}
                   </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan='7'>Không có sản phẩm nào</td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-          <div className='pagination'>
-            {Array.from({ length: totalPages }, (_, index) => (
-              <button
-                key={index + 1}
-                onClick={() => handlePageChange(index + 1)}
-                className={index + 1 === currentPage ? 'active' : ''}
-              >
-                {index + 1}
-              </button>
-            ))}
+                </thead>
+                <tbody className='tbodynhap'>
+                  {currentItems.length > 0 ? (
+                    currentItems.map(ncc => (
+                      <tr key={ncc._id}>
+                        <td>
+                          <input
+                            type='checkbox'
+                            checked={selectedItems.includes(ncc._id)}
+                            onChange={() => handleSelectItem(ncc._id)}
+                          />
+                        </td>
+
+                        <td>{ncc.malohang}</td>
+                        <td>{ncc.masp}</td>
+                        <td>{ncc.tenmay}</td>
+                        {!isMobile && (
+                          <>
+                            <td>{ncc.ngaynhap}</td>
+                            <td>{ncc.ngayxuat}</td>
+                          </>
+                        )}
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan='7'>Không có sản phẩm nào</td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+              <div className='pagination'>
+                {Array.from({ length: totalPages }, (_, index) => (
+                  <button
+                    key={index + 1}
+                    onClick={() => handlePageChange(index + 1)}
+                    className={index + 1 === currentPage ? 'active' : ''}
+                  >
+                    {index + 1}
+                  </button>
+                ))}
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+        </>
+      )}
     </>
   )
 }

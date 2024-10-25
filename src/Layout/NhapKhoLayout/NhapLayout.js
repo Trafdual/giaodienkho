@@ -6,6 +6,7 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { AddLoHang } from './AddLoHang'
 import { SanPhamLayout } from './SanPhamLayout'
 import { EditLoHang } from './EditLoHang'
+import { Loading } from '~/components/Loading'
 
 function NhapKhoLayout () {
   const [lohang, setlohang] = useState([])
@@ -15,6 +16,7 @@ function NhapKhoLayout () {
   const [loading, setLoading] = useState(true)
   const [isOpenEdit, setIsOpenEdit] = useState(false)
   const [selectedRow, setSelectedRow] = useState(null)
+  const [loadingsp, setLoadingsp] = useState(false)
 
   // Trạng thái phân trang
   const [currentPage, setCurrentPage] = useState(1)
@@ -90,6 +92,7 @@ function NhapKhoLayout () {
       if (response.ok && isMounted) {
         const data = await response.json()
         setlohang(data)
+        setLoading(false)
       } else {
         console.error('Failed to fetch data')
       }
@@ -98,15 +101,6 @@ function NhapKhoLayout () {
         console.error('Error fetching data:', error)
       }
     }
-  }
-
-  const Loading = () => {
-    return (
-      <div className='loading-container'>
-        <div className='spinner'></div>
-        <h3 className='h3loading'>Loading...</h3>
-      </div>
-    )
   }
 
   useEffect(() => {
@@ -173,11 +167,6 @@ function NhapKhoLayout () {
   useEffect(() => {
     setLoading(true)
     fetchData()
-    const timer = setTimeout(() => {
-      setLoading(false)
-    }, 3000)
-
-    return () => clearTimeout(timer)
   }, [khoID])
 
   return (
@@ -240,7 +229,10 @@ function NhapKhoLayout () {
                           className={
                             selectedRow === ncc._id ? 'selectedrow' : ''
                           }
-                          onClick={() => handleLohang(ncc._id)}
+                          onClick={() => {
+                            handleLohang(ncc._id)
+                            setLoadingsp(true)
+                          }}
                           style={{ cursor: 'pointer' }}
                         >
                           <td>{ncc.malsp}</td>
@@ -303,6 +295,8 @@ function NhapKhoLayout () {
             remainingHeight={remainingHeight}
             idloaisp={idlohang}
             fetchlohang={fetchData}
+            loading={loadingsp}
+            setLoading={setLoadingsp}
           />
         </>
       )}

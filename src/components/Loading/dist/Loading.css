@@ -1,0 +1,31 @@
+@charset "UTF-8";
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  /* Chiều cao toàn màn hình */
+  background-color: #f8f9fa;
+  /* Màu nền nhẹ */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  /* Thêm bóng đổ cho container */
+  border-radius: 10px;
+  /* Bo góc cho container */
+}
+
+.spinner {
+  border: 8px solid rgba(0, 0, 0, 0.1);
+  /* Viền ngoài nhạt */
+  border-top: 8px solid #3498db;
+  /* Viền trên có màu để tạo vòng quay */
+  border-radius: 50%;
+  width: 80px;
+  /* Tăng kích thước spinner */
+  height: 80px;
+  /* Tăng kích thước spinner */
+  animation: spin 1s linear infinite;
+  /* Tạo hiệu ứng xoay */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  /* Thêm bóng đổ cho spinner */
+}

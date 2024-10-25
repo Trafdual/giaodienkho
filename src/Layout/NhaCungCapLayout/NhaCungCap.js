@@ -6,6 +6,7 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { LoHangLayout } from './LoHangLayout'
 import '../ColumnResizer/columnResizer.scss'
 import { enableColumnResizing } from '../ColumnResizer/columnResizer'
+import { Loading } from '~/components/Loading'
 
 import { AddNhaCungCap } from './AddNhaCungCap'
 function NhaCungCapLayout () {
@@ -14,6 +15,7 @@ function NhaCungCapLayout () {
   const [opendetail, setopendetail] = useState(true)
   const [idncc, setidncc] = useState('')
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
+  const [loading, setLoading] = useState(true)
 
   const [khoID, setKhoID] = useState(localStorage.getItem('khoID') || '')
   const handleCloseModal = () => {
@@ -75,6 +77,7 @@ function NhaCungCapLayout () {
         if (response.ok && isMounted) {
           const data = await response.json()
           setnhacungcap(data)
+          setLoading(false)
         } else {
           console.error('Failed to fetch data')
         }
@@ -96,79 +99,85 @@ function NhaCungCapLayout () {
   }, [])
   return (
     <>
-      {opendetail && (
-        <div className='detailsnhap'>
-          <div className='recentOrdersnhap'>
-            <div className='headernhap'>
-              <h2 className='divncc'>Nhà cung cấp</h2>
-              <button className='btnthemlo' onClick={() => setIsOpen(true)}>
-                <FontAwesomeIcon className='iconncc' icon={faPlus} />
-                <h3>Thêm nhà cung cấp</h3>
-              </button>
-            </div>
-            <table className='tablenhap'>
-              <thead className='theadnhap'>
-                <tr>
-                  <td className='tdnhap'>Mã nhà cung cấp</td>
-                  <td className='tdnhap'>Tên nhà cung cấp</td>
-                  {!isMobile && (
-                    <>
-                      <td className='tdnhap'>Số điện thoại</td>
-                      <td className='tdnhap'>Địa chỉ</td>
-                    </>
-                  )}
-                  <td className='tdnhap'>Chức năng</td>
-                </tr>
-              </thead>
-              <tbody className='tbodynhap'>
-                {nhacungcap.length > 0 ? (
-                  nhacungcap.map(ncc => (
-                    <tr key={ncc._id}>
-                      <td>{ncc.mancc}</td>
-                      <td>{ncc.name}</td>
+      {loading ? (
+        <Loading />
+      ) : (
+        <>
+          {opendetail && (
+            <div className='detailsnhap'>
+              <div className='recentOrdersnhap'>
+                <div className='headernhap'>
+                  <h2 className='divncc'>Nhà cung cấp</h2>
+                  <button className='btnthemlo' onClick={() => setIsOpen(true)}>
+                    <FontAwesomeIcon className='iconncc' icon={faPlus} />
+                    <h3>Thêm nhà cung cấp</h3>
+                  </button>
+                </div>
+                <table className='tablenhap'>
+                  <thead className='theadnhap'>
+                    <tr>
+                      <td className='tdnhap'>Mã nhà cung cấp</td>
+                      <td className='tdnhap'>Tên nhà cung cấp</td>
                       {!isMobile && (
                         <>
-                          <td>{ncc.phone}</td>
-                          <td>{ncc.address}</td>
+                          <td className='tdnhap'>Số điện thoại</td>
+                          <td className='tdnhap'>Địa chỉ</td>
                         </>
                       )}
-                      <td className='tdchucnang'>
-                        <button
-                          className='btnchitietncc'
-                          onClick={() => handleLohang(ncc._id)}
-                        >
-                          <h3>Chi tiết</h3>
-                        </button>
-                        <button
-                          className='btncnncc'
-                          onClick={() => setIsOpen(true)}
-                        >
-                          <h3>Cập nhật</h3>
-                        </button>
-                      </td>
+                      <td className='tdnhap'>Chức năng</td>
                     </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td colSpan='5'>Không có nhà cung cấp nào</td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-          </div>
-          <AddNhaCungCap
-            isOpen={isOpen}
-            onClose={handleCloseModal}
-            khoID={khoID}
-            setnhacungcap={setnhacungcap}
+                  </thead>
+                  <tbody className='tbodynhap'>
+                    {nhacungcap.length > 0 ? (
+                      nhacungcap.map(ncc => (
+                        <tr key={ncc._id}>
+                          <td>{ncc.mancc}</td>
+                          <td>{ncc.name}</td>
+                          {!isMobile && (
+                            <>
+                              <td>{ncc.phone}</td>
+                              <td>{ncc.address}</td>
+                            </>
+                          )}
+                          <td className='tdchucnang'>
+                            <button
+                              className='btnchitietncc'
+                              onClick={() => handleLohang(ncc._id)}
+                            >
+                              <h3>Chi tiết</h3>
+                            </button>
+                            <button
+                              className='btncnncc'
+                              onClick={() => setIsOpen(true)}
+                            >
+                              <h3>Cập nhật</h3>
+                            </button>
+                          </td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan='5'>Không có nhà cung cấp nào</td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+              <AddNhaCungCap
+                isOpen={isOpen}
+                onClose={handleCloseModal}
+                khoID={khoID}
+                setnhacungcap={setnhacungcap}
+              />
+            </div>
+          )}
+          <LoHangLayout
+            opendetail={opendetail}
+            setopendetail={setopendetail}
+            idncc={idncc}
           />
-        </div>
+        </>
       )}
-      <LoHangLayout
-        opendetail={opendetail}
-        setopendetail={setopendetail}
-        idncc={idncc}
-      />
     </>
   )
 }

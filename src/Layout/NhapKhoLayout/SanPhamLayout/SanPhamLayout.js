@@ -15,7 +15,6 @@ import { AddSanPham } from './AddSanPham'
 import { ModalXuatKho } from './ModalXuatkho'
 import './SanPhamLayout.scss'
 import { ModalChuyenKhoFull } from './ModalChuyenKhoFull'
-import { useToast } from '../../../components/GlobalStyles/ToastContext'
 import Barcode from 'react-barcode'
 import { Modal } from '../../../components/Modal'
 import { ModalXuaKhoFull } from './ModalXuaKhoFull'
@@ -23,8 +22,13 @@ import { ModalXuaKhoFull } from './ModalXuaKhoFull'
 // import html2canvas from 'html2canvas'
 // Component hiển thị khi đang loading
 
-function SanPhamLayout ({ idloaisp, fetchlohang, remainingHeight }) {
-  const { showToast } = useToast()
+function SanPhamLayout ({
+  idloaisp,
+  fetchlohang,
+  remainingHeight,
+  loading,
+  setLoading
+}) {
   const [isOpen, setIsOpen] = useState(false)
   const [isOpenXuakho, setIsOpenXuakho] = useState(false)
   const [isOpenXuatKhoFull, setIsOpenXuatKhoFull] = useState(false)
@@ -81,6 +85,17 @@ function SanPhamLayout ({ idloaisp, fetchlohang, remainingHeight }) {
   //     setOpenmodalbarcode(false) // Đóng modal sau khi xuất PDF xong
   //   }, 1000) // Đợi 1 giây để đảm bảo modal đã render
   // }
+  const Loading = () => {
+    return (
+      <div
+        className='loading-container'
+        style={{ height: `${remainingHeight}px` }}
+      >
+        <div className='spinner'></div>
+        <h3 className='h3loading'>Loading...</h3>
+      </div>
+    )
+  }
 
   const handleSelectAll = () => {
     const newSelectAll = !selectAll
@@ -147,6 +162,7 @@ function SanPhamLayout ({ idloaisp, fetchlohang, remainingHeight }) {
       if (response.ok) {
         const data = await response.json()
         setSanPham(data)
+        setLoading(false)
       } else {
         console.error('Failed to fetch data')
       }
@@ -176,148 +192,168 @@ function SanPhamLayout ({ idloaisp, fetchlohang, remainingHeight }) {
 
   return (
     <>
-      <div className='detailsnhapkho'>
-        <div
-          className='recentOrdersnhapkho'
-          style={{
-            height: `${remainingHeight}px`,
-            overflow: 'auto',
-            position: 'relative'
-          }}
-        >
-          <div
-            className='headernhap'
-            style={{ position: 'sticky', top: '0px' }}
-          >
-            <div className='divncc'>
-              <h2 className='h2ncc'>Sản phẩm</h2>
-            </div>
-          </div>
+      {loading ? (
+        <Loading />
+      ) : (
+        <>
+          <div className='detailsnhapkho'>
+            <div
+              className='recentOrdersnhapkho'
+              style={{
+                height: `${remainingHeight}px`,
+                overflow: 'auto',
+                position: 'relative'
+              }}
+            >
+              <div
+                className='headernhap'
+                style={{ position: 'sticky', top: '0px' }}
+              >
+                <div className='divncc'>
+                  <h2 className='h2ncc'>Sản phẩm</h2>
+                </div>
+              </div>
 
-          <div
-            className='action-menu'
-            style={{ position: 'sticky', top: '30px' }}
-          >
-            <h4>{selectedItems.length} sản phẩm được chọn</h4>
-            <button
-              className={`btn-xoa ${!idloaisp ? 'disabled' : ''}`}
-              onClick={() => setIsOpen(true)}
-              disabled={!idloaisp}
-            >
-              <FontAwesomeIcon icon={faPlus} className='iconMenuSanPham' />
-              Thêm sản phẩm
-            </button>
-            <button
-              className={`btn-xoa ${
-                selectedItems.length > 1 || selectedItems.length === 0
-                  ? 'disabled'
-                  : ''
-              }`}
-              disabled={selectedItems.length > 1 || selectedItems.length === 0}
-            >
-              <FontAwesomeIcon icon={faPen} className='iconMenuSanPham' />
-              Sửa
-            </button>
-            <button
-              className={`btn-xoa ${
-                selectedItems.length > 1 || selectedItems.length === 0
-                  ? 'disabled'
-                  : ''
-              }`}
-              disabled={selectedItems.length > 1 || selectedItems.length === 0}
-            >
-              <FontAwesomeIcon icon={faEye} className='iconMenuSanPham' />
-              Xem
-            </button>
+              <div
+                className='action-menu'
+                style={{ position: 'sticky', top: '30px' }}
+              >
+                <h4>{selectedItems.length} sản phẩm được chọn</h4>
+                <button
+                  className={`btn-xoa ${!idloaisp ? 'disabled' : ''}`}
+                  onClick={() => setIsOpen(true)}
+                  disabled={!idloaisp}
+                >
+                  <FontAwesomeIcon icon={faPlus} className='iconMenuSanPham' />
+                  Thêm sản phẩm
+                </button>
+                <button
+                  className={`btn-xoa ${
+                    selectedItems.length > 1 || selectedItems.length === 0
+                      ? 'disabled'
+                      : ''
+                  }`}
+                  disabled={
+                    selectedItems.length > 1 || selectedItems.length === 0
+                  }
+                >
+                  <FontAwesomeIcon icon={faPen} className='iconMenuSanPham' />
+                  Sửa
+                </button>
+                <button
+                  className={`btn-xoa ${
+                    selectedItems.length > 1 || selectedItems.length === 0
+                      ? 'disabled'
+                      : ''
+                  }`}
+                  disabled={
+                    selectedItems.length > 1 || selectedItems.length === 0
+                  }
+                >
+                  <FontAwesomeIcon icon={faEye} className='iconMenuSanPham' />
+                  Xem
+                </button>
 
-            <button
-              className={`btn-xoa ${
-                selectedItems.length === 0 ? 'disabled' : ''
-              }`}
-              disabled={selectedItems.length === 0}
-            >
-              <FontAwesomeIcon icon={faTrashCan} className='iconMenuSanPham' />
-              Xóa
-            </button>
-
-            <button
-              className={`btn-xuat ${
-                selectedItems.length === 0 ? 'disabled' : ''
-              }`}
-              onClick={() => setIsOpenXuatKhoFull(true)}
-              disabled={selectedItems.length === 0}
-            >
-              <FontAwesomeIcon icon={faWarehouse} className='iconMenuSanPham' />
-              Xuất Kho
-            </button>
-            <button
-              className={`btn-xuat ${
-                selectedItems.length === 0 ? 'disabled' : ''
-              }`}
-              onClick={() => setIsOpenChuyenKhoFull(true)}
-              disabled={selectedItems.length === 0}
-            >
-              <FontAwesomeIcon icon={faTruckFast} className='iconMenuSanPham' />
-              Chuyển Kho
-            </button>
-            <button
-              className={`btn-xuat ${
-                selectedItems.length === 0 ? 'disabled' : ''
-              }`}
-              disabled={selectedItems.length === 0}
-              onClick={() => handlePrintBarcode(selectedItems.imel)}
-            >
-              <FontAwesomeIcon icon={faBarcode} className='iconMenuSanPham' />
-              In tem Imel
-            </button>
-          </div>
-
-          <table className='tablenhap'>
-            <thead className='theadnhap'>
-              <tr>
-                <td className='tdnhap'>
-                  <input
-                    type='checkbox'
-                    checked={selectAll}
-                    onChange={handleSelectAll}
+                <button
+                  className={`btn-xoa ${
+                    selectedItems.length === 0 ? 'disabled' : ''
+                  }`}
+                  disabled={selectedItems.length === 0}
+                >
+                  <FontAwesomeIcon
+                    icon={faTrashCan}
+                    className='iconMenuSanPham'
                   />
-                </td>
-                <td className='tdnhap'>Mã sku</td>
-                <td className='tdnhap'>Imel</td>
-                {!isMobile && (
-                  <>
-                    <td className='tdnhap'>Tên máy</td>
-                    <td className='tdnhap'>Số lượng</td>
-                    <td className='tdnhap'> Đơn giá</td>
-                    <td className='tdnhap'>Thành tiền</td>
-                  </>
-                )}
-                {/* <td className='tdnhap'>Chức năng</td> */}
-              </tr>
-            </thead>
-            <tbody className='tbodynhap'>
-              {SanPham.length > 0 ? (
-                SanPham.map(ncc => (
-                  <>
-                    <tr key={ncc._id}>
-                      <td>
-                        <input
-                          type='checkbox'
-                          checked={selectedItems.includes(ncc._id)}
-                          onChange={() => handleSelectItem(ncc._id)}
-                        />
-                      </td>
-                      <td>{ncc.masku}</td>
-                      <td>{ncc.imel}</td>
-                      {!isMobile && (
-                        <>
-                          <td>{ncc.name}</td>
-                          <td>{ncc.quantity}</td>
-                          <td>{ncc.price.toLocaleString()} VNĐ</td>
-                          <td>{ncc.total.toLocaleString()} VNĐ</td>
-                        </>
-                      )}
-                      {/* <td className='tdchucnang'>
+                  Xóa
+                </button>
+
+                <button
+                  className={`btn-xuat ${
+                    selectedItems.length === 0 ? 'disabled' : ''
+                  }`}
+                  onClick={() => setIsOpenXuatKhoFull(true)}
+                  disabled={selectedItems.length === 0}
+                >
+                  <FontAwesomeIcon
+                    icon={faWarehouse}
+                    className='iconMenuSanPham'
+                  />
+                  Xuất Kho
+                </button>
+                <button
+                  className={`btn-xuat ${
+                    selectedItems.length === 0 ? 'disabled' : ''
+                  }`}
+                  onClick={() => setIsOpenChuyenKhoFull(true)}
+                  disabled={selectedItems.length === 0}
+                >
+                  <FontAwesomeIcon
+                    icon={faTruckFast}
+                    className='iconMenuSanPham'
+                  />
+                  Chuyển Kho
+                </button>
+                <button
+                  className={`btn-xuat ${
+                    selectedItems.length === 0 ? 'disabled' : ''
+                  }`}
+                  disabled={selectedItems.length === 0}
+                  onClick={() => handlePrintBarcode(selectedItems.imel)}
+                >
+                  <FontAwesomeIcon
+                    icon={faBarcode}
+                    className='iconMenuSanPham'
+                  />
+                  In tem Imel
+                </button>
+              </div>
+
+              <table className='tablenhap'>
+                <thead className='theadnhap'>
+                  <tr>
+                    <td className='tdnhap'>
+                      <input
+                        type='checkbox'
+                        checked={selectAll}
+                        onChange={handleSelectAll}
+                      />
+                    </td>
+                    <td className='tdnhap'>Mã sku</td>
+                    <td className='tdnhap'>Imel</td>
+                    {!isMobile && (
+                      <>
+                        <td className='tdnhap'>Tên máy</td>
+                        <td className='tdnhap'>Số lượng</td>
+                        <td className='tdnhap'> Đơn giá</td>
+                        <td className='tdnhap'>Thành tiền</td>
+                      </>
+                    )}
+                    {/* <td className='tdnhap'>Chức năng</td> */}
+                  </tr>
+                </thead>
+                <tbody className='tbodynhap'>
+                  {SanPham.length > 0 ? (
+                    SanPham.map(ncc => (
+                      <>
+                        <tr key={ncc._id}>
+                          <td>
+                            <input
+                              type='checkbox'
+                              checked={selectedItems.includes(ncc._id)}
+                              onChange={() => handleSelectItem(ncc._id)}
+                            />
+                          </td>
+                          <td>{ncc.masku}</td>
+                          <td>{ncc.imel}</td>
+                          {!isMobile && (
+                            <>
+                              <td>{ncc.name}</td>
+                              <td>{ncc.quantity}</td>
+                              <td>{ncc.price.toLocaleString()} VNĐ</td>
+                              <td>{ncc.total.toLocaleString()} VNĐ</td>
+                            </>
+                          )}
+                          {/* <td className='tdchucnang'>
                             <button
                               className='btninimel'
                               onClick={() => handleExportPDFBarcode(ncc.imel)}
@@ -325,65 +361,69 @@ function SanPhamLayout ({ idloaisp, fetchlohang, remainingHeight }) {
                               xuất pdf
                             </button>
                           </td> */}
+                        </tr>
+                        <ModalXuatKho
+                          isOpen={isOpenXuakho}
+                          onClose={handleCloseModalXuakho}
+                          setsanpham={setSanPham}
+                          idsanpham={ncc._id}
+                          idloaisp={idloaisp}
+                          khoID={khoID}
+                          fetchData={fetchData}
+                          fetchlohang={fetchlohang}
+                        />
+                        <ModalChuyenKhoFull
+                          isOpen={isOpenChuyenKhoFull}
+                          onClose={handleCloseModalChuyenKhoFull}
+                          selectedItems={selectedItems}
+                          fetchData={fetchData}
+                          setSelectedItems={setSelectedItems}
+                          setSelectAll={setSelectAll}
+                          fetchlohang={fetchlohang}
+                        />
+                        <ModalXuaKhoFull
+                          isOpen={isOpenXuatKhoFull}
+                          onClose={() => setIsOpenXuatKhoFull(false)}
+                          selectedItems={selectedItems}
+                          fetchData={fetchData}
+                          setSelectedItems={setSelectedItems}
+                          setSelectAll={setSelectAll}
+                          fetchlohang={fetchlohang}
+                          idloaisp={idloaisp}
+                          khoID={khoID}
+                        />
+                      </>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan={isMobile ? '4' : '8'}>
+                        Không có sản phẩm nào
+                      </td>
                     </tr>
-                    <ModalXuatKho
-                      isOpen={isOpenXuakho}
-                      onClose={handleCloseModalXuakho}
-                      setsanpham={setSanPham}
-                      idsanpham={ncc._id}
-                      idloaisp={idloaisp}
-                      khoID={khoID}
-                      fetchData={fetchData}
-                      fetchlohang={fetchlohang}
-                    />
-                    <ModalChuyenKhoFull
-                      isOpen={isOpenChuyenKhoFull}
-                      onClose={handleCloseModalChuyenKhoFull}
-                      selectedItems={selectedItems}
-                      fetchData={fetchData}
-                      setSelectedItems={setSelectedItems}
-                      setSelectAll={setSelectAll}
-                      fetchlohang={fetchlohang}
-                    />
-                    <ModalXuaKhoFull
-                      isOpen={isOpenXuatKhoFull}
-                      onClose={() => setIsOpenXuatKhoFull(false)}
-                      selectedItems={selectedItems}
-                      fetchData={fetchData}
-                      setSelectedItems={setSelectedItems}
-                      setSelectAll={setSelectAll}
-                      fetchlohang={fetchlohang}
-                      idloaisp={idloaisp}
-                      khoID={khoID}
-                    />
-                  </>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan={isMobile ? '4' : '8'}>Không có sản phẩm nào</td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
-        <AddSanPham
-          isOpen={isOpen}
-          onClose={handleCloseModal}
-          loaispid={idloaisp}
-          setsanpham={setSanPham}
-          fetchData={fetchData}
-          fetchlohang={fetchlohang}
-        />
+                  )}
+                </tbody>
+              </table>
+            </div>
+            <AddSanPham
+              isOpen={isOpen}
+              onClose={handleCloseModal}
+              loaispid={idloaisp}
+              setsanpham={setSanPham}
+              fetchData={fetchData}
+              fetchlohang={fetchlohang}
+            />
 
-        <Modal
-          isOpen={openModalbarcode}
-          onClose={() => setOpenmodalbarcode(false)}
-        >
-          <div className='barcode-print'>
-            <Barcode className='barcode-print1' value={printBarcodeItem} />
+            <Modal
+              isOpen={openModalbarcode}
+              onClose={() => setOpenmodalbarcode(false)}
+            >
+              <div className='barcode-print'>
+                <Barcode className='barcode-print1' value={printBarcodeItem} />
+              </div>
+            </Modal>
           </div>
-        </Modal>
-      </div>
+        </>
+      )}
     </>
   )
 }
