@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './Banhang.scss';
 import { FaBell, FaUser, FaBarcode, FaShoppingCart, FaUserTag } from "react-icons/fa";
 import { MdSearch } from "react-icons/md";
-import ModalDataScreen from './modalsp';
+import ModalDataScreen from './DetailData';
 
 function BanHangLayout() {
   const [isOpen, setIsOpen] = useState(false)
