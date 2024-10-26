@@ -15,10 +15,26 @@ function AddTest ({ isOpen, onClose, loaispid, fetchData, fetchlohang }) {
   const { showToast } = useToast()
   const [rows, setRows] = useState([])
   const [imel, setImel] = useState('')
-  const [isEditingIMEI, setIsEditingIMEI] = useState(false)
-  const [isEditingPrice, setIsEditingPrice] = useState(false)
+  const [isEditingIMEI, setIsEditingIMEI] = useState([])
+  const [isEditingPrice, setIsEditingPrice] = useState([])
   const [isRemoving, setIsRemoving] = useState(true)
   const imeiInputRef = useRef(null)
+
+  const toggleIMEIEdit = index => {
+    setIsEditingIMEI(prev => {
+      const updated = Array.isArray(prev) ? [...prev] : [] // Đảm bảo prev là mảng
+      updated[index] = !updated[index]
+      return updated
+    })
+  }
+
+  const togglePriceEdit = index => {
+    setIsEditingPrice(prev => {
+      const updated = Array.isArray(prev) ? [...prev] : [] // Đảm bảo prev là mảng
+      updated[index] = !updated[index]
+      return updated
+    })
+  }
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -90,18 +106,17 @@ function AddTest ({ isOpen, onClose, loaispid, fetchData, fetchlohang }) {
 
   const handleInputChange = (index, field, value) => {
     setRows(prevRows =>
-      prevRows.map((row, rowIndex) =>
-        rowIndex === index
-          ? {
-              ...row,
-              [field]: value,
-              tongtien:
-                field === 'price' || field === 'soluong'
-                  ? row.price * row.soluong
-                  : row.tongtien
-            }
-          : row
-      )
+      prevRows.map((row, rowIndex) => {
+        const updatedRow = { ...row, [field]: value }
+
+        if (field === 'price' || field === 'soluong') {
+          const price = parseFloat(updatedRow.price.replace(/\./g, '')) || 0 // Chuyển đổi giá trị thành số
+          const quantity = row.soluong || 0 // Giữ nguyên giá trị cũ nếu không có số lượng
+          updatedRow.tongtien = price * quantity
+        }
+
+        return updatedRow
+      })
     )
   }
 
@@ -118,7 +133,7 @@ function AddTest ({ isOpen, onClose, loaispid, fetchData, fetchlohang }) {
       )
     )
     setIsRemoving(false)
-    setTimeout(() => setIsRemoving(true), 1)
+    setTimeout(() => setIsRemoving(true), 0)
     setTimeout(() => {
       imeiInputRef.current?.focus() // Đặt lại focus vào input
     }, 0)
@@ -145,10 +160,10 @@ function AddTest ({ isOpen, onClose, loaispid, fetchData, fetchlohang }) {
                 <td>{row.masku}</td>
                 <td>{row.name}</td>
                 <td
-                  onClick={() => setIsEditingIMEI(true)}
+                  onClick={() => toggleIMEIEdit(index)}
                   style={{ cursor: 'pointer' }}
                 >
-                  {isEditingIMEI ? (
+                  {isEditingIMEI[index] ? (
                     <div className='imel-input-container'>
                       {row.imel.map((item, imelIndex) => (
                         <span key={imelIndex} className='imel-tag'>
@@ -185,19 +200,29 @@ function AddTest ({ isOpen, onClose, loaispid, fetchData, fetchlohang }) {
                   )}
                 </td>
                 <td>{row.soluong}</td>
-                <td onClick={() => setIsEditingPrice(true)}>
-                  {isEditingPrice ? (
+                <td onClick={() => togglePriceEdit(index)}>
+                  {isEditingPrice[index] ? (
                     <input
                       type='text'
                       placeholder='Đơn giá'
                       className='inputaddtest'
-                      value={row.price}
-                      onChange={e =>
-                        handleInputChange(index, 'price', e.target.value)
-                      }
+                      value={row.price ? new Intl.NumberFormat().format(row.price) : ''}
+                      onChange={e => {
+                        const rawValue = e.target.value.replace(/\./g, '')
+                        const numericValue = parseFloat(rawValue)
+
+                        // Chỉ cập nhật nếu giá trị là hợp lệ
+                        if (!isNaN(numericValue) || rawValue === '') {
+                          handleInputChange(index, 'price', rawValue) // Cập nhật giá trị
+                        }
+                      }}
+                      autoFocus
+                      onBlur={() => setIsEditingPrice(false)}
                     />
                   ) : (
-                    row.price || 'Nhập đơn giá'
+                    new Intl.NumberFormat().format(
+                      row.price.replace(/\./g, '')
+                    ) || 'Nhập đơn giá'
                   )}
                 </td>
                 <td>{new Intl.NumberFormat().format(row.tongtien)}</td>

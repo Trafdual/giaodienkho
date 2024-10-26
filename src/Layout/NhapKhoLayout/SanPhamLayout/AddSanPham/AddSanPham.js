@@ -34,7 +34,7 @@ function AddSanPham ({ isOpen, onClose, loaispid, fetchData,fetchlohang }) {
           </button>
         </div>
       </Modal>
-      <AddTest
+      <FormAddTay
         isOpen={isOpenForm}
         onClose={() => setIsOpenForm(false)}
         loaispid={loaispid}
