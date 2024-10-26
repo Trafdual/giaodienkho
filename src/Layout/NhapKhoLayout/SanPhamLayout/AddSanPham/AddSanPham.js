@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { Modal } from '../../../../components/Modal'
 import { FormAddTay } from './FormAddTay'
 import { FormAddImel } from './FormAddImel'
+import { AddTest } from './AddTest'
 
 function AddSanPham ({ isOpen, onClose, loaispid, fetchData,fetchlohang }) {
   const [isOpenForm, setIsOpenForm] = useState(false)
@@ -33,7 +34,7 @@ function AddSanPham ({ isOpen, onClose, loaispid, fetchData,fetchlohang }) {
           </button>
         </div>
       </Modal>
-      <FormAddTay
+      <AddTest
         isOpen={isOpenForm}
         onClose={() => setIsOpenForm(false)}
         loaispid={loaispid}

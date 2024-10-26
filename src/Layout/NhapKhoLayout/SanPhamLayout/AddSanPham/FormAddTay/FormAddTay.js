@@ -17,7 +17,7 @@ function FormAddTay ({ isOpen, onClose, loaispid, fetchData, fetchlohang }) {
   const [userID, setuserID] = useState(localStorage.getItem('userId') || '')
   const [loadingSuppliers, setLoadingSuppliers] = useState(true)
   const [isTableVisible, setIsTableVisible] = useState(false)
-
+  const [skuList, setSkuList] = useState([])
   const { showToast } = useToast()
   const [nameError, setNameError] = useState('')
   const [imelError, setimelError] = useState('')
