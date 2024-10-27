@@ -184,20 +184,6 @@ function NhapKhoLayout () {
                 position: 'relative'
               }}
             >
-              <div
-                className='resizer'
-                onMouseDown={handleMouseDown}
-                style={{
-                  cursor: 'ns-resize',
-                  width: '100%',
-                  height: '10px',
-                  background: '#ccc',
-                  position: 'absolute',
-                  top: `${resizerPosition - 10}px`,
-                  left: '0'
-                }}
-              ></div>
-
               <div className='headernhap'>
                 <h2 className='divncc'>Lô hàng</h2>
                 <button className='btnthemlo' onClick={() => setIsOpen(true)}>
@@ -279,6 +265,21 @@ function NhapKhoLayout () {
                 ))}
               </div>
             </div>
+            <div
+              className='resizer'
+              onMouseDown={handleMouseDown}
+              style={{
+                cursor: 'ns-resize',
+                width: '100%',
+                height: '10px',
+                background: '#ccc',
+                position: 'sticky',
+                bottom: 0, // Đặt vị trí dính ở cuối
+                left: 0,
+                zIndex: 1 // Đảm bảo nằm trên các thành phần khác
+              }}
+            ></div>
+
             <AddLoHang
               isOpen={isOpen}
               onClose={handleCloseModal}

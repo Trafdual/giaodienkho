@@ -344,10 +344,10 @@ function SanPhamLayout ({
                             />
                           </td>
                           <td>{ncc.masku}</td>
-                          <td>{ncc.imel}</td>
+                          <td className='imei-cell'>{ncc.imel}</td>
                           {!isMobile && (
                             <>
-                              <td>{ncc.name}</td>
+                              <td className='imei-cell'>{ncc.name}</td>
                               <td>{ncc.quantity}</td>
                               <td>{ncc.price.toLocaleString()} VNĐ</td>
                               <td>{ncc.total.toLocaleString()} VNĐ</td>

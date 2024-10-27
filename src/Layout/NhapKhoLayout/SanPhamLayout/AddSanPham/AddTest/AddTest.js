@@ -1,50 +1,131 @@
-import React, { useState, useEffect, useRef } from 'react'
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useState, useCallback, useEffect } from 'react'
+
 import { ModalBig } from '../../../../../components/ModalBig'
 import { useToast } from '../../../../../components/GlobalStyles/ToastContext'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
+import { faChevronDown, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { Tooltip } from 'react-tippy'
 import 'react-tippy/dist/tippy.css'
-import './AddTest.scss'
+import AddTest2 from './AddTest2'
 
 function AddTest ({ isOpen, onClose, loaispid, fetchData, fetchlohang }) {
-  const [skudata, setSkudata] = useState([])
-  const [userID, setUserID] = useState(localStorage.getItem('userId') || '')
+  const [name, setName] = useState('')
+  const [imel, setimel] = useState('')
+  const [mangimel, setmangimel] = useState([])
+  const [skudata, setskudata] = useState([])
+  const [masku, setmasku] = useState('')
+  const [userID, setuserID] = useState(localStorage.getItem('userId') || '')
   const [loadingSuppliers, setLoadingSuppliers] = useState(true)
   const [isTableVisible, setIsTableVisible] = useState(false)
+  const [skuList, setSkuList] = useState([])
   const { showToast } = useToast()
-  const [rows, setRows] = useState([])
-  const [imel, setImel] = useState('')
-  const [isEditingIMEI, setIsEditingIMEI] = useState([])
-  const [isEditingPrice, setIsEditingPrice] = useState([])
-  const [isRemoving, setIsRemoving] = useState(true)
-  const imeiInputRef = useRef(null)
-
-  const toggleIMEIEdit = index => {
-    setIsEditingIMEI(prev => {
-      const updated = Array.isArray(prev) ? [...prev] : [] // Đảm bảo prev là mảng
-      updated[index] = !updated[index]
-      return updated
-    })
-  }
-
-  const togglePriceEdit = index => {
-    setIsEditingPrice(prev => {
-      const updated = Array.isArray(prev) ? [...prev] : [] // Đảm bảo prev là mảng
-      updated[index] = !updated[index]
-      return updated
-    })
-  }
+  const [nameError, setNameError] = useState('')
+  const [imelError, setimelError] = useState('')
+  const [priceError, setpriceError] = useState('')
+  const [price, setprice] = useState('')
 
   useEffect(() => {
     const intervalId = setInterval(() => {
       const newuserID = localStorage.getItem('userId') || ''
       if (newuserID !== userID) {
-        setUserID(newuserID)
+        console.log('Interval detected change, updating khoID:', newuserID)
+        setuserID(newuserID)
       }
-    }, 1000)
+    }, 1000) // Kiểm tra mỗi giây
+
     return () => clearInterval(intervalId)
-  }, [userID])
+  }, [localStorage.getItem('userId')])
+
+  const valicolorInputs = () => {
+    let valid = true
+
+    if (!name) {
+      setNameError('Vui lòng nhập tên nhà cung cấp.')
+      valid = false
+    } else {
+      setNameError('')
+    }
+
+    if (mangimel.length === 0) {
+      setimelError('Vui lòng nhập imel.')
+      valid = false
+    } else {
+      setimelError('')
+    }
+    if (!price) {
+      setpriceError('giá phải lớn hơn 0.')
+      valid = false
+    } else {
+      setpriceError('')
+    }
+
+    return valid
+  }
+
+  const handleAddSanPham = async () => {
+    if (valicolorInputs()) {
+      try {
+        const response = await fetch(
+          `https://www.ansuataohanoi.com/postsp/${loaispid}`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              name: name,
+              imelList: mangimel,
+              madungluongsku: masku,
+              price: price
+            })
+          }
+        )
+        const data = await response.json()
+
+        if (data.message) {
+          showToast(`${data.message}`, 'error')
+        } else {
+          fetchlohang()
+          fetchData()
+          handleClose()
+          showToast('Thêm sản phẩm thành công')
+        }
+      } catch (error) {
+        console.error('Lỗi khi gửi yêu cầu thêm sản phẩm:', error)
+        showToast('Thêm lô hàng thất bại', 'error')
+        handleClose()
+      }
+    }
+  }
+
+  const resetForm = useCallback(() => {
+    setName('')
+    setimel('')
+    setprice('')
+    setpriceError('')
+    setNameError('')
+    setimelError('')
+  }, [])
+
+  const handleClose = () => {
+    resetForm()
+    onClose()
+  }
+
+  // useEffect(() => {
+  //   const eventSource = new EventSource('https://www.ansuataohanoi.com/events')
+
+  //   eventSource.onmessage = event => {
+  //     const newMessage = JSON.parse(event.data)
+  //     showToast(newMessage.message)
+  //     fetchData()
+  //   }
+
+  //   return () => {
+  //     eventSource.close()
+  //   }
+  // }, [])
 
   const fetchSku = async () => {
     try {
@@ -54,7 +135,7 @@ function AddTest ({ isOpen, onClose, loaispid, fetchData, fetchlohang }) {
       const data = await response.json()
 
       if (response.ok) {
-        setSkudata(data)
+        setskudata(data)
       } else {
         showToast('Không thể tải danh sách sku', 'error')
       }
@@ -70,221 +151,160 @@ function AddTest ({ isOpen, onClose, loaispid, fetchData, fetchlohang }) {
     fetchSku()
   }, [userID])
 
-  const addRow = selectedSKU => {
-    setRows(prevRows => [
-      ...prevRows,
-      {
-        masku: selectedSKU.madungluong,
-        name: selectedSKU.name,
-        imel: [],
-        soluong: 0,
-        price: '',
-        tongtien: ''
-      }
-    ])
-  }
-
-  const handleKeyPress = (index, event) => {
+  const handleKeyPress = event => {
     if (event.key === 'Enter') {
-      if (imel) {
-        event.preventDefault()
-        setRows(prevRows =>
-          prevRows.map((row, rowIndex) =>
-            rowIndex === index
-              ? {
-                  ...row,
-                  imel: [...row.imel, imel],
-                  soluong: row.imel.length + 1
-                }
-              : row
-          )
-        )
-        setImel('')
-      }
+      event.preventDefault()
+      handleAddMasp()
     }
   }
-
-  const handleInputChange = (index, field, value) => {
-    setRows(prevRows =>
-      prevRows.map((row, rowIndex) => {
-        const updatedRow = { ...row, [field]: value }
-
-        if (field === 'price' || field === 'soluong') {
-          const price = parseFloat(updatedRow.price.replace(/\./g, '')) || 0 // Chuyển đổi giá trị thành số
-          const quantity = row.soluong || 0 // Giữ nguyên giá trị cũ nếu không có số lượng
-          updatedRow.tongtien = price * quantity
-        }
-
-        return updatedRow
-      })
-    )
+  const handleRemoveimel = index => {
+    const newmangmaimel = [...mangimel]
+    newmangmaimel.splice(index, 1)
+    setmangimel(newmangmaimel)
   }
 
-  const handleRemoveImel = (index, imelIndex) => {
-    setRows(prevRows =>
-      prevRows.map((row, rowIndex) =>
-        rowIndex === index
-          ? {
-              ...row,
-              imel: row.imel.filter((_, i) => i !== imelIndex),
-              soluong: row.imel.length - 1
-            }
-          : row
-      )
-    )
-    setIsRemoving(false)
-    setTimeout(() => setIsRemoving(true), 0)
-    setTimeout(() => {
-      imeiInputRef.current?.focus() // Đặt lại focus vào input
-    }, 0)
-  }
+  // Thêm mã sản phẩm vào danh sách
+  const handleAddMasp = () => {
+    if (!imel) {
+      setimelError('Vui lòng nhập mã sản phẩm.')
+      return
+    }
 
+    setmangimel(prevMangimel => [...prevMangimel, imel])
+    setimel('')
+    setimelError('')
+  }
+  console.log(skudata)
   return (
-    <ModalBig isOpen={isOpen} onClose={onClose}>
-      <div>
-        <h3>Thêm sản phẩm</h3>
-        <table className='modal-table-test'>
-          <thead>
-            <tr>
-              <th>Mã SKU</th>
-              <th>Tên máy</th>
-              <th>Imel</th>
-              <th>Số lượng</th>
-              <th>Đơn giá</th>
-              <th>Tổng tiền</th>
-            </tr>
-          </thead>
-          <tbody>
-            {rows.map((row, index) => (
-              <tr key={index}>
-                <td>{row.masku}</td>
-                <td>{row.name}</td>
-                <td
-                  onClick={() => toggleIMEIEdit(index)}
-                  style={{ cursor: 'pointer' }}
-                >
-                  {isEditingIMEI[index] ? (
-                    <div className='imel-input-container'>
-                      {row.imel.map((item, imelIndex) => (
-                        <span key={imelIndex} className='imel-tag'>
-                          {item}{' '}
-                          <button
-                            onMouseDown={e => {
-                              e.stopPropagation() // Ngăn sự kiện blur của input
-                              handleRemoveImel(index, imelIndex)
-                            }}
-                            className='remove-imel-btn'
-                          >
-                            &times;
-                          </button>
-                        </span>
+    <ModalBig isOpen={isOpen} onClose={handleClose}>
+      <div className='divAddSanPham'>
+        <h2>Thêm sản phẩm</h2>
+        <div className='divinputncc'>
+          <h4>Mã sku</h4>
+          <Tooltip
+            trigger='click'
+            interactive
+            arrow
+            position='bottom'
+            open={isTableVisible}
+            onRequestClose={() => setIsTableVisible(false)}
+            html={
+              <div className='supplier-table-container'>
+                {loadingSuppliers ? (
+                  <p>Đang tải danh sách sku...</p>
+                ) : (
+                  <table className='supplier-info-table'>
+                    <thead>
+                      <tr>
+                        <th>Mã sku</th>
+                        <th>Tên</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {skudata.map(supplier => (
+                        <tr
+                          className='trdulieu'
+                          key={supplier._id}
+                          onClick={() => {
+                            setmasku(supplier.madungluong)
+                            setIsTableVisible(false)
+                            setName(supplier.name)
+                          }}
+                        >
+                          <td>{supplier.madungluong}</td>
+                          <td>{supplier.name}</td>
+                        </tr>
                       ))}
-                      <input
-                        ref={imeiInputRef}
-                        type='text'
-                        value={imel}
-                        placeholder='Nhập IMEI'
-                        onKeyPress={event => handleKeyPress(index, event)}
-                        onChange={e => setImel(e.target.value)}
-                        className='imel-input'
-                        autoFocus
-                        onBlur={() => {
-                          if (isRemoving) {
-                            setIsEditingIMEI(false) // Chỉ tắt nếu không đang xóa
-                          }
-                        }}
-                      />
-                    </div>
-                  ) : (
-                    row.imel.join(', ') || 'Nhập IMEI'
-                  )}
-                </td>
-                <td>{row.soluong}</td>
-                <td onClick={() => togglePriceEdit(index)}>
-                  {isEditingPrice[index] ? (
-                    <input
-                      type='text'
-                      placeholder='Đơn giá'
-                      className='inputaddtest'
-                      value={row.price ? new Intl.NumberFormat().format(row.price) : ''}
-                      onChange={e => {
-                        const rawValue = e.target.value.replace(/\./g, '')
-                        const numericValue = parseFloat(rawValue)
-
-                        // Chỉ cập nhật nếu giá trị là hợp lệ
-                        if (!isNaN(numericValue) || rawValue === '') {
-                          handleInputChange(index, 'price', rawValue) // Cập nhật giá trị
-                        }
-                      }}
-                      autoFocus
-                      onBlur={() => setIsEditingPrice(false)}
-                    />
-                  ) : (
-                    new Intl.NumberFormat().format(
-                      row.price.replace(/\./g, '')
-                    ) || 'Nhập đơn giá'
-                  )}
-                </td>
-                <td>{new Intl.NumberFormat().format(row.tongtien)}</td>
-              </tr>
-            ))}
-            <tr>
-              <td>
-                <Tooltip
-                  trigger='click'
-                  interactive
-                  arrow
-                  position='bottom'
-                  open={isTableVisible}
-                  onRequestClose={() => setIsTableVisible(false)}
-                  html={
-                    <div className='supplier-table-container'>
-                      {loadingSuppliers ? (
-                        <p>Đang tải danh sách sku...</p>
-                      ) : (
-                        <table className='supplier-info-table'>
-                          <thead>
-                            <tr>
-                              <th>Mã sku</th>
-                              <th>Tên</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {skudata.map(supplier => (
-                              <tr
-                                key={supplier._id}
-                                onClick={() => {
-                                  addRow(supplier)
-                                  setIsTableVisible(false)
-                                }}
-                              >
-                                <td>{supplier.madungluong}</td>
-                                <td>{supplier.name}</td>
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
-                      )}
-                    </div>
-                  }
-                >
+                    </tbody>
+                  </table>
+                )}
+              </div>
+            }
+          >
+            <button
+              className='divChonncc'
+              onClick={() => setIsTableVisible(!isTableVisible)}
+            >
+              {masku ? `${masku}` : 'Chọn mã sku'}
+              <FontAwesomeIcon icon={faChevronDown} className='iconNcc' />
+            </button>
+          </Tooltip>
+        </div>
+        <div className='divtenkho'>
+          <input
+            type='text'
+            className={`tenkho ${nameError ? 'input-error' : ''}`}
+            placeholder=''
+            value={name}
+            onChange={e => setName(e.target.value)}
+          />
+          <label htmlFor='' className='label'>
+            Nhập tên sản phẩm
+          </label>
+        </div>
+        {nameError && <div className='error'>{nameError}</div>}
+        <div className='divdiachikho'>
+          <input
+            type='text'
+            className={`diachi ${imelError ? 'input-error' : ''}`}
+            placeholder=''
+            value={imel}
+            onChange={e => setimel(e.target.value)}
+            onKeyPress={handleKeyPress}
+          />
+          <label htmlFor='' className='label'>
+            Nhập imel
+          </label>
+        </div>
+        {imelError && <div className='error'>{imelError}</div>}
+        {mangimel.length > 0 && (
+          <div className='mangmasp-list'>
+            <h4>Danh sách mã imel:</h4>
+            <ul className='ulmangmasp'>
+              {mangimel.map((item, index) => (
+                <li key={index} className='mangmasp-item'>
+                  {item}
                   <button
-                    className='btnaddtest'
-                    onClick={() => setIsTableVisible(!isTableVisible)}
+                    className='remove-btn'
+                    onClick={() => handleRemoveimel(index)}
                   >
-                    Chọn mã sku
-                    <FontAwesomeIcon
-                      icon={faChevronDown}
-                      className='iconaddtest'
-                    />
+                    <FontAwesomeIcon className='remove-icon' icon={faXmark} />
                   </button>
-                </Tooltip>
-              </td>
-              <td colSpan='5'></td>
-            </tr>
-          </tbody>
-        </table>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        <div className='divdiachikho'>
+          <input
+            type='text'
+            className={`diachi ${priceError ? 'input-error' : ''}`}
+            placeholder=''
+            value={new Intl.NumberFormat().format(price.replace(/\./g, ''))}
+            onChange={e => {
+              const rawValue = e.target.value.replace(/\./g, '')
+              setprice(rawValue)
+              if (e.target.value) {
+                setpriceError('')
+              }
+            }}
+          />
+          <label htmlFor='' className='label'>
+            Nhập giá
+          </label>
+        </div>
+        {priceError && <div className='error'>{priceError}</div>}
+        <AddTest2 />
+
+        <button onClick={handleAddSanPham} className='btnAddLoHang'>
+          Thêm sản phẩm
+        </button>
+        <button onClick={handleClose} className='btnhuyAddLoHang'>
+          Hủy
+        </button>
       </div>
+      
     </ModalBig>
   )
 }

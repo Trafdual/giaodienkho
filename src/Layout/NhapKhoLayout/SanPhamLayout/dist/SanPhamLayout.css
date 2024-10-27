@@ -7,6 +7,14 @@
     transform: rotate(360deg);
   }
 }
+.imei-cell {
+  max-width: 150px;
+  /* Đặt giới hạn chiều rộng cho ô chứa IMEI */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .h3loading {
   font-size: 20px;
   /* Tăng kích thước chữ */
