@@ -7,6 +7,7 @@ import { AddLoHang } from './AddLoHang'
 import { SanPhamLayout } from './SanPhamLayout'
 import { EditLoHang } from './EditLoHang'
 import { Loading } from '~/components/Loading'
+import { AddTest } from './SanPhamLayout/AddSanPham/AddTest'
 
 function NhapKhoLayout () {
   const [lohang, setlohang] = useState([])
@@ -280,10 +281,10 @@ function NhapKhoLayout () {
               }}
             ></div>
 
-            <AddLoHang
+            <AddTest
               isOpen={isOpen}
               onClose={handleCloseModal}
-              setlohang={setlohang}
+              fetclohang={fetchData}
             />
             <EditLoHang
               idloaisanpham={idloaisanpham}

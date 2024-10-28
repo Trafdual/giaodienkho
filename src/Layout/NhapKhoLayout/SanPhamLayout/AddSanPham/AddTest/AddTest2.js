@@ -1,12 +1,24 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from 'react'
 import { useToast } from '../../../../../components/GlobalStyles/ToastContext'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
 import { Tooltip } from 'react-tippy'
 import 'react-tippy/dist/tippy.css'
-import './AddTest.scss'
+import './AddTest2.scss'
 
-function AddTest2 ({loaispid, fetchData, fetchlohang }) {
+function AddTest2 ({
+  fetchlohang,
+  mancc,
+  name,
+  date,
+  ghino,
+  method,
+  hour,
+  manganhangkho,
+  loaihanghoa,
+  onClose
+}) {
   const [skudata, setSkudata] = useState([])
   const [userID, setUserID] = useState(localStorage.getItem('userId') || '')
   const [loadingSuppliers, setLoadingSuppliers] = useState(true)
@@ -69,6 +81,11 @@ function AddTest2 ({loaispid, fetchData, fetchlohang }) {
     fetchSku()
   }, [userID])
 
+  const handleClose = () => {
+    setRows([])
+    onClose()
+  }
+
   const addRow = selectedSKU => {
     setRows(prevRows => [
       ...prevRows,
@@ -104,23 +121,22 @@ function AddTest2 ({loaispid, fetchData, fetchlohang }) {
   }
 
   const handleInputChange = (index, field, value) => {
-  setRows(prevRows =>
-    prevRows.map((row, rowIndex) => {
-      if (rowIndex !== index) return row // Giữ nguyên hàng nếu không phải hàng đang được cập nhật
+    setRows(prevRows =>
+      prevRows.map((row, rowIndex) => {
+        if (rowIndex !== index) return row // Giữ nguyên hàng nếu không phải hàng đang được cập nhật
 
-      const updatedRow = { ...row, [field]: value }
+        const updatedRow = { ...row, [field]: value }
 
-      if (field === 'price' || field === 'soluong') {
-        const price = parseFloat(updatedRow.price.replace(/\./g, '')) || 0
-        const quantity = updatedRow.soluong || 0
-        updatedRow.tongtien = price * quantity
-      }
+        if (field === 'price' || field === 'soluong') {
+          const price = parseFloat(updatedRow.price.replace(/\./g, '')) || 0
+          const quantity = updatedRow.soluong || 0
+          updatedRow.tongtien = price * quantity
+        }
 
-      return updatedRow
-    })
-  )
-}
-
+        return updatedRow
+      })
+    )
+  }
 
   const handleRemoveImel = (index, imelIndex) => {
     setRows(prevRows =>
@@ -149,32 +165,45 @@ function AddTest2 ({loaispid, fetchData, fetchlohang }) {
       price: row.price || 0 // Giá từng sản phẩm
     }))
 
-    const payload = { products }
+    const payload = {
+      products,
+      mancc,
+      name,
+      date,
+      ghino,
+      method,
+      hour,
+      manganhangkho,
+      loaihanghoa
+    }
 
     try {
-      const response = await fetch(`http://localhost:8080/postsp1/${loaispid}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      })
+      const response = await fetch(
+        `https://www.ansuataohanoi.com/postloaisanpham3`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        }
+      )
 
       if (response.ok) {
-        showToast('Thêm sản phẩm thành công!', 'success')
-        fetchData()
+        showToast('Thêm lô hàng thành công!', 'success')
+        handleClose()
         fetchlohang()
       } else {
-        showToast('Lỗi khi thêm sản phẩm', 'error')
+        showToast('Lỗi khi thêm lô hàng', 'error')
       }
     } catch (error) {
-      console.error('Lỗi khi gửi dữ liệu sản phẩm:', error)
-      showToast('Đã xảy ra lỗi khi thêm sản phẩm', 'error')
+      console.error('Lỗi khi gửi dữ liệu lô hàng:', error)
+      showToast(`Đã xảy ra lỗi khi thêm lô hàng ${error}`, 'error')
     }
   }
 
   return (
-      <>
+    <>
       <div>
-        <h3>Thêm sản phẩm</h3>
+        <h3 style={{ marginBottom: '10px' }}>Chi tiết</h3>
         <table className='modal-table-test'>
           <thead>
             <tr>
@@ -186,7 +215,7 @@ function AddTest2 ({loaispid, fetchData, fetchlohang }) {
               <th>Tổng tiền</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className='divtableSP'>
             {rows.map((row, index) => (
               <tr key={index}>
                 <td>{row.masku}</td>
@@ -321,10 +350,10 @@ function AddTest2 ({loaispid, fetchData, fetchlohang }) {
           </tbody>
         </table>
       </div>
-      <button className='btn-submit' onClick={submitProducts}>
-        Gửi sản phẩm
+      <button onClick={submitProducts} className='btnAddLoHang'>
+        Thêm lô hàng
       </button>
-      </>
+    </>
   )
 }
 
