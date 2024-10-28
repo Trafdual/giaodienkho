@@ -215,7 +215,7 @@ function AddTest2 ({
               <th>Tổng tiền</th>
             </tr>
           </thead>
-          <tbody className='divtableSP'>
+          <tbody>
             {rows.map((row, index) => (
               <tr key={index}>
                 <td>{row.masku}</td>
@@ -266,7 +266,7 @@ function AddTest2 ({
                     <input
                       type='text'
                       placeholder='Đơn giá'
-                      className='input2'
+                      className='imel-input'
                       value={
                         row.price
                           ? new Intl.NumberFormat().format(row.price)
