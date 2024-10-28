@@ -2,7 +2,7 @@
 import React, { useEffect, useState, useRef } from 'react'
 import './ListKho.scss'
 
-function ListKho ({ datakho, setdatakho }) {
+function ListKho ({ datakho, setdatakho, setloading }) {
   const [isOpen, setIsOpen] = useState(false)
   const [selectedKho, setSelectedKho] = useState(null)
   const [userID, setuserID] = useState(
@@ -42,6 +42,7 @@ function ListKho ({ datakho, setdatakho }) {
       if (response.ok) {
         const data = await response.json()
         setdatakho(data)
+        setloading(false)
 
         // Kiểm tra khoID từ localStorage và cập nhật selectedKho nếu có
         const storedKhoID = localStorage.getItem('khoID')

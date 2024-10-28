@@ -6,23 +6,33 @@ import { useState } from 'react'
 import './DefaultLayout.scss'
 import { Header } from './Header'
 import { Sidebar } from './Sidebar'
+import { Loading } from '~/components/Loading'
 
 function DefaultLayout ({ children }) {
   const [isActive, setIsActive] = useState(false)
+  const [loading, setloading] = useState(true)
 
   const toggleMenu = () => {
     setIsActive(!isActive)
   }
-  const userId = localStorage.getItem('userId') || sessionStorage.getItem('userId')
+  const userId =
+    localStorage.getItem('userId') || sessionStorage.getItem('userId')
   const name = localStorage.getItem('name') || sessionStorage.getItem('name')
 
   return (
     <>
+      {loading && <Loading />}
       <div className='container'>
-        <Sidebar isActive={isActive} setIsActive={setIsActive}/>
+        <Sidebar isActive={isActive} setIsActive={setIsActive} />
 
         <div className={`main ${isActive ? 'active' : ''}`}>
-          <Header name={name} userId={userId} toggleMenu={toggleMenu} isActive={isActive} />
+          <Header
+            setloading={setloading}
+            name={name}
+            userId={userId}
+            toggleMenu={toggleMenu}
+            isActive={isActive}
+          />
           {children}
         </div>
       </div>

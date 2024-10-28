@@ -16,7 +16,7 @@ import { AddKho } from './AddKho'
 import { useToast } from '../../../components/GlobalStyles/ToastContext'
 import { useNavigate } from 'react-router-dom'
 
-function Header ({ toggleMenu, userId, name, isActive }) {
+function Header ({ toggleMenu, userId, name, isActive,setloading }) {
   const [datakho, setdatakho] = useState([])
   const { showToast } = useToast()
   const [isOpen, setIsOpen] = useState(false)
@@ -169,7 +169,7 @@ function Header ({ toggleMenu, userId, name, isActive }) {
             </button>
           </Tippy>
         </div>
-        <ListKho datakho={datakho} setdatakho={setdatakho} />
+        <ListKho datakho={datakho} setdatakho={setdatakho} setloading={setloading}/>
         <div className='optiontk'>
           <img
             src='https://gcs.tripi.vn/public-tripi/tripi-feed/img/474014bom/anh-gai-xinh-cute-de-thuong-hot-girl-2.jpg'
