@@ -161,7 +161,7 @@ function SanPhamLayout ({
                 </div>
               </div>
 
-              <div
+              {/* <div
                 className='action-menu'
                 style={{ position: 'sticky', top: '30px' }}
               >
@@ -174,7 +174,7 @@ function SanPhamLayout ({
                   
                   Thêm sản phẩm
                 </button>
-              </div>
+              </div> */}
 
               <table className='tablenhap'>
                 <thead className='theadnhap'>
