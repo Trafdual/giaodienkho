@@ -6,6 +6,8 @@ import { NhaCungCap } from '~/Layout/NhaCungCapLayout'
 import { NhapKhoLayout } from '~/Layout/NhapKhoLayout'
 import { DieuChuyenLayout } from '~/Layout/DieuChuyenLayout'
 import { BanHangLayout } from '~/Layout/BanHangLayout'
+import { TroGiupLayout } from '~/Layout/TroGiupLayout'
+
 import { KhachHangLayout } from '~/Layout/KhachHangLayout'
 import { DoanhThuLayout } from '~/Layout/DoanhThuLayout'
 import { HoaDonLayout } from '~/Layout/HoaDonLayout'
@@ -22,6 +24,8 @@ const publicRoutes = [
   { path: '/khachhang', component: KhachHangLayout },
   { path: '/dieuchuyen', component: DieuChuyenLayout },
   { path: '/banhang', component: BanHangLayout, layout: null },
+  { path: '/trogiup', component: TroGiupLayout, layout: null },
+
   { path: '/doanhthu', component: DoanhThuLayout },
   { path: '/hoadon', component: HoaDonLayout },
   { path: '/thietlap', component: ThietLapLayout },
