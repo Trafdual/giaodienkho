@@ -2,7 +2,12 @@
 import './NhapKhoLayout.scss'
 import { useState, useEffect, useCallback } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus } from '@fortawesome/free-solid-svg-icons'
+import {
+  faPlus,
+  faEye,
+  faPen,
+  faTrashCan,
+} from '@fortawesome/free-solid-svg-icons'
 import { AddLoHang } from './AddLoHang'
 import { SanPhamLayout } from './SanPhamLayout'
 import { EditLoHang } from './EditLoHang'
@@ -18,6 +23,8 @@ function NhapKhoLayout () {
   const [isOpenEdit, setIsOpenEdit] = useState(false)
   const [selectedRow, setSelectedRow] = useState(null)
   const [loadingsp, setLoadingsp] = useState(false)
+  const [selectedItems, setSelectedItems] = useState([])
+  const [selectAll, setSelectAll] = useState(false)
 
   // Trạng thái phân trang
   const [currentPage, setCurrentPage] = useState(1)
@@ -169,6 +176,29 @@ function NhapKhoLayout () {
     setLoading(true)
     fetchData()
   }, [khoID])
+  const handleSelectAll = () => {
+    const newSelectAll = !selectAll
+    setSelectAll(newSelectAll)
+
+    if (newSelectAll) {
+      const allIds = lohang.map(item => item._id)
+      setSelectedItems(allIds)
+    } else {
+      setSelectedItems([])
+    }
+  }
+  const handleSelectItem = id => {
+    let updatedSelectedItems = [...selectedItems]
+
+    if (selectedItems.includes(id)) {
+      updatedSelectedItems = updatedSelectedItems.filter(item => item !== id)
+    } else {
+      updatedSelectedItems.push(id)
+    }
+
+    setSelectedItems(updatedSelectedItems)
+    setSelectAll(updatedSelectedItems.length === lohang.length)
+  }
 
   return (
     <>
@@ -185,16 +215,70 @@ function NhapKhoLayout () {
                 position: 'relative'
               }}
             >
-              <div className='headernhap'>
-                <h2 className='divncc'>Lô hàng</h2>
-                <button className='btnthemlo' onClick={() => setIsOpen(true)}>
-                  <FontAwesomeIcon className='iconncc' icon={faPlus} />
-                  <h3>Thêm lô hàng</h3>
+              <div
+                className='action-menu'
+                style={{ position: 'sticky', top: '10px' }}
+              >
+                <h4>{selectedItems.length} lô hàng được chọn</h4>
+                <button
+                  className={`btn-xoa `}
+                  onClick={() => setIsOpen(true)}
+                  // disabled={!idloaisp}
+                >
+                  <FontAwesomeIcon icon={faPlus} className='iconMenuSanPham' />
+                  Thêm lô hàng
+                </button>
+                <button
+                  className={`btn-xoa ${
+                    selectedItems.length > 1 || selectedItems.length === 0
+                      ? 'disabled'
+                      : ''
+                  }`}
+                  disabled={
+                    selectedItems.length > 1 || selectedItems.length === 0
+                  }
+                >
+                  <FontAwesomeIcon icon={faPen} className='iconMenuSanPham' />
+                  Sửa
+                </button>
+                <button
+                  className={`btn-xoa ${
+                    selectedItems.length > 1 || selectedItems.length === 0
+                      ? 'disabled'
+                      : ''
+                  }`}
+                  disabled={
+                    selectedItems.length > 1 || selectedItems.length === 0
+                  }
+                >
+                  <FontAwesomeIcon icon={faEye} className='iconMenuSanPham' />
+                  Xem
+                </button>
+
+                <button
+                  className={`btn-xoa ${
+                    selectedItems.length === 0 ? 'disabled' : ''
+                  }`}
+                  disabled={selectedItems.length === 0}
+                >
+                  <FontAwesomeIcon
+                    icon={faTrashCan}
+                    className='iconMenuSanPham'
+                  />
+                  Xóa
                 </button>
               </div>
+
               <table className='tablenhap'>
                 <thead className='theadnhap'>
                   <tr>
+                    <td className='tdnhap'>
+                      <input
+                        type='checkbox'
+                        checked={selectAll}
+                        onChange={handleSelectAll}
+                      />
+                    </td>
                     <td className='tdnhap'>Mã lô hàng</td>
                     <td className='tdnhap'>Tên lô hàng</td>
                     {!isMobile && (
@@ -222,6 +306,13 @@ function NhapKhoLayout () {
                           }}
                           style={{ cursor: 'pointer' }}
                         >
+                          <td className='tdnhap'>
+                            <input
+                              type='checkbox'
+                              checked={selectedItems.includes(ncc._id)}
+                              onChange={() => handleSelectItem(ncc._id)}
+                            />
+                          </td>
                           <td>{ncc.malsp}</td>
                           <td>{ncc.name}</td>
                           {!isMobile && (

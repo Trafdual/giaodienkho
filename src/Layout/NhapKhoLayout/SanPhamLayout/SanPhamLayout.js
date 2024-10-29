@@ -214,7 +214,7 @@ function SanPhamLayout ({
                 </div>
               </div>
 
-              <div
+              {/* <div
                 className='action-menu'
                 style={{ position: 'sticky', top: '30px' }}
               >
@@ -306,18 +306,18 @@ function SanPhamLayout ({
                   />
                   In tem Imel
                 </button>
-              </div>
+              </div> */}
 
               <table className='tablenhap'>
                 <thead className='theadnhap'>
                   <tr>
-                    <td className='tdnhap'>
+                    {/* <td className='tdnhap'>
                       <input
                         type='checkbox'
                         checked={selectAll}
                         onChange={handleSelectAll}
                       />
-                    </td>
+                    </td> */}
                     <td className='tdnhap'>Mã sku</td>
                     <td className='tdnhap'>Imel</td>
                     {!isMobile && (
@@ -336,13 +336,13 @@ function SanPhamLayout ({
                     SanPham.map(ncc => (
                       <>
                         <tr key={ncc._id}>
-                          <td>
+                          {/* <td>
                             <input
                               type='checkbox'
                               checked={selectedItems.includes(ncc._id)}
                               onChange={() => handleSelectItem(ncc._id)}
                             />
-                          </td>
+                          </td> */}
                           <td>{ncc.masku}</td>
                           <td className='imei-cell'>{ncc.imel}</td>
                           {!isMobile && (
