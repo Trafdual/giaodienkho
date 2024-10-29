@@ -1,23 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {
-  faBarcode,
-  faEye,
-  faPen,
-  faPlus,
-  faTrashCan,
-  faTruckFast,
-  faWarehouse
-} from '@fortawesome/free-solid-svg-icons'
-
 import { AddSanPham } from './AddSanPham'
 import { ModalXuatKho } from './ModalXuatkho'
 import './SanPhamLayout.scss'
-import { ModalChuyenKhoFull } from './ModalChuyenKhoFull'
-import Barcode from 'react-barcode'
-import { Modal } from '../../../components/Modal'
-import { ModalXuaKhoFull } from './ModalXuaKhoFull'
+import EditSanPham from './EditSanPham/EditSanPham'
 // import jsPDF from 'jspdf'
 // import html2canvas from 'html2canvas'
 // Component hiển thị khi đang loading
@@ -31,32 +17,13 @@ function SanPhamLayout ({
 }) {
   const [isOpen, setIsOpen] = useState(false)
   const [isOpenXuakho, setIsOpenXuakho] = useState(false)
-  const [isOpenXuatKhoFull, setIsOpenXuatKhoFull] = useState(false)
   const [SanPham, setSanPham] = useState([])
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
   const [khoID, setKhoID] = useState(localStorage.getItem('khoID') || '')
-  const [selectAll, setSelectAll] = useState(false)
-  const [selectedItems, setSelectedItems] = useState([])
-  const [isOpenChuyenKhoFull, setIsOpenChuyenKhoFull] = useState(false)
-  const [printBarcodeItem, setPrintBarcodeItem] = useState(null)
-  const [openModalbarcode, setOpenmodalbarcode] = useState(false)
-
-  const handlePrintBarcode = imel => {
-    setOpenmodalbarcode(true)
-    setPrintBarcodeItem(imel) // Lưu lại sản phẩm cần in
-
-    const checkIfElementReady = () => {
-      const barcodeElement = document.querySelector('.barcode-print1')
-      if (barcodeElement && barcodeElement.offsetHeight > 0) {
-        window.print() // Thực hiện in khi barcode đã sẵn sàng
-        setOpenmodalbarcode(false) // Đóng modal sau khi in xong
-      } else {
-        setTimeout(checkIfElementReady, 500) // Kiểm tra lại sau 500ms nếu chưa sẵn sàng
-      }
-    }
-
-    setTimeout(checkIfElementReady, 500) // Kiểm tra sau 500ms
-  }
+  const [masku, setmasku] = useState('')
+  const [isOpenEdit, setIsOpenEdit] = useState(false)
+  // const [selectedItems, setSelectedItems] = useState([])
+  // const [isOpenChuyenKhoFull, setIsOpenChuyenKhoFull] = useState(false)
 
   // const handleExportPDFBarcode = async imel => {
   //   setOpenmodalbarcode(true)
@@ -97,31 +64,6 @@ function SanPhamLayout ({
     )
   }
 
-  const handleSelectAll = () => {
-    const newSelectAll = !selectAll
-    setSelectAll(newSelectAll)
-
-    if (newSelectAll) {
-      const allIds = SanPham.map(item => item._id)
-      setSelectedItems(allIds)
-    } else {
-      setSelectedItems([])
-    }
-  }
-
-  const handleSelectItem = id => {
-    let updatedSelectedItems = [...selectedItems]
-
-    if (selectedItems.includes(id)) {
-      updatedSelectedItems = updatedSelectedItems.filter(item => item !== id)
-    } else {
-      updatedSelectedItems.push(id)
-    }
-
-    setSelectedItems(updatedSelectedItems)
-    setSelectAll(updatedSelectedItems.length === SanPham.length)
-  }
-
   useEffect(() => {
     const intervalId = setInterval(() => {
       const newKhoID = localStorage.getItem('khoID') || ''
@@ -140,9 +82,9 @@ function SanPhamLayout ({
   const handleCloseModalXuakho = () => {
     setIsOpenXuakho(false)
   }
-  const handleCloseModalChuyenKhoFull = () => {
-    setIsOpenChuyenKhoFull(false)
-  }
+  // const handleCloseModalChuyenKhoFull = () => {
+  //   setIsOpenChuyenKhoFull(false)
+  // }
 
   const fetchData = async () => {
     if (!idloaisp) return
@@ -190,6 +132,11 @@ function SanPhamLayout ({
   //   }
   // }, [])
 
+  const ModalEdit = sku => {
+    setmasku(sku)
+    setIsOpenEdit(true)
+  }
+
   return (
     <>
       {loading ? (
@@ -218,15 +165,16 @@ function SanPhamLayout ({
                 className='action-menu'
                 style={{ position: 'sticky', top: '30px' }}
               >
-                <h4>{selectedItems.length} sản phẩm được chọn</h4>
+                <h4> sản phẩm được chọn</h4>
                 <button
                   className={`btn-xoa ${!idloaisp ? 'disabled' : ''}`}
                   onClick={() => setIsOpen(true)}
                   disabled={!idloaisp}
                 >
-                  <FontAwesomeIcon icon={faPlus} className='iconMenuSanPham' />
+                  
                   Thêm sản phẩm
                 </button>
+<<<<<<< HEAD
                 <button
                   className={`btn-xoa ${
                     selectedItems.length > 1 || selectedItems.length === 0
@@ -306,6 +254,8 @@ function SanPhamLayout ({
                   />
                   In tem Imel
                 </button>
+=======
+>>>>>>> 8dc55d9d173a896e53d96b7f594cbe35e332bf96
               </div>
 
               <table className='tablenhap'>
@@ -328,7 +278,8 @@ function SanPhamLayout ({
                         <td className='tdnhap'>Thành tiền</td>
                       </>
                     )}
-                    {/* <td className='tdnhap'>Chức năng</td> */}
+
+                    <td className='tdnhap'>Chức năng</td>
                   </tr>
                 </thead>
                 <tbody className='tbodynhap'>
@@ -353,14 +304,15 @@ function SanPhamLayout ({
                               <td>{ncc.total.toLocaleString()} VNĐ</td>
                             </>
                           )}
-                          {/* <td className='tdchucnang'>
+
+                          <td className='tdchucnang'>
                             <button
                               className='btninimel'
-                              onClick={() => handleExportPDFBarcode(ncc.imel)}
+                              onClick={() => ModalEdit(ncc.masku)}
                             >
-                              xuất pdf
+                              Cập nhật
                             </button>
-                          </td> */}
+                          </td>
                         </tr>
                         <ModalXuatKho
                           isOpen={isOpenXuakho}
@@ -372,7 +324,7 @@ function SanPhamLayout ({
                           fetchData={fetchData}
                           fetchlohang={fetchlohang}
                         />
-                        <ModalChuyenKhoFull
+                        {/* <ModalChuyenKhoFull
                           isOpen={isOpenChuyenKhoFull}
                           onClose={handleCloseModalChuyenKhoFull}
                           selectedItems={selectedItems}
@@ -391,7 +343,7 @@ function SanPhamLayout ({
                           fetchlohang={fetchlohang}
                           idloaisp={idloaisp}
                           khoID={khoID}
-                        />
+                        /> */}
                       </>
                     ))
                   ) : (
@@ -412,15 +364,12 @@ function SanPhamLayout ({
               fetchData={fetchData}
               fetchlohang={fetchlohang}
             />
-
-            <Modal
-              isOpen={openModalbarcode}
-              onClose={() => setOpenmodalbarcode(false)}
-            >
-              <div className='barcode-print'>
-                <Barcode className='barcode-print1' value={printBarcodeItem} />
-              </div>
-            </Modal>
+            <EditSanPham
+              sku={masku}
+              idloaisp={idloaisp}
+              isOpen={isOpenEdit}
+              onClose={() => setIsOpenEdit(false)}
+            />
           </div>
         </>
       )}
