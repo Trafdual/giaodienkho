@@ -29,6 +29,8 @@ function AddTest2 ({
   const [isEditingIMEI, setIsEditingIMEI] = useState([])
   const [isEditingPrice, setIsEditingPrice] = useState([])
   const [isRemoving, setIsRemoving] = useState(true)
+  const [selectedSKUs, setSelectedSKUs] = useState([])
+
   const imeiInputRef = useRef(null)
 
   const toggleIMEIEdit = index => {
@@ -97,6 +99,12 @@ function AddTest2 ({
         price: '',
         tongtien: ''
       }
+    ])
+
+    // Cập nhật danh sách SKU đã chọn
+    setSelectedSKUs(prevSelectedSKUs => [
+      ...prevSelectedSKUs,
+      selectedSKU.madungluong
     ])
   }
 
@@ -315,18 +323,32 @@ function AddTest2 ({
                             </tr>
                           </thead>
                           <tbody>
-                            {skudata.map(supplier => (
-                              <tr
-                                key={supplier._id}
-                                onClick={() => {
-                                  addRow(supplier)
-                                  setIsTableVisible(false)
-                                }}
-                              >
-                                <td>{supplier.madungluong}</td>
-                                <td>{supplier.name}</td>
+                            {skudata.filter(
+                              supplier =>
+                                !selectedSKUs.includes(supplier.madungluong)
+                            ).length > 0 ? (
+                              skudata
+                                .filter(
+                                  supplier =>
+                                    !selectedSKUs.includes(supplier.madungluong)
+                                )
+                                .map(supplier => (
+                                  <tr
+                                    key={supplier._id}
+                                    onClick={() => {
+                                      addRow(supplier)
+                                      setIsTableVisible(false)
+                                    }}
+                                  >
+                                    <td>{supplier.madungluong}</td>
+                                    <td>{supplier.name}</td>
+                                  </tr>
+                                ))
+                            ) : (
+                              <tr>
+                                <td colSpan={'2'}>Không có mã sku nào</td>
                               </tr>
-                            ))}
+                            )}
                           </tbody>
                         </table>
                       )}
