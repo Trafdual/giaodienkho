@@ -91,7 +91,7 @@ function SanPhamLayout ({
 
     try {
       const response = await fetch(
-        `http://localhost:8080/getsanpham/${idloaisp}`,
+        `https://www.ansuataohanoi.com/getsanpham/${idloaisp}`,
         {
           method: 'GET',
           headers: {

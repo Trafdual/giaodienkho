@@ -3,6 +3,7 @@ import { useState, useCallback } from 'react'
 import { Modal } from '../../../components/Modal'
 import { useToast } from '../../../components/GlobalStyles/ToastContext'
 import './AddNhaCungCap.scss'
+import { ModalOnClose } from '~/components/ModalOnClose'
 
 function AddNhaCungCap ({ isOpen, onClose, khoID, setnhacungcap }) {
   const [name, setName] = useState('')
@@ -15,6 +16,7 @@ function AddNhaCungCap ({ isOpen, onClose, khoID, setnhacungcap }) {
   const [emailError, setEmailError] = useState('')
   const [phoneError, setPhoneError] = useState('')
   const [addressError, setAddressError] = useState('')
+  const [isModalHuy, setIsModalHuy] = useState(false)
 
   const validateInputs = () => {
     let valid = true
@@ -72,7 +74,7 @@ function AddNhaCungCap ({ isOpen, onClose, khoID, setnhacungcap }) {
 
         if (response.ok) {
           setnhacungcap(prevNhacungcap => [...prevNhacungcap, data])
-          handleClose()
+          handelsave()
           showToast('Thêm nhà cung cấp thành công')
         } else {
           showToast('Thêm nhà cung cấp thất bại', 'error')
@@ -97,9 +99,14 @@ function AddNhaCungCap ({ isOpen, onClose, khoID, setnhacungcap }) {
     setAddressError('')
   }, [])
 
-  const handleClose = () => {
-    resetForm()
+  const handelsave =()=>{
+    resetForm();
     onClose()
+    setIsModalHuy(false)
+  }
+
+  const handleClose = () => {
+    setIsModalHuy(true)
   }
 
   return (
@@ -169,6 +176,12 @@ function AddNhaCungCap ({ isOpen, onClose, khoID, setnhacungcap }) {
           Hủy
         </button>
       </div>
+      <ModalOnClose
+        isOpen={isModalHuy}
+        Save={handleAddNhaCungCap}
+        DontSave={handelsave}
+        Cancel={() => setIsModalHuy(false)}
+      />
     </Modal>
   )
 }

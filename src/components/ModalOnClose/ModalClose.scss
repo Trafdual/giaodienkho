@@ -1,3 +1,7 @@
+.divModalOnClose{
+    padding: 10px;
+}
+
 .divModalBodyOnClose {
     display: flex;
     margin-top: 20px;
@@ -17,6 +21,7 @@
 .divModalFooterOnClose {
     float: right;
     display: flex;
+    padding: 10px;
 }
 
 .btnsaveClose,

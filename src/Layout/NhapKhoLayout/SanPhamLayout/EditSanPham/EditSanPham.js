@@ -28,7 +28,7 @@ function EditSanPham ({ sku, idloaisp, isOpen, onClose, fetchsanpham }) {
     setIsDulieu(true)
     try {
       const response = await fetch(
-        `http://localhost:8080/getsanphambySKU/${sku}/${idloaisp}`
+        `https://www.ansuataohanoi.com/getsanphambySKU/${sku}/${idloaisp}`
       )
       const data = await response.json()
       if (response.ok) {
@@ -71,13 +71,16 @@ function EditSanPham ({ sku, idloaisp, isOpen, onClose, fetchsanpham }) {
     }))
 
     try {
-      const response = await fetch('http://localhost:8080/putsomeproduct', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ products: productsToUpdate })
-      })
+      const response = await fetch(
+        'https://www.ansuataohanoi.com/putsomeproduct',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ products: productsToUpdate })
+        }
+      )
 
       if (response.ok) {
         fetchsanpham()
