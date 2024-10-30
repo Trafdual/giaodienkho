@@ -12,6 +12,8 @@ import 'react-clock/dist/Clock.css'
 import AddTest2 from './AddTest2'
 import { ModalBig } from '~/components/ModalBig'
 import './AddTest.scss'
+import { ModalAddNganHang } from '~/Layout/NhapKhoLayout/AddLoHang/ModalAddNganHang'
+import { ModalOnClose } from '~/components/ModalOnClose'
 
 function AddTest ({ isOpen, onClose, fetclohang }) {
   const [name, setName] = useState('')
@@ -33,6 +35,7 @@ function AddTest ({ isOpen, onClose, fetclohang }) {
   const [dateError, setdateError] = useState('')
   const [manccError, setmanccError] = useState('')
   const [loaihanghoaError, setloaihanghoaError] = useState('')
+  const [isModalHuy, setIsModalHuy] = useState(false)
 
   const [suppliers, setSuppliers] = useState([])
   const [loadingSuppliers, setLoadingSuppliers] = useState(true)
@@ -190,8 +193,7 @@ function AddTest ({ isOpen, onClose, fetclohang }) {
   }, [])
 
   const handleClose = () => {
-    resetForm()
-    onClose()
+    setIsModalHuy(true)
   }
 
   const handleDateChange = selectedDate => {
@@ -205,6 +207,44 @@ function AddTest ({ isOpen, onClose, fetclohang }) {
       settime(newTime)
     }
   }
+
+  const validateInputs = () => {
+  let valid = true
+
+  if (!name) {
+    setNameError('Vui lòng nhập tên nhà cung cấp.')
+    valid = false
+    setIsModalHuy(false)
+  } else {
+    setNameError('')
+  }
+
+  if (!date) {
+    setdateError('Vui lòng nhập ngày nhập lô hàng.')
+    valid = false
+    setIsModalHuy(false)
+  } else {
+    setdateError('')
+  }
+
+  if (!mancc) {
+    setmanccError('Vui lòng chọn mã nhà cung cấp.')
+    valid = false
+    setIsModalHuy(false)
+  } else {
+    setmanccError('')
+  }
+  if (!loaihanghoa) {
+    setloaihanghoaError('Vui lòng chọn loại hàng hóa.')
+    valid = false
+    setIsModalHuy(false)
+  } else {
+    setloaihanghoaError('')
+  }
+
+  return valid
+}
+
 
   return (
     <ModalBig isOpen={isOpen} onClose={handleClose}>
@@ -451,12 +491,12 @@ function AddTest ({ isOpen, onClose, fetclohang }) {
                 onClick={() => setisOpenAddNH(true)}
               />
             </button>
-            {/* <ModalAddNganHang
+            <ModalAddNganHang
               isOpen={isOpenAddNH}
               onClose={() => setisOpenAddNH(false)}
               userId={userID}
               fetchdata={fetchnganhang}
-            /> */}
+            />
           </div>
         )}
         {manccError && <div className='error'>{manccError}</div>}
@@ -564,9 +604,15 @@ function AddTest ({ isOpen, onClose, fetclohang }) {
             manganhangkho={manganhang}
             loaihanghoa={loaihanghoa}
             onClose={onClose}
+            iscloseHuy={isModalHuy}
+            setIsCloseHuy={setIsModalHuy}
+            validateInputs={validateInputs}
+            resetForm={resetForm}
           />
         </div>
       </div>
+      
+
     </ModalBig>
   )
 }

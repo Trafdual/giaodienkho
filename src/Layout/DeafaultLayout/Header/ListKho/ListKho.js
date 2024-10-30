@@ -2,67 +2,16 @@
 import React, { useEffect, useState, useRef } from 'react'
 import './ListKho.scss'
 
-function ListKho ({ datakho, setdatakho, setloading }) {
+function ListKho ({ datakho, setdatakho, setloading,selectedKho,setSelectedKho
+
+ }) {
   const [isOpen, setIsOpen] = useState(false)
-  const [selectedKho, setSelectedKho] = useState(null)
-  const [userID, setuserID] = useState(
-    localStorage.getItem('userId') || sessionStorage.getItem('userId') || ''
-  )
 
   const dropdownRef = useRef(null)
 
   const toggleMenu = () => {
     setIsOpen(prevState => !prevState)
   }
-
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      const newuserID = localStorage.getItem('userId') || ''
-      if (newuserID !== userID) {
-        console.log('Interval detected change, updating khoID:', newuserID)
-        setuserID(newuserID)
-      }
-    }, 1000) // Kiểm tra mỗi giây
-
-    return () => clearInterval(intervalId)
-  }, [localStorage.getItem('userId')])
-
-  const handleGetKho = async () => {
-    try {
-      const response = await fetch(
-        `https://www.ansuataohanoi.com/getdepot/${userID}`,
-        {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        }
-      )
-
-      if (response.ok) {
-        const data = await response.json()
-        setdatakho(data)
-        setloading(false)
-
-        // Kiểm tra khoID từ localStorage và cập nhật selectedKho nếu có
-        const storedKhoID = localStorage.getItem('khoID')
-        if (storedKhoID) {
-          const storedKho = data.find(kho => kho._id === storedKhoID)
-          if (storedKho) {
-            setSelectedKho(storedKho)
-          }
-        }
-      } else {
-        console.error('Failed to fetch data')
-      }
-    } catch (error) {
-      console.error('Error fetching data:', error)
-    }
-  }
-
-  useEffect(() => {
-    handleGetKho()
-  }, [userID])
 
   useEffect(() => {
     const handleClickOutside = event => {

@@ -1,14 +1,20 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState, useRef } from 'react'
 import { ModalBig } from '~/components/ModalBig'
+import { useToast } from '~/components/GlobalStyles/ToastContext'
+import { ModalOnClose } from '~/components/ModalOnClose'
+import './EditSanPham.scss'
 
-function EditSanPham ({ sku, idloaisp, isOpen, onClose }) {
+function EditSanPham ({ sku, idloaisp, isOpen, onClose, fetchsanpham }) {
   const [data, setdata] = useState([])
   const [inpuImel, setinpuImel] = useState({})
   const [inputPrice, setinputPrice] = useState({})
   const [price, setprice] = useState({})
   const [imel, setimel] = useState({})
   const inputRef = useRef(null)
+  const { showToast } = useToast()
+  const [isDulieu, setIsDulieu] = useState(true)
+  const [isModalHuy, setIsModalHuy] = useState(false)
 
   const toggleIMEIEdit = index => {
     setinpuImel(prev => ({ ...prev, [index]: !prev[index] }))
@@ -19,6 +25,7 @@ function EditSanPham ({ sku, idloaisp, isOpen, onClose }) {
   }
 
   const fetchdata = async () => {
+    setIsDulieu(true)
     try {
       const response = await fetch(
         `http://localhost:8080/getsanphambySKU/${sku}/${idloaisp}`
@@ -27,6 +34,7 @@ function EditSanPham ({ sku, idloaisp, isOpen, onClose }) {
       if (response.ok) {
         console.log(data)
         setdata(data)
+        setIsDulieu(false)
       }
     } catch (error) {
       console.error('Error fetching data:', error)
@@ -54,22 +62,68 @@ function EditSanPham ({ sku, idloaisp, isOpen, onClose }) {
   const handlePriceChange = (id, value) => {
     setprice(prev => ({ ...prev, [id]: value.replace(/\./g, '') }))
   }
+  const hadleEditSanPham = async () => {
+    // Chuẩn bị mảng sản phẩm cần cập nhật
+    const productsToUpdate = data.map(item => ({
+      _id: item._id,
+      imel: imel[item._id] || item.imel,
+      price: price[item._id] || item.price
+    }))
+
+    try {
+      const response = await fetch('http://localhost:8080/putsomeproduct', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ products: productsToUpdate })
+      })
+
+      if (response.ok) {
+        fetchsanpham()
+        showToast('Cập nhật sản phẩm thành công')
+        handleCleardata()
+      } else {
+        console.error('Cập nhật sản phẩm thất bại')
+      }
+    } catch (error) {
+      console.error('Lỗi khi cập nhật sản phẩm:', error)
+    }
+  }
+  const handleCleardata = () => {
+    setinpuImel({})
+    setinputPrice({})
+    onClose()
+    setdata([])
+    setIsModalHuy(false)
+  }
+  const handleClose = () => {
+    setIsModalHuy(true)
+  }
+  const handleDontSave = () => {
+    setIsModalHuy(false)
+    handleCleardata()
+  }
 
   return (
-    <ModalBig isOpen={isOpen} onClose={onClose}>
+    <ModalBig isOpen={isOpen} onClose={handleClose}>
       <div>
         <h3>Cập nhật sản phẩm</h3>
         <table className='modal-table-test'>
           <thead>
             <tr>
-              <td>Mã sản phẩm</td>
-              <td>Tên sản phẩm</td>
-              <td>Mã Imel</td>
-              <td>Đơn giá</td>
+              <td className='tdEdit'>Mã sản phẩm</td>
+              <td className='tdEdit'>Tên sản phẩm</td>
+              <td className='tdEdit'>Mã Imel</td>
+              <td className='tdEdit'>Đơn giá</td>
             </tr>
           </thead>
           <tbody>
-            {data.length > 0 ? (
+            {isDulieu ? (
+              <tr>
+                <td colSpan={'4'}>...Đang tải dữ liệu</td>
+              </tr>
+            ) : (
               data.map(item => (
                 <tr key={item._id}>
                   <td>{item.masp}</td>
@@ -82,7 +136,11 @@ function EditSanPham ({ sku, idloaisp, isOpen, onClose }) {
                       <div className='imel-input-container' ref={inputRef}>
                         <input
                           type='text'
-                          value={imel[item._id] ? imel[item._id] : item.imel}
+                          value={
+                            imel[item._id] !== undefined
+                              ? imel[item._id]
+                              : item.imel
+                          }
                           placeholder='Nhập IMEI'
                           onChange={e =>
                             setimel({ ...imel, [item._id]: e.target.value })
@@ -106,7 +164,7 @@ function EditSanPham ({ sku, idloaisp, isOpen, onClose }) {
                         <input
                           type='text'
                           value={
-                            price[item._id]
+                            price[item._id] !== undefined
                               ? new Intl.NumberFormat().format(price[item._id])
                               : new Intl.NumberFormat().format(item.price)
                           }
@@ -129,15 +187,19 @@ function EditSanPham ({ sku, idloaisp, isOpen, onClose }) {
                   </td>
                 </tr>
               ))
-            ) : (
-              <tr>
-                <td colSpan={'4'}>Không có dữ liệu</td>
-              </tr>
             )}
           </tbody>
         </table>
       </div>
-      <button className='btnAddLoHang'>Cập nhật</button>
+      <ModalOnClose
+        isOpen={isModalHuy}
+        Save={hadleEditSanPham}
+        DontSave={handleDontSave}
+        Cancel={() => setIsModalHuy(false)}
+      />
+      <button className='btnAddLoHang' onClick={hadleEditSanPham}>
+        Cập nhật
+      </button>
     </ModalBig>
   )
 }
