@@ -9,7 +9,6 @@ const Modal = ({ isOpen, onClose, children }) => {
   if (!isOpen) return null;
 
   return ReactDOM.createPortal(
-<<<<<<< HEAD
     <div className="modal-overlay" onClick={onClose}>
       {/* Bọc modal-content với Draggable */}
       <Draggable handle=".modal-header">
@@ -22,15 +21,6 @@ const Modal = ({ isOpen, onClose, children }) => {
           {children}
         </div>
       </Draggable>
-=======
-    <div className="modal-overlay">
-      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-        <button className="modal-close" onClick={onClose}>
-          <FontAwesomeIcon icon={faXmark}/>
-        </button>
-        {children}
-      </div>
->>>>>>> 337580cbb7d89fe31c38c842b61b64b09fa48532
     </div>,
     document.body
   );
