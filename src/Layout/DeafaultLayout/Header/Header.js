@@ -16,8 +16,17 @@ import { AddKho } from './AddKho'
 import { useToast } from '../../../components/GlobalStyles/ToastContext'
 import { useNavigate } from 'react-router-dom'
 
-function Header ({ toggleMenu, userId, name, isActive,setloading }) {
-  const [datakho, setdatakho] = useState([])
+function Header ({
+  toggleMenu,
+  userId,
+  name,
+  isActive,
+  setloading,
+  datakho,
+  setdatakho,
+  selectedKho,
+  setSelectedKho
+}) {
   const { showToast } = useToast()
   const [isOpen, setIsOpen] = useState(false)
   const [isDropdownVisible, setDropdownVisible] = useState(false) // Trạng thái hiển thị dropdown
@@ -169,7 +178,13 @@ function Header ({ toggleMenu, userId, name, isActive,setloading }) {
             </button>
           </Tippy>
         </div>
-        <ListKho datakho={datakho} setdatakho={setdatakho} setloading={setloading}/>
+        <ListKho
+          datakho={datakho}
+          setdatakho={setdatakho}
+          setloading={setloading}
+          selectedKho={selectedKho}
+          setSelectedKho={setSelectedKho}
+        />
         <div className='optiontk'>
           <img
             src='https://gcs.tripi.vn/public-tripi/tripi-feed/img/474014bom/anh-gai-xinh-cute-de-thuong-hot-girl-2.jpg'

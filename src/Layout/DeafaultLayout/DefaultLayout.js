@@ -1,7 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/style-prop-object */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable jsx-a11y/alt-text */
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 import './DefaultLayout.scss'
 import { Header } from './Header'
@@ -11,31 +12,91 @@ import { Loading } from '~/components/Loading'
 function DefaultLayout ({ children }) {
   const [isActive, setIsActive] = useState(false)
   const [loading, setloading] = useState(true)
+  const [userID, setuserID] = useState(
+    localStorage.getItem('userId') || sessionStorage.getItem('userId') || ''
+  )
+  const [datakho, setdatakho] = useState([])
+
+  const [selectedKho, setSelectedKho] = useState(null)
+  const name = localStorage.getItem('name') || sessionStorage.getItem('name')
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      const newuserID = localStorage.getItem('userId') || ''
+      if (newuserID !== userID) {
+        console.log('Interval detected change, updating khoID:', newuserID)
+        setuserID(newuserID)
+      }
+    }, 1000) // Kiểm tra mỗi giây
+
+    return () => clearInterval(intervalId)
+  }, [localStorage.getItem('userId')])
+
+  const handleGetKho = async () => {
+    try {
+      const response = await fetch(
+        `https://www.ansuataohanoi.com/getdepot/${userID}`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+      )
+
+      if (response.ok) {
+        const data = await response.json()
+        setdatakho(data)
+        setloading(false)
+
+        // Kiểm tra khoID từ localStorage và cập nhật selectedKho nếu có
+        const storedKhoID = localStorage.getItem('khoID')
+        if (storedKhoID) {
+          const storedKho = data.find(kho => kho._id === storedKhoID)
+          if (storedKho) {
+            setSelectedKho(storedKho)
+          }
+        }
+      } else {
+        console.error('Failed to fetch data')
+      }
+    } catch (error) {
+      console.error('Error fetching data:', error)
+    }
+  }
+
+  useEffect(() => {
+    handleGetKho()
+  }, [userID])
 
   const toggleMenu = () => {
     setIsActive(!isActive)
   }
-  const userId =
-    localStorage.getItem('userId') || sessionStorage.getItem('userId')
-  const name = localStorage.getItem('name') || sessionStorage.getItem('name')
 
   return (
     <>
-      {loading && <Loading />}
-      <div className='container'>
-        <Sidebar isActive={isActive} setIsActive={setIsActive} />
+      {loading ? (
+        <Loading />
+      ) : (
+        <div className='container'>
+          <Sidebar isActive={isActive} setIsActive={setIsActive} />
 
-        <div className={`main ${isActive ? 'active' : ''}`}>
-          <Header
-            setloading={setloading}
-            name={name}
-            userId={userId}
-            toggleMenu={toggleMenu}
-            isActive={isActive}
-          />
-          {children}
+          <div className={`main ${isActive ? 'active' : ''}`}>
+            <Header
+              setloading={setloading}
+              name={name}
+              userId={userID}
+              toggleMenu={toggleMenu}
+              isActive={isActive}
+              datakho={datakho}
+              setdatakho={setdatakho}
+              selectedKho={selectedKho}
+              setSelectedKho={setSelectedKho}
+            />
+            {children}
+          </div>
         </div>
-      </div>
+      )}
     </>
   )
 }

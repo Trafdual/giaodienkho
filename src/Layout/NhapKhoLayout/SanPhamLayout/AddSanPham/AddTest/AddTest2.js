@@ -6,6 +6,7 @@ import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
 import { Tooltip } from 'react-tippy'
 import 'react-tippy/dist/tippy.css'
 import './AddTest2.scss'
+import { ModalOnClose } from '~/components/ModalOnClose'
 
 function AddTest2 ({
   fetchlohang,
@@ -17,7 +18,11 @@ function AddTest2 ({
   hour,
   manganhangkho,
   loaihanghoa,
-  onClose
+  onClose,
+  iscloseHuy,
+  setIsCloseHuy,
+  validateInputs,
+  resetForm
 }) {
   const [skudata, setSkudata] = useState([])
   const [userID, setUserID] = useState(localStorage.getItem('userId') || '')
@@ -85,7 +90,10 @@ function AddTest2 ({
 
   const handleClose = () => {
     setRows([])
+    resetForm()
+    setIsCloseHuy(false)
     onClose()
+  
   }
 
   const addRow = selectedSKU => {
@@ -184,27 +192,28 @@ function AddTest2 ({
       manganhangkho,
       loaihanghoa
     }
+    if (validateInputs()) {
+      try {
+        const response = await fetch(
+          `https://www.ansuataohanoi.com/postloaisanpham3`,
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          }
+        )
 
-    try {
-      const response = await fetch(
-        `https://www.ansuataohanoi.com/postloaisanpham3`,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
+        if (response.ok) {
+          showToast('Thêm lô hàng thành công!', 'success')
+          handleClose()
+          fetchlohang()
+        } else {
+          showToast('Lỗi khi thêm lô hàng', 'error')
         }
-      )
-
-      if (response.ok) {
-        showToast('Thêm lô hàng thành công!', 'success')
-        handleClose()
-        fetchlohang()
-      } else {
-        showToast('Lỗi khi thêm lô hàng', 'error')
+      } catch (error) {
+        console.error('Lỗi khi gửi dữ liệu lô hàng:', error)
+        showToast(`Đã xảy ra lỗi khi thêm lô hàng ${error}`, 'error')
       }
-    } catch (error) {
-      console.error('Lỗi khi gửi dữ liệu lô hàng:', error)
-      showToast(`Đã xảy ra lỗi khi thêm lô hàng ${error}`, 'error')
     }
   }
 
@@ -372,6 +381,13 @@ function AddTest2 ({
           </tbody>
         </table>
       </div>
+      <ModalOnClose
+        isOpen={iscloseHuy}
+        Save={submitProducts}
+        DontSave={handleClose}
+        Cancel={() => setIsCloseHuy(false)}
+      />
+
       <button onClick={submitProducts} className='btnAddLoHang'>
         Thêm lô hàng
       </button>

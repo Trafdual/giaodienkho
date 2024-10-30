@@ -8,7 +8,7 @@ const ModalBig = ({ isOpen, onClose, children }) => {
   if (!isOpen) return null
 
   return ReactDOM.createPortal(
-    <div className='ModalBig-overlay' onClick={onClose}>
+    <div className='ModalBig-overlay'>
       <div className='ModalBig-content' onClick={e => e.stopPropagation()}>
         <button className='ModalBig-close' onClick={onClose}>
           <FontAwesomeIcon icon={faXmark} />

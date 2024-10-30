@@ -91,7 +91,7 @@ function SanPhamLayout ({
 
     try {
       const response = await fetch(
-        `https://www.ansuataohanoi.com/getsanpham/${idloaisp}`,
+        `http://localhost:8080/getsanpham/${idloaisp}`,
         {
           method: 'GET',
           headers: {
@@ -287,6 +287,7 @@ function SanPhamLayout ({
               idloaisp={idloaisp}
               isOpen={isOpenEdit}
               onClose={() => setIsOpenEdit(false)}
+              fetchsanpham={fetchData}
             />
           </div>
         </>
