@@ -161,7 +161,7 @@ function SanPhamLayout ({
                 </div>
               </div>
 
-              <div
+              {/* <div
                 className='action-menu'
                 style={{ position: 'sticky', top: '30px' }}
               >
@@ -174,89 +174,7 @@ function SanPhamLayout ({
                   
                   Thêm sản phẩm
                 </button>
-<<<<<<< HEAD
-                <button
-                  className={`btn-xoa ${
-                    selectedItems.length > 1 || selectedItems.length === 0
-                      ? 'disabled'
-                      : ''
-                  }`}
-                  disabled={
-                    selectedItems.length > 1 || selectedItems.length === 0
-                  }
-                >
-                  <FontAwesomeIcon icon={faPen} className='iconMenuSanPham' />
-                  Sửa
-                </button>
-                <button
-                  className={`btn-xoa ${
-                    selectedItems.length > 1 || selectedItems.length === 0
-                      ? 'disabled'
-                      : ''
-                  }`}
-                  disabled={
-                    selectedItems.length > 1 || selectedItems.length === 0
-                  }
-                >
-                  <FontAwesomeIcon icon={faEye} className='iconMenuSanPham' />
-                  Xem
-                </button>
-
-                <button
-                  className={`btn-xoa ${
-                    selectedItems.length === 0 ? 'disabled' : ''
-                  }`}
-                  disabled={selectedItems.length === 0}
-                >
-                  <FontAwesomeIcon
-                    icon={faTrashCan}
-                    className='iconMenuSanPham'
-                  />
-                  Xóa
-                </button>
-
-                <button
-                  className={`btn-xuat ${
-                    selectedItems.length === 0 ? 'disabled' : ''
-                  }`}
-                  onClick={() => setIsOpenXuatKhoFull(true)}
-                  disabled={selectedItems.length === 0}
-                >
-                  <FontAwesomeIcon
-                    icon={faWarehouse}
-                    className='iconMenuSanPham'
-                  />
-                  Xuất Kho
-                </button>
-                <button
-                  className={`btn-xuat ${
-                    selectedItems.length === 0 ? 'disabled' : ''
-                  }`}
-                  onClick={() => setIsOpenChuyenKhoFull(true)}
-                  disabled={selectedItems.length === 0}
-                >
-                  <FontAwesomeIcon
-                    icon={faTruckFast}
-                    className='iconMenuSanPham'
-                  />
-                  Chuyển Kho
-                </button>
-                <button
-                  className={`btn-xuat ${
-                    selectedItems.length === 0 ? 'disabled' : ''
-                  }`}
-                  disabled={selectedItems.length === 0}
-                  onClick={() => handlePrintBarcode(selectedItems.imel)}
-                >
-                  <FontAwesomeIcon
-                    icon={faBarcode}
-                    className='iconMenuSanPham'
-                  />
-                  In tem Imel
-                </button>
-=======
->>>>>>> 8dc55d9d173a896e53d96b7f594cbe35e332bf96
-              </div>
+              </div> */}
 
               <table className='tablenhap'>
                 <thead className='theadnhap'>

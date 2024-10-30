@@ -268,19 +268,18 @@ function Sidebar ({ isActive, setIsActive }) {
             </a>
           </Link>
         </li>
- <li
-          className={`litong ${activeItem === '/banhang' ? 'hovered' : ''}`}
-          onClick={() => handleItemClick('/banhang')}
-        >
-          <Link to={'/banhang'}>
-            <a>
-              <span className='icon'>
-                <FontAwesomeIcon className='fonticon' icon={faFileInvoiceDollar} />
-              </span>
-              <span className='title'>Bán Hàng</span>
-            </a>
-          </Link>
-        </li>
+        <li
+  className={`litong ${activeItem === '/banhang' ? 'hovered' : ''}`}
+  onClick={() => handleItemClick('/banhang')}
+>
+  <a href="/banhang" target="_blank" rel="noopener noreferrer">
+    <span className='icon'>
+      <FontAwesomeIcon className='fonticon' icon={faFileInvoiceDollar} />
+    </span>
+    <span className='title'>Bán Hàng</span>
+  </a>
+</li>
+
         <li
          className={`litong ${activeItem === '/trogiup' ? 'hovered' : ''}`}
           onClick={() => handleItemClick('/trogiup')}
@@ -291,6 +290,19 @@ function Sidebar ({ isActive, setIsActive }) {
                 <FontAwesomeIcon className='fonticon' icon={faCircleQuestion} />
               </span>
               <span className='title'>Trợ giúp</span>
+            </a>
+          </Link>
+        </li>
+        <li
+         className={`litong ${activeItem === '/testlungtung' ? 'hovered' : ''}`}
+          onClick={() => handleItemClick('/testlungtung')}
+        >
+          <Link to={'/testlungtung'}>
+            <a>
+              <span className='icon'>
+                <FontAwesomeIcon className='fonticon' icon={faCircleQuestion} />
+              </span>
+              <span className='title'>Test Lung Tung</span>
             </a>
           </Link>
         </li>
