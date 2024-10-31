@@ -2,11 +2,12 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { useToast } from '../../../../../components/GlobalStyles/ToastContext'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
+import { faChevronDown, faPlus } from '@fortawesome/free-solid-svg-icons'
 import { Tooltip } from 'react-tippy'
 import 'react-tippy/dist/tippy.css'
 import './AddTest2.scss'
 import { ModalOnClose } from '~/components/ModalOnClose'
+import { ModalAddSku } from './ModalAddSku'
 
 function AddTest2 ({
   fetchlohang,
@@ -35,6 +36,7 @@ function AddTest2 ({
   const [isEditingPrice, setIsEditingPrice] = useState([])
   const [isRemoving, setIsRemoving] = useState(true)
   const [selectedSKUs, setSelectedSKUs] = useState([])
+  const [isOpenAddSKU, setIsOpenAddSKU] = useState(false)
 
   const imeiInputRef = useRef(null)
 
@@ -93,7 +95,6 @@ function AddTest2 ({
     resetForm()
     setIsCloseHuy(false)
     onClose()
-  
   }
 
   const addRow = selectedSKU => {
@@ -312,69 +313,85 @@ function AddTest2 ({
             ))}
             <tr>
               <td>
-                <Tooltip
-                  trigger='click'
-                  interactive
-                  arrow
-                  position='bottom'
-                  open={isTableVisible}
-                  onRequestClose={() => setIsTableVisible(false)}
-                  html={
-                    <div className='supplier-table-container'>
-                      {loadingSuppliers ? (
-                        <p>Đang tải danh sách sku...</p>
-                      ) : (
-                        <table className='supplier-info-table'>
-                          <thead>
-                            <tr>
-                              <th>Mã sku</th>
-                              <th>Tên</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {skudata.filter(
-                              supplier =>
-                                !selectedSKUs.includes(supplier.madungluong)
-                            ).length > 0 ? (
-                              skudata
-                                .filter(
-                                  supplier =>
-                                    !selectedSKUs.includes(supplier.madungluong)
-                                )
-                                .map(supplier => (
-                                  <tr
-                                    key={supplier._id}
-                                    onClick={() => {
-                                      addRow(supplier)
-                                      setIsTableVisible(false)
-                                    }}
-                                  >
-                                    <td>{supplier.madungluong}</td>
-                                    <td>{supplier.name}</td>
-                                  </tr>
-                                ))
-                            ) : (
+                <div className='tdMasku'>
+                  <Tooltip
+                    trigger='click'
+                    interactive
+                    arrow
+                    position='bottom'
+                    open={isTableVisible}
+                    onRequestClose={() => setIsTableVisible(false)}
+                    html={
+                      <div className='supplier-table-container'>
+                        {loadingSuppliers ? (
+                          <p>Đang tải danh sách sku...</p>
+                        ) : (
+                          <table className='supplier-info-table'>
+                            <thead>
                               <tr>
-                                <td colSpan={'2'}>Không có mã sku nào</td>
+                                <th>Mã sku</th>
+                                <th>Tên</th>
                               </tr>
-                            )}
-                          </tbody>
-                        </table>
-                      )}
-                    </div>
-                  }
-                >
-                  <button
-                    className='btnaddtest'
-                    onClick={() => setIsTableVisible(!isTableVisible)}
+                            </thead>
+                            <tbody>
+                              {skudata.filter(
+                                supplier =>
+                                  !selectedSKUs.includes(supplier.madungluong)
+                              ).length > 0 ? (
+                                skudata
+                                  .filter(
+                                    supplier =>
+                                      !selectedSKUs.includes(
+                                        supplier.madungluong
+                                      )
+                                  )
+                                  .map(supplier => (
+                                    <tr
+                                      key={supplier._id}
+                                      onClick={() => {
+                                        addRow(supplier)
+                                        setIsTableVisible(false)
+                                      }}
+                                    >
+                                      <td>{supplier.madungluong}</td>
+                                      <td>{supplier.name}</td>
+                                    </tr>
+                                  ))
+                              ) : (
+                                <tr>
+                                  <td colSpan={'2'}>Không có mã sku nào</td>
+                                </tr>
+                              )}
+                            </tbody>
+                          </table>
+                        )}
+                      </div>
+                    }
                   >
-                    Chọn mã sku
-                    <FontAwesomeIcon
-                      icon={faChevronDown}
-                      className='iconaddtest'
-                    />
+                    <button
+                      className='btnaddtest'
+                      onClick={() => setIsTableVisible(!isTableVisible)}
+                    >
+                      Chọn mã sku
+                      <FontAwesomeIcon
+                        icon={faChevronDown}
+                        className='iconaddtest'
+                      />
+                    </button>
+                  </Tooltip>
+                  <button
+                    className='btnaddskutest'
+                    onClick={() => setIsOpenAddSKU(true)}
+                  >
+                    <FontAwesomeIcon icon={faPlus} className='iconaddtest' />
                   </button>
-                </Tooltip>
+                  <ModalAddSku
+                    isOpen={isOpenAddSKU}
+                    onClose={() => setIsOpenAddSKU(false)}
+                    fetchsku={fetchSku}
+                    userID={userID}
+                  />
+                </div>
               </td>
               <td colSpan='5'></td>
             </tr>

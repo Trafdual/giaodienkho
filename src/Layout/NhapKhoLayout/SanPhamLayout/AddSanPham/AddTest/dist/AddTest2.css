@@ -28,7 +28,8 @@
   padding: 10px;
 }
 
-.btnaddtest {
+.btnaddtest,
+.btnaddskutest {
   display: flex;
   width: 100%;
   height: 40px;
@@ -82,4 +83,14 @@
 .divtableSP {
   height: 150px;
   overflow-y: auto;
+}
+
+.tdMasku {
+  display: flex;
+  align-items: center;
+}
+
+.btnaddskutest {
+  border: 1px solid #cccccc;
+  background-color: #f3f3f3;
 }

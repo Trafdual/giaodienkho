@@ -6,7 +6,7 @@ import {
   faPlus,
   faEye,
   faPen,
-  faTrashCan,
+  faTrashCan
 } from '@fortawesome/free-solid-svg-icons'
 import { AddLoHang } from './AddLoHang'
 import { SanPhamLayout } from './SanPhamLayout'
@@ -301,8 +301,10 @@ function NhapKhoLayout () {
                             selectedRow === ncc._id ? 'selectedrow' : ''
                           }
                           onClick={() => {
-                            handleLohang(ncc._id)
-                            setLoadingsp(true)
+                            if (selectedRow !== ncc._id) {
+                              handleLohang(ncc._id)
+                              setLoadingsp(true)
+                            }
                           }}
                           style={{ cursor: 'pointer' }}
                         >

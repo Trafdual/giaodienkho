@@ -13,13 +13,14 @@ import AddTest2 from './AddTest2'
 import { ModalBig } from '~/components/ModalBig'
 import './AddTest.scss'
 import { ModalAddNganHang } from '~/Layout/NhapKhoLayout/AddLoHang/ModalAddNganHang'
-import { ModalOnClose } from '~/components/ModalOnClose'
+import { ModalAddNhaCungCap } from '~/Layout/NhapKhoLayout/ModalAddNhaCungCap'
 
 function AddTest ({ isOpen, onClose, fetclohang }) {
   const [name, setName] = useState('')
   const [date, setdate] = useState('')
   const [time, settime] = useState(new Date())
   const [isOpenAddNH, setisOpenAddNH] = useState(false)
+  const [isOpenAddNcc, setisOpenAddNcc] = useState(false)
 
   const [mancc, setmancc] = useState('')
   const [isTableVisible, setIsTableVisible] = useState(false)
@@ -126,27 +127,27 @@ function AddTest ({ isOpen, onClose, fetclohang }) {
     return () => clearInterval(intervalId)
   }, [localStorage.getItem('userId')])
 
-  useEffect(() => {
-    const fetchSuppliers = async () => {
-      try {
-        const response = await fetch(
-          `https://www.ansuataohanoi.com/getnhacungcap/${khoID}`
-        )
-        const data = await response.json()
+  const fetchSuppliers = async () => {
+    try {
+      const response = await fetch(
+        `https://www.ansuataohanoi.com/getnhacungcap/${khoID}`
+      )
+      const data = await response.json()
 
-        if (response.ok) {
-          setSuppliers(data)
-        } else {
-          showToast('Không thể tải danh sách nhà cung cấp', 'error')
-        }
-      } catch (error) {
-        console.error('Lỗi khi lấy dữ liệu nhà cung cấp:', error)
+      if (response.ok) {
+        setSuppliers(data)
+      } else {
         showToast('Không thể tải danh sách nhà cung cấp', 'error')
-      } finally {
-        setLoadingSuppliers(false)
       }
+    } catch (error) {
+      console.error('Lỗi khi lấy dữ liệu nhà cung cấp:', error)
+      showToast('Không thể tải danh sách nhà cung cấp', 'error')
+    } finally {
+      setLoadingSuppliers(false)
     }
+  }
 
+  useEffect(() => {
     fetchSuppliers()
   }, [khoID, showToast])
   const fetchnganhang = async () => {
@@ -209,42 +210,41 @@ function AddTest ({ isOpen, onClose, fetclohang }) {
   }
 
   const validateInputs = () => {
-  let valid = true
+    let valid = true
 
-  if (!name) {
-    setNameError('Vui lòng nhập tên nhà cung cấp.')
-    valid = false
-    setIsModalHuy(false)
-  } else {
-    setNameError('')
+    if (!name) {
+      setNameError('Vui lòng nhập tên nhà cung cấp.')
+      valid = false
+      setIsModalHuy(false)
+    } else {
+      setNameError('')
+    }
+
+    if (!date) {
+      setdateError('Vui lòng nhập ngày nhập lô hàng.')
+      valid = false
+      setIsModalHuy(false)
+    } else {
+      setdateError('')
+    }
+
+    if (!mancc) {
+      setmanccError('Vui lòng chọn mã nhà cung cấp.')
+      valid = false
+      setIsModalHuy(false)
+    } else {
+      setmanccError('')
+    }
+    if (!loaihanghoa) {
+      setloaihanghoaError('Vui lòng chọn loại hàng hóa.')
+      valid = false
+      setIsModalHuy(false)
+    } else {
+      setloaihanghoaError('')
+    }
+
+    return valid
   }
-
-  if (!date) {
-    setdateError('Vui lòng nhập ngày nhập lô hàng.')
-    valid = false
-    setIsModalHuy(false)
-  } else {
-    setdateError('')
-  }
-
-  if (!mancc) {
-    setmanccError('Vui lòng chọn mã nhà cung cấp.')
-    valid = false
-    setIsModalHuy(false)
-  } else {
-    setmanccError('')
-  }
-  if (!loaihanghoa) {
-    setloaihanghoaError('Vui lòng chọn loại hàng hóa.')
-    valid = false
-    setIsModalHuy(false)
-  } else {
-    setloaihanghoaError('')
-  }
-
-  return valid
-}
-
 
   return (
     <ModalBig isOpen={isOpen} onClose={handleClose}>
@@ -418,6 +418,15 @@ function AddTest ({ isOpen, onClose, fetclohang }) {
               <FontAwesomeIcon icon={faChevronDown} className='iconNcc' />
             </button>
           </Tooltip>
+          <button className='btnadd' onClick={() => setisOpenAddNcc(true)}>
+            <FontAwesomeIcon icon={faPlus} className='icon' />
+          </button>
+          <ModalAddNhaCungCap
+            isOpen={isOpenAddNcc}
+            onClose={() => setisOpenAddNcc(false)}
+            khoID={khoID}
+            fetchnhacungcap={fetchSuppliers}
+          />
         </div>
         {method === 'Chuyển khoản' && (
           <div className='divinputncc'>
@@ -611,8 +620,6 @@ function AddTest ({ isOpen, onClose, fetclohang }) {
           />
         </div>
       </div>
-      
-
     </ModalBig>
   )
 }

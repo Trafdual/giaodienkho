@@ -288,6 +288,7 @@ function SanPhamLayout ({
               isOpen={isOpenEdit}
               onClose={() => setIsOpenEdit(false)}
               fetchsanpham={fetchData}
+              fetchlohang={fetchlohang}
             />
           </div>
         </>

@@ -4,8 +4,17 @@ import { ModalBig } from '~/components/ModalBig'
 import { useToast } from '~/components/GlobalStyles/ToastContext'
 import { ModalOnClose } from '~/components/ModalOnClose'
 import './EditSanPham.scss'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTrashCan } from '@fortawesome/free-solid-svg-icons'
 
-function EditSanPham ({ sku, idloaisp, isOpen, onClose, fetchsanpham }) {
+function EditSanPham ({
+  sku,
+  idloaisp,
+  isOpen,
+  onClose,
+  fetchsanpham,
+  fetchlohang
+}) {
   const [data, setdata] = useState([])
   const [inpuImel, setinpuImel] = useState({})
   const [inputPrice, setinputPrice] = useState({})
@@ -84,6 +93,7 @@ function EditSanPham ({ sku, idloaisp, isOpen, onClose, fetchsanpham }) {
 
       if (response.ok) {
         fetchsanpham()
+        fetchlohang()
         showToast('Cập nhật sản phẩm thành công')
         handleCleardata()
       } else {
@@ -119,6 +129,7 @@ function EditSanPham ({ sku, idloaisp, isOpen, onClose, fetchsanpham }) {
               <td className='tdEdit'>Tên sản phẩm</td>
               <td className='tdEdit'>Mã Imel</td>
               <td className='tdEdit'>Đơn giá</td>
+              <td className='tdEdit'>Chức năng</td>
             </tr>
           </thead>
           <tbody>
@@ -187,6 +198,11 @@ function EditSanPham ({ sku, idloaisp, isOpen, onClose, fetchsanpham }) {
                       ' ' +
                       'VNĐ'
                     )}
+                  </td>
+                  <td>
+                    <button className='btnDeleteSp'>
+                      <FontAwesomeIcon icon={faTrashCan} />
+                    </button>
                   </td>
                 </tr>
               ))
