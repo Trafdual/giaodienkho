@@ -9,7 +9,7 @@ import {
 import './FormAddImel.scss'
 import { useToast } from '../../../../../components/GlobalStyles/ToastContext'
 
-function FormAddImel ({ isOpen, onClose, loaispid, fetchData }) {
+function FormAddImel ({ isOpen, onClose,handleAddImel,index }) {
   const [barcodeData, setBarcodeData] = useState('')
   const videoRef = useRef(null)
   const { showToast } = useToast()
@@ -18,30 +18,7 @@ function FormAddImel ({ isOpen, onClose, loaispid, fetchData }) {
 
   const handleAddSanPham = async result => {
     try {
-      const response = await fetch(
-        `https://www.ansuataohanoi.com/postsp/${loaispid}`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            imel: result,
-            capacity: '',
-            name: '',
-            color: ''
-          })
-        }
-      )
-      const data = await response.json()
-
-      if (data.message) {
-        showToast(`${data.message}`, 'error')
-      } else {
-        fetchData()
-        handleClose()
-        showToast('Thêm sản phẩm thành công')
-      }
+      handleAddImel(index,result)
     } catch (error) {
       console.error('Lỗi khi gửi yêu cầu thêm sản phẩm:', error)
       showToast('Thêm lô hàng thất bại', 'error')
@@ -49,19 +26,19 @@ function FormAddImel ({ isOpen, onClose, loaispid, fetchData }) {
     }
   }
 
-  useEffect(() => {
-    const eventSource = new EventSource('https://www.ansuataohanoi.com/events')
+  // useEffect(() => {
+  //   const eventSource = new EventSource('https://www.ansuataohanoi.com/events')
 
-    eventSource.onmessage = event => {
-      const newMessage = JSON.parse(event.data)
-      showToast(newMessage.message)
-      fetchData()
-    }
+  //   eventSource.onmessage = event => {
+  //     const newMessage = JSON.parse(event.data)
+  //     showToast(newMessage.message)
+  //     fetchData()
+  //   }
 
-    return () => {
-      eventSource.close()
-    }
-  }, [])
+  //   return () => {
+  //     eventSource.close()
+  //   }
+  // }, [])
 
   const handleClose = () => {
     onClose()

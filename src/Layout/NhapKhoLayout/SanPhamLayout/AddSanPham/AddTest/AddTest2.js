@@ -2,12 +2,17 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { useToast } from '../../../../../components/GlobalStyles/ToastContext'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faChevronDown, faPlus } from '@fortawesome/free-solid-svg-icons'
+import {
+  faBarcode,
+  faChevronDown,
+  faPlus
+} from '@fortawesome/free-solid-svg-icons'
 import { Tooltip } from 'react-tippy'
 import 'react-tippy/dist/tippy.css'
 import './AddTest2.scss'
 import { ModalOnClose } from '~/components/ModalOnClose'
 import { ModalAddSku } from './ModalAddSku'
+import { FormAddImel } from '../FormAddImel'
 
 function AddTest2 ({
   fetchlohang,
@@ -37,6 +42,7 @@ function AddTest2 ({
   const [isRemoving, setIsRemoving] = useState(true)
   const [selectedSKUs, setSelectedSKUs] = useState([])
   const [isOpenAddSKU, setIsOpenAddSKU] = useState(false)
+  const [isOpenModalBarCode, setIsOpenModalBarCode] = useState(false)
 
   const imeiInputRef = useRef(null)
 
@@ -134,6 +140,22 @@ function AddTest2 ({
         )
         setImel('')
       }
+    }
+  }
+
+  const handleAddImel = (index, result) => {
+    if (result && index) {
+      setRows(prevRows =>
+        prevRows.map((row, rowIndex) =>
+          rowIndex === index
+            ? {
+                ...row,
+                imel: [...row.imel, imel],
+                soluong: row.imel.length + 1
+              }
+            : row
+        )
+      )
     }
   }
 
@@ -258,26 +280,41 @@ function AddTest2 ({
                           </button>
                         </span>
                       ))}
-                      <input
-                        ref={imeiInputRef}
-                        type='text'
-                        value={imel}
-                        placeholder='Nhập IMEI'
-                        onKeyPress={event => handleKeyPress(index, event)}
-                        onChange={e => setImel(e.target.value)}
-                        className='imel-input'
-                        autoFocus
-                        onBlur={() => {
-                          if (isRemoving) {
-                            setIsEditingIMEI(false) // Chỉ tắt nếu không đang xóa
-                          }
-                        }}
-                      />
+                      <div className='divnhapImel'>
+                        <input
+                          ref={imeiInputRef}
+                          type='text'
+                          value={imel}
+                          placeholder='Nhập IMEI'
+                          onKeyPress={event => handleKeyPress(index, event)}
+                          onChange={e => setImel(e.target.value)}
+                          className='imel-input'
+                          autoFocus
+                          // onBlur={() => {
+                          //   if (isRemoving) {
+                          //     setIsEditingIMEI(false) // Chỉ tắt nếu không đang xóa
+                          //   }
+                          // }}
+                        />
+                        <button
+                          className='btnnhapImel'
+                          onClick={() => setIsOpenModalBarCode(true)}
+                        >
+                          <FontAwesomeIcon icon={faBarcode} />
+                        </button>
+                      </div>
                     </div>
                   ) : (
                     row.imel.join(', ') || 'Nhập IMEI'
                   )}
                 </td>
+                <FormAddImel
+                  isOpen={isOpenModalBarCode}
+                  onClose={() => setIsOpenModalBarCode(false)}
+                  index={index}
+                  handleAddImel={handleAddImel}
+                />
+
                 <td>{row.soluong}</td>
                 <td onClick={() => togglePriceEdit(index)}>
                   {isEditingPrice[index] ? (

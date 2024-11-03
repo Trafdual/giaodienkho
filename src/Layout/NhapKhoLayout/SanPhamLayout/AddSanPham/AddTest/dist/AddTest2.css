@@ -94,3 +94,14 @@
   border: 1px solid #cccccc;
   background-color: #f3f3f3;
 }
+
+.divnhapImel {
+  display: flex;
+  align-items: center;
+}
+
+.btnnhapImel {
+  border: none;
+  background-color: white;
+  font-size: 30px;
+}
