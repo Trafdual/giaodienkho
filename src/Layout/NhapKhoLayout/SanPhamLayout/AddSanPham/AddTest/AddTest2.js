@@ -144,13 +144,13 @@ function AddTest2 ({
   }
 
   const handleAddImel = (index, result) => {
-    if (result && index) {
+    if (result) {
       setRows(prevRows =>
         prevRows.map((row, rowIndex) =>
           rowIndex === index
             ? {
                 ...row,
-                imel: [...row.imel, imel],
+                imel: [...row.imel, result],
                 soluong: row.imel.length + 1
               }
             : row
