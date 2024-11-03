@@ -43,6 +43,7 @@ function AddTest2 ({
   const [selectedSKUs, setSelectedSKUs] = useState([])
   const [isOpenAddSKU, setIsOpenAddSKU] = useState(false)
   const [isOpenModalBarCode, setIsOpenModalBarCode] = useState(false)
+  const [indexImel, setindex] = useState(null)
 
   const imeiInputRef = useRef(null)
 
@@ -268,7 +269,7 @@ function AddTest2 ({
                     <div className='imel-input-container'>
                       {row.imel.map((item, imelIndex) => (
                         <span key={imelIndex} className='imel-tag'>
-                          {item}{' '}
+                          {item}
                           <button
                             onMouseDown={e => {
                               e.stopPropagation() // Ngăn sự kiện blur của input
@@ -298,7 +299,10 @@ function AddTest2 ({
                         />
                         <button
                           className='btnnhapImel'
-                          onClick={() => setIsOpenModalBarCode(true)}
+                          onClick={() => {
+                            setIsOpenModalBarCode(true)
+                            setindex(index)
+                          }}
                         >
                           <FontAwesomeIcon icon={faBarcode} />
                         </button>
@@ -311,7 +315,7 @@ function AddTest2 ({
                 <FormAddImel
                   isOpen={isOpenModalBarCode}
                   onClose={() => setIsOpenModalBarCode(false)}
-                  index={index}
+                  index={indexImel}
                   handleAddImel={handleAddImel}
                 />
 
