@@ -1,4 +1,8 @@
 @charset "UTF-8";
+.divAddLoHang {
+  padding: 10px;
+}
+
 .supplier-table-container {
   margin-top: 10px;
   border: 1px solid #ccc;

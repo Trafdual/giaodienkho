@@ -18,6 +18,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import './SearProductLayout.scss'
 import { SanPhamGioHang } from './SanPhamGioHang'
+import { ModalTraHang } from './ModalTraHang'
 
 function SearchProductLayout () {
   const location = useLocation()
@@ -35,6 +36,7 @@ function SearchProductLayout () {
   const [isOpenChuyenKhoFull, setIsOpenChuyenKhoFull] = useState(false)
   const [printBarcodeItem, setPrintBarcodeItem] = useState(null)
   const [openModalbarcode, setOpenmodalbarcode] = useState(false)
+  const [isOpenModalTraHang, setIsOpenModalTraHang] = useState(false)
 
   const [height, setHeight] = useState(400)
   const [isDragging, setIsDragging] = useState(false)
@@ -330,6 +332,17 @@ function SearchProductLayout () {
                 selectedItems.length === 0 ? 'disabled' : ''
               }`}
               disabled={selectedItems.length === 0}
+              onClick={() => setIsOpenModalTraHang(true)}
+            >
+              <FontAwesomeIcon icon={faTruckFast} className='iconMenuSanPham' />
+              Trả lại hàng mua
+            </button>
+
+            <button
+              className={`btn-xuat ${
+                selectedItems.length === 0 ? 'disabled' : ''
+              }`}
+              disabled={selectedItems.length === 0}
               onClick={() => handlePrintBarcode(selectedItems.imel)}
             >
               <FontAwesomeIcon icon={faBarcode} className='iconMenuSanPham' />
@@ -439,6 +452,10 @@ function SearchProductLayout () {
       <SanPhamGioHang
         remainingHeight={remainingHeight}
         selectedsanpham={selectedItems}
+      />
+      <ModalTraHang
+        isOpen={isOpenModalTraHang}
+        onClose={() => setIsOpenModalTraHang(false)}
       />
     </>
   )

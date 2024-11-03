@@ -128,17 +128,23 @@ function AddTest2 ({
     if (event.key === 'Enter') {
       if (imel) {
         event.preventDefault()
-        setRows(prevRows =>
-          prevRows.map((row, rowIndex) =>
-            rowIndex === index
-              ? {
-                  ...row,
-                  imel: [...row.imel, imel],
-                  soluong: row.imel.length + 1
-                }
-              : row
+        const isDuplicate = rows.some(row => row.imel.includes(imel))
+
+        if (isDuplicate) {
+          showToast('IMEL đã tồn tại trong danh sách', 'error')
+        } else {
+          setRows(prevRows =>
+            prevRows.map((row, rowIndex) =>
+              rowIndex === index
+                ? {
+                    ...row,
+                    imel: [...row.imel, imel],
+                    soluong: row.imel.length + 1
+                  }
+                : row
+            )
           )
-        )
+        }
         setImel('')
       }
     }
@@ -146,17 +152,23 @@ function AddTest2 ({
 
   const handleAddImel = (index, result) => {
     if (result) {
-      setRows(prevRows =>
-        prevRows.map((row, rowIndex) =>
-          rowIndex === index
-            ? {
-                ...row,
-                imel: [...row.imel, result],
-                soluong: row.imel.length + 1
-              }
-            : row
+      const isDuplicate = rows.some(row => row.imel.includes(result))
+
+      if (isDuplicate) {
+        showToast('IMEL đã tồn tại trong danh sách', 'error')
+      } else {
+        setRows(prevRows =>
+          prevRows.map((row, rowIndex) =>
+            rowIndex === index
+              ? {
+                  ...row,
+                  imel: [...row.imel, result],
+                  soluong: row.imel.length + 1
+                }
+              : row
+          )
         )
-      )
+      }
     }
   }
 

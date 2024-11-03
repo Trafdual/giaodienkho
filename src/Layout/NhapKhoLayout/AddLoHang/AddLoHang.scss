@@ -1,3 +1,7 @@
+.divAddLoHang {
+    padding: 10px;
+}
+
 .supplier-table-container {
     margin-top: 10px;
     border: 1px solid #ccc;
@@ -8,7 +12,7 @@
 .supplier-info-table {
     width: 100%;
     border-collapse: collapse;
-    color:black
+    color: black
 }
 
 .supplier-info-table th,
@@ -25,6 +29,7 @@
 
     /* Đổi màu khi hover */
 }
+
 .divinputncc {
     width: 100%;
     text-align: center;
@@ -32,7 +37,8 @@
     display: flex;
     align-items: center;
 }
-.divChonncc{
+
+.divChonncc {
     padding-top: 10px;
     padding-left: 10px;
     padding-bottom: 10px;
@@ -42,57 +48,70 @@
     border-radius: 5px;
     cursor: pointer;
 }
-.iconNcc{
+
+.iconNcc {
     border-left: 2px solid gray;
     margin-left: 10px;
     width: 30px;
 }
-.tippy-tooltip{
+
+.tippy-tooltip {
     background: white;
     border: 1px solid gray;
 }
-.divngaygio{
+
+.divngaygio {
     display: flex;
 }
-.divhour{
+
+.divhour {
     width: 100%;
     text-align: center;
     position: relative;
     margin-top: 30px;
     margin-left: 10px;
 }
-.divdate{
+
+.divdate {
     width: 100%;
     text-align: center;
     position: relative;
     margin-top: 30px;
 }
-.timepicker{
+
+.timepicker {
     color: black;
 }
-.react-time-picker__inputGroup__input{
+
+.react-time-picker__inputGroup__input {
     min-width: 1.2em;
 }
-.divphuongthuc{
+
+.divphuongthuc {
     display: flex;
     align-items: center;
     margin-top: 10px;
 }
-.divghino{
+
+.divghino {
     display: flex;
     align-items: center;
 }
-.divthanhtoanngay{
+
+.divthanhtoanngay {
     display: flex;
     align-items: center;
     margin-left: 10px;
 }
-.tippy-tooltip{
+
+.tippy-tooltip {
     bottom: -10px !important;
 }
-.icon{
+
+.icon {
     width: 40px;
 }
+
 .btnadd {
     height: 40px;
     margin-left: 10px;
