@@ -303,11 +303,11 @@ function AddTest2 ({
                           onChange={e => setImel(e.target.value)}
                           className='imel-input'
                           autoFocus
-                          // onBlur={() => {
-                          //   if (isRemoving) {
-                          //     setIsEditingIMEI(false) // Chỉ tắt nếu không đang xóa
-                          //   }
-                          // }}
+                          onBlur={() => {
+                            if (isRemoving) {
+                              setIsEditingIMEI(false) // Chỉ tắt nếu không đang xóa
+                            }
+                          }}
                         />
                         <button
                           className='btnnhapImel'

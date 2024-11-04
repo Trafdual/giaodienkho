@@ -23,7 +23,6 @@ import { ModalTraHang } from './ModalTraHang'
 function SearchProductLayout () {
   const location = useLocation()
   const { products } = location.state || { products: [] }
-  console.log(products)
   const { showToast } = useToast()
   const [isOpenXuakho, setIsOpenXuakho] = useState(false)
   const [SanPham, setSanPham] = useState([])
@@ -120,33 +119,33 @@ function SearchProductLayout () {
     setTimeout(checkIfElementReady, 500) // Kiểm tra sau 500ms
   }
 
-  const handleExportPDFBarcode = async imel => {
-    setOpenmodalbarcode(true)
-    setPrintBarcodeItem(imel) // Lưu lại sản phẩm cần xuất PDF
+  // const handleExportPDFBarcode = async imel => {
+  //   setOpenmodalbarcode(true)
+  //   setPrintBarcodeItem(imel) // Lưu lại sản phẩm cần xuất PDF
 
-    // Đợi một chút để modal render xong
-    setTimeout(async () => {
-      const barcodeElement = document.querySelector('.barcode-print') // Chọn phần tử chứa mã barcode
+  //   // Đợi một chút để modal render xong
+  //   setTimeout(async () => {
+  //     const barcodeElement = document.querySelector('.barcode-print') // Chọn phần tử chứa mã barcode
 
-      // Chụp ảnh phần tử barcode dưới dạng canvas
-      const canvas = await html2canvas(barcodeElement, {
-        scale: 2 // Tăng độ phân giải của ảnh lên để giữ chi tiết rõ nét hơn
-      })
+  //     // Chụp ảnh phần tử barcode dưới dạng canvas
+  //     const canvas = await html2canvas(barcodeElement, {
+  //       scale: 2 // Tăng độ phân giải của ảnh lên để giữ chi tiết rõ nét hơn
+  //     })
 
-      const imgData = canvas.toDataURL('image/png') // Lấy dữ liệu hình ảnh
+  //     const imgData = canvas.toDataURL('image/png') // Lấy dữ liệu hình ảnh
 
-      const pdf = new jsPDF() // Tạo một đối tượng PDF
+  //     const pdf = new jsPDF() // Tạo một đối tượng PDF
 
-      // Lấy kích thước barcode từ canvas để chèn vào PDF với tỉ lệ chính xác
-      const imgWidth = canvas.width / 4 // Tính toán chiều rộng (giảm bớt kích thước)
-      const imgHeight = canvas.height / 4 // Tính toán chiều cao tương ứng
+  //     // Lấy kích thước barcode từ canvas để chèn vào PDF với tỉ lệ chính xác
+  //     const imgWidth = canvas.width / 4 // Tính toán chiều rộng (giảm bớt kích thước)
+  //     const imgHeight = canvas.height / 4 // Tính toán chiều cao tương ứng
 
-      pdf.addImage(imgData, 'PNG', 10, 10, imgWidth, imgHeight) // Thêm hình ảnh vào file PDF với kích thước chuẩn
+  //     pdf.addImage(imgData, 'PNG', 10, 10, imgWidth, imgHeight) // Thêm hình ảnh vào file PDF với kích thước chuẩn
 
-      pdf.save(`${imel}_barcode.pdf`) // Lưu file PDF
-      setOpenmodalbarcode(false) // Đóng modal sau khi xuất PDF xong
-    }, 1000) // Đợi 1 giây để đảm bảo modal đã render
-  }
+  //     pdf.save(`${imel}_barcode.pdf`) // Lưu file PDF
+  //     setOpenmodalbarcode(false) // Đóng modal sau khi xuất PDF xong
+  //   }, 1000) // Đợi 1 giây để đảm bảo modal đã render
+  // }
 
   const handleSelectAll = () => {
     const newSelectAll = !selectAll
@@ -202,9 +201,9 @@ function SearchProductLayout () {
     }
   }, [])
 
-  const handleCloseModalXuakho = () => {
-    setIsOpenXuakho(false)
-  }
+  // const handleCloseModalXuakho = () => {
+  //   setIsOpenXuakho(false)
+  // }
 
   const handleCloseModalChuyenKhoFull = () => {
     setIsOpenChuyenKhoFull(false)
@@ -254,6 +253,10 @@ function SearchProductLayout () {
     setSelectedItems([])
   }
 
+  const hasReturnProducts = products.some(
+    product => product && product.tralai === true
+  )
+
   return (
     <>
       <div className='detailsnhap'>
@@ -282,18 +285,22 @@ function SearchProductLayout () {
             <h4>{selectedItems.length} sản phẩm được chọn</h4>
             <button
               className={`btn-xoa ${
-                selectedItems.length > 1 ? 'disabled' : ''
+                selectedItems.length > 1 || selectedItems.length === 0
+                  ? 'disabled'
+                  : ''
               }`}
-              disabled={selectedItems.length > 1}
+              disabled={selectedItems.length > 1 || selectedItems.length === 0}
             >
               <FontAwesomeIcon icon={faPen} className='iconMenuSanPham' />
               Sửa
             </button>
             <button
               className={`btn-xoa ${
-                selectedItems.length > 1 ? 'disabled' : ''
+                selectedItems.length > 1 || selectedItems.length === 0
+                  ? 'disabled'
+                  : ''
               }`}
-              disabled={selectedItems.length > 1}
+              disabled={selectedItems.length > 1 || selectedItems.length === 0}
             >
               <FontAwesomeIcon icon={faEye} className='iconMenuSanPham' />
               Xem
@@ -353,13 +360,16 @@ function SearchProductLayout () {
           <table className='tablenhap'>
             <thead className='theadnhap'>
               <tr>
-                <td className='tdnhap'>
-                  <input
-                    type='checkbox'
-                    checked={selectAll}
-                    onChange={handleSelectAll}
-                  />
-                </td>
+                {!hasReturnProducts && (
+                  <td className='tdnhap'>
+                    <input
+                      type='checkbox'
+                      checked={selectAll}
+                      onChange={handleSelectAll}
+                    />
+                  </td>
+                )}
+
                 <td className='tdnhap'>Mã lô hàng</td>
                 <td className='tdnhap'>Mã sản phẩm</td>
                 <td className='tdnhap'>Imel</td>
@@ -369,7 +379,6 @@ function SearchProductLayout () {
                     <td className='tdnhap'>Trạng thái xuất kho</td>
                   </>
                 )}
-                <td className='tdnhap'>Chức năng</td>
               </tr>
             </thead>
             <tbody className='tbodynhap'>
@@ -377,15 +386,17 @@ function SearchProductLayout () {
                 currentItems.map(ncc => (
                   <>
                     <tr key={ncc._id}>
-                      <td>
-                        <input
-                          type='checkbox'
-                          checked={selectedItems.some(
-                            item => item._id === ncc._id
-                          )} // Kiểm tra xem sản phẩm có trong selectedItems không
-                          onChange={() => handleSelectItem(ncc)} // Gọi hàm để chọn hoặc bỏ chọn sản phẩm
-                        />
-                      </td>
+                      {!ncc.tralai && (
+                        <td>
+                          <input
+                            type='checkbox'
+                            checked={selectedItems.some(
+                              item => item._id === ncc._id
+                            )} // Kiểm tra xem sản phẩm có trong selectedItems không
+                            onChange={() => handleSelectItem(ncc)} // Gọi hàm để chọn hoặc bỏ chọn sản phẩm
+                          />
+                        </td>
+                      )}
                       <td>{ncc.malohang}</td>
                       <td>{ncc.masp}</td>
                       <td>{ncc.imel}</td>
@@ -393,19 +404,15 @@ function SearchProductLayout () {
                         <>
                           <td>{ncc.name}</td>
 
-                          <td>{ncc.xuat ? 'đã xuất' : 'tồn kho'}</td>
+                          <td>
+                            {ncc.tralai
+                              ? 'đã trả lại'
+                              : ncc.xuat
+                              ? 'đã xuất'
+                              : 'tồn kho'}
+                          </td>
                         </>
                       )}
-                      <td className='tdchucnang'>
-                        <button className='btnchitietncc'>Chi tiết</button>
-                        <button className='btncnncc'>Cập nhật</button>
-                        <button
-                          className='btninimel'
-                          onClick={() => handlePrintBarcode(ncc.imel)}
-                        >
-                          In imel
-                        </button>
-                      </td>
                     </tr>
                   </>
                 ))
@@ -452,10 +459,16 @@ function SearchProductLayout () {
       <SanPhamGioHang
         remainingHeight={remainingHeight}
         selectedsanpham={selectedItems}
+        setSelectedSanPham={setSelectedItems}
+        setselectAll = { setSelectAll }
+
       />
       <ModalTraHang
         isOpen={isOpenModalTraHang}
         onClose={() => setIsOpenModalTraHang(false)}
+        imellist={selectedItems}
+        fetchData={clearsanpham}
+       
       />
     </>
   )
