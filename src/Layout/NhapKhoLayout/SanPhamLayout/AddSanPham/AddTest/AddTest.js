@@ -550,7 +550,7 @@ function AddTest ({ isOpen, onClose, fetclohang }) {
                 type='text'
                 className={`diachi`}
                 placeholder='dd/mm/yyyy'
-               value={date ? date.toLocaleDateString('vi-VN') : new Date(Date.now()).toLocaleDateString('vi-VN')}
+                value={date ? date.toLocaleDateString('vi-VN') : new Date(Date.now()).toLocaleDateString('vi-VN')}
                 onClick={() => setIsDatePickerOpen(!isDatePickerOpen)}
                 readOnly
               />

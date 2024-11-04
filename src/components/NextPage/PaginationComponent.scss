@@ -1,0 +1,27 @@
+.pagination-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .pagination-container button {
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    cursor: pointer;
+  }
+  
+  .pagination-container button:disabled {
+    color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  .pagination-container input {
+    width: 40px;
+    text-align: center;
+  }
+  
+  .pagination-container select {
+    padding: 3px;
+  }
+  

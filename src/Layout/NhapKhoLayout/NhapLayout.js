@@ -13,8 +13,9 @@ import { SanPhamLayout } from './SanPhamLayout'
 import { EditLoHang } from './EditLoHang'
 import { Loading } from '~/components/Loading'
 import { AddTest } from './SanPhamLayout/AddSanPham/AddTest'
+import PaginationComponent  from '../../components/NextPage/PaginationComponent';
 
-function NhapKhoLayout () {
+function NhapKhoLayout() {
   const [lohang, setlohang] = useState([])
   const [isOpen, setIsOpen] = useState(false)
   const [khoID, setKhoID] = useState(localStorage.getItem('khoID') || '')
@@ -27,8 +28,8 @@ function NhapKhoLayout () {
   const [selectAll, setSelectAll] = useState(false)
 
   // Trạng thái phân trang
-  const [currentPage, setCurrentPage] = useState(1)
-  const [itemsPerPage, setItemsPerPage] = useState(9) // Mặc định là 9
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
   const [idloaisanpham, setIdloaisanpham] = useState(null)
 
@@ -118,7 +119,7 @@ function NhapKhoLayout () {
         setItemsPerPage(5)
         setIsMobile(window.innerWidth <= 768)
       } else {
-        setItemsPerPage(9)
+        setItemsPerPage(2)
       }
     }
 
@@ -168,10 +169,9 @@ function NhapKhoLayout () {
   const totalPages = Math.ceil(lohang.length / itemsPerPage)
 
   // Chuyển trang
-  const handlePageChange = pageNumber => {
-    setCurrentPage(pageNumber)
-  }
-
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
   useEffect(() => {
     setLoading(true)
     fetchData()
@@ -199,11 +199,12 @@ function NhapKhoLayout () {
     setSelectedItems(updatedSelectedItems)
     setSelectAll(updatedSelectedItems.length === lohang.length)
   }
+  const totalAmount = currentItems.reduce((sum, ncc) => sum + (ncc.tongtien || 0), 0);
 
   return (
     <>
       {loading ? (
-        <Loading /> // Hiển thị component Loading khi đang tải
+        <Loading /> 
       ) : (
         <>
           <div className='detailsnhapkho'>
@@ -223,17 +224,16 @@ function NhapKhoLayout () {
                 <button
                   className={`btn-xoa `}
                   onClick={() => setIsOpen(true)}
-                  // disabled={!idloaisp}
+                // disabled={!idloaisp}
                 >
                   <FontAwesomeIcon icon={faPlus} className='iconMenuSanPham' />
                   Thêm lô hàng
                 </button>
                 <button
-                  className={`btn-xoa ${
-                    selectedItems.length > 1 || selectedItems.length === 0
+                  className={`btn-xoa ${selectedItems.length > 1 || selectedItems.length === 0
                       ? 'disabled'
                       : ''
-                  }`}
+                    }`}
                   disabled={
                     selectedItems.length > 1 || selectedItems.length === 0
                   }
@@ -242,11 +242,10 @@ function NhapKhoLayout () {
                   Sửa
                 </button>
                 <button
-                  className={`btn-xoa ${
-                    selectedItems.length > 1 || selectedItems.length === 0
+                  className={`btn-xoa ${selectedItems.length > 1 || selectedItems.length === 0
                       ? 'disabled'
                       : ''
-                  }`}
+                    }`}
                   disabled={
                     selectedItems.length > 1 || selectedItems.length === 0
                   }
@@ -256,9 +255,8 @@ function NhapKhoLayout () {
                 </button>
 
                 <button
-                  className={`btn-xoa ${
-                    selectedItems.length === 0 ? 'disabled' : ''
-                  }`}
+                  className={`btn-xoa ${selectedItems.length === 0 ? 'disabled' : ''
+                    }`}
                   disabled={selectedItems.length === 0}
                 >
                   <FontAwesomeIcon
@@ -345,27 +343,37 @@ function NhapKhoLayout () {
                       <td colSpan='8'>Không có lô hàng nào</td>
                     </tr>
                   )}
+
                 </tbody>
               </table>
-              <div className='pagination'>
-                {Array.from({ length: totalPages }, (_, index) => (
-                  <button
-                    key={index + 1}
-                    onClick={() => handlePageChange(index + 1)}
-                    className={index + 1 === currentPage ? 'active' : ''}
-                  >
-                    {index + 1}
-                  </button>
-                ))}
-              </div>
+
             </div>
+            <table className='tablenhap table-tong-cong'>
+  <tbody>
+    <tr>
+      <td colSpan={isMobile ? 3 : 6} className='tdnhap'><strong>Tổng cộng</strong></td>
+      {!isMobile && (
+        <td className='tdnhap'><strong>{totalAmount.toLocaleString()} VNĐ</strong></td>
+      )}
+      <td className='tdnhap'></td>
+    </tr>
+  </tbody>
+</table>
+
+<PaginationComponent
+        totalPages={totalPages}
+        currentPage={currentPage}
+        handlePageChange={handlePageChange}
+        itemsPerPage={itemsPerPage}
+        setItemsPerPage={setItemsPerPage}
+      />
             <div
               className='resizer'
               onMouseDown={handleMouseDown}
               style={{
                 cursor: 'ns-resize',
                 width: '100%',
-                height: '10px',
+                height: '5px',
                 background: '#ccc',
                 position: 'sticky',
                 bottom: 0, // Đặt vị trí dính ở cuối

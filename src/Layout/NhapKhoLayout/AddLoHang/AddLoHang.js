@@ -228,10 +228,12 @@ function AddLoHang ({ isOpen, onClose, setlohang }) {
     onClose()
   }
 
-  const handleDateChange = selectedDate => {
-    setdate(selectedDate)
-    setIsDatePickerOpen(false) // Ẩn DatePicker khi chọn xong
-  }
+  const handleDateChange = (selectedDate) => {
+    console.log("Ngày đã chọn:", selectedDate);
+    setdate(selectedDate);
+    setIsDatePickerOpen(false); // Đóng Tooltip khi chọn ngày
+  };
+  
 
   const handleTimeChange = newTime => {
     // Chỉ đóng tooltip nếu có thay đổi giá trị
@@ -528,34 +530,35 @@ function AddLoHang ({ isOpen, onClose, setlohang }) {
         <div className='divngaygio'>
           {/* Input cho ngày */}
           <Tooltip
-            trigger='click'
-            interactive
-            arrow
-            open={isDatePickerOpen}
-            onRequestClose={() => setIsDatePickerOpen(false)}
-            html={
-              <DatePicker
-                selected={date}
-                onChange={handleDateChange}
-                dateFormat='dd/MM/yyyy'
-                inline // Hiển thị lịch bên trong Tooltip
-              />
-            }
-          >
-            <div className='divdate'>
-              <input
-                type='text'
-                className={`diachi`}
-                placeholder='dd/mm/yyyy'
-                value={date ? date.toLocaleDateString('vi-VN') : ''}
-                onClick={() => setIsDatePickerOpen(!isDatePickerOpen)}
-                readOnly // Để ngăn người dùng tự sửa input mà chỉ dùng DatePicker
-              />
-              <label htmlFor='' className='label'>
-                Ngày nhập
-              </label>
-            </div>
-          </Tooltip>
+  trigger='click'
+  interactive
+  arrow
+  open={isDatePickerOpen}
+  onRequestClose={() => setIsDatePickerOpen(false)}
+  html={
+    <DatePicker
+      selected={date}
+      onChange={handleDateChange}
+      dateFormat='dd/mm/yyyy'
+      inline // Hiển thị lịch bên trong Tooltip
+    />
+  }
+>
+  <div className='divdate'>
+    <input
+      type='text'
+      className={`diachi1`}
+      placeholder='dd/mm/yyyy'
+      value={date ? date.toLocaleDateString('vi-VN') : ''}
+      onClick={() => setIsDatePickerOpen(!isDatePickerOpen)}
+      readOnly // Để ngăn người dùng tự sửa input mà chỉ dùng DatePicker
+    />
+    <label htmlFor='' className='label'>
+      Ngày nhập
+    </label>
+  </div>
+</Tooltip>
+
           <Tooltip
             trigger='click'
             interactive
@@ -579,7 +582,7 @@ function AddLoHang ({ isOpen, onClose, setlohang }) {
             <div className='divhour'>
               <input
                 type='text'
-                className={`diachi`}
+                className={`diachi1`}
                 placeholder='HH:mm'
                 value={time.toLocaleTimeString('en-GB', {
                   hour: '2-digit',
