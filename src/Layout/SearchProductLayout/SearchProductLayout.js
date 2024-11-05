@@ -25,7 +25,6 @@ import { TroGiupLayout } from '../TroGiupLayout'
 function SearchProductLayout() {
   const location = useLocation()
   const { products } = location.state || { products: [] }
-  console.log(products)
   const { showToast } = useToast()
   const [isOpenXuakho, setIsOpenXuakho] = useState(false)
   const [SanPham, setSanPham] = useState([])
@@ -169,9 +168,9 @@ function SearchProductLayout() {
     }
   }, [])
 
-  const handleCloseModalXuakho = () => {
-    setIsOpenXuakho(false)
-  }
+  // const handleCloseModalXuakho = () => {
+  //   setIsOpenXuakho(false)
+  // }
 
   const handleCloseModalChuyenKhoFull = () => {
     setIsOpenChuyenKhoFull(false)
@@ -222,6 +221,10 @@ function SearchProductLayout() {
     setSelectedItems([])
   }
   const totalAmount = currentItems.reduce((sum, ncc) => sum + (ncc.tongtien || 0), 0);
+
+  const hasReturnProducts = products.some(
+    product => product && product.tralai === true
+  )
 
   return (
     <>
@@ -304,13 +307,16 @@ function SearchProductLayout() {
           <table className='tablenhap'>
             <thead className='theadnhap'>
               <tr>
-                <td className='tdnhap'>
-                  <input
-                    type='checkbox'
-                    checked={selectAll}
-                    onChange={handleSelectAll}
-                  />
-                </td>
+                {!hasReturnProducts && (
+                  <td className='tdnhap'>
+                    <input
+                      type='checkbox'
+                      checked={selectAll}
+                      onChange={handleSelectAll}
+                    />
+                  </td>
+                )}
+
                 <td className='tdnhap'>Mã lô hàng</td>
                 <td className='tdnhap'>Mã sản phẩm</td>
                 <td className='tdnhap'>Imel</td>
@@ -320,7 +326,6 @@ function SearchProductLayout() {
                     <td className='tdnhap'>Trạng thái xuất kho</td>
                   </>
                 )}
-                <td className='tdnhap'>Chức năng</td>
               </tr>
             </thead>
             <tbody className='tbodynhap'>
@@ -328,15 +333,17 @@ function SearchProductLayout() {
                 currentItems.map(ncc => (
                   <>
                     <tr key={ncc._id}>
-                      <td>
-                        <input
-                          type='checkbox'
-                          checked={selectedItems.some(
-                            item => item._id === ncc._id
-                          )} // Kiểm tra xem sản phẩm có trong selectedItems không
-                          onChange={() => handleSelectItem(ncc)} // Gọi hàm để chọn hoặc bỏ chọn sản phẩm
-                        />
-                      </td>
+                      {!ncc.tralai && (
+                        <td>
+                          <input
+                            type='checkbox'
+                            checked={selectedItems.some(
+                              item => item._id === ncc._id
+                            )} // Kiểm tra xem sản phẩm có trong selectedItems không
+                            onChange={() => handleSelectItem(ncc)} // Gọi hàm để chọn hoặc bỏ chọn sản phẩm
+                          />
+                        </td>
+                      )}
                       <td>{ncc.malohang}</td>
                       <td>{ncc.masp}</td>
                       <td>{ncc.imel}</td>
@@ -344,7 +351,13 @@ function SearchProductLayout() {
                         <>
                           <td>{ncc.name}</td>
 
-                          <td>{ncc.xuat ? 'đã xuất' : 'tồn kho'}</td>
+                          <td>
+                            {ncc.tralai
+                              ? 'đã trả lại'
+                              : ncc.xuat
+                              ? 'đã xuất'
+                              : 'tồn kho'}
+                          </td>
                         </>
                       )}
                       <td className='tdchucnang'>
@@ -429,10 +442,16 @@ function SearchProductLayout() {
       <SanPhamGioHang
         remainingHeight={remainingHeight}
         selectedsanpham={selectedItems}
+        setSelectedSanPham={setSelectedItems}
+        setselectAll = { setSelectAll }
+
       />
       <ModalTraHang
         isOpen={isOpenModalTraHang}
         onClose={() => setIsOpenModalTraHang(false)}
+        imellist={selectedItems}
+        fetchData={clearsanpham}
+       
       />
 
     </>

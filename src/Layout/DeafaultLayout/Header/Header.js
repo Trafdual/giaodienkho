@@ -110,7 +110,7 @@ function Header ({
   const searchproduct = async () => {
     try {
       const response = await fetch(
-        `https://www.ansuataohanoi.com/searchsanpham/${khoID}`,
+        `http://localhost:8080/searchsanpham/${khoID}`,
         {
           method: 'POST',
           headers: {

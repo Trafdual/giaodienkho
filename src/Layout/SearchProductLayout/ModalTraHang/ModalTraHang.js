@@ -11,7 +11,7 @@ import 'react-datepicker/dist/react-datepicker.css'
 import 'react-time-picker/dist/TimePicker.css'
 import 'react-clock/dist/Clock.css'
 
-function ModalTraHang ({ isOpen, onClose, setlohang,imellist }) {
+function ModalTraHang ({ isOpen, onClose, fetchData, imellist }) {
   const [name, setName] = useState('')
   const [date, setdate] = useState('')
   const [time, settime] = useState(new Date())
@@ -35,7 +35,6 @@ function ModalTraHang ({ isOpen, onClose, setlohang,imellist }) {
   const [payment, setpayment] = useState('')
   const methods = ['Tiền mặt', 'Chuyển khoản']
   const [method, setmethod] = useState('')
-
   useEffect(() => {
     const intervalId = setInterval(() => {
       const newKhoID = localStorage.getItem('khoID') || ''
@@ -122,10 +121,12 @@ function ModalTraHang ({ isOpen, onClose, setlohang,imellist }) {
   }
 
   const handleModalTraHang = async () => {
+    const imelsp = imellist.map(item => item.imel)
+
     if (validateInputs()) {
       try {
         const response = await fetch(
-          `https://www.ansuataohanoi.com/postloaisanpham2`,
+          `http://localhost:8080/posttrahang/${khoID}`,
           {
             method: 'POST',
             headers: {
@@ -138,7 +139,7 @@ function ModalTraHang ({ isOpen, onClose, setlohang,imellist }) {
               congno: payment,
               method: method,
               hour: time,
-              imelist:imellist
+              imelist: imelsp
             })
           }
         )
@@ -147,6 +148,7 @@ function ModalTraHang ({ isOpen, onClose, setlohang,imellist }) {
         if (data.message) {
           showToast(`trả lại hàng thất bại${data.message}`, 'error')
         } else {
+          fetchData()
           handleClose()
           showToast('trả lại hàng thành công')
         }
@@ -256,7 +258,6 @@ function ModalTraHang ({ isOpen, onClose, setlohang,imellist }) {
             </Tooltip>
           </div>
         </div>
-
 
         <div className='divinputncc'>
           <h4>Nhà cung cấp</h4>
@@ -408,4 +409,3 @@ function ModalTraHang ({ isOpen, onClose, setlohang,imellist }) {
 }
 
 export default ModalTraHang
-

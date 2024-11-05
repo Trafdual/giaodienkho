@@ -36,7 +36,7 @@ function ModalAddSku ({ isOpen, onClose, userID, fetchsku }) {
       setIsClickButton(true)
       try {
         const response = await fetch(
-          `https://www.ansuataohanoi.com/postsku/${userID}`,
+          `http://localhost:8080/postsku/${userID}`,
           {
             method: 'POST',
             headers: {
@@ -53,6 +53,7 @@ function ModalAddSku ({ isOpen, onClose, userID, fetchsku }) {
           fetchsku()
           handelsave()
           setIsClickButton(false)
+          setdungluongs([])
           showToast('Thêm sku thành công')
         } else {
           showToast('Thêm sku thất bại', 'error')
@@ -61,7 +62,6 @@ function ModalAddSku ({ isOpen, onClose, userID, fetchsku }) {
       } catch (error) {
         console.error('Lỗi khi gửi yêu cầu thêm sku:', error)
         showToast('Thêm sku thất bại', 'error')
-        handleClose()
       }
     }
   }

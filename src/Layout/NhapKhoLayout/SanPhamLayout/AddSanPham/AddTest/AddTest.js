@@ -528,7 +528,6 @@ function AddTest ({ isOpen, onClose, fetclohang }) {
         {nameError && <div className='error'>{nameError}</div>}
 
         <div className='divngaygio'>
-          {/* Input cho ngày */}
           <Tooltip
             trigger='click'
             interactive
@@ -541,7 +540,7 @@ function AddTest ({ isOpen, onClose, fetclohang }) {
                   selected={date}
                   onChange={handleDateChange}
                   dateFormat='dd/MM/yyyy'
-                  inline // Hiển thị lịch bên trong Tooltip
+                  inline 
                 />
               </div>
             }
@@ -553,7 +552,7 @@ function AddTest ({ isOpen, onClose, fetclohang }) {
                 placeholder='dd/mm/yyyy'
                 value={date ? date.toLocaleDateString('vi-VN') : new Date(Date.now()).toLocaleDateString('vi-VN')}
                 onClick={() => setIsDatePickerOpen(!isDatePickerOpen)}
-                readOnly // Để ngăn người dùng tự sửa input mà chỉ dùng DatePicker
+                readOnly
               />
               <label htmlFor='' className='label'>
                 Ngày nhập
