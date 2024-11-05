@@ -13,7 +13,7 @@ import { SanPhamLayout } from './SanPhamLayout'
 import { EditLoHang } from './EditLoHang'
 import { Loading } from '~/components/Loading'
 import { AddTest } from './SanPhamLayout/AddSanPham/AddTest'
-import PaginationComponent  from '../../components/NextPage/PaginationComponent';
+import PaginationComponent from '../../components/NextPage/PaginationComponent';
 
 function NhapKhoLayout() {
   const [lohang, setlohang] = useState([])
@@ -119,7 +119,7 @@ function NhapKhoLayout() {
         setItemsPerPage(5)
         setIsMobile(window.innerWidth <= 768)
       } else {
-        setItemsPerPage(2)
+        setItemsPerPage(5)
       }
     }
 
@@ -167,6 +167,8 @@ function NhapKhoLayout() {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage
   const currentItems = lohang.slice(indexOfFirstItem, indexOfLastItem)
   const totalPages = Math.ceil(lohang.length / itemsPerPage)
+  const totalResults = lohang.length;
+
 
   // Chuyển trang
   const handlePageChange = (page) => {
@@ -204,7 +206,7 @@ function NhapKhoLayout() {
   return (
     <>
       {loading ? (
-        <Loading /> 
+        <Loading />
       ) : (
         <>
           <div className='detailsnhapkho'>
@@ -231,8 +233,8 @@ function NhapKhoLayout() {
                 </button>
                 <button
                   className={`btn-xoa ${selectedItems.length > 1 || selectedItems.length === 0
-                      ? 'disabled'
-                      : ''
+                    ? 'disabled'
+                    : ''
                     }`}
                   disabled={
                     selectedItems.length > 1 || selectedItems.length === 0
@@ -243,8 +245,8 @@ function NhapKhoLayout() {
                 </button>
                 <button
                   className={`btn-xoa ${selectedItems.length > 1 || selectedItems.length === 0
-                      ? 'disabled'
-                      : ''
+                    ? 'disabled'
+                    : ''
                     }`}
                   disabled={
                     selectedItems.length > 1 || selectedItems.length === 0
@@ -349,24 +351,26 @@ function NhapKhoLayout() {
 
             </div>
             <table className='tablenhap table-tong-cong'>
-  <tbody>
-    <tr>
-      <td colSpan={isMobile ? 3 : 6} className='tdnhap'><strong>Tổng cộng</strong></td>
-      {!isMobile && (
-        <td className='tdnhap'><strong>{totalAmount.toLocaleString()} VNĐ</strong></td>
-      )}
-      <td className='tdnhap'></td>
-    </tr>
-  </tbody>
-</table>
+              <tbody>
+                <tr>
+                  <td colSpan={isMobile ? 3 : 6} className='tdnhap'><strong>Tổng cộng</strong></td>
+                  {!isMobile && (
+                    <td className='tdnhap'><strong>{totalAmount.toLocaleString()} VNĐ</strong></td>
+                  )}
+                  <td className='tdnhap'></td>
+                </tr>
+              </tbody>
+            </table>
 
-<PaginationComponent
-        totalPages={totalPages}
-        currentPage={currentPage}
-        handlePageChange={handlePageChange}
-        itemsPerPage={itemsPerPage}
-        setItemsPerPage={setItemsPerPage}
-      />
+            <PaginationComponent
+              totalPages={totalPages}
+              currentPage={currentPage}
+              handlePageChange={handlePageChange}
+              itemsPerPage={itemsPerPage}
+              setItemsPerPage={setItemsPerPage}
+              totalResults = {totalResults}
+              fetchData = {fetchData}
+            />
             <div
               className='resizer'
               onMouseDown={handleMouseDown}

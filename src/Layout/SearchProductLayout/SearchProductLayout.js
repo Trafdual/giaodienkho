@@ -6,8 +6,7 @@ import { Modal } from '../../components/Modal'
 import { useToast } from '../../components/GlobalStyles/ToastContext'
 import { ModalXuatKhoFull } from './ModalXuatKhoFull'
 import { ModalXuatKho } from './ModalXuatkho'
-import jsPDF from 'jspdf'
-import html2canvas from 'html2canvas'
+
 import {
   faBarcode,
   faEye,
@@ -17,10 +16,13 @@ import {
   faWarehouse
 } from '@fortawesome/free-solid-svg-icons'
 import './SearProductLayout.scss'
+import PaginationComponent from '../../components/NextPage/PaginationComponent';
+
 import { SanPhamGioHang } from './SanPhamGioHang'
 import { ModalTraHang } from './ModalTraHang'
+import { TroGiupLayout } from '../TroGiupLayout'
 
-function SearchProductLayout () {
+function SearchProductLayout() {
   const location = useLocation()
   const { products } = location.state || { products: [] }
   console.log(products)
@@ -37,7 +39,7 @@ function SearchProductLayout () {
   const [printBarcodeItem, setPrintBarcodeItem] = useState(null)
   const [openModalbarcode, setOpenmodalbarcode] = useState(false)
   const [isOpenModalTraHang, setIsOpenModalTraHang] = useState(false)
-
+  const [selectedImei, setSelectedImei] = useState('');
   const [height, setHeight] = useState(400)
   const [isDragging, setIsDragging] = useState(false)
   const [startY, setStartY] = useState(0)
@@ -45,7 +47,13 @@ function SearchProductLayout () {
   const [remainingHeight, setRemainingHeight] = useState(
     window.innerHeight - 500
   )
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [currentImei, setCurrentImei] = useState(null); // State để lưu imei hiện tại
 
+  const handleOpenModal = (imei) => {
+    setCurrentImei(imei); // Đặt imei hiện tại
+    setModalOpen(true); // Mở modal
+  };
   // Xử lý khi kéo
   const handleMouseDown = e => {
     setIsDragging(true)
@@ -103,51 +111,6 @@ function SearchProductLayout () {
     localStorage.setItem('selectedItems', JSON.stringify(selectedItems))
   }, [selectedItems])
 
-  const handlePrintBarcode = imel => {
-    setOpenmodalbarcode(true)
-    setPrintBarcodeItem(imel) // Lưu lại sản phẩm cần in
-
-    const checkIfElementReady = () => {
-      const barcodeElement = document.querySelector('.barcode-print1')
-      if (barcodeElement && barcodeElement.offsetHeight > 0) {
-        window.print() // Thực hiện in khi barcode đã sẵn sàng
-        setOpenmodalbarcode(false) // Đóng modal sau khi in xong
-      } else {
-        setTimeout(checkIfElementReady, 500) // Kiểm tra lại sau 500ms nếu chưa sẵn sàng
-      }
-    }
-
-    setTimeout(checkIfElementReady, 500) // Kiểm tra sau 500ms
-  }
-
-  const handleExportPDFBarcode = async imel => {
-    setOpenmodalbarcode(true)
-    setPrintBarcodeItem(imel) // Lưu lại sản phẩm cần xuất PDF
-
-    // Đợi một chút để modal render xong
-    setTimeout(async () => {
-      const barcodeElement = document.querySelector('.barcode-print') // Chọn phần tử chứa mã barcode
-
-      // Chụp ảnh phần tử barcode dưới dạng canvas
-      const canvas = await html2canvas(barcodeElement, {
-        scale: 2 // Tăng độ phân giải của ảnh lên để giữ chi tiết rõ nét hơn
-      })
-
-      const imgData = canvas.toDataURL('image/png') // Lấy dữ liệu hình ảnh
-
-      const pdf = new jsPDF() // Tạo một đối tượng PDF
-
-      // Lấy kích thước barcode từ canvas để chèn vào PDF với tỉ lệ chính xác
-      const imgWidth = canvas.width / 4 // Tính toán chiều rộng (giảm bớt kích thước)
-      const imgHeight = canvas.height / 4 // Tính toán chiều cao tương ứng
-
-      pdf.addImage(imgData, 'PNG', 10, 10, imgWidth, imgHeight) // Thêm hình ảnh vào file PDF với kích thước chuẩn
-
-      pdf.save(`${imel}_barcode.pdf`) // Lưu file PDF
-      setOpenmodalbarcode(false) // Đóng modal sau khi xuất PDF xong
-    }, 1000) // Đợi 1 giây để đảm bảo modal đã render
-  }
-
   const handleSelectAll = () => {
     const newSelectAll = !selectAll
     setSelectAll(newSelectAll)
@@ -187,14 +150,18 @@ function SearchProductLayout () {
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth <= 768) {
+        // Giả sử 768px là kích thước cắt của điện thoại
         setItemsPerPage(5)
         setIsMobile(window.innerWidth <= 768)
       } else {
-        setItemsPerPage(9)
+        setItemsPerPage(5)
       }
     }
 
+    // Gọi hàm khi trang được tải
     handleResize()
+
+    // Thay đổi itemsPerPage khi kích thước cửa sổ thay đổi
     window.addEventListener('resize', handleResize)
 
     return () => {
@@ -214,6 +181,7 @@ function SearchProductLayout () {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage
   const currentItems = SanPham.slice(indexOfFirstItem, indexOfLastItem)
   const totalPages = Math.ceil(SanPham.length / itemsPerPage)
+  const totalResults = SanPham.length;
 
   const handlePageChange = pageNumber => {
     setCurrentPage(pageNumber)
@@ -253,6 +221,7 @@ function SearchProductLayout () {
     // Đặt selectedItems trong localStorage về mảng rỗng
     setSelectedItems([])
   }
+  const totalAmount = currentItems.reduce((sum, ncc) => sum + (ncc.tongtien || 0), 0);
 
   return (
     <>
@@ -265,52 +234,36 @@ function SearchProductLayout () {
             position: 'relative'
           }}
         >
-          <div
-            className='resizer'
-            onMouseDown={handleMouseDown}
-            style={{
-              cursor: 'ns-resize',
-              width: '100%',
-              height: '10px',
-              background: '#ccc',
-              position: 'absolute',
-              top: `${resizerPosition - 10}px`,
-              left: '0'
-            }}
-          ></div>
+
           <div className='action-menu'>
             <h4>{selectedItems.length} sản phẩm được chọn</h4>
             <button
-              className={`btn-xoa ${
-                selectedItems.length > 1 ? 'disabled' : ''
-              }`}
+              className={`btn-xoa ${selectedItems.length > 1 ? 'disabled' : ''
+                }`}
               disabled={selectedItems.length > 1}
             >
               <FontAwesomeIcon icon={faPen} className='iconMenuSanPham' />
               Sửa
             </button>
             <button
-              className={`btn-xoa ${
-                selectedItems.length > 1 ? 'disabled' : ''
-              }`}
+              className={`btn-xoa ${selectedItems.length > 1 ? 'disabled' : ''
+                }`}
               disabled={selectedItems.length > 1}
             >
               <FontAwesomeIcon icon={faEye} className='iconMenuSanPham' />
               Xem
             </button>
             <button
-              className={`btn-xoa ${
-                selectedItems.length === 0 ? 'disabled' : ''
-              }`}
+              className={`btn-xoa ${selectedItems.length === 0 ? 'disabled' : ''
+                }`}
               disabled={selectedItems.length === 0}
             >
               <FontAwesomeIcon icon={faTrashCan} className='iconMenuSanPham' />
               Xóa
             </button>
             <button
-              className={`btn-xuat ${
-                selectedItems.length === 0 ? 'disabled' : ''
-              }`}
+              className={`btn-xuat ${selectedItems.length === 0 ? 'disabled' : ''
+                }`}
               disabled={selectedItems.length === 0}
               onClick={XuatKhoHangLoat}
             >
@@ -318,9 +271,8 @@ function SearchProductLayout () {
               Xuất kho
             </button>
             <button
-              className={`btn-xuat ${
-                selectedItems.length === 0 ? 'disabled' : ''
-              }`}
+              className={`btn-xuat ${selectedItems.length === 0 ? 'disabled' : ''
+                }`}
               disabled={selectedItems.length === 0}
               onClick={() => setIsOpenChuyenKhoFull(true)}
             >
@@ -328,9 +280,8 @@ function SearchProductLayout () {
               Chuyển kho
             </button>
             <button
-              className={`btn-xuat ${
-                selectedItems.length === 0 ? 'disabled' : ''
-              }`}
+              className={`btn-xuat ${selectedItems.length === 0 ? 'disabled' : ''
+                }`}
               disabled={selectedItems.length === 0}
               onClick={() => setIsOpenModalTraHang(true)}
             >
@@ -338,7 +289,7 @@ function SearchProductLayout () {
               Trả lại hàng mua
             </button>
 
-            <button
+            {/* <button
               className={`btn-xuat ${
                 selectedItems.length === 0 ? 'disabled' : ''
               }`}
@@ -347,7 +298,7 @@ function SearchProductLayout () {
             >
               <FontAwesomeIcon icon={faBarcode} className='iconMenuSanPham' />
               In tem Imel
-            </button>
+            </button> */}
           </div>
 
           <table className='tablenhap'>
@@ -399,12 +350,7 @@ function SearchProductLayout () {
                       <td className='tdchucnang'>
                         <button className='btnchitietncc'>Chi tiết</button>
                         <button className='btncnncc'>Cập nhật</button>
-                        <button
-                          className='btninimel'
-                          onClick={() => handlePrintBarcode(ncc.imel)}
-                        >
-                          In imel
-                        </button>
+                        <button onClick={() => handleOpenModal(ncc.imel)}>In Tem IMEI</button>
                       </td>
                     </tr>
                   </>
@@ -414,20 +360,51 @@ function SearchProductLayout () {
                   <td colSpan='9'>Không có sản phẩm nào!</td>
                 </tr>
               )}
+              <TroGiupLayout
+        isOpen={isModalOpen}
+        onClose={() => setModalOpen(false)}
+        imei={currentImei} // Truyền imei hiện tại vào modal
+      />
             </tbody>
           </table>
-          <div className='pagination'>
-            {Array.from({ length: totalPages }, (_, index) => (
-              <button
-                key={index + 1}
-                onClick={() => handlePageChange(index + 1)}
-                className={index + 1 === currentPage ? 'active' : ''}
-              >
-                {index + 1}
-              </button>
-            ))}
-          </div>
+
         </div>
+        <table className='tablenhap table-tong-cong'>
+          <tbody>
+            <tr>
+              <td colSpan={isMobile ? 3 : 6} className='tdnhap'><strong>Tổng cộng</strong></td>
+              {!isMobile && (
+                <td className='tdnhap'><strong>{totalAmount.toLocaleString()} VNĐ</strong></td>
+              )}
+              <td className='tdnhap'></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <PaginationComponent
+          totalPages={totalPages}
+          currentPage={currentPage}
+          handlePageChange={handlePageChange}
+          itemsPerPage={itemsPerPage}
+          setItemsPerPage={setItemsPerPage}
+          totalResults={totalResults}
+
+        />
+        <div
+          className='resizer'
+          onMouseDown={handleMouseDown}
+          style={{
+
+            cursor: 'ns-resize',
+            width: '100%',
+            height: '3px',
+            background: '#ccc',
+            position: 'sticky',
+            bottom: 0, // Đặt vị trí dính ở cuối
+            left: 0,
+            zIndex: 1 // Đảm bảo nằm trên các thành phần khác
+          }}
+        ></div>
       </div>
       {isOpenXuakho && <ModalXuatKho setIsOpenXuakho={setIsOpenXuakho} />}
       {isOpenChuyenKhoFull && (
@@ -457,6 +434,7 @@ function SearchProductLayout () {
         isOpen={isOpenModalTraHang}
         onClose={() => setIsOpenModalTraHang(false)}
       />
+
     </>
   )
 }
