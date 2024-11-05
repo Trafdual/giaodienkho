@@ -14,6 +14,7 @@ import { HoaDonLayout } from '~/Layout/HoaDonLayout'
 import { ThietLapLayout } from '~/Layout/ThietLapLayout'
 import { SearchProductLayout } from '~/Layout/SearchProductLayout'
 import { TestLayout } from '~/Layout/TestLayout'
+import { BaoCaoKhoLayout } from '~/Layout/BaoCaoKhoLayout'
 
 const publicRoutes = [
   { path: '/', component: Login, layout: null },
@@ -24,13 +25,14 @@ const publicRoutes = [
   { path: '/khachhang', component: KhachHangLayout },
   { path: '/dieuchuyen', component: DieuChuyenLayout },
   { path: '/banhang', component: BanHangLayout, layout: null },
-  { path: '/trogiup', component: TroGiupLayout},
+  { path: '/trogiup', component: TroGiupLayout },
   { path: '/testlungtung', component: TestLungTung },
   { path: '/doanhthu', component: DoanhThuLayout },
   { path: '/hoadon', component: HoaDonLayout },
   { path: '/thietlap', component: ThietLapLayout },
   { path: '/search-products', component: SearchProductLayout },
   { path: '/test', component: TestLayout },
+  { path: '/baocaokho', component: BaoCaoKhoLayout },
   { path: '/register', component: Register, layout: null }
 ]
 const privateRoutes = []

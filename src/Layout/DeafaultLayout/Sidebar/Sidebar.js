@@ -161,10 +161,10 @@ function Sidebar ({ isActive, setIsActive }) {
                 </Link>
               </li>
               <li
-               className={`litong ${activeItem === '/thietlap/baomat' ? 'hovered' : ''}`}
-                onClick={() => handleItemClick('/thietlap/baomat')}
+               className={`litong ${activeItem === '/baocaokho' ? 'hovered' : ''}`}
+                onClick={() => handleItemClick('/baocaokho')}
               >
-                <Link to={'/thietlap/baomat'}>
+                <Link to={'/baocaokho'}>
                   <a>
                     <span className='icon'>
                       <FontAwesomeIcon
@@ -172,7 +172,7 @@ function Sidebar ({ isActive, setIsActive }) {
                         icon={faShieldHalved}
                       />
                     </span>
-                    <span className='title'>Công Nợ</span>
+                    <span className='title'>Kho</span>
                   </a>
                 </Link>
               </li>

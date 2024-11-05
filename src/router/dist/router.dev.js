@@ -19,6 +19,12 @@ var _NhapKhoLayout = require("~/Layout/NhapKhoLayout");
 
 var _DieuChuyenLayout = require("~/Layout/DieuChuyenLayout");
 
+var _BanHangLayout = require("~/Layout/BanHangLayout");
+
+var _TroGiupLayout = require("~/Layout/TroGiupLayout");
+
+var _TestLungTung = require("~/Layout/TestLungTung");
+
 var _KhachHangLayout = require("~/Layout/KhachHangLayout");
 
 var _DoanhThuLayout = require("~/Layout/DoanhThuLayout");
@@ -30,6 +36,8 @@ var _ThietLapLayout = require("~/Layout/ThietLapLayout");
 var _SearchProductLayout = require("~/Layout/SearchProductLayout");
 
 var _TestLayout = require("~/Layout/TestLayout");
+
+var _BaoCaoKhoLayout = require("~/Layout/BaoCaoKhoLayout");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -56,6 +64,16 @@ var publicRoutes = [{
   path: '/dieuchuyen',
   component: _DieuChuyenLayout.DieuChuyenLayout
 }, {
+  path: '/banhang',
+  component: _BanHangLayout.BanHangLayout,
+  layout: null
+}, {
+  path: '/trogiup',
+  component: _TroGiupLayout.TroGiupLayout
+}, {
+  path: '/testlungtung',
+  component: _TestLungTung.TestLungTung
+}, {
   path: '/doanhthu',
   component: _DoanhThuLayout.DoanhThuLayout
 }, {
@@ -70,6 +88,9 @@ var publicRoutes = [{
 }, {
   path: '/test',
   component: _TestLayout.TestLayout
+}, {
+  path: '/baocaokho',
+  component: _BaoCaoKhoLayout.BaoCaoKhoLayout
 }, {
   path: '/register',
   component: _RegisterLayout.Register,
