@@ -324,6 +324,7 @@ function SearchProductLayout() {
                   <>
                     <td className='tdnhap'>Tên máy</td>
                     <td className='tdnhap'>Trạng thái xuất kho</td>
+                    <td className='tdnhap'>Chức năng</td>
                   </>
                 )}
               </tr>
