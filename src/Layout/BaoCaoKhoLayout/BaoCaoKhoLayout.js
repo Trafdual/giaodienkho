@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import './BaoCaoKhoLayout.scss'
+import { enableColumnResizing } from '../ColumnResizer/columnResizer'
+
 
 function BaoCaoKhoLayout () {
   const today = new Date().toISOString().split('T')[0]
@@ -35,6 +37,11 @@ function BaoCaoKhoLayout () {
     }
   }
 
+  useEffect(() => {
+  enableColumnResizing('.tablebaocaokho')
+}, [])
+
+
   return (
     <div className='baocaokho-container'>
       <div className='date-filter'>
@@ -55,7 +62,7 @@ function BaoCaoKhoLayout () {
         </button>
       </div>
 
-      <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+      <table style={{ width: '100%', borderCollapse: 'collapse' }} className='tablebaocaokho'>
         <thead>
           <tr>
             <th rowSpan='2' className='trbaocaokho'>
@@ -89,19 +96,51 @@ function BaoCaoKhoLayout () {
           </tr>
         </thead>
         <tbody>
-          {data.map(baocao => (
-            <tr>
+          {data.map((baocao, index) => (
+            <>
+              <tr key={index}>
                 <td className='trbaocaokho'>{baocao.masku}</td>
                 <td className='trbaocaokho'>{baocao.namesku}</td>
-                <td className='trbaocaokho'></td>
-                <td className='trbaocaokho'></td>
-                <td className='trbaocaokho'></td>
-                <td className='trbaocaokho'></td>
-                <td className='trbaocaokho'></td>
-                <td className='trbaocaokho'></td>
-                <td className='trbaocaokho'></td>
-                <td className='trbaocaokho'></td>
-            </tr>
+                <td className='trbaocaokho'>{baocao.tongtondau.soluong}</td>
+                <td className='trbaocaokho'>
+                  {baocao.tongtondau.price.toLocaleString()}
+                </td>
+                <td className='trbaocaokho'>{baocao.tongnhaptrong.soluong}</td>
+                <td className='trbaocaokho'>
+                  {baocao.tongnhaptrong.price.toLocaleString()}
+                </td>
+                <td className='trbaocaokho'>{baocao.tongxuattrong.soluong}</td>
+                <td className='trbaocaokho'>
+                  {baocao.tongxuattrong.price.toLocaleString()}
+                </td>
+                <td className='trbaocaokho'>{baocao.tongtoncuoiky.soluong}</td>
+                <td className='trbaocaokho'>
+                  {baocao.tongtoncuoiky.price.toLocaleString()}
+                </td>
+              </tr>
+              {baocao.sanpham.map((sanpham, row) => (
+                <tr key={row}>
+                  <td className='trbaocaosanphamkho'>{sanpham.madungluongsku}</td>
+                  <td className='trbaocaosanphamkho'>{sanpham.name}</td>
+                  <td className='trbaocaosanphamkho'>{sanpham.tondauky.soluong}</td>
+                  <td className='trbaocaosanphamkho'>
+                    {sanpham.tondauky.price.toLocaleString()}
+                  </td>
+                  <td className='trbaocaosanphamkho'>{sanpham.nhaptrongky.soluong}</td>
+                  <td className='trbaocaosanphamkho'>
+                    {sanpham.nhaptrongky.price.toLocaleString()}
+                  </td>
+                  <td className='trbaocaosanphamkho'>{sanpham.xuattrongky.soluong}</td>
+                  <td className='trbaocaosanphamkho'>
+                    {sanpham.xuattrongky.price.toLocaleString()}
+                  </td>
+                  <td className='trbaocaosanphamkho'>{sanpham.toncuoiky.soluong}</td>
+                  <td className='trbaocaosanphamkho'>
+                    {sanpham.toncuoiky.price.toLocaleString()}
+                  </td>
+                </tr>
+              ))}
+            </>
           ))}
         </tbody>
       </table>

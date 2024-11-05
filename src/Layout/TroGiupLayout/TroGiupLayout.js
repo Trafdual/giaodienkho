@@ -59,7 +59,7 @@ const TroGiupLayout = ({ isOpen, onClose, imei }) => {
           <h1>In Tem IMEL</h1>
           <h3>{imei}</h3>
 
-          <canvas ref={canvasRef} className="barcode-canvas" style={{ display: 'block', margin: '20px 0' }}></canvas>
+          <canvas ref={canvasRef} className="barcode-canvas" style={{ display: 'block' }}></canvas>
 
           <button onClick={handleExportPDF}>Mở PDF</button>
           <button onClick={onClose} style={{ marginTop: '10px' }}>Đóng</button>
