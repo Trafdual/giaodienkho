@@ -115,13 +115,14 @@ function ModalChuyenKhoFull ({
         <label htmlFor='' className='label'>
           Kho chứa
         </label>
-      </div>
-      <button onClick={postchuyenkho} className='btnAddLoHang'>
+        <button onClick={postchuyenkho} className='btnAddLoHang'>
         Chuyển kho
       </button>
       <button onClick={onClose} className='btnhuyAddLoHang'>
         Hủy
       </button>
+      </div>
+      
     </Modal>
   )
 }

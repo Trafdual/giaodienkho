@@ -4,59 +4,62 @@ import jsPDF from 'jspdf';
 import './TroGiup.scss';
 
 const TroGiupLayout = () => {
-  const [imei, setImei] = useState(localStorage.getItem('imei') || '');
+  const [imei, setImei] = useState('123456789012345'); // Số IMEI mặc định
   const [barcodeCanvas, setBarcodeCanvas] = useState(null);
-  const [barcodeType, setBarcodeType] = useState('code128'); 
   const canvasRef = useRef(null);
 
-
+  // Hàm tạo mã vạch và hiển thị trên canvas
   const generateBarcode = () => {
     const canvas = canvasRef.current;
     Barcode.toCanvas(canvas, {
-      bcid: barcodeType,
+      bcid: 'code128', // Loại mã vạch
       text: imei,
-      scale: 2,
+      scale: 2, // Tăng kích thước mã vạch
       height: 10,
-      includetext: true,
+      includetext: false,
       textxalign: 'center',
     });
-    setBarcodeCanvas(canvas.toDataURL('image/png')); 
+    setBarcodeCanvas(canvas.toDataURL('image/png')); // Lưu hình ảnh mã vạch
   };
 
+  // Hiệu ứng để tạo mã vạch khi IMEI thay đổi
   useEffect(() => {
     generateBarcode();
-    localStorage.setItem('imei', imei);
-  }, [imei, barcodeType]);
+  }, [imei]);
 
+  // Xử lý xuất mã vạch ra link PDF
   const handleExportPDF = async () => {
-    if (!imei) {
-      alert('Vui lòng nhập số IMEI trước khi in.');
-      return;
-    }
-
-    const pdf = new jsPDF('p', 'mm', 'a4');
+    const pdf = new jsPDF('p', 'mm', 'a4'); // Sử dụng khổ giấy A4
     const imgData = barcodeCanvas;
-
-    const pageWidth = pdf.internal.pageSize.getWidth();
-    const imgWidth = pageWidth * 0.25;
-    const imgHeight = (imgWidth / 3);
-
-    pdf.addImage(imgData, 'PNG', (pageWidth - imgWidth) / 2, 30, imgWidth, imgHeight);
+  
+    // Kích thước giấy A4 (210 mm x 297 mm)
+    const pageWidth = pdf.internal.pageSize.getWidth(); // 210 mm
+    const pageHeight = pdf.internal.pageSize.getHeight(); // 297 mm
+  
+    // Kích thước mã vạch
+    const imgWidth = pageWidth * 0.25; // Kích thước mã vạch chiếm 20% chiều rộng trang
+    const imgHeight = (imgWidth / 3); // Tính chiều cao theo tỷ lệ, bạn có thể thay đổi theo ý muốn
+  
+    // Thêm mã vạch vào PDF
+    pdf.addImage(imgData, 'PNG', (pageWidth - imgWidth) / 2, 30, imgWidth, imgHeight); // Căn giữa mã vạch
+  
+    // Thêm IMEI vào PDF dưới mã vạch
     pdf.setFontSize(18);
-    pdf.setFont('helvetica', 'normal');
-    pdf.text(`${imei}`, (pageWidth - imgWidth) / 2, 30 + imgHeight + 10);
-
+    pdf.setFont('helvetica', 'normal'); // Chọn font chữ rõ ràng
+    pdf.text(`${imei}`, (pageWidth - imgWidth) / 2, 30 + imgHeight + 10); // Căn giữa văn bản
+  
     const pdfBlob = pdf.output('blob');
     const pdfUrl = URL.createObjectURL(pdfBlob);
-
+    
+    // Mở PDF và in ngay lập tức
     const pdfWindow = window.open(pdfUrl);
     pdfWindow.onload = function() {
       setTimeout(() => {
         pdfWindow.print();
-      }, 500);
+      }, 500); // Thay đổi thời gian chờ nếu cần
     };
   };
-
+  
   return (
     <div className="imei-label-printer">
       <h1>In Tem IMEI</h1>
@@ -71,15 +74,6 @@ const TroGiupLayout = () => {
         />
       </label>
       
-      <label>
-        Loại mã vạch:
-        <select value={barcodeType} onChange={(e) => setBarcodeType(e.target.value)}>
-          <option value="code128">Code 128</option>
-          <option value="code39">Code 39</option>
-          <option value="ean13">EAN 13</option>
-        </select>
-      </label>
-
       <canvas ref={canvasRef} className="barcode-canvas" style={{ display: 'block', margin: '20px 0' }}></canvas>
       
       <button onClick={handleExportPDF}>Mở PDF</button>

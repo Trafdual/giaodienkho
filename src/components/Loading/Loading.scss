@@ -1,30 +1,43 @@
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5); /* Nền đen với độ mờ 0.5 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999; /* Đảm bảo overlay nằm trên các thành phần khác */
+}
+.h3loading{
+    color: rgb(218, 218, 218) !important;
+    font-size: 15px !important;
+}
 .loading-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    height: 15%;
+    width: 15%;
     align-items: center;
-    height: 100vh;
-    /* Chiều cao toàn màn hình */
-    background-color: #f8f9fa;
-    /* Màu nền nhẹ */
+    background-color: #a1a1a1;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    /* Thêm bóng đổ cho container */
-    border-radius: 10px;
-    /* Bo góc cho container */
+    border-radius: 5px;
+   
 }
 
 .spinner {
-    border: 8px solid rgba(0, 0, 0, 0.1);
-    /* Viền ngoài nhạt */
+    border: 8px solid #ffffff;
     border-top: 8px solid #3498db;
-    /* Viền trên có màu để tạo vòng quay */
     border-radius: 50%;
-    width: 80px;
-    /* Tăng kích thước spinner */
-    height: 80px;
-    /* Tăng kích thước spinner */
+    width: 50px;
+    height: 50px;
     animation: spin 1s linear infinite;
-    /* Tạo hiệu ứng xoay */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    /* Thêm bóng đổ cho spinner */
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
