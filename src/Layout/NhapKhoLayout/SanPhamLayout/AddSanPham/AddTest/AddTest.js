@@ -15,6 +15,7 @@ import './AddTest.scss'
 import { ModalAddNganHang } from '~/Layout/NhapKhoLayout/AddLoHang/ModalAddNganHang'
 import { ModalAddNhaCungCap } from '~/Layout/NhapKhoLayout/ModalAddNhaCungCap'
 
+
 function AddTest ({ isOpen, onClose, fetclohang }) {
   const [name, setName] = useState('')
   const [date, setdate] = useState('')
@@ -56,7 +57,6 @@ function AddTest ({ isOpen, onClose, fetclohang }) {
   const tooltipRefDate = useRef(null)
   const tooltipRefTime = useRef(null)
   const tooltipRefNganHang = useRef(null)
-
   useEffect(() => {
     const intervalId = setInterval(() => {
       const newKhoID = localStorage.getItem('khoID') || ''

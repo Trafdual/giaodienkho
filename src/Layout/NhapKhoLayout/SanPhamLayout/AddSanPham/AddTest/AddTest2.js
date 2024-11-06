@@ -13,6 +13,7 @@ import './AddTest2.scss'
 import { ModalOnClose } from '~/components/ModalOnClose'
 import { ModalAddSku } from './ModalAddSku'
 import { FormAddImel } from '../FormAddImel'
+import '~/components/Loadingnut/loadingnut.scss'
 
 function AddTest2 ({
   fetchlohang,
@@ -44,6 +45,7 @@ function AddTest2 ({
   const [isOpenAddSKU, setIsOpenAddSKU] = useState(false)
   const [isOpenModalBarCode, setIsOpenModalBarCode] = useState(false)
   const [indexImel, setindex] = useState(null)
+  const [isClickButton, setIsClickButton] = useState(false)
 
   const imeiInputRef = useRef(null)
 
@@ -229,6 +231,7 @@ function AddTest2 ({
       loaihanghoa
     }
     if (validateInputs()) {
+      setIsClickButton(true)
       try {
         const response = await fetch(
           `https://www.ansuataohanoi.com/postloaisanpham3`,
@@ -243,6 +246,7 @@ function AddTest2 ({
           showToast('Thêm lô hàng thành công!', 'success')
           handleClose()
           fetchlohang()
+          setIsClickButton(false)
         } else {
           showToast('Lỗi khi thêm lô hàng', 'error')
         }
@@ -458,9 +462,16 @@ function AddTest2 ({
         Cancel={() => setIsCloseHuy(false)}
       />
 
-      <button onClick={submitProducts} className='btnAddLoHang'>
-        Thêm lô hàng
-      </button>
+      <button onClick={submitProducts} 
+        className={
+            isClickButton
+              ? 'btnAddNhaCungCap btnadddisabled'
+              : 'btnAddNhaCungCap'
+          }
+          disabled={isClickButton}
+        >
+          {isClickButton ? '...Đang tải dữ liệu' : 'Thêm sản phẩm'}
+        </button>
     </>
   )
 }
