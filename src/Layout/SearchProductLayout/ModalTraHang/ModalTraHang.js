@@ -126,7 +126,7 @@ function ModalTraHang ({ isOpen, onClose, fetchData, imellist }) {
     if (validateInputs()) {
       try {
         const response = await fetch(
-          `http://localhost:8080/posttrahang/${khoID}`,
+          `https://www.ansuataohanoi.com/posttrahang/${khoID}`,
           {
             method: 'POST',
             headers: {

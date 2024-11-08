@@ -36,7 +36,7 @@ function ModalAddSku ({ isOpen, onClose, userID, fetchsku }) {
       setIsClickButton(true)
       try {
         const response = await fetch(
-          `http://localhost:8080/postsku/${userID}`,
+          `https://www.ansuataohanoi.com/postsku/${userID}`,
           {
             method: 'POST',
             headers: {
