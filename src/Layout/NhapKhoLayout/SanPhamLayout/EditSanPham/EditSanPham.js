@@ -6,6 +6,7 @@ import { ModalOnClose } from '~/components/ModalOnClose'
 import './EditSanPham.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrashCan } from '@fortawesome/free-solid-svg-icons'
+import '~/components/Loadingnut/loadingnut.scss'
 
 function EditSanPham ({
   sku,
@@ -24,6 +25,7 @@ function EditSanPham ({
   const { showToast } = useToast()
   const [isDulieu, setIsDulieu] = useState(true)
   const [isModalHuy, setIsModalHuy] = useState(false)
+  const [isClickButton, setIsClickButton] = useState(false)
 
   const toggleIMEIEdit = index => {
     setinpuImel(prev => ({ ...prev, [index]: !prev[index] }))
@@ -78,7 +80,7 @@ function EditSanPham ({
       imel: imel[item._id] || item.imel,
       price: price[item._id] || item.price
     }))
-
+    setIsClickButton(true)
     try {
       const response = await fetch(
         'https://www.ansuataohanoi.com/putsomeproduct',
@@ -96,6 +98,7 @@ function EditSanPham ({
         fetchlohang()
         showToast('Cập nhật sản phẩm thành công')
         handleCleardata()
+        setIsClickButton(false)
       } else {
         console.error('Cập nhật sản phẩm thất bại')
       }
@@ -216,9 +219,15 @@ function EditSanPham ({
         DontSave={handleDontSave}
         Cancel={() => setIsModalHuy(false)}
       />
-      <button className='btnAddLoHang' onClick={hadleEditSanPham}>
-        Cập nhật
-      </button>
+      <button onClick={hadleEditSanPham} className={
+            isClickButton
+              ? 'btnAddNhaCungCap btnadddisabled'
+              : 'btnAddNhaCungCap'
+          }
+          disabled={isClickButton}
+        >
+          {isClickButton ? '...Đang tải dữ liệu' : 'Cập nhật'}
+        </button>
     </ModalBig>
   )
 }
