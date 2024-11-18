@@ -214,10 +214,8 @@ function SearchProductLayout () {
     }
   }
   const clearsanpham = () => {
-    // Cập nhật selectedItems trong state
     setSanPham([])
 
-    // Đặt selectedItems trong localStorage về mảng rỗng
     setSelectedItems([])
   }
   const totalAmount = currentItems.reduce(
@@ -300,16 +298,6 @@ function SearchProductLayout () {
               Trả lại hàng mua
             </button>
 
-            {/* <button
-              className={`btn-xuat ${
-                selectedItems.length === 0 ? 'disabled' : ''
-              }`}
-              disabled={selectedItems.length === 0}
-              onClick={() => handlePrintBarcode(selectedItems.imel)}
-            >
-              <FontAwesomeIcon icon={faBarcode} className='iconMenuSanPham' />
-              In tem Imel
-            </button> */}
           </div>
 
           <table className='tablenhap'>

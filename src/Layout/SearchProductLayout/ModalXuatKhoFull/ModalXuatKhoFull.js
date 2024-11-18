@@ -62,7 +62,7 @@ function ModalXuatKhoFull ({
   const postchuyenkho = async () => {
     const idsanpham1 = selectedItems.map(item => item._id)
     try {
-      const response = await fetch(`https://www.ansuataohanoi.com/chuyenkho1`, {
+      const response = await fetch(`https://www.ansuataohanoi.com/chuyenkho2`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
