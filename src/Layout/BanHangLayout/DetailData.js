@@ -1,99 +1,57 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import './DetailData.scss';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
+import axios from 'axios';
 
-function ModalDataScreen({ isOpen, onClose }) {
-  const data = {
-    title: '12PRM MỚI',
-    location: 'Chưa có thông tin',
-    displayPosition: 'Chưa có thông tin',
-    sizes: [
-      { size: 128, available: 3 },
-      { size: 256, available: 1 },
-      { size: 512, available: 0 },
-    ],
-    items: [
-      {
-        size: 128,
-        sku: '1102-128',
-        barcode: '100128',
-        name: '12PRM MỚI (128)',
-        unit: 'Chiếc',
-        price: 1000,
-        otherStores: 2,
-        stock: 10,
-        quantity: 1,
-        storeDetails: [
-          { name: 'Cửa hàng A', quantity: 1 },
-          { name: 'Cửa hàng B', quantity: 1 },
-        ],
-      },
-      
-      {
-        size: 256,
-        sku: '1102-256',
-        barcode: '100154',
-        name: '12PRM MỚI (256)',
-        unit: 'Chiếc',
-        price: 2000,
-        otherStores: 3,
-        stock: 5,
-        quantity: 1,
-        storeDetails: [
-          { name: 'Cửa hàng A', quantity: 2 },
-          { name: 'Cửa hàng B', quantity: 1 },
-        ],
-      },
-      {
-        size: 512,
-        sku: '1102-512',
-        barcode: '100512',
-        name: '12PRM MỚI (512)',
-        unit: 'Chiếc',
-        price: 3000,
-        otherStores: 1,
-        stock: 0,
-        quantity: 0,
-        storeDetails: [
-          { name: 'Cửa hàng C', quantity: 1 },
-        ],
-      },
-    ],
-  };
-
+function ModalDataScreen({ isOpen, onClose, userId,product }) {
+  const [data, setData] = useState([]);
   const [selectedSizes, setSelectedSizes] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
+  const khoId1 = localStorage.getItem('khoID') || ''; 
+
+console.log(product)
+  useEffect(() => {
+    if (isOpen) {
+      // Fetch data from API
+      axios
+        .get(`https://www.ansuataohanoi.com/banhang/${product._id}/${khoId1}/${userId}`)
+        .then((response) => {
+          setData(response.data);
+        })
+        .catch((error) => {
+          console.error('Error fetching data:', error);
+        });
+    }
+  }, [isOpen, product._id, userId]);
 
   const handleSizeSelect = (size) => {
-    if (size === "all") {
+    if (size === 'all') {
       if (selectAll) {
         setSelectAll(false);
-        setSelectedSizes([]); // Bỏ chọn tất cả
+        setSelectedSizes([]);
       } else {
         setSelectAll(true);
-        setSelectedSizes(data.sizes.map((s) => s.size)); // Chọn tất cả kích thước
+        setSelectedSizes(data.map((item) => item.name)); // Select all sizes
       }
     } else {
-      setSelectAll(false); // Bỏ chọn "Tất cả" khi chọn một kích thước cụ thể
-      
+      setSelectAll(false);
       setSelectedSizes((prevSelected) =>
         prevSelected.includes(size)
-          ? prevSelected.filter((s) => s !== size) // Bỏ chọn nếu đã chọn
-          : [...prevSelected, size] // Thêm vào danh sách đã chọn
+          ? prevSelected.filter((s) => s !== size) // Deselect
+          : [...prevSelected, size] // Select
       );
     }
   };
 
-  const isSizeSelected = (size) => 
-    selectAll ? false : selectedSizes.includes(size); 
+  const isSizeSelected = (size) => (selectAll ? true : selectedSizes.includes(size));
 
   const filteredItems = selectAll
-    ? data.items
-    : data.items.filter((item) => selectedSizes.includes(item.size));
+    ? data
+    : data.filter((item) => selectedSizes.includes(item.name));
 
   const ModalBanhang = ({ isOpen, onClose, children }) => {
     if (!isOpen) return null;
@@ -120,27 +78,26 @@ function ModalDataScreen({ isOpen, onClose }) {
           className="product-icon"
         />
         <div>
-          <h2>{data.title}</h2>
-          <p>Vị trí lưu kho: {data.location}</p>
-          <p>Vị trí trưng bày: {data.displayPosition}</p>
+          <h2>Chi tiết sản phẩm</h2>
+          <p>Kho hiện tại: {data[0]?.tenkhohientai || 'Chưa có thông tin'}</p>
         </div>
       </div>
 
       <div className="modal-body">
         <div className="size-selector">
           <button
-            onClick={() => handleSizeSelect("all")}
+            onClick={() => handleSizeSelect('all')}
             className={`size-btn ${selectAll ? 'selected1' : ''}`}
           >
             Tất cả
           </button>
-          {data.sizes.map((size) => (
+          {data.map((item) => (
             <button
-              key={size.size}
-              onClick={() => handleSizeSelect(size.size)}
-              className={`size-btn ${isSizeSelected(size.size) ? 'selected1' : ''}`}
+              key={item.name}
+              onClick={() => handleSizeSelect(item.name)}
+              className={`size-btn ${isSizeSelected(item.name) ? 'selected1' : ''}`}
             >
-              {size.size} ({size.available})
+              {item.name} ({item.tonkho})
             </button>
           ))}
         </div>
@@ -148,56 +105,51 @@ function ModalDataScreen({ isOpen, onClose }) {
         <div className="table-container">
           {filteredItems.length === 0 ? (
             <div className="no-selection-message">
-              <img src="https://png.pngtree.com/png-clipart/20230807/original/pngtree-cartoon-illustration-of-a-man-carrying-a-heavy-box-while-walking-created-using-vector-handdrawn-technique-vector-picture-image_10079648.png" alt="No selection" className="no-selection-image" />
+              <img
+                src="https://png.pngtree.com/png-clipart/20230807/original/pngtree-cartoon-illustration-of-a-man-carrying-a-heavy-box-while-walking-created-using-vector-handdrawn-technique-vector-picture-image_10079648.png"
+                alt="No selection"
+                className="no-selection-image"
+              />
               <p>Vui lòng chọn hàng hóa và kích thước</p>
             </div>
           ) : (
             <table className="modal-table">
               <thead>
                 <tr>
-                  <th>Mã SKU</th>
-                  <th>Mã vạch</th>
-                  <th>Tên hàng hóa</th>
-                  <th>ĐVT</th>
-                  <th>Giá</th>
-                  <th>Tồn cửa hàng khác</th>
-                  <th>SL</th>
+                  <th>Tên sản phẩm</th>
                   <th>Tồn kho</th>
+                  <th>Tồn kho khác</th>
                 </tr>
               </thead>
               <tbody>
                 {filteredItems.map((item) => (
-                  <tr key={item.sku}>
-                    <td>{item.sku}</td>
-                    <td>{item.barcode}</td>
-                    <td>{item.name}</td>
-                    <td>{item.unit}</td>
-                    <td>{item.price}</td>
+                  <tr key={item.idsku}>
+                    <td>{item.tensp}</td>
+                    <td>{item.tonkho}</td>
                     <td>
                       <Tippy
                         content={
                           <div>
-                            {item.storeDetails.map((store) => (
-                              <div key={store.name}>
-                                {store.name}: {store.quantity} chiếc
+                            {item.cacKhoKhac.map((store) => (
+                              <div key={store.khoId}>
+                                {store.tenkho}: {store.soluong} chiếc
                               </div>
                             ))}
                           </div>
                         }
                         placement="bottom"
                       >
-                        <span className="tooltip-target-wrapper">{item.otherStores}</span>
+                        <span className="tooltip-target-wrapper">
+                          {item.tongSoLuongCacKhoKhac}
+                        </span>
                       </Tippy>
                     </td>
-                    <td>{item.quantity}</td>
-                    <td>{item.stock}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
           )}
         </div>
-     
       </div>
 
       <div className="modal-footer">

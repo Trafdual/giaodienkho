@@ -86,7 +86,7 @@ function Login () {
             sessionStorage.setItem('name', name)
           }
           showToast('Đăng nhập thành công!')
-          navigate(publicRoutes[1].path)
+          navigate(publicRoutes[1].path,{ state: { userId: userId }})
         } else {
           showToast(data.message, 'error')
         }
