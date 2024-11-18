@@ -15,6 +15,7 @@ function HeaderBanHang({ userId }) {
   const [selectedKho, setSelectedKho] = useState(null);
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
+  console.log(userId)
 
   // Fetch kho data using axios
   useEffect(() => {
@@ -23,7 +24,7 @@ function HeaderBanHang({ userId }) {
     const fetchKhoData = async () => {
       setIsLoading(true);
       try {
-        const response = await axios.get(`https://ansuataohanoi.com/getdepot/${userId}`);
+        const response = await axios.get(`https://www.ansuataohanoi.com/getdepot/${userId}`);
         setKhoList(response.data);
       } catch (error) {
         console.error("Error fetching kho data:", error);
@@ -87,7 +88,6 @@ function HeaderBanHang({ userId }) {
         <FontAwesomeIcon className="icon-search" icon={faSearch} onClick={handleSearch} />
       </div>
 
-      {/* Dropdown for Kho */}
       <div className="dropdown">
         <button className="dropdown-button" onClick={toggleDropdown}>
           {selectedKho ? selectedKho.name : "Chọn kho"}
