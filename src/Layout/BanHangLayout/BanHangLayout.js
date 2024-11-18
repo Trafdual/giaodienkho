@@ -1,37 +1,42 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Banhang.scss';
+import axios from 'axios';
 import { FaBell, FaUser, FaBarcode, FaShoppingCart, FaUserTag } from "react-icons/fa";
 import { MdSearch } from "react-icons/md";
 import ModalDataScreen from './DetailData';
-
+import HeaderBanHang from '../BanHangLayout/HeaderBanHang/HeaderBanHang';
 function BanHangLayout() {
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false);
+  const [products, setProducts] = useState([]); // Danh sách sản phẩm từ API
+  const [selectedProduct, setSelectedProduct] = useState(null); // Sản phẩm được chọn
 
-  const products = [
-    '13 TRUNG BÀY (128)',
-    'màn 11 prm zin',
-    '12PRM MỚI',
-    '15 PRM 1T',
-    'XS',
-    'Củ sạc nhanh',
-  ];
+  // Lấy userId và khoId từ localStorage
+  const userId = localStorage.getItem('userId') || ''; 
+
+  // Gọi API để lấy danh sách sản phẩm
+  useEffect(() => {
+    const fetchProducts = async () => {
+      if (!userId) return; // Nếu thiếu userId hoặc khoId, không gọi API
+      try {
+        const response = await axios.get(`https://www.ansuataohanoi.com/getspbanhang/${userId}`);
+        setProducts(response.data); // Giả sử API trả về danh sách sản phẩm
+      } catch (error) {
+        console.error("Lỗi khi lấy danh sách sản phẩm:", error);
+      }
+    };
+
+    fetchProducts();
+  }, [userId]);
+
+  // Xử lý khi bấm vào sản phẩm
+  const handleProductClick = (product) => {
+    setSelectedProduct(product); // Lưu sản phẩm được chọn
+    setIsOpen(true); // Mở modal
+  };
 
   return (
     <div className="app-container">
-      <header className="header">
-        <div className="logo-section">
-          <FaShoppingCart className="logo-icon" />
-          <span>Hóa đơn 1</span>
-        </div>
-        <div className="header-actions">
-          <button className="save-draft-btn">HĐ lưu tạm</button>
-        </div>
-        <div className="header-right">
-          <span className="store-name">9 Mobile</span>
-          <FaBell className="iconbanhang" />
-          <FaUser className="iconbanhang" />
-        </div>
-      </header>
+     <HeaderBanHang userId={userId}/>
 
       <div className="row">
         <div className="column left-column">
@@ -50,21 +55,6 @@ function BanHangLayout() {
                 <FaUser className="staff-icon" />
                 <FaUserTag className="price-tag-icon" />
               </div>
-              <div className="search-options">
-                <button className="search-option-btn">Chọn hàng hóa</button>
-                <button className="search-option-btn">Nhập khẩu hàng hóa</button>
-              </div>
-            </div>
-
-            <div className="empty-product-message">
-              <img
-                src="https://png.pngtree.com/png-vector/20240309/ourlarge/pngtree-tea-shop-sale-vector-concept-black-illustration-png-image_11902973.png"
-                alt="No Products"
-                className="empty-product-img"
-              />
-              <p>Chưa có hàng hóa nào, ấn F3 để tìm kiếm hàng hóa</p>
-              <button className="choose-product-btn">Chọn hàng hóa</button>
-              <button className="import-product-btn">Nhập khẩu hàng hóa</button>
             </div>
           </div>
 
@@ -73,14 +63,19 @@ function BanHangLayout() {
               <h3>Danh sách sản phẩm</h3>
             </div>
             <div className="product-grid">
-              {products.map((product, index) => (
-                <div key={index} className="product-card" onClick={() => setIsOpen(true)}>
-                  {product}
-
-                </div>
-              ))}
-
-
+              {products.length > 0 ? (
+                products.map((product, index) => (
+                  <div
+                    key={index}
+                    className="product-card"
+                    onClick={() => handleProductClick(product)}
+                  >
+                    {product.name}{product._id}
+                  </div>
+                ))
+              ) : (
+                <p>Không có sản phẩm nào.</p>
+              )}
             </div>
           </div>
         </div>
@@ -145,10 +140,16 @@ function BanHangLayout() {
           </div>
         </div>
       </div>
-      <ModalDataScreen
-        isOpen={isOpen}
-        onClose={() => setIsOpen(false)}
-      />
+
+      {selectedProduct && (
+        <ModalDataScreen
+          isOpen={isOpen}
+          onClose={() => setIsOpen(false)}
+          product={selectedProduct}
+          userId={userId} 
+       
+        />
+      )}
     </div>
   );
 }
