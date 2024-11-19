@@ -24,38 +24,37 @@ function HeaderBanHang ({ userId }) {
 
   const navigate = useNavigate()
 
-useEffect(() => {
-  const khoIDBH = localStorage.getItem('khoIDBH')
-  if (!khoIDBH && khoID) {
-    localStorage.setItem('khoIDBH', khoID)
-  }
-}, [khoID])
-
-
-useEffect(() => {
-  const clearKhoIDBH = event => {
-    if (event.persisted || !event.isTrusted) {
-      return
+  useEffect(() => {
+    if (khoID) {
+      const khoIDBH = localStorage.getItem('khoIDBH')
+      if (!khoIDBH) {
+        localStorage.setItem('khoIDBH', khoID)
+      }
     }
-    localStorage.setItem('khoIDBH', '') 
-  }
+  }, [khoID])
 
-  window.addEventListener('beforeunload', clearKhoIDBH)
-
+useEffect(() => {
   const handleVisibilityChange = () => {
     if (document.visibilityState === 'hidden') {
-      localStorage.setItem('khoIDBH', '')
+      console.log('Tab bị ẩn, không xóa khoIDBH.')
+    }
+  }
+
+  const clearKhoIDBH = () => {
+    const isHidden = document.visibilityState === 'hidden'
+    if (!isHidden) {
+      localStorage.setItem('khoIDBH', '') // Chỉ xóa khi tab bị tắt hẳn
     }
   }
 
   document.addEventListener('visibilitychange', handleVisibilityChange)
+  window.addEventListener('beforeunload', clearKhoIDBH)
 
   return () => {
-    window.removeEventListener('beforeunload', clearKhoIDBH)
     document.removeEventListener('visibilitychange', handleVisibilityChange)
+    window.removeEventListener('beforeunload', clearKhoIDBH)
   }
 }, [])
-
 
 
   useEffect(() => {
