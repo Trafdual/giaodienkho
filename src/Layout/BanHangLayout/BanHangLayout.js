@@ -36,7 +36,7 @@ function BanHangLayout() {
 
   return (
     <div className="app-container">
-     <HeaderBanHang userId={userId}/>
+     <HeaderBanHang userId={userId} />
 
       <div className="row">
         <div className="column left-column">

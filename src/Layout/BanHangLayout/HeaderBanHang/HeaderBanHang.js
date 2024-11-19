@@ -8,14 +8,13 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function HeaderBanHang({ userId }) {
-  const [khoList, setKhoList] = useState([]);
+  const [khoList, setKhoList] = useState([]); // Đảm bảo giá trị mặc định là []
   const [keyword, setKeyword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isDropdownVisible, setDropdownVisible] = useState(false);
   const [selectedKho, setSelectedKho] = useState(null);
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
-  console.log(userId)
 
   // Fetch kho data using axios
   useEffect(() => {
@@ -25,9 +24,15 @@ function HeaderBanHang({ userId }) {
       setIsLoading(true);
       try {
         const response = await axios.get(`https://www.ansuataohanoi.com/getdepot/${userId}`);
-        setKhoList(response.data);
+        if (Array.isArray(response.data)) {
+          setKhoList(response.data);
+        } else {
+          console.error("Unexpected API response:", response.data);
+          setKhoList([]); // Đảm bảo luôn gán giá trị mảng
+        }
       } catch (error) {
         console.error("Error fetching kho data:", error);
+        setKhoList([]);
       } finally {
         setIsLoading(false);
       }
@@ -36,15 +41,29 @@ function HeaderBanHang({ userId }) {
     fetchKhoData();
   }, [userId]);
 
+  // Load kho từ localStorage khi khoList đã tải
+ 
+
   const toggleDropdown = () => {
     setDropdownVisible((prev) => !prev);
   };
 
   const handleSelectKho = (kho) => {
     setSelectedKho(kho);
-    setDropdownVisible(false); // Close dropdown after selection
+    setDropdownVisible(false);
+    // Lưu khoID vào localStorage
+    localStorage.setItem("khoIDBH", kho._id);
+    window.location.reload();
   };
-
+  useEffect(() => {
+    const storedKhoID = localStorage.getItem("khoIDBH");
+    if (storedKhoID && khoList.length > 0) {
+      const storedKho = khoList.find((kho) => kho._id === storedKhoID);
+      if (storedKho) {
+        setSelectedKho(storedKho);
+      }
+    }
+  }, [khoList]);
   const handleSearch = () => {
     if (keyword.trim()) {
       navigate(`/search-products?keyword=${keyword}`);
@@ -57,10 +76,11 @@ function HeaderBanHang({ userId }) {
     }
   };
 
+  // Đóng dropdown khi click bên ngoài
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setDropdownVisible(false); // Close dropdown when clicking outside
+        setDropdownVisible(false);
       }
     };
 
@@ -68,7 +88,7 @@ function HeaderBanHang({ userId }) {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [dropdownRef]);
+  }, []);
 
   return (
     <div className="topbar1">
@@ -95,7 +115,7 @@ function HeaderBanHang({ userId }) {
         </button>
         {isDropdownVisible && (
           <ul className="dropdown-list" ref={dropdownRef}>
-            {khoList.map((kho) => (
+            {khoList?.map((kho) => (
               <li key={kho._id} onClick={() => handleSelectKho(kho)}>
                 {kho.name} - {kho.address}
               </li>

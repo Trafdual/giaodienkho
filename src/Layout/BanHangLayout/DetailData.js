@@ -11,7 +11,7 @@ function ModalDataScreen({ isOpen, onClose, userId,product }) {
   const [data, setData] = useState([]);
   const [selectedSizes, setSelectedSizes] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
-  const khoId1 = localStorage.getItem('khoID') || ''; 
+  const khoId1 = localStorage.getItem('khoIDBH') || ''; 
 
 console.log(product)
   useEffect(() => {
