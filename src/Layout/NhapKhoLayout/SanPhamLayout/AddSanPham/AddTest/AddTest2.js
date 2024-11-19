@@ -234,7 +234,7 @@ function AddTest2 ({
       setIsClickButton(true)
       try {
         const response = await fetch(
-          `https://www.ansuataohanoi.com/postloaisanpham3`,
+          `http://locahost:8080/postloaisanpham3`,
           {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -307,11 +307,6 @@ function AddTest2 ({
                           onChange={e => setImel(e.target.value)}
                           className='imel-input'
                           autoFocus
-                          // onBlur={() => {
-                          //   if (isRemoving) {
-                          //     setIsEditingIMEI(false) // Chỉ tắt nếu không đang xóa
-                          //   }
-                          // }}
                         />
                         <button
                           className='btnnhapImel'
