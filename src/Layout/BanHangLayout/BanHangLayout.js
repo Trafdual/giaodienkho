@@ -6,14 +6,54 @@ import { MdSearch } from "react-icons/md";
 import ModalDataScreen from './DetailData';
 import HeaderBanHang from '../BanHangLayout/HeaderBanHang/HeaderBanHang';
 function BanHangLayout() {
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [imeiList, setImeiList] = useState([]);
+  const [selectedSku, setSelectedSku] = useState(null);
+
   const [isOpen, setIsOpen] = useState(false);
   const [products, setProducts] = useState([]); // Danh sách sản phẩm từ API
   const [selectedProduct, setSelectedProduct] = useState(null); // Sản phẩm được chọn
-
+  const [selectedItems, setSelectedItems] = useState([]);
+  const handleItemsSelected = (items) => {
+    setSelectedItems(items);
+  };
   // Lấy userId và khoId từ localStorage
-  const userId = localStorage.getItem('userId') || ''; 
+  const userId = localStorage.getItem('userId') || '';
+  const idkho1 = localStorage.getItem('khoIDBH');
+  console.log("Dữ liệu kho id", idkho1);
 
-  // Gọi API để lấy danh sách sản phẩm
+  const handleOpenModal = async (idSku) => {
+    try {
+      // Gọi API để lấy dữ liệu
+      const response = await axios.get(
+        `https://www.ansuataohanoi.com/getsanphamchon/${idkho1}/${idSku}`
+      );
+  
+      const data = response.data; // Dữ liệu trả về từ API
+      console.log("Dữ liệu IMEI từ API:", data);
+  
+      if (Array.isArray(data)) {
+        // Đảm bảo dữ liệu là một mảng
+        setImeiList(data);
+      } else {
+        console.warn("Dữ liệu không phải là một mảng:", data);
+        setImeiList([]); // Đặt danh sách IMEI rỗng nếu không hợp lệ
+      }
+  
+      setModalOpen(true); // Mở modal
+      setSelectedSku(idSku); // Lưu SKU đang chọn
+    } catch (error) {
+      console.error("Lỗi khi gọi API lấy danh sách IMEI:", error);
+      setImeiList([]); // Đặt danh sách IMEI rỗng khi gặp lỗi
+    }
+  };
+  
+  const handleCloseModal = () => {
+    setModalOpen(false);
+    setImeiList([]);
+    setSelectedSku(null);
+  };
+
   useEffect(() => {
     const fetchProducts = async () => {
       if (!userId) return; // Nếu thiếu userId hoặc khoId, không gọi API
@@ -33,10 +73,12 @@ function BanHangLayout() {
     setSelectedProduct(product); // Lưu sản phẩm được chọn
     setIsOpen(true); // Mở modal
   };
-
+  const handleRemove = (id) => {
+    setSelectedItems(selectedItems.filter((item) => item.idsku !== id));
+  };
   return (
     <div className="app-container">
-     <HeaderBanHang userId={userId} />
+      <HeaderBanHang userId={userId} />
 
       <div className="row">
         <div className="column left-column">
@@ -56,6 +98,55 @@ function BanHangLayout() {
                 <FaUserTag className="price-tag-icon" />
               </div>
             </div>
+            <div className="selected-products-container">
+              <h3>Danh sách sản phẩm đã chọn:</h3>
+              <table className="product-table">
+                <thead>
+                  <tr>
+                    <th>STT</th>
+                    <th>SKU</th>
+                    <th>Hàng hóa</th>
+                    <th>SL</th>
+                    <th>ĐVT</th>
+                    <th>Đơn giá</th>
+                    <th>Thành tiền</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {selectedItems.map((item, index) => (
+                    <tr key={item.idsku}>
+                      <td>{index + 1}</td>
+                      <td>{item.idsku}</td>
+                      <td>
+                {item.tensp}
+                <button
+                  className="select-serial-btn"
+                  onClick={() => handleOpenModal( item.idsku)}
+                >
+                  Chọn Serial/IMEI
+                </button>
+              </td>
+                      <td>{item.soluong}</td>
+                      <td>{item.dvt}</td>
+                      <td>222</td>
+                      <td>222</td>
+                      <td>
+                        <button
+                          className="remove-btn"
+                          onClick={() => handleRemove(item.idsku)}
+                        >
+                          X
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div>
+
           </div>
 
           <div className="prd">
@@ -70,7 +161,7 @@ function BanHangLayout() {
                     className="product-card"
                     onClick={() => handleProductClick(product)}
                   >
-                    {product.name}{product._id}
+                    {product.name}
                   </div>
                 ))
               ) : (
@@ -146,10 +237,30 @@ function BanHangLayout() {
           isOpen={isOpen}
           onClose={() => setIsOpen(false)}
           product={selectedProduct}
-          userId={userId} 
-       
+          userId={userId}
+          onItemsSelected={handleItemsSelected}
         />
       )}
+    {isModalOpen && (
+  <div className="modal1">
+    <div className="modal-content1">
+      <h4>Danh sách Serial/IMEI cho SKU: {selectedSku}</h4>
+      {imeiList.length > 0 ? (
+        <ul>
+          {imeiList.map((imei, index) => (
+            <li key={index}>{imei.imel || "Không có thông tin IMEI"}</li>
+          ))}
+        </ul>
+      ) : (
+        <p>Không có dữ liệu IMEI hoặc đang tải...</p>
+      )}
+      <button className="close-btn" onClick={handleCloseModal}>
+        Đóng
+      </button>
+    </div>
+  </div>
+)}
+
     </div>
   );
 }
