@@ -8,6 +8,7 @@ import './DefaultLayout.scss'
 import { Header } from './Header'
 import { Sidebar } from './Sidebar'
 import { Loading } from '~/components/Loading'
+import { getFromLocalStorage } from '~/components/MaHoaLocalStorage/MaHoaLocalStorage'
 
 function DefaultLayout ({ children }) {
   const [isActive, setIsActive] = useState(false)
@@ -18,7 +19,7 @@ function DefaultLayout ({ children }) {
   const [datakho, setdatakho] = useState([])
 
   const [selectedKho, setSelectedKho] = useState(null)
-  const name = localStorage.getItem('name') || sessionStorage.getItem('name')
+  const name = getFromLocalStorage('name')
 
   useEffect(() => {
     const intervalId = setInterval(() => {

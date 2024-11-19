@@ -1,81 +1,88 @@
-import React, { useState, useEffect } from 'react';
-import ReactDOM from 'react-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faXmark } from '@fortawesome/free-solid-svg-icons';
-import './DetailData.scss';
-import Tippy from '@tippyjs/react';
-import 'tippy.js/dist/tippy.css';
-import axios from 'axios';
+import React, { useState, useEffect } from 'react'
+import ReactDOM from 'react-dom'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faXmark } from '@fortawesome/free-solid-svg-icons'
+import './DetailData.scss'
+import Tippy from '@tippyjs/react'
+import 'tippy.js/dist/tippy.css'
+import axios from 'axios'
 
-function ModalDataScreen({ isOpen, onClose, userId,product }) {
-  const [data, setData] = useState([]);
-  const [selectedSizes, setSelectedSizes] = useState([]);
-  const [selectAll, setSelectAll] = useState(false);
-  const khoId1 = localStorage.getItem('khoIDBH') || ''; 
-
-console.log(product)
+function ModalDataScreen ({ isOpen, onClose, userId, product }) {
+  const [data, setData] = useState([])
+  const [selectedSizes, setSelectedSizes] = useState([])
+  const [selectAll, setSelectAll] = useState(false)
+  const khoId1 = localStorage.getItem('khoIDBH') || ''
+  
+  console.log(product)
   useEffect(() => {
     if (isOpen) {
       // Fetch data from API
       axios
-        .get(`https://www.ansuataohanoi.com/banhang/${product._id}/${khoId1}/${userId}`)
-        .then((response) => {
-          setData(response.data);
+        .get(
+          `https://www.ansuataohanoi.com/banhang/${product._id}/${khoId1}/${userId}`
+        )
+        .then(response => {
+          setData(response.data)
         })
-        .catch((error) => {
-          console.error('Error fetching data:', error);
-        });
+        .catch(error => {
+          console.error('Error fetching data:', error)
+        })
     }
-  }, [isOpen, product._id, userId]);
+  }, [isOpen, product._id, userId])
 
-  const handleSizeSelect = (size) => {
+  const handleSizeSelect = size => {
     if (size === 'all') {
       if (selectAll) {
-        setSelectAll(false);
-        setSelectedSizes([]);
+        setSelectAll(false)
+        setSelectedSizes([])
       } else {
-        setSelectAll(true);
-        setSelectedSizes(data.map((item) => item.name)); // Select all sizes
+        setSelectAll(true)
+        setSelectedSizes(data.map(item => item.name)) // Select all sizes
       }
     } else {
-      setSelectAll(false);
-      setSelectedSizes((prevSelected) =>
-        prevSelected.includes(size)
-          ? prevSelected.filter((s) => s !== size) // Deselect
-          : [...prevSelected, size] // Select
-      );
+      setSelectAll(false)
+      setSelectedSizes(
+        prevSelected =>
+          prevSelected.includes(size)
+            ? prevSelected.filter(s => s !== size) // Deselect
+            : [...prevSelected, size] // Select
+      )
     }
-  };
+  }
 
-  const isSizeSelected = (size) => (selectAll ? true : selectedSizes.includes(size));
+  const isSizeSelected = size =>
+    selectAll ? true : selectedSizes.includes(size)
 
   const filteredItems = selectAll
     ? data
-    : data.filter((item) => selectedSizes.includes(item.name));
+    : data.filter(item => selectedSizes.includes(item.name))
 
   const ModalBanhang = ({ isOpen, onClose, children }) => {
-    if (!isOpen) return null;
+    if (!isOpen) return null
 
     return ReactDOM.createPortal(
-      <div className="modal-overlay-banhang" onClick={onClose}>
-        <div className="modal-content-banhang" onClick={(e) => e.stopPropagation()}>
-          <button className="modal-close" onClick={onClose}>
+      <div className='modal-overlay-banhang' onClick={onClose}>
+        <div
+          className='modal-content-banhang'
+          onClick={e => e.stopPropagation()}
+        >
+          <button className='modal-close' onClick={onClose}>
             <FontAwesomeIcon icon={faXmark} />
           </button>
           {children}
         </div>
       </div>,
       document.body
-    );
-  };
+    )
+  }
 
   return (
     <ModalBanhang isOpen={isOpen} onClose={onClose}>
-      <div className="modal-header">
+      <div className='modal-header'>
         <img
-          src="https://png.pngtree.com/png-clipart/20220125/original/pngtree-illustration-vector-design-of-shop-market-png-image_7224159.png"
-          alt="Product"
-          className="product-icon"
+          src='https://png.pngtree.com/png-clipart/20220125/original/pngtree-illustration-vector-design-of-shop-market-png-image_7224159.png'
+          alt='Product'
+          className='product-icon'
         />
         <div>
           <h2>Chi tiết sản phẩm</h2>
@@ -83,37 +90,39 @@ console.log(product)
         </div>
       </div>
 
-      <div className="modal-body">
-        <div className="size-selector">
+      <div className='modal-body'>
+        <div className='size-selector'>
           <button
             onClick={() => handleSizeSelect('all')}
             className={`size-btn ${selectAll ? 'selected1' : ''}`}
           >
             Tất cả
           </button>
-          {data.map((item) => (
+          {data.map(item => (
             <button
               key={item.name}
               onClick={() => handleSizeSelect(item.name)}
-              className={`size-btn ${isSizeSelected(item.name) ? 'selected1' : ''}`}
+              className={`size-btn ${
+                isSizeSelected(item.name) ? 'selected1' : ''
+              }`}
             >
               {item.name} ({item.tonkho})
             </button>
           ))}
         </div>
 
-        <div className="table-container">
+        <div className='table-container'>
           {filteredItems.length === 0 ? (
-            <div className="no-selection-message">
+            <div className='no-selection-message'>
               <img
-                src="https://png.pngtree.com/png-clipart/20230807/original/pngtree-cartoon-illustration-of-a-man-carrying-a-heavy-box-while-walking-created-using-vector-handdrawn-technique-vector-picture-image_10079648.png"
-                alt="No selection"
-                className="no-selection-image"
+                src='https://png.pngtree.com/png-clipart/20230807/original/pngtree-cartoon-illustration-of-a-man-carrying-a-heavy-box-while-walking-created-using-vector-handdrawn-technique-vector-picture-image_10079648.png'
+                alt='No selection'
+                className='no-selection-image'
               />
               <p>Vui lòng chọn hàng hóa và kích thước</p>
             </div>
           ) : (
-            <table className="modal-table">
+            <table className='modal-table'>
               <thead>
                 <tr>
                   <th>Tên sản phẩm</th>
@@ -122,7 +131,7 @@ console.log(product)
                 </tr>
               </thead>
               <tbody>
-                {filteredItems.map((item) => (
+                {filteredItems.map(item => (
                   <tr key={item.idsku}>
                     <td>{item.tensp}</td>
                     <td>{item.tonkho}</td>
@@ -130,16 +139,16 @@ console.log(product)
                       <Tippy
                         content={
                           <div>
-                            {item.cacKhoKhac.map((store) => (
+                            {item.cacKhoKhac.map(store => (
                               <div key={store.khoId}>
                                 {store.tenkho}: {store.soluong} chiếc
                               </div>
                             ))}
                           </div>
                         }
-                        placement="bottom"
+                        placement='bottom'
                       >
-                        <span className="tooltip-target-wrapper">
+                        <span className='tooltip-target-wrapper'>
                           {item.tongSoLuongCacKhoKhac}
                         </span>
                       </Tippy>
@@ -152,14 +161,14 @@ console.log(product)
         </div>
       </div>
 
-      <div className="modal-footer">
-        <button className="agree-btn">Đồng ý</button>
-        <button className="close-btn" onClick={onClose}>
+      <div className='modal-footer'>
+        <button className='agree-btn'>Đồng ý</button>
+        <button className='close-btn' onClick={onClose}>
           Đóng
         </button>
       </div>
     </ModalBanhang>
-  );
+  )
 }
 
-export default ModalDataScreen;
+export default ModalDataScreen
