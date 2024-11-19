@@ -16,6 +16,10 @@ function ModalXuatKhoFull ({
   const [userID, setuserID] = useState(
     localStorage.getItem('userId') || sessionStorage.getItem('userId') || ''
   )
+  const [khoID, setkhoID] = useState(
+  localStorage.getItem('khoID') || sessionStorage.getItem('khoID') || ''
+)
+
   const [loadingSuppliers, setLoadingSuppliers] = useState(true) // Trạng thái tải dữ liệu
 
   useEffect(() => {
@@ -29,6 +33,19 @@ function ModalXuatKhoFull ({
 
     return () => clearInterval(intervalId)
   }, [localStorage.getItem('userId')])
+
+  useEffect(() => {
+  const intervalId = setInterval(() => {
+    const newkhoID = localStorage.getItem('khoID') || ''
+    if (newkhoID !== khoID) {
+      console.log('Interval detected change, updating khoID:', newkhoID)
+      setkhoID(newkhoID)
+    }
+  }, 1000) // Kiểm tra mỗi giây
+
+  return () => clearInterval(intervalId)
+}, [localStorage.getItem('khoID')])
+
 
   const handleGetKho = async () => {
     try {
@@ -62,7 +79,7 @@ function ModalXuatKhoFull ({
   const postchuyenkho = async () => {
     const idsanpham1 = selectedItems.map(item => item._id)
     try {
-      const response = await fetch(`https://www.ansuataohanoi.com/chuyenkho2`, {
+      const response = await fetch(`http://localhost:8080/chuyenkho2/${khoID}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

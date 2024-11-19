@@ -79,7 +79,7 @@ function DieuChuyenLayout () {
 
     try {
       const response = await fetch(
-        `https://www.ansuataohanoi.com/getdieuchuyen/${khoID}`,
+        `http://localhost:8080/getdieuchuyen/${khoID}`,
         {
           method: 'GET',
           headers: {
