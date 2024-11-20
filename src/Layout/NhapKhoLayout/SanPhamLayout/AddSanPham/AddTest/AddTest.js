@@ -43,7 +43,7 @@ function AddTest ({ isOpen, onClose, fetclohang }) {
   const [suppliers, setSuppliers] = useState([])
   const [loadingSuppliers, setLoadingSuppliers] = useState(true)
   const [khoID, setKhoID] = useState(localStorage.getItem('khoID') || '')
-  const [userID, setuserID] = useState(localStorage.getItem('userId') || '')
+  const [userID, setuserID] = useState(getFromLocalStorage('userId') || '')
 
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false)
   const [isTimePickerOpen, setIsTimePickerOpen] = useState(false)

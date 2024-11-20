@@ -33,7 +33,7 @@ function AddTest2 ({
   resetForm
 }) {
   const [skudata, setSkudata] = useState([])
-  const [userID, setUserID] = useState( getFromLocalStorage('userId') || '')
+  const [userID, setUserID] = useState(getFromLocalStorage('userId') || '')
   const [loadingSuppliers, setLoadingSuppliers] = useState(true)
   const [isTableVisible, setIsTableVisible] = useState(false)
   const { showToast } = useToast()
@@ -68,7 +68,7 @@ function AddTest2 ({
 
   useEffect(() => {
     const intervalId = setInterval(() => {
-      const newuserID =  getFromLocalStorage('userId') || ''
+      const newuserID = getFromLocalStorage('userId') || ''
       if (newuserID !== userID) {
         setUserID(newuserID)
       }
@@ -178,7 +178,7 @@ function AddTest2 ({
   const handleInputChange = (index, field, value) => {
     setRows(prevRows =>
       prevRows.map((row, rowIndex) => {
-        if (rowIndex !== index) return row // Giữ nguyên hàng nếu không phải hàng đang được cập nhật
+        if (rowIndex !== index) return row
 
         const updatedRow = { ...row, [field]: value }
 
@@ -235,7 +235,7 @@ function AddTest2 ({
       setIsClickButton(true)
       try {
         const response = await fetch(
-          `http://locahost:8080/postloaisanpham3`,
+          `https://www.ansuataohanoi.com/postloaisanpham3`,
           {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -458,16 +458,15 @@ function AddTest2 ({
         Cancel={() => setIsCloseHuy(false)}
       />
 
-      <button onClick={submitProducts} 
+      <button
+        onClick={submitProducts}
         className={
-            isClickButton
-              ? 'btnAddNhaCungCap btnadddisabled'
-              : 'btnAddNhaCungCap'
-          }
-          disabled={isClickButton}
-        >
-          {isClickButton ? '...Đang tải dữ liệu' : 'Thêm sản phẩm'}
-        </button>
+          isClickButton ? 'btnAddNhaCungCap btnadddisabled' : 'btnAddNhaCungCap'
+        }
+        disabled={isClickButton}
+      >
+        {isClickButton ? '...Đang tải dữ liệu' : 'Thêm sản phẩm'}
+      </button>
     </>
   )
 }
