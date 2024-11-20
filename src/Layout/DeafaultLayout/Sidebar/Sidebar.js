@@ -30,6 +30,7 @@ function Sidebar ({ isActive, setIsActive }) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const [isDropdownOpenBaoCao, setIsDropdownOpenBaoCao] = useState(false)
   const [isDropdownOpenKho, setIsDropdownOpenKho] = useState(false)
+  const khoID = localStorage.getItem('khoID')
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen)
@@ -91,25 +92,20 @@ function Sidebar ({ isActive, setIsActive }) {
   return (
     <div className={`navigation ${isActive ? 'active' : ''}`}>
       <div className='a'>
-  <a href='#' className='link'>
-    <img
-      className='fonticon'
-      src={require('../../../assets/images/LOGO.png')}
-      alt='icon'
-    />
-    <span className='title'>
-      BICRAFT
-    </span>
-  </a>
-</div>
-
+        <a href='#' className='link'>
+          <img
+            className='fonticon'
+            src={require('../../../assets/images/LOGO.png')}
+            alt='icon'
+          />
+          <span className='title'>BICRAFT</span>
+        </a>
+      </div>
 
       <ul>
-       
         <li
-         className={`litong ${activeItem === '/home' ? 'hovered' : ''}`}
+          className={`litong ${activeItem === '/home' ? 'hovered' : ''}`}
           onClick={() => handleItemClick('/home')}
-
         >
           <Link to={'/home'}>
             <a>
@@ -148,7 +144,9 @@ function Sidebar ({ isActive, setIsActive }) {
           {isDropdownOpenBaoCao && (
             <ul className='dropdown-menu'>
               <li
-                className={`litong ${activeItem === '/doanhthu' ? 'hovered' : ''}`}
+                className={`litong ${
+                  activeItem === '/doanhthu' ? 'hovered' : ''
+                }`}
                 onClick={() => handleItemClick('/doanhthu')}
               >
                 <Link to={'/doanhthu'}>
@@ -161,7 +159,9 @@ function Sidebar ({ isActive, setIsActive }) {
                 </Link>
               </li>
               <li
-               className={`litong ${activeItem === '/baocaokho' ? 'hovered' : ''}`}
+                className={`litong ${
+                  activeItem === '/baocaokho' ? 'hovered' : ''
+                }`}
                 onClick={() => handleItemClick('/baocaokho')}
               >
                 <Link to={'/baocaokho'}>
@@ -180,7 +180,7 @@ function Sidebar ({ isActive, setIsActive }) {
           )}
         </li>
         <li
-         className={`litong ${activeItem === '/nhacungcap' ? 'hovered' : ''}`}
+          className={`litong ${activeItem === '/nhacungcap' ? 'hovered' : ''}`}
           onClick={() => handleItemClick('/nhacungcap')}
         >
           <Link to={'/nhacungcap'}>
@@ -193,7 +193,7 @@ function Sidebar ({ isActive, setIsActive }) {
           </Link>
         </li>
 
-        <li className = 'litong1'>
+        <li className='litong1'>
           <a onClick={toggleDropdownKho}>
             <span className='icon'>
               <FontAwesomeIcon className='fonticon' icon={faLandmark} />
@@ -207,7 +207,9 @@ function Sidebar ({ isActive, setIsActive }) {
           {isDropdownOpenKho && (
             <ul className='dropdown-menu'>
               <li
-               className={`litong ${activeItem === '/nhapkho' ? 'hovered' : ''}`}
+                className={`litong ${
+                  activeItem === '/nhapkho' ? 'hovered' : ''
+                }`}
                 onClick={() => handleItemClick('/nhapkho')}
               >
                 <Link to={'/nhapkho'}>
@@ -220,7 +222,9 @@ function Sidebar ({ isActive, setIsActive }) {
                 </Link>
               </li>
               <li
-                className={`litong ${activeItem === '/xuatkho' ? 'hovered' : ''}`}
+                className={`litong ${
+                  activeItem === '/xuatkho' ? 'hovered' : ''
+                }`}
                 onClick={() => handleItemClick('/xuatkho')}
               >
                 <Link to={'/xuatkho'}>
@@ -236,7 +240,9 @@ function Sidebar ({ isActive, setIsActive }) {
                 </Link>
               </li>
               <li
-                className={`litong ${activeItem === '/dieuchuyen' ? 'hovered' : ''}`}
+                className={`litong ${
+                  activeItem === '/dieuchuyen' ? 'hovered' : ''
+                }`}
                 onClick={() => handleItemClick('/dieuchuyen')}
               >
                 <Link to={'/dieuchuyen'}>
@@ -262,26 +268,35 @@ function Sidebar ({ isActive, setIsActive }) {
           <Link to={'/hoadon'}>
             <a>
               <span className='icon'>
-                <FontAwesomeIcon className='fonticon' icon={faFileInvoiceDollar} />
+                <FontAwesomeIcon
+                  className='fonticon'
+                  icon={faFileInvoiceDollar}
+                />
               </span>
               <span className='title'>Hóa Đơn</span>
             </a>
           </Link>
         </li>
         <li
-  className={`litong ${activeItem === '/banhang' ? 'hovered' : ''}`}
-  onClick={() => handleItemClick('/banhang')}
->
-  <a href="/banhang" target="_blank" rel="noopener noreferrer">
-    <span className='icon'>
-      <FontAwesomeIcon className='fonticon' icon={faFileInvoiceDollar} />
-    </span>
-    <span className='title'>Bán Hàng</span>
-  </a>
-</li>
+          className={`litong ${activeItem === '/banhang' ? 'hovered' : ''}`}
+          onClick={() => {
+            localStorage.setItem('khoIDBH', khoID)
+            handleItemClick('/banhang')
+          }}
+        >
+          <a href='/banhang' target='_blank' rel='noopener noreferrer'>
+            <span className='icon'>
+              <FontAwesomeIcon
+                className='fonticon'
+                icon={faFileInvoiceDollar}
+              />
+            </span>
+            <span className='title'>Bán Hàng</span>
+          </a>
+        </li>
 
         <li
-         className={`litong ${activeItem === '/trogiup' ? 'hovered' : ''}`}
+          className={`litong ${activeItem === '/trogiup' ? 'hovered' : ''}`}
           onClick={() => handleItemClick('/trogiup')}
         >
           <Link to={'/trogiup'}>
@@ -294,7 +309,9 @@ function Sidebar ({ isActive, setIsActive }) {
           </Link>
         </li>
         <li
-         className={`litong ${activeItem === '/testlungtung' ? 'hovered' : ''}`}
+          className={`litong ${
+            activeItem === '/testlungtung' ? 'hovered' : ''
+          }`}
           onClick={() => handleItemClick('/testlungtung')}
         >
           <Link to={'/testlungtung'}>
@@ -306,7 +323,9 @@ function Sidebar ({ isActive, setIsActive }) {
             </a>
           </Link>
         </li>
-        <li className={`litong1 ${activeItem === '/thietlap' ? 'hovered' : ''}`}>
+        <li
+          className={`litong1 ${activeItem === '/thietlap' ? 'hovered' : ''}`}
+        >
           <a onClick={toggleDropdown}>
             <span className='icon'>
               <FontAwesomeIcon className='fonticon' icon={faGear} />
@@ -322,7 +341,9 @@ function Sidebar ({ isActive, setIsActive }) {
           {isDropdownOpen && (
             <ul className='dropdown-menu'>
               <li
-                className={`litong ${activeItem === '/thietlap' ? 'hovered' : ''}`}
+                className={`litong ${
+                  activeItem === '/thietlap' ? 'hovered' : ''
+                }`}
                 onClick={() => handleItemClick('/thietlap')}
               >
                 <Link to={'/thietlap'}>
@@ -335,7 +356,9 @@ function Sidebar ({ isActive, setIsActive }) {
                 </Link>
               </li>
               <li
-                className={`litong ${activeItem === '/thietlap/baomat' ? 'hovered' : ''}`}
+                className={`litong ${
+                  activeItem === '/thietlap/baomat' ? 'hovered' : ''
+                }`}
                 onClick={() => handleItemClick('/thietlap/baomat')}
               >
                 <Link to={'/thietlap/baomat'}>
