@@ -4,7 +4,7 @@ import axios from 'axios';
 import { FaBell, FaUser, FaBarcode, FaShoppingCart, FaUserTag } from "react-icons/fa";
 import { MdSearch } from "react-icons/md";
 import ModalDataScreen from './DetailData';
-import ModalThemImel from '../BanHangLayout/ModalThemImel/ModalThemImel'; 
+import ModalThemImel from '../BanHangLayout/ModalThemImel/ModalThemImel';
 import HeaderBanHang from '../BanHangLayout/HeaderBanHang/HeaderBanHang';
 import { getFromLocalStorage } from '~/components/MaHoaLocalStorage/MaHoaLocalStorage';
 
@@ -19,9 +19,14 @@ function BanHangLayout() {
   const [products, setProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [selectedItems, setSelectedItems] = useState([]);
+  const [allSelectedImeis, setAllSelectedImeis] = useState([]);
 
   const handleItemsSelected = (items) => {
-    setSelectedItems(items);
+    const updatedItems = items.map((item) => ({
+      ...item,
+      selectedImeis: item.selectedImeis || [], // Khởi tạo mảng rỗng nếu chưa có
+    }));
+    setSelectedItems(updatedItems);
   };
   // Lấy userId và khoId từ localStorage
   const userId = getFromLocalStorage('userId') || '';
@@ -56,6 +61,44 @@ function BanHangLayout() {
     setImeiList([]);
     setSelectedSku(null);
   };
+  const handleImeiConfirm = (selectedImeis) => {
+    setSelectedItems((prevItems) =>
+      prevItems.map((item) =>
+        item.idsku === selectedSku
+          ? {
+              ...item,
+              selectedImeis: selectedImeis || [], // Gán các IMEI đã chọn
+              soluong: (selectedImeis || []).length, // Cập nhật số lượng
+            }
+          : item
+      )
+    );
+  
+    // Chỉ thêm các IMEI chưa có trong danh sách allSelectedImeis
+    setAllSelectedImeis((prev) => [
+      ...prev,
+      ...selectedImeis.filter((imei) => !prev.includes(imei)),
+    ]);
+  };
+  
+  const handleRemoveImei = (idSku, imeiToRemove) => {
+    setSelectedItems((prevItems) =>
+      prevItems.map((item) =>
+        item.idsku === idSku
+          ? {
+              ...item,
+              selectedImeis: item.selectedImeis.filter((imei) => imei !== imeiToRemove),
+              soluong: item.selectedImeis.length - 1, // Cập nhật lại số lượng
+            }
+          : item
+      )
+    );
+  
+    // Xóa IMEI khỏi allSelectedImeis để đảm bảo logic hoạt động đúng
+    setAllSelectedImeis((prev) => prev.filter((imei) => imei !== imeiToRemove));
+  };
+  
+  
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -119,33 +162,55 @@ function BanHangLayout() {
                 </thead>
                 <tbody>
                   {selectedItems.map((item, index) => (
-                    <tr key={item.idsku}>
-                      <td>{index + 1}</td>
-                      <td>{item.idsku}</td>
-                      <td>
-                        {item.tensp}
-                        <button
-                          className="select-serial-btn"
-                          onClick={() => handleOpenModal(item.idsku)}
-                        >
-                          Chọn Serial/IMEI
-                        </button>
-                      </td>
-                      <td>{item.soluong}</td>
-                      <td>{item.dvt}</td>
-                      <td>222</td>
-                      <td>222</td>
-                      <td>
-                        <button
-                          className="remove-btn"
-                          onClick={() => handleRemove(item.idsku)}
-                        >
-                          X
-                        </button>
-                      </td>
-                    </tr>
+                    <React.Fragment key={item.idsku}>
+                      <tr>
+                        <td>{index + 1}</td>
+                        <td>{item.idsku}</td>
+                        <td>
+  {item.tensp}
+  <br />
+  <div className="selected-imeis">
+    {item.selectedImeis && item.selectedImeis.length > 0 ? (
+      item.selectedImeis.map((imei, index) => (
+        <button
+          key={index}
+          className="imei-btn"
+          onClick={() => handleRemoveImei(item.idsku, imei)}
+        >
+          {imei} ✕
+        </button>
+      ))
+    ) : (
+      "Chưa chọn IMEI"
+    )}
+  </div>
+  <button
+    className="select-serial-btn"
+    onClick={() => handleOpenModal(item.idsku)}
+  >
+    Chọn Serial/IMEI
+  </button>
+</td>
+
+                        <td>{item.soluong}</td>
+                        <td>{item.dvt}</td>
+                        <td>222</td>
+                        <td>222</td>
+                        <td>
+                          <button
+                            className="remove-btn"
+                            onClick={() => handleRemove(item.idsku)}
+                          >
+                            X
+                          </button>
+                        </td>
+                      </tr>
+
+
+                    </React.Fragment>
                   ))}
                 </tbody>
+
               </table>
             </div>
           </div>
@@ -185,22 +250,14 @@ function BanHangLayout() {
         />
       )}
 
-      {/* Sử dụng Modal thay vì modal tùy chỉnh */}
-      <ModalThemImel
-        isOpen={isModalOpen}
-        onClose={handleCloseModal}
-        title={`Danh sách Serial/IMEI cho SKU: ${selectedSku}`}
-      >
-        {imeiList.length > 0 ? (
-          <ul>
-            {imeiList.map((imei, index) => (
-              <li key={index}>{imei.imel || "Không có thông tin IMEI"}</li>
-            ))}
-          </ul>
-        ) : (
-          <p>Không có dữ liệu IMEI hoặc đang tải...</p>
-        )}
-      </ModalThemImel>
+<ModalThemImel
+  isOpen={isModalOpen}
+  onClose={handleCloseModal}
+  imeiList={imeiList}
+  onConfirm={handleImeiConfirm}
+  allSelectedImeis={allSelectedImeis} // Truyền danh sách IMEI đã chọn
+/>
+
     </div>
   );
 }

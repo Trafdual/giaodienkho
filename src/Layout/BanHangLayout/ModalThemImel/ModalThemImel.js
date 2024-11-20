@@ -1,18 +1,39 @@
-import React from "react";
+import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import Draggable from "react-draggable";
 import "./ModalThemImel.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark, faSyncAlt } from "@fortawesome/free-solid-svg-icons";
 
-const ModalThemImel = ({ isOpen, onClose, onConfirm, children }) => {
+const ModalThemImel = ({ isOpen, onClose, imeiList, onConfirm, allSelectedImeis }) => {
+  const [selectedImeis, setSelectedImeis] = useState([]);
+
   if (!isOpen) return null;
 
+  const handleCheckboxChange = (e, imei) => {
+    if (e.target.checked) {
+      setSelectedImeis((prev) => [...prev, imei]);
+    } else {
+      setSelectedImeis((prev) => prev.filter((imel) => imel !== imei));
+    }
+  };
+
+  const handleConfirm = () => {
+    onConfirm(selectedImeis);
+    onClose(); // Đóng modal sau khi chọn
+  };
+  const filteredImeis = imeiList.filter(
+    (imei) => !allSelectedImeis.includes(imei.imel) // Loại bỏ IMEI đã chọn
+  );
+
+
   return ReactDOM.createPortal(
-    <div className="ModalThemImel-overlay">
+    <div className="ModalThemImel-overlay" onClick={onClose}>
       <Draggable handle=".ModalThemImel-header">
-        <div className="ModalThemImel-content" onClick={(e) => e.stopPropagation()}>
-          {/* Header */}
+        <div
+          className="ModalThemImel-content"
+          onClick={(e) => e.stopPropagation()}
+        >
           <div className="ModalThemImel-header">
             <h3 className="ModalThemImel-title">
               Serial/IMEI
@@ -23,22 +44,31 @@ const ModalThemImel = ({ isOpen, onClose, onConfirm, children }) => {
             </button>
           </div>
 
-          {/* Body */}
           <div className="ModalThemImel-body">
-            <div className="ModalThemImel-info">
-              <span>XS (256) (0/1)</span>
-            </div>
-            <div className="ModalThemImel-search">
-              <input type="text" placeholder="Tìm serial/IMEI..." />
-            </div>
             <div className="ModalThemImel-list">
-              {children }
+              <ul>
+                {filteredImeis.map((imei, index) => (
+                  <li key={index}>
+                    <label>
+                      <input
+                        type="checkbox"
+                        value={imei.imel}
+                        onChange={(e) => handleCheckboxChange(e, imei.imel)}
+                      />
+                      {typeof imei.imel === "string" || typeof imei.imel === "number"
+                        ? imei.imel
+                        : JSON.stringify(imei.imel) || "Không có thông tin IMEI"}
+                    </label>
+                  </li>
+                ))}
+              </ul>
+
             </div>
+
           </div>
 
-          {/* Footer */}
           <div className="ModalThemImel-footer">
-            <button className="ModalThemImel-confirm" onClick={onConfirm}>
+            <button className="ModalThemImel-confirm" onClick={handleConfirm}>
               Đồng ý
             </button>
             <button className="ModalThemImel-cancel" onClick={onClose}>
