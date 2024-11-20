@@ -20,41 +20,7 @@ function HeaderBanHang ({ userId }) {
   const [isDropdownVisible, setDropdownVisible] = useState(false)
   const [selectedKho, setSelectedKho] = useState(null)
   const dropdownRef = useRef(null)
-  const khoID = localStorage.getItem('khoID')
-
   const navigate = useNavigate()
-
-  useEffect(() => {
-    if (khoID) {
-      const khoIDBH = localStorage.getItem('khoIDBH')
-      if (!khoIDBH) {
-        localStorage.setItem('khoIDBH', khoID)
-      }
-    }
-  }, [khoID])
-
-useEffect(() => {
-  const handleVisibilityChange = () => {
-    if (document.visibilityState === 'hidden') {
-      console.log('Tab bị ẩn, không xóa khoIDBH.')
-    }
-  }
-
-  const clearKhoIDBH = () => {
-    const isHidden = document.visibilityState === 'hidden'
-    if (!isHidden) {
-      localStorage.setItem('khoIDBH', '') // Chỉ xóa khi tab bị tắt hẳn
-    }
-  }
-
-  document.addEventListener('visibilitychange', handleVisibilityChange)
-  window.addEventListener('beforeunload', clearKhoIDBH)
-
-  return () => {
-    document.removeEventListener('visibilitychange', handleVisibilityChange)
-    window.removeEventListener('beforeunload', clearKhoIDBH)
-  }
-}, [])
 
 
   useEffect(() => {
@@ -91,6 +57,7 @@ useEffect(() => {
     setSelectedKho(kho)
     setDropdownVisible(false)
     localStorage.setItem('khoIDBH', kho._id)
+    window.location.reload()
   }
   useEffect(() => {
     const storedKhoID = localStorage.getItem('khoIDBH')
