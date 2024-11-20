@@ -79,11 +79,11 @@ function Login () {
           const name = data.data.user[0].name
           if (rememberMe) {
             localStorage.setItem('token', data.token)
-            localStorage.setItem('userId', userId)
+            saveToLocalStorage('userId', userId)
             saveToLocalStorage('name', name)
           } else {
             sessionStorage.setItem('token', data.token)
-            sessionStorage.setItem('userId', userId)
+            saveToLocalStorage('userId', userId)
             saveToLocalStorage('name', name)
           }
           showToast('Đăng nhập thành công!')

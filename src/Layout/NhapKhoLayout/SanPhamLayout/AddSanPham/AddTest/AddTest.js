@@ -14,6 +14,7 @@ import { ModalBig } from '~/components/ModalBig'
 import './AddTest.scss'
 import { ModalAddNganHang } from '~/Layout/NhapKhoLayout/AddLoHang/ModalAddNganHang'
 import { ModalAddNhaCungCap } from '~/Layout/NhapKhoLayout/ModalAddNhaCungCap'
+import { getFromLocalStorage } from '~/components/MaHoaLocalStorage/MaHoaLocalStorage'
 
 
 function AddTest ({ isOpen, onClose, fetclohang }) {
@@ -117,7 +118,7 @@ function AddTest ({ isOpen, onClose, fetclohang }) {
 
   useEffect(() => {
     const intervalId = setInterval(() => {
-      const newuserID = localStorage.getItem('userId') || ''
+      const newuserID =  getFromLocalStorage('userId') || ''
       if (newuserID !== userID) {
         console.log('Interval detected change, updating khoID:', newuserID)
         setuserID(newuserID)
@@ -125,7 +126,7 @@ function AddTest ({ isOpen, onClose, fetclohang }) {
     }, 1000) // Kiểm tra mỗi giây
 
     return () => clearInterval(intervalId)
-  }, [localStorage.getItem('userId')])
+  }, [ getFromLocalStorage('userId')])
 
   const fetchSuppliers = async () => {
     try {

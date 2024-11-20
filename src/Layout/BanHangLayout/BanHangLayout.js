@@ -5,6 +5,7 @@ import { FaBell, FaUser, FaBarcode, FaShoppingCart, FaUserTag } from "react-icon
 import { MdSearch } from "react-icons/md";
 import ModalDataScreen from './DetailData';
 import HeaderBanHang from '../BanHangLayout/HeaderBanHang/HeaderBanHang';
+import { getFromLocalStorage } from '~/components/MaHoaLocalStorage/MaHoaLocalStorage';
 function BanHangLayout() {
   const [isModalOpen, setModalOpen] = useState(false);
   const [imeiList, setImeiList] = useState([]);
@@ -18,7 +19,7 @@ function BanHangLayout() {
     setSelectedItems(items);
   };
   // Lấy userId và khoId từ localStorage
-  const userId = localStorage.getItem('userId') || '';
+  const userId = getFromLocalStorage('userId') || '';
   const idkho1 = localStorage.getItem('khoIDBH');
   console.log("Dữ liệu kho id", idkho1);
 

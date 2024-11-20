@@ -1,78 +1,97 @@
-import React, { useState, useEffect } from 'react';
-import ReactDOM from 'react-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faXmark } from '@fortawesome/free-solid-svg-icons';
-import './DetailData.scss';
-import Tippy from '@tippyjs/react';
-import 'tippy.js/dist/tippy.css';
-import axios from 'axios';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useState, useEffect } from 'react'
+import ReactDOM from 'react-dom'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faXmark } from '@fortawesome/free-solid-svg-icons'
+import './DetailData.scss'
+import Tippy from '@tippyjs/react'
+import 'tippy.js/dist/tippy.css'
+import axios from 'axios'
 
-function ModalDataScreen({ isOpen, onClose, userId, product, onItemsSelected }) {
-  const [data, setData] = useState([]); // Dữ liệu sản phẩm
-  const [selectedSizes, setSelectedSizes] = useState([]); // Kích thước đã chọn
-  const [selectAll, setSelectAll] = useState(false); // Chức năng chọn tất cả
-  const [selectedProducts, setSelectedProducts] = useState([]); // Các sản phẩm đã chọn
-  const khoId1 = localStorage.getItem('khoIDBH') || '';
+function ModalDataScreen ({
+  isOpen,
+  onClose,
+  userId,
+  product,
+  onItemsSelected
+}) {
+  const [data, setData] = useState([]) // Dữ liệu sản phẩm
+  const [selectedSizes, setSelectedSizes] = useState([]) // Kích thước đã chọn
+  const [selectAll, setSelectAll] = useState(false) // Chức năng chọn tất cả
+  const [selectedProducts, setSelectedProducts] = useState([]) // Các sản phẩm đã chọn
+  const khoId1 = localStorage.getItem('khoIDBH') || ''
   useEffect(() => {
     if (isOpen) {
       axios
-        .get(`https://www.ansuataohanoi.com/banhang/${product._id}/${khoId1}/${userId}`)
+        .get(
+          `https://www.ansuataohanoi.com/banhang/${product._id}/${khoId1}/${userId}`
+        )
         .then(response => {
-          setData(response.data);
-  console.log(response.data);
-
+          setData(response.data)
+          console.log(response.data)
         })
         .catch(error => {
-          console.error('Error fetching data:', error);
-        });
+          console.error('Error fetching data:', error)
+        })
     }
-  }, [isOpen, product._id, userId]);
+  }, [isOpen, product._id, userId])
 
   // Hàm xử lý chọn kích thước
-  const handleSizeSelect = (size) => {
+  const handleSizeSelect = size => {
     if (size === 'all') {
-      setSelectAll(!selectAll); // Toggle "Chọn tất cả"
+      setSelectAll(!selectAll) // Toggle "Chọn tất cả"
       if (!selectAll) {
-        setSelectedSizes(data.map(item => item.name)); // Chọn tất cả kích thước
+        setSelectedSizes(data.map(item => item.name)) // Chọn tất cả kích thước
       } else {
-        setSelectedSizes([]); // Bỏ chọn tất cả
+        setSelectedSizes([]) // Bỏ chọn tất cả
       }
     } else {
-      setSelectAll(false);
-      setSelectedSizes(prevSelected =>
-        prevSelected.includes(size)
-          ? prevSelected.filter(s => s !== size) // Bỏ chọn
-          : [...prevSelected, size] // Chọn
-      );
+      setSelectAll(false)
+      setSelectedSizes(
+        prevSelected =>
+          prevSelected.includes(size)
+            ? prevSelected.filter(s => s !== size) // Bỏ chọn
+            : [...prevSelected, size] // Chọn
+      )
     }
-  };
+  }
 
-  const isSizeSelected = (size) => selectAll ? true : selectedSizes.includes(size);
+  const isSizeSelected = size =>
+    selectAll ? true : selectedSizes.includes(size)
 
   // Hàm xử lý chọn sản phẩm
-  const handleProductSelect = (item) => {
-    const isSelected = selectedProducts.includes(item.idsku);
+  const handleProductSelect = item => {
+    const isSelected = selectedProducts.includes(item.idsku)
     if (isSelected) {
-      setSelectedProducts(selectedProducts.filter(productId => productId !== item.idsku)); // Bỏ chọn
+      setSelectedProducts(
+        selectedProducts.filter(productId => productId !== item.idsku)
+      ) // Bỏ chọn
     } else {
-      setSelectedProducts([...selectedProducts, item.idsku]); // Chọn sản phẩm
+      setSelectedProducts([...selectedProducts, item.idsku]) // Chọn sản phẩm
     }
-  };
+  }
 
-  const filteredItems = selectAll ? data : data.filter(item => selectedSizes.includes(item.name));
+  const filteredItems = selectAll
+    ? data
+    : data.filter(item => selectedSizes.includes(item.name))
 
   // Hàm khi bấm "Đồng ý" để gửi dữ liệu đã chọn
   const handleAgree = () => {
-    const selectedItems = data.filter(item => selectedProducts.includes(item.idsku));
-    onItemsSelected(selectedItems); // Pass selected items back to parent
-    onClose(); // Close the modal
-  };
+    const selectedItems = data.filter(item =>
+      selectedProducts.includes(item.idsku)
+    )
+    onItemsSelected(selectedItems) // Pass selected items back to parent
+    onClose() // Close the modal
+  }
 
   const ModalBanhang = ({ isOpen, onClose, children }) => {
-    if (!isOpen) return null;
+    if (!isOpen) return null
     return ReactDOM.createPortal(
       <div className='modal-overlay-banhang' onClick={onClose}>
-        <div className='modal-content-banhang' onClick={e => e.stopPropagation()}>
+        <div
+          className='modal-content-banhang'
+          onClick={e => e.stopPropagation()}
+        >
           <button className='modal-close' onClick={onClose}>
             <FontAwesomeIcon icon={faXmark} />
           </button>
@@ -80,8 +99,8 @@ function ModalDataScreen({ isOpen, onClose, userId, product, onItemsSelected }) 
         </div>
       </div>,
       document.body
-    );
-  };
+    )
+  }
 
   return (
     <ModalBanhang isOpen={isOpen} onClose={onClose}>
@@ -109,7 +128,9 @@ function ModalDataScreen({ isOpen, onClose, userId, product, onItemsSelected }) 
             <button
               key={item.name}
               onClick={() => handleSizeSelect(item.name)}
-              className={`size-btn ${isSizeSelected(item.name) ? 'selected1' : ''}`}
+              className={`size-btn ${
+                isSizeSelected(item.name) ? 'selected1' : ''
+              }`}
             >
               {item.name} ({item.tonkho})
             </button>
@@ -132,13 +153,17 @@ function ModalDataScreen({ isOpen, onClose, userId, product, onItemsSelected }) 
                 <tr>
                   <th>
                     <input
-                      type="checkbox"
-                      checked={filteredItems.every(item => selectedProducts.includes(item.idsku))}
+                      type='checkbox'
+                      checked={filteredItems.every(item =>
+                        selectedProducts.includes(item.idsku)
+                      )}
                       onChange={() => {
                         if (selectedProducts.length === filteredItems.length) {
-                          setSelectedProducts([]); // Bỏ chọn tất cả
+                          setSelectedProducts([]) // Bỏ chọn tất cả
                         } else {
-                          setSelectedProducts(filteredItems.map(item => item.idsku)); // Chọn tất cả sản phẩm
+                          setSelectedProducts(
+                            filteredItems.map(item => item.idsku)
+                          ) // Chọn tất cả sản phẩm
                         }
                       }}
                     />
@@ -153,7 +178,7 @@ function ModalDataScreen({ isOpen, onClose, userId, product, onItemsSelected }) 
                   <tr key={item.idsku}>
                     <td>
                       <input
-                        type="checkbox"
+                        type='checkbox'
                         checked={selectedProducts.includes(item.idsku)}
                         onChange={() => handleProductSelect(item)} // Chọn lẻ sản phẩm
                       />
@@ -187,11 +212,15 @@ function ModalDataScreen({ isOpen, onClose, userId, product, onItemsSelected }) 
       </div>
 
       <div className='modal-footer'>
-        <button className='agree-btn' onClick={handleAgree}>Đồng ý</button>
-        <button className='close-btn' onClick={onClose}>Đóng</button>
+        <button className='agree-btn' onClick={handleAgree}>
+          Đồng ý
+        </button>
+        <button className='close-btn' onClick={onClose}>
+          Đóng
+        </button>
       </div>
     </ModalBanhang>
-  );
+  )
 }
 
-export default ModalDataScreen;
+export default ModalDataScreen

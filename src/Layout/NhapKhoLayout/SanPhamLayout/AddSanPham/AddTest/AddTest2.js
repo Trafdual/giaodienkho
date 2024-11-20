@@ -14,6 +14,7 @@ import { ModalOnClose } from '~/components/ModalOnClose'
 import { ModalAddSku } from './ModalAddSku'
 import { FormAddImel } from '../FormAddImel'
 import '~/components/Loadingnut/loadingnut.scss'
+import { getFromLocalStorage } from '~/components/MaHoaLocalStorage/MaHoaLocalStorage'
 
 function AddTest2 ({
   fetchlohang,
@@ -32,7 +33,7 @@ function AddTest2 ({
   resetForm
 }) {
   const [skudata, setSkudata] = useState([])
-  const [userID, setUserID] = useState(localStorage.getItem('userId') || '')
+  const [userID, setUserID] = useState( getFromLocalStorage('userId') || '')
   const [loadingSuppliers, setLoadingSuppliers] = useState(true)
   const [isTableVisible, setIsTableVisible] = useState(false)
   const { showToast } = useToast()
@@ -67,7 +68,7 @@ function AddTest2 ({
 
   useEffect(() => {
     const intervalId = setInterval(() => {
-      const newuserID = localStorage.getItem('userId') || ''
+      const newuserID =  getFromLocalStorage('userId') || ''
       if (newuserID !== userID) {
         setUserID(newuserID)
       }

@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react'
 import { useToast } from '../../../../components/GlobalStyles/ToastContext'
 import { Modal } from '../../../../components/Modal'
+import { getFromLocalStorage } from '~/components/MaHoaLocalStorage/MaHoaLocalStorage'
 function ModalChuyenKhoFull ({
   isOpen,
   onClose,
@@ -15,13 +16,14 @@ function ModalChuyenKhoFull ({
   const [datakho, setdatakho] = useState([])
   const [tenkho, setTenkho] = useState('')
   const [userID, setuserID] = useState(
-    localStorage.getItem('userId') || sessionStorage.getItem('userId') || ''
+  getFromLocalStorage('userId')
+
   )
   const [loadingSuppliers, setLoadingSuppliers] = useState(true) // Trạng thái tải dữ liệu
 
   useEffect(() => {
     const intervalId = setInterval(() => {
-      const newuserID = localStorage.getItem('userId') || ''
+      const newuserID =  getFromLocalStorage('userId') || ''
       if (newuserID !== userID) {
         console.log('Interval detected change, updating khoID:', newuserID)
         setuserID(newuserID)
@@ -29,7 +31,7 @@ function ModalChuyenKhoFull ({
     }, 1000) // Kiểm tra mỗi giây
 
     return () => clearInterval(intervalId)
-  }, [localStorage.getItem('userId')])
+  }, [ getFromLocalStorage('userId')])
 
   const handleGetKho = async () => {
     try {

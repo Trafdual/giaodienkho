@@ -10,6 +10,7 @@ import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import 'react-time-picker/dist/TimePicker.css'
 import 'react-clock/dist/Clock.css'
+import { getFromLocalStorage } from '~/components/MaHoaLocalStorage/MaHoaLocalStorage'
 
 function ModalTraHang ({ isOpen, onClose, fetchData, imellist }) {
   const [name, setName] = useState('')
@@ -28,7 +29,7 @@ function ModalTraHang ({ isOpen, onClose, fetchData, imellist }) {
   const [suppliers, setSuppliers] = useState([])
   const [loadingSuppliers, setLoadingSuppliers] = useState(true)
   const [khoID, setKhoID] = useState(localStorage.getItem('khoID') || '')
-  const [userID, setuserID] = useState(localStorage.getItem('userId') || '')
+  const [userID, setuserID] = useState( getFromLocalStorage('userId') || '')
 
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false)
   const [isTimePickerOpen, setIsTimePickerOpen] = useState(false)
@@ -49,7 +50,7 @@ function ModalTraHang ({ isOpen, onClose, fetchData, imellist }) {
 
   useEffect(() => {
     const intervalId = setInterval(() => {
-      const newuserID = localStorage.getItem('userId') || ''
+      const newuserID =  getFromLocalStorage('userId') || ''
       if (newuserID !== userID) {
         console.log('Interval detected change, updating khoID:', newuserID)
         setuserID(newuserID)
@@ -57,7 +58,7 @@ function ModalTraHang ({ isOpen, onClose, fetchData, imellist }) {
     }, 1000) // Kiểm tra mỗi giây
 
     return () => clearInterval(intervalId)
-  }, [localStorage.getItem('userId')])
+  }, [ getFromLocalStorage('userId')])
 
   useEffect(() => {
     const fetchSuppliers = async () => {

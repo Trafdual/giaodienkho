@@ -14,7 +14,7 @@ function DefaultLayout ({ children }) {
   const [isActive, setIsActive] = useState(false)
   const [loading, setloading] = useState(true)
   const [userID, setuserID] = useState(
-    localStorage.getItem('userId') || sessionStorage.getItem('userId') || ''
+    getFromLocalStorage('userId')
   )
   const [datakho, setdatakho] = useState([])
 
@@ -23,7 +23,7 @@ function DefaultLayout ({ children }) {
 
   useEffect(() => {
     const intervalId = setInterval(() => {
-      const newuserID = localStorage.getItem('userId') || ''
+      const newuserID =  getFromLocalStorage('userId') || ''
       if (newuserID !== userID) {
         console.log('Interval detected change, updating khoID:', newuserID)
         setuserID(newuserID)
@@ -31,7 +31,7 @@ function DefaultLayout ({ children }) {
     }, 1000) // Kiểm tra mỗi giây
 
     return () => clearInterval(intervalId)
-  }, [localStorage.getItem('userId')])
+  }, [ getFromLocalStorage('userId')])
 
   const handleGetKho = async () => {
     try {
