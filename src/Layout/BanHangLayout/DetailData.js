@@ -15,11 +15,13 @@ function ModalDataScreen ({
   product,
   onItemsSelected
 }) {
-  const [data, setData] = useState([]) // Dữ liệu sản phẩm
-  const [selectedSizes, setSelectedSizes] = useState([]) // Kích thước đã chọn
-  const [selectAll, setSelectAll] = useState(false) // Chức năng chọn tất cả
-  const [selectedProducts, setSelectedProducts] = useState([]) // Các sản phẩm đã chọn
+  const [data, setData] = useState([])
+  const [selectedSizes, setSelectedSizes] = useState([])
+  const [selectAll, setSelectAll] = useState(false)
+  const [selectedProducts, setSelectedProducts] = useState([])
   const khoId1 = localStorage.getItem('khoIDBH') || ''
+  const [selectedProductsBySku, setSelectedProductsBySku] = useState({})
+
   useEffect(() => {
     if (isOpen) {
       axios
@@ -28,20 +30,38 @@ function ModalDataScreen ({
         )
         .then(response => {
           setData(response.data)
-          console.log(response.data)
+
+          // Khôi phục danh sách đã chọn cho sản phẩm mới (nếu có)
+          setSelectedProducts(selectedProductsBySku[product._id] || [])
         })
         .catch(error => {
           console.error('Error fetching data:', error)
         })
     }
+
+    return () => {
+      setSelectedProductsBySku(prevState => {
+        const currentSelection = prevState[product._id] || []
+        // Chỉ cập nhật nếu danh sách thực sự thay đổi
+        if (
+          selectedProducts.length !== currentSelection.length ||
+          !selectedProducts.every(item => currentSelection.includes(item))
+        ) {
+          return {
+            ...prevState,
+            [product._id]: selectedProducts
+          }
+        }
+        return prevState
+      })
+    }
   }, [isOpen, product._id, userId])
 
-  // Hàm xử lý chọn kích thước
   const handleSizeSelect = size => {
     if (size === 'all') {
-      setSelectAll(!selectAll) // Toggle "Chọn tất cả"
+      setSelectAll(!selectAll)
       if (!selectAll) {
-        setSelectedSizes(data.map(item => item.name)) // Chọn tất cả kích thước
+        setSelectedSizes(data.map(item => item.name))
       } else {
         setSelectedSizes([]) // Bỏ chọn tất cả
       }
@@ -59,29 +79,37 @@ function ModalDataScreen ({
   const isSizeSelected = size =>
     selectAll ? true : selectedSizes.includes(size)
 
-  // Hàm xử lý chọn sản phẩm
   const handleProductSelect = item => {
-    const isSelected = selectedProducts.includes(item.idsku)
-    if (isSelected) {
-      setSelectedProducts(
-        selectedProducts.filter(productId => productId !== item.idsku)
-      ) // Bỏ chọn
-    } else {
-      setSelectedProducts([...selectedProducts, item.idsku]) // Chọn sản phẩm
-    }
+    setSelectedProducts(prevState =>
+      prevState.includes(item.idsku)
+        ? prevState.filter(productId => productId !== item.idsku)
+        : [...prevState, item.idsku]
+    )
+
+    setSelectedProductsBySku(prevState => {
+      const currentProductSkus = prevState[product._id] || [] // Lấy danh sách hiện tại của product._id
+      const updatedSkus = currentProductSkus.includes(item.idsku)
+        ? currentProductSkus.filter(sku => sku !== item.idsku) // Nếu SKU đã chọn, loại bỏ
+        : [...currentProductSkus, item.idsku] // Nếu chưa chọn, thêm vào
+
+      return {
+        ...prevState,
+        [product._id]: updatedSkus
+      }
+    })
   }
+
 
   const filteredItems = selectAll
     ? data
     : data.filter(item => selectedSizes.includes(item.name))
 
-  // Hàm khi bấm "Đồng ý" để gửi dữ liệu đã chọn
   const handleAgree = () => {
     const selectedItems = data.filter(item =>
       selectedProducts.includes(item.idsku)
     )
-    onItemsSelected(selectedItems) // Pass selected items back to parent
-    onClose() // Close the modal
+    onItemsSelected(selectedItems)
+    onClose()
   }
 
   const ModalBanhang = ({ isOpen, onClose, children }) => {
@@ -163,7 +191,7 @@ function ModalDataScreen ({
                         } else {
                           setSelectedProducts(
                             filteredItems.map(item => item.idsku)
-                          ) // Chọn tất cả sản phẩm
+                          )
                         }
                       }}
                     />

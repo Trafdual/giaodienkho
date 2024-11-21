@@ -158,7 +158,7 @@ function SanPhamLayout ({
                     <td className='tdnhap'>Imel</td>
                     {!isMobile && (
                       <>
-                        <td className='tdnhap'>Tên máy</td>
+                        <td className='tdnhap'>Tên máy/Linh kiện</td>
                         <td className='tdnhap'>Số lượng</td>
                         <td className='tdnhap'> Đơn giá</td>
                         <td className='tdnhap'>Thành tiền</td>

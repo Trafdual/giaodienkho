@@ -41,6 +41,8 @@ function AddTest2 ({
   const [imel, setImel] = useState('')
   const [isEditingIMEI, setIsEditingIMEI] = useState([])
   const [isEditingPrice, setIsEditingPrice] = useState([])
+  const [isEditingSoluong, setIsEditingSoluong] = useState([])
+
   const [isRemoving, setIsRemoving] = useState(true)
   const [selectedSKUs, setSelectedSKUs] = useState([])
   const [isOpenAddSKU, setIsOpenAddSKU] = useState(false)
@@ -61,6 +63,13 @@ function AddTest2 ({
   const togglePriceEdit = index => {
     setIsEditingPrice(prev => {
       const updated = Array.isArray(prev) ? [...prev] : [] // Đảm bảo prev là mảng
+      updated[index] = !updated[index]
+      return updated
+    })
+  }
+  const toggleSoluongEdit = index => {
+    setIsEditingSoluong(prev => {
+      const updated = Array.isArray(prev) ? [...prev] : []
       updated[index] = !updated[index]
       return updated
     })
@@ -217,7 +226,8 @@ function AddTest2 ({
       madungluongsku: row.masku,
       imelList: row.imel,
       name: row.name, // Tên từng sản phẩm
-      price: row.price || 0 // Giá từng sản phẩm
+      price: row.price || 0 ,// Giá từng sản phẩm
+      soluong:row.soluong
     }))
 
     const payload = {
@@ -234,14 +244,11 @@ function AddTest2 ({
     if (validateInputs()) {
       setIsClickButton(true)
       try {
-        const response = await fetch(
-          `https://www.ansuataohanoi.com/postloaisanpham3`,
-          {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-          }
-        )
+        const response = await fetch(`http://localhost:8080/postloaisanpham4`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        })
 
         if (response.ok) {
           showToast('Thêm lô hàng thành công!', 'success')
@@ -330,8 +337,46 @@ function AddTest2 ({
                   index={indexImel}
                   handleAddImel={handleAddImel}
                 />
+                <td onClick={() => toggleSoluongEdit(index)}>
+                  {isEditingSoluong[index] ? (
+                    <input
+                      type='text'
+                      placeholder='Nhập số lượng'
+                      className='imel-input'
+                      value={row.soluong || ''}
+                      onChange={e => {
+                        const inputValue = e.target.value
+                        if (inputValue === ''|| inputValue === '0') {
+                          handleInputChange(index, 'soluong', null)
+                        } else {
+                          const value = parseInt(inputValue, 10)
+                          if (!isNaN(value)) {
+                            handleInputChange(index, 'soluong', value)
+                          }
+                        }
+                      }}
+                      autoFocus
+                      onBlur={() => {
+                        setIsEditingSoluong(prev => {
+                          const updated = [...prev]
+                          updated[index] = false
+                          return updated
+                        })
 
-                <td>{row.soluong}</td>
+                        // Kiểm tra nếu có IMEI thì lấy độ dài IMEI
+                        if (row.imel && row.imel.length > 0) {
+                          setRows(prevRows =>
+                            prevRows.map((r, i) =>
+                              i === index ? { ...r, soluong: r.imel.length } : r
+                            )
+                          )
+                        }
+                      }}
+                    />
+                  ) : (
+                    row.soluong || 'Nhập số lượng'
+                  )}
+                </td>
                 <td onClick={() => togglePriceEdit(index)}>
                   {isEditingPrice[index] ? (
                     <input

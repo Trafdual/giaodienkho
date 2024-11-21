@@ -1,153 +1,162 @@
-import React, { useEffect, useState } from 'react';
-import './Banhang.scss';
-import axios from 'axios';
-import { FaBell, FaUser, FaBarcode, FaShoppingCart, FaUserTag } from "react-icons/fa";
-import { MdSearch } from "react-icons/md";
-import ModalDataScreen from './DetailData';
-import ModalThemImel from '../BanHangLayout/ModalThemImel/ModalThemImel';
-import HeaderBanHang from '../BanHangLayout/HeaderBanHang/HeaderBanHang';
-import { getFromLocalStorage } from '~/components/MaHoaLocalStorage/MaHoaLocalStorage';
+import React, { useEffect, useState } from 'react'
+import './Banhang.scss'
+import axios from 'axios'
+import {
+  FaBell,
+  FaUser,
+  FaBarcode,
+  FaShoppingCart,
+  FaUserTag
+} from 'react-icons/fa'
+import { MdSearch } from 'react-icons/md'
+import ModalDataScreen from './DetailData'
+import ModalThemImel from '../BanHangLayout/ModalThemImel/ModalThemImel'
+import HeaderBanHang from '../BanHangLayout/HeaderBanHang/HeaderBanHang'
+import { getFromLocalStorage } from '~/components/MaHoaLocalStorage/MaHoaLocalStorage'
 
+function BanHangLayout () {
+  const [isModalOpen, setModalOpen] = useState(false)
+  const [imeiList, setImeiList] = useState([])
+  const [selectedSku, setSelectedSku] = useState(null)
 
+  const [isOpen, setIsOpen] = useState(false)
+  const [products, setProducts] = useState([])
+  const [selectedProduct, setSelectedProduct] = useState(null)
+  const [selectedItems, setSelectedItems] = useState([])
+  const [allSelectedImeis, setAllSelectedImeis] = useState([])
 
-function BanHangLayout() {
-  const [isModalOpen, setModalOpen] = useState(false);
-  const [imeiList, setImeiList] = useState([]);
-  const [selectedSku, setSelectedSku] = useState(null);
-
-  const [isOpen, setIsOpen] = useState(false);
-  const [products, setProducts] = useState([]);
-  const [selectedProduct, setSelectedProduct] = useState(null);
-  const [selectedItems, setSelectedItems] = useState([]);
-  const [allSelectedImeis, setAllSelectedImeis] = useState([]);
-
-  const handleItemsSelected = (items) => {
-    const updatedItems = items.map((item) => ({
+  const handleItemsSelected = items => {
+    const updatedItems = items.map(item => ({
       ...item,
-      selectedImeis: item.selectedImeis || [], // Khởi tạo mảng rỗng nếu chưa có
-    }));
-    setSelectedItems(updatedItems);
-  };
+      selectedImeis: item.selectedImeis || []
+    }))
+    setSelectedItems(prev => [...prev, ...updatedItems])
+  }
   // Lấy userId và khoId từ localStorage
-  const userId = getFromLocalStorage('userId') || '';
-  const idkho1 = localStorage.getItem('khoIDBH');
-  console.log("Dữ liệu kho id", idkho1);
+  const userId = getFromLocalStorage('userId') || ''
+  const idkho1 = localStorage.getItem('khoIDBH')
 
-  const handleOpenModal = async (idSku) => {
+  const handleOpenModal = async idSku => {
     try {
       const response = await axios.get(
         `https://www.ansuataohanoi.com/getsanphamchon/${idkho1}/${idSku}`
-      );
-      const data = response.data;
-      console.log("Dữ liệu IMEI từ API:", data);
+      )
+      const data = response.data
+      console.log('Dữ liệu IMEI từ API:', data)
 
       if (Array.isArray(data)) {
-        setImeiList(data);
+        setImeiList(data)
       } else {
-        console.warn("Dữ liệu không phải là một mảng:", data);
-        setImeiList([]);
+        console.warn('Dữ liệu không phải là một mảng:', data)
+        setImeiList([])
       }
 
-      setModalOpen(true);
-      setSelectedSku(idSku);
+      setModalOpen(true)
+      setSelectedSku(idSku)
     } catch (error) {
-      console.error("Lỗi khi gọi API lấy danh sách IMEI:", error);
-      setImeiList([]);
+      console.error('Lỗi khi gọi API lấy danh sách IMEI:', error)
+      setImeiList([])
     }
-  };
+  }
 
   const handleCloseModal = () => {
-    setModalOpen(false);
-    setImeiList([]);
-    setSelectedSku(null);
-  };
-  const handleImeiConfirm = (selectedImeis) => {
-    setSelectedItems((prevItems) =>
-      prevItems.map((item) =>
+    setModalOpen(false)
+    setImeiList([])
+    setSelectedSku(null)
+  }
+  const handleImeiConfirm = selectedImeis => {
+    setSelectedItems(prevItems =>
+      prevItems.map(item =>
         item.idsku === selectedSku
           ? {
               ...item,
-              selectedImeis: selectedImeis || [], // Gán các IMEI đã chọn
-              soluong: (selectedImeis || []).length, // Cập nhật số lượng
+              selectedImeis: Array.from(
+                new Set([...item.selectedImeis, ...selectedImeis])
+              ),
+              soluong: Array.from(
+                new Set([...item.selectedImeis, ...selectedImeis])
+              ).length
             }
           : item
       )
-    );
-  
-    // Chỉ thêm các IMEI chưa có trong danh sách allSelectedImeis
-    setAllSelectedImeis((prev) => [
-      ...prev,
-      ...selectedImeis.filter((imei) => !prev.includes(imei)),
-    ]);
-  };
-  
+    )
+
+    setAllSelectedImeis(prev =>
+      Array.from(new Set([...prev, ...selectedImeis]))
+    )
+  }
+
   const handleRemoveImei = (idSku, imeiToRemove) => {
-    setSelectedItems((prevItems) =>
-      prevItems.map((item) =>
-        item.idsku === idSku
-          ? {
-              ...item,
-              selectedImeis: item.selectedImeis.filter((imei) => imei !== imeiToRemove),
-              soluong: item.selectedImeis.length - 1, // Cập nhật lại số lượng
-            }
-          : item
-      )
-    );
-  
-    // Xóa IMEI khỏi allSelectedImeis để đảm bảo logic hoạt động đúng
-    setAllSelectedImeis((prev) => prev.filter((imei) => imei !== imeiToRemove));
-  };
-  
-  
+    setSelectedItems(prevItems =>
+      prevItems.map(item => {
+        if (item.idsku === idSku) {
+          const updatedImeis = item.selectedImeis.filter(
+            (_, i) => i !== imeiToRemove
+          )
+          return {
+            ...item,
+            selectedImeis: updatedImeis,
+            soluong: updatedImeis.length
+          }
+        }
+        return item
+      })
+    )
+
+    setAllSelectedImeis(prev => prev.filter((_, i) => i !== imeiToRemove))
+  }
 
   useEffect(() => {
     const fetchProducts = async () => {
-      if (!userId) return;
+      if (!userId) return
       try {
-        const response = await axios.get(`https://www.ansuataohanoi.com/getspbanhang/${userId}`);
-        setProducts(response.data);
+        const response = await axios.get(
+          `https://www.ansuataohanoi.com/getspbanhang/${userId}`
+        )
+        setProducts(response.data)
       } catch (error) {
-        console.error("Lỗi khi lấy danh sách sản phẩm:", error);
+        console.error('Lỗi khi lấy danh sách sản phẩm:', error)
       }
-    };
+    }
 
-    fetchProducts();
-  }, [userId]);
+    fetchProducts()
+  }, [userId])
 
-  const handleProductClick = (product) => {
-    setSelectedProduct(product);
-    setIsOpen(true);
-  };
+  const handleProductClick = product => {
+    console.log(product)
+    setSelectedProduct(product)
+    setIsOpen(true)
+  }
 
-  const handleRemove = (id) => {
-    setSelectedItems(selectedItems.filter((item) => item.idsku !== id));
-  };
+  const handleRemove = id => {
+    setSelectedItems(selectedItems.filter(item => item.idsku !== id))
+  }
 
   return (
-    <div className="app-container">
+    <div className='app-container'>
       <HeaderBanHang userId={userId} />
 
-      <div className="row">
-        <div className="column left-column">
-          <div className="head">
-            <div className="search-bar-section">
-              <div className="search-bar">
+      <div className='row'>
+        <div className='column left-column'>
+          <div className='head'>
+            <div className='search-bar-section'>
+              <div className='search-bar'>
                 <label>Tìm kiếm</label>
                 <input
-                  type="text"
-                  placeholder="(F3) Nhập tên hàng hóa, mã vạch, mã SKU"
-                  className="search-input"
+                  type='text'
+                  placeholder='(F3) Nhập tên hàng hóa, mã vạch, mã SKU'
+                  className='search-input'
                 />
-                <MdSearch className="search-icon" />
-                <input type="number" value="1" className="quantity-input" />
-                <FaBarcode className="barcode-icon" />
-                <FaUser className="staff-icon" />
-                <FaUserTag className="price-tag-icon" />
+                <MdSearch className='search-icon' />
+                <input type='number' value='1' className='quantity-input' />
+                <FaBarcode className='barcode-icon' />
+                <FaUser className='staff-icon' />
+                <FaUserTag className='price-tag-icon' />
               </div>
             </div>
-            <div className="selected-products-container">
+            <div className='selected-products-container'>
               <h3>Danh sách sản phẩm đã chọn:</h3>
-              <table className="product-table">
+              <table className='product-table'>
                 <thead>
                   <tr>
                     <th>STT</th>
@@ -167,30 +176,30 @@ function BanHangLayout() {
                         <td>{index + 1}</td>
                         <td>{item.idsku}</td>
                         <td>
-  {item.tensp}
-  <br />
-  <div className="selected-imeis">
-    {item.selectedImeis && item.selectedImeis.length > 0 ? (
-      item.selectedImeis.map((imei, index) => (
-        <button
-          key={index}
-          className="imei-btn"
-          onClick={() => handleRemoveImei(item.idsku, imei)}
-        >
-          {imei} ✕
-        </button>
-      ))
-    ) : (
-      "Chưa chọn IMEI"
-    )}
-  </div>
-  <button
-    className="select-serial-btn"
-    onClick={() => handleOpenModal(item.idsku)}
-  >
-    Chọn Serial/IMEI
-  </button>
-</td>
+                          {item.tensp}
+                          <br />
+                          <div className='selected-imeis'>
+                            {item.selectedImeis && item.selectedImeis.length > 0
+                              ? item.selectedImeis.map((imei, index) => (
+                                  <button
+                                    key={index}
+                                    className='imei-btn'
+                                    onClick={() =>
+                                      handleRemoveImei(item.idsku, index)
+                                    }
+                                  >
+                                    {imei} ✕
+                                  </button>
+                                ))
+                              : 'Chưa chọn IMEI'}
+                          </div>
+                          <button
+                            className='select-serial-btn'
+                            onClick={() => handleOpenModal(item.idsku)}
+                          >
+                            Chọn Serial/IMEI
+                          </button>
+                        </td>
 
                         <td>{item.soluong}</td>
                         <td>{item.dvt}</td>
@@ -198,31 +207,28 @@ function BanHangLayout() {
                         <td>222</td>
                         <td>
                           <button
-                            className="remove-btn"
+                            className='remove-btn'
                             onClick={() => handleRemove(item.idsku)}
                           >
                             X
                           </button>
                         </td>
                       </tr>
-
-
                     </React.Fragment>
                   ))}
                 </tbody>
-
               </table>
             </div>
           </div>
 
-          <div className="prd">
+          <div className='prd'>
             <h3>Danh sách sản phẩm</h3>
-            <div className="product-grid">
+            <div className='product-grid'>
               {products.length > 0 ? (
                 products.map((product, index) => (
                   <div
                     key={index}
-                    className="product-card"
+                    className='product-card'
                     onClick={() => handleProductClick(product)}
                   >
                     {product.name}
@@ -235,7 +241,7 @@ function BanHangLayout() {
           </div>
         </div>
 
-        <div className="checkout-section">
+        <div className='checkout-section'>
           {/* ... phần nội dung checkout ... */}
         </div>
       </div>
@@ -250,16 +256,15 @@ function BanHangLayout() {
         />
       )}
 
-<ModalThemImel
-  isOpen={isModalOpen}
-  onClose={handleCloseModal}
-  imeiList={imeiList}
-  onConfirm={handleImeiConfirm}
-  allSelectedImeis={allSelectedImeis} // Truyền danh sách IMEI đã chọn
-/>
-
+      <ModalThemImel
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        imeiList={imeiList}
+        onConfirm={handleImeiConfirm}
+        allSelectedImeis={allSelectedImeis} // Truyền danh sách IMEI đã chọn
+      />
     </div>
-  );
+  )
 }
 
-export default BanHangLayout;
+export default BanHangLayout
