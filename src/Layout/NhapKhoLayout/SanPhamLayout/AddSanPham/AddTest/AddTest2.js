@@ -226,8 +226,8 @@ function AddTest2 ({
       madungluongsku: row.masku,
       imelList: row.imel,
       name: row.name, // Tên từng sản phẩm
-      price: row.price || 0 ,// Giá từng sản phẩm
-      soluong:row.soluong
+      price: row.price || 0, // Giá từng sản phẩm
+      soluong: row.soluong
     }))
 
     const payload = {
@@ -244,11 +244,14 @@ function AddTest2 ({
     if (validateInputs()) {
       setIsClickButton(true)
       try {
-        const response = await fetch(`http://localhost:8080/postloaisanpham4`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        })
+        const response = await fetch(
+          `https://www.ansuataohanoi.com/postloaisanpham4`,
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          }
+        )
 
         if (response.ok) {
           showToast('Thêm lô hàng thành công!', 'success')
@@ -346,7 +349,7 @@ function AddTest2 ({
                       value={row.soluong || ''}
                       onChange={e => {
                         const inputValue = e.target.value
-                        if (inputValue === ''|| inputValue === '0') {
+                        if (inputValue === '' || inputValue === '0') {
                           handleInputChange(index, 'soluong', null)
                         } else {
                           const value = parseInt(inputValue, 10)
