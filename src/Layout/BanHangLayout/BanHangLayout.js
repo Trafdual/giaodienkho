@@ -261,7 +261,7 @@ function BanHangLayout () {
         onClose={handleCloseModal}
         imeiList={imeiList}
         onConfirm={handleImeiConfirm}
-        allSelectedImeis={allSelectedImeis} // Truyền danh sách IMEI đã chọn
+        allSelectedImeis={allSelectedImeis}
       />
     </div>
   )
