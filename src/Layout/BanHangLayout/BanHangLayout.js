@@ -1,34 +1,55 @@
-import React, { useEffect, useState } from 'react'
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useState, useRef } from 'react'
 import './Banhang.scss'
 import axios from 'axios'
-import {
-  FaBell,
-  FaUser,
-  FaBarcode,
-  FaShoppingCart,
-  FaUserTag
-} from 'react-icons/fa'
+import { FaUser, FaBarcode, FaShoppingCart, FaUserTag } from 'react-icons/fa'
 import { MdSearch } from 'react-icons/md'
 import ModalDataScreen from './DetailData'
 import ModalThemImel from '../BanHangLayout/ModalThemImel/ModalThemImel'
 import HeaderBanHang from '../BanHangLayout/HeaderBanHang/HeaderBanHang'
 import { getFromLocalStorage } from '~/components/MaHoaLocalStorage/MaHoaLocalStorage'
+import { Tooltip } from 'react-tippy'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
 
 function BanHangLayout () {
   const [isModalOpen, setModalOpen] = useState(false)
   const [imeiList, setImeiList] = useState([])
   const [selectedSku, setSelectedSku] = useState(null)
+  const [InputSoLuong, setInputSoLuong] = useState(false)
+  const [InputDonGian, setInputDonGian] = useState(false)
 
   const [isOpen, setIsOpen] = useState(false)
   const [products, setProducts] = useState([])
   const [selectedProduct, setSelectedProduct] = useState(null)
   const [selectedItems, setSelectedItems] = useState([])
   const [allSelectedImeis, setAllSelectedImeis] = useState([])
+  const [isTableKhachHang, setisTableKhachHang] = useState(false)
+  const [isTableMethod, setisTableMethod] = useState(false)
+  const [isTableNganHang, setisTableNganHang] = useState(false)
+  const [makh, setmakh] = useState('')
+  const [textnganhang, setTextnganhang] = useState('')
+  const [nganhang, setnganhang] = useState('')
+  const [textkh, settextkh] = useState('')
+  const [methods, setmethods] = useState(['Tiền mặt', 'Chuyển khoản'])
+  const [method, setmethod] = useState('Tiền mặt')
+  const [nganhangs, setnganhangs] = useState([])
+  const [isFocused, setIsFocused] = useState(false)
+
+  const [datakhachang, setdatakhachang] = useState([])
+  const [inputValue, setInputValue] = useState(0)
+
+  const storedKhoID = localStorage.getItem('khoIDBH')
+
+  const inputRef = useRef()
 
   const handleItemsSelected = items => {
     const updatedItems = items.map(item => ({
       ...item,
-      selectedImeis: item.selectedImeis || []
+      selectedImeis: item.selectedImeis || [],
+      soluong: item.soluong || 1,
+      dongia: item.dongia || 0,
+      thanhtien: item.soluong * (item.dongia || 0)
     }))
     setSelectedItems(prev => [...prev, ...updatedItems])
   }
@@ -73,9 +94,10 @@ function BanHangLayout () {
               selectedImeis: Array.from(
                 new Set([...item.selectedImeis, ...selectedImeis])
               ),
-              soluong: Array.from(
-                new Set([...item.selectedImeis, ...selectedImeis])
-              ).length
+              soluong:
+                selectedImeis.length > 0
+                  ? selectedImeis.length
+                  : item.soluong || 1
             }
           : item
       )
@@ -132,6 +154,80 @@ function BanHangLayout () {
     setSelectedItems(selectedItems.filter(item => item.idsku !== id))
   }
 
+  const handleManualQuantityChange = (idSku, quantity) => {
+    setSelectedItems(prevItems =>
+      prevItems.map(item =>
+        item.idsku === idSku &&
+        (!item.selectedImeis || item.selectedImeis.length === 0)
+          ? {
+              ...item,
+              soluong: quantity === '' ? '' : Math.max(1, Number(quantity)),
+              thanhtien: Math.max(1, Number(quantity)) * (item.dongia || 0)
+            }
+          : item
+      )
+    )
+  }
+
+  const handleDonGiaChange = (idSku, newPrice) => {
+    setSelectedItems(prevItems =>
+      prevItems.map(item =>
+        item.idsku === idSku
+          ? {
+              ...item,
+              dongia: newPrice === '' ? '' : Math.max(0, Number(newPrice)),
+              thanhtien: (item.soluong || 0) * Math.max(0, Number(newPrice))
+            }
+          : item
+      )
+    )
+  }
+
+  const handleKhacHang = async () => {
+    try {
+      const response = await fetch(
+        `https://www.ansuataohanoi.com/getkhachhang/${storedKhoID}`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+      )
+      if (response.ok) {
+        const data = await response.json()
+        setdatakhachang(data)
+        setisTableKhachHang(!isTableKhachHang)
+        console.log('Dữ liệu khách hàng từ API:', data)
+      }
+    } catch (error) {
+      console.error('Lỗi khi lấy dữ liệu khách hàng:', error)
+    }
+  }
+
+  const fetchnganhang = async () => {
+    try {
+      const response = await fetch(
+        `https://www.ansuataohanoi.com/getnganhang/${userId}`
+      )
+      const data = await response.json()
+
+      if (response.ok) {
+        setnganhangs(data)
+      }
+    } catch (error) {
+      console.error('Lỗi khi lấy dữ liệu ngân hàng:', error)
+    }
+  }
+  useEffect(() => {
+    fetchnganhang()
+  }, [userId])
+
+  const totalAmount = selectedItems.reduce(
+    (total, item) => total + (item.thanhtien || 0),
+    0
+  )
+
   return (
     <div className='app-container'>
       <HeaderBanHang userId={userId} />
@@ -162,8 +258,7 @@ function BanHangLayout () {
                     <th>STT</th>
                     <th>SKU</th>
                     <th>Hàng hóa</th>
-                    <th>SL</th>
-                    <th>ĐVT</th>
+                    <th>Số Lượng</th>
                     <th>Đơn giá</th>
                     <th>Thành tiền</th>
                     <th></th>
@@ -200,11 +295,63 @@ function BanHangLayout () {
                             Chọn Serial/IMEI
                           </button>
                         </td>
-
-                        <td>{item.soluong}</td>
-                        <td>{item.dvt}</td>
-                        <td>222</td>
-                        <td>222</td>
+                        <td onClick={() => setInputSoLuong(true)}>
+                          {!InputSoLuong ? (
+                            item.soluong
+                          ) : (
+                            <input
+                              ref={inputRef}
+                              type='number'
+                              value={item.soluong === '' ? '' : item.soluong}
+                              onChange={e =>
+                                handleManualQuantityChange(
+                                  item.idsku,
+                                  e.target.value
+                                )
+                              }
+                              onBlur={() => {
+                                if (item.soluong === '' || item.soluong === 1) {
+                                  handleManualQuantityChange(item.idsku, 1)
+                                  setInputSoLuong(false)
+                                } else {
+                                  handleManualQuantityChange(
+                                    item.idsku,
+                                    item.soluong
+                                  )
+                                  setInputSoLuong(false)
+                                }
+                              }}
+                            />
+                          )}
+                        </td>
+                        <td
+                          onClick={() => setInputDonGian(true)}
+                          onMouseLeave={() => {
+                            setInputSoLuong(false)
+                            handleManualQuantityChange(item.idsku, item.soluong)
+                          }}
+                        >
+                          {!InputDonGian ? (
+                            item.dongia.toLocaleString()
+                          ) : (
+                            <input
+                              type='number'
+                              placeholder='Nhập đơn giá'
+                              value={item.dongia === '' ? '' : item.dongia}
+                              onChange={e =>
+                                handleDonGiaChange(item.idsku, e.target.value)
+                              }
+                              onBlur={() => {
+                                handleDonGiaChange(item.idsku, item.dongia)
+                                setInputDonGian(false)
+                              }}
+                            />
+                          )}
+                        </td>
+                        <td>
+                          {item.thanhtien ? item.thanhtien.toLocaleString() : 0}
+                          VND
+                        </td>
                         <td>
                           <button
                             className='remove-btn'
@@ -242,7 +389,210 @@ function BanHangLayout () {
         </div>
 
         <div className='checkout-section'>
-          {/* ... phần nội dung checkout ... */}
+          <div className='checkout-header'>
+            <span>22/10/2024 - 15:22</span>
+            <button className='store-btn'>Tại cửa hàng</button>
+          </div>
+
+          <div className='customer-info'>
+            <div className='customer-input-section'>
+              <MdSearch className='iconbanhang' />
+
+              <Tooltip
+                trigger='click'
+                interactive
+                arrow
+                position='bottom'
+                open={isTableKhachHang}
+                onRequestClose={() => setisTableKhachHang(false)}
+                html={
+                  <div
+                    className='supplier-table-container'
+                    //  ref={tooltipRefMethod}
+                  >
+                    <table className='supplier-info-table'>
+                      <thead>
+                        <tr>
+                          <th>Khách hàng</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {datakhachang.map((khachhang, index) => (
+                          <tr className='trdulieu' key={index}>
+                            <td
+                              onClick={() => {
+                                setmakh(khachhang.makh)
+                                settextkh(
+                                  `${khachhang.name} - ${khachhang.phone}`
+                                )
+                                setisTableKhachHang(!isTableKhachHang)
+                              }}
+                            >
+                              {khachhang.name} - {khachhang.phone}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                }
+              >
+                <input
+                  type='text'
+                  placeholder='(F4) SĐT, tên khách hàng'
+                  className='customer-input'
+                  onClick={() => handleKhacHang()}
+                  value={textkh}
+                />
+              </Tooltip>
+
+              <FaBarcode className='iconbanhang' />
+              <FaShoppingCart className='iconbanhang' />
+            </div>
+          </div>
+
+          <div className='checkout-summary'>
+            <div className='summary-item'>
+              <span>Tổng tiền</span>
+              <span>{totalAmount.toLocaleString()}</span>
+            </div>
+            <div className='summary-item'>
+              <span>Đặt cọc</span>
+              <span>0</span>
+            </div>
+            <div className='summary-item'>
+              <span>Còn phải thu</span>
+              <span>0</span>
+            </div>
+
+            <div className='payment-method'>
+              <Tooltip
+                trigger='click'
+                interactive
+                arrow
+                position='bottom'
+                open={isTableMethod}
+                onRequestClose={() => setisTableMethod(false)}
+                html={
+                  <div
+                    className='supplier-table-container'
+                    //  ref={tooltipRefMethod}
+                  >
+                    <table className='supplier-info-table'>
+                      <thead>
+                        <tr>
+                          <th>Phương thức</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {methods.map((method, index) => (
+                          <tr className='trdulieu' key={index}>
+                            <td
+                              onClick={() => {
+                                setmethod(method)
+                                setisTableMethod(!isTableMethod)
+                              }}
+                            >
+                              {method}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                }
+              >
+                <span onClick={() => setisTableMethod(!isTableMethod)}>
+                  {method}
+                </span>
+              </Tooltip>
+              <input
+                onClick={() => setIsFocused(true)} // Khi focus
+                onBlur={() => setIsFocused(false)} // Khi mất focus
+                className={isFocused ? 'border-bottom' : ''}
+                value={inputValue ? inputValue.toLocaleString() : totalAmount.toLocaleString()}
+                onChange={e => setInputValue(e.target.value)}
+              />
+            </div>
+            {method === 'Chuyển khoản' && (
+              <div className='TaiKhoanThu'>
+                <h4>Tài khoản thu</h4>
+
+                <Tooltip
+                  trigger='click'
+                  interactive
+                  arrow
+                  position='bottom'
+                  open={isTableNganHang}
+                  onRequestClose={() => setisTableNganHang(false)}
+                  html={
+                    <div
+                      className='supplier-table-container'
+                      //  ref={tooltipRefMethod}
+                    >
+                      <table className='supplier-info-table'>
+                        <thead>
+                          <tr>
+                            <th>Ngân Hàng</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {nganhangs.map((nganhang, index) => (
+                            <tr className='trdulieu' key={index}>
+                              <td
+                                onClick={() => {
+                                  setTextnganhang(
+                                    `${nganhang.sotaikhoan} - ${nganhang.name}`
+                                  )
+                                  setnganhang(nganhang.manganhangkho)
+                                  setisTableNganHang(!isTableNganHang)
+                                }}
+                              >
+                                {nganhang.sotaikhoan} - {nganhang.name}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  }
+                >
+                  <button onClick={() => setisTableNganHang(!isTableNganHang)}>
+                    {textnganhang ? textnganhang : 'Chọn ngân hàng'}
+                    <FontAwesomeIcon icon={faChevronDown} />
+                  </button>
+                </Tooltip>
+              </div>
+            )}
+
+            <div className='summary-item'>
+              <span>Trả lại khách</span>
+              <span>0</span>
+            </div>
+          </div>
+
+          <div className='additional-options'>
+            <label>
+              <input type='checkbox' />
+              Tính vào công nợ
+            </label>
+            <input
+              type='text'
+              placeholder='Ghi chú ...'
+              className='notes-input'
+            />
+          </div>
+
+          <div className='cash-suggestions'>
+            <button>500.000</button>
+            <button>200.000</button>
+            <button>100.000</button>
+          </div>
+
+          <div className='checkout-actions'>
+            <button className='save-btn'>Lưu tạm (F10)</button>
+            <button className='pay-btn'>Thu tiền (F9)</button>
+          </div>
         </div>
       </div>
 

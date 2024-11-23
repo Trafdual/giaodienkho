@@ -20,11 +20,11 @@ const ModalThemImel = ({ isOpen, onClose, imeiList, onConfirm, allSelectedImeis 
 
   const handleConfirm = () => {
     onConfirm(selectedImeis);
-    onClose(); // Đóng modal sau khi chọn
+    onClose();
     setSelectedImeis([]);
   };
   const filteredImeis = imeiList.filter(
-    (imei) => !allSelectedImeis.includes(imei.imel) // Loại bỏ IMEI đã chọn
+    (imei) => !allSelectedImeis.includes(imei.imel)
   );
 
 

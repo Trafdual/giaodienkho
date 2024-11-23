@@ -77,18 +77,24 @@ body {
   padding: 20px;
   gap: 20px;
 }
+
 .column {
   gap: 10px;
 }
+
 .left-column {
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* Phân bổ nội dung đều giữa các phần */
-  height: 100%; /* Chiếm toàn bộ chiều cao */
+  justify-content: space-between;
+  /* Phân bổ nội dung đều giữa các phần */
+  height: 100%;
+  /* Chiếm toàn bộ chiều cao */
 }
+
 .head {
-  flex: 1; /* Phần này linh hoạt chiếm không gian */
+  flex: 1;
+  /* Phần này linh hoạt chiếm không gian */
   padding: 20px;
   background-color: #ffffff;
   padding: 20px;
@@ -100,13 +106,16 @@ body {
   background-color: #ffffff;
   flex: 1;
   padding: 20px;
-  overflow-y: auto; /* Cho phép cuộn khi danh sách sản phẩm dài */
+  overflow-y: auto;
+  /* Cho phép cuộn khi danh sách sản phẩm dài */
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
+
 .right-column {
-  flex: 1; /* Takes up less space */
+  flex: 1;
+  /* Takes up less space */
 }
 
 .left-section {
@@ -183,7 +192,8 @@ body {
   color: #888;
 }
 
-.choose-product-btn, .import-product-btn {
+.choose-product-btn,
+.import-product-btn {
   background-color: #007bff;
   color: white;
   padding: 10px 20px;
@@ -198,7 +208,7 @@ body {
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 10px;
   padding: 20px;
-  
+
 }
 
 .product-card {
@@ -222,9 +232,12 @@ body {
 /* Checkout Section */
 .checkout-section {
   background-color: #fff;
-  padding: 20px;
+  padding-top: 20px;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding-right: 10px;
+  padding-left: 5px;
+  padding-bottom: 10px;
 }
 
 .checkout-header {
@@ -232,6 +245,8 @@ body {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+  gap: 100px;
+
 }
 
 .store-btn {
@@ -282,7 +297,25 @@ body {
   background-color: #f9f9f9;
   padding: 10px;
   margin-bottom: 20px;
+
+  input {
+    height: 50px;
+    font-size: 18px;
+    border: none;
+    border-bottom: 1px solid rgb(192, 192, 192);
+    cursor: pointer;
+    background-color: white;
+    outline: none;
+    text-align: right;
+    &:hover{
+      border-bottom-color: var(--blue);
+    }
+  }
+  .border-bottom {
+    border-bottom: 2px solid var(--blue);
+  }
 }
+
 
 .additional-options {
   display: flex;
@@ -317,7 +350,8 @@ body {
   justify-content: space-between;
 }
 
-.pay-btn, .save-btn {
+.pay-btn,
+.save-btn {
   background-color: #007bff;
   color: white;
   padding: 10px 20px;
@@ -327,9 +361,11 @@ body {
   cursor: pointer;
 }
 
-.pay-btn:hover, .save-btn:hover {
+.pay-btn:hover,
+.save-btn:hover {
   background-color: #0056b3;
 }
+
 .selected-products-container {
   margin: 20px;
   font-family: Arial, sans-serif;
@@ -391,12 +427,14 @@ body {
     }
   }
 }
+
 .imei-list-row {
   font-size: 0.9rem;
   color: #555;
   background-color: #f9f9f9;
   padding: 5px;
 }
+
 .selected-imeis {
   display: flex;
   flex-wrap: wrap;
@@ -415,4 +453,29 @@ body {
 
 .imei-btn:hover {
   background-color: #0056b3;
+}
+
+.TaiKhoanThu {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+  padding: 20px;
+
+  button {
+    height: 50px;
+    font-size: 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: none;
+    border-bottom: 1px solid rgb(192, 192, 192);
+    cursor: pointer;
+    background-color: white;
+    width: 100%;
+
+    &:hover {
+      border-bottom-color: var(--blue);
+    }
+  }
 }
