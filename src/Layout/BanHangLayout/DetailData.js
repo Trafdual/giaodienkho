@@ -7,8 +7,8 @@ import './DetailData.scss'
 import Tippy from '@tippyjs/react'
 import 'tippy.js/dist/tippy.css'
 import axios from 'axios'
-
-function ModalDataScreen ({
+import OtherStoreModal from './ModalOtherStore/OtherStoreModal'
+function ModalDataScreen({
   isOpen,
   onClose,
   userId,
@@ -18,9 +18,21 @@ function ModalDataScreen ({
   const [data, setData] = useState([])
   const [selectedSizes, setSelectedSizes] = useState([])
   const [selectAll, setSelectAll] = useState(false)
+  //đang sửa
+  const [selectedProductName, setSelectedProductName] = useState({})
+
   const [selectedProducts, setSelectedProducts] = useState([])
   const khoId1 = localStorage.getItem('khoIDBH') || ''
   const [selectedProductsBySku, setSelectedProductsBySku] = useState({})
+  const [isOtherStoreModalOpen, setOtherStoreModalOpen] = useState(false);
+  const [selectedStores, setSelectedStores] = useState([]);
+
+  const handleViewOtherStores = (stores, tensp) => {
+    setSelectedStores(stores);
+    setSelectedProductName(tensp); // Lưu tên sản phẩm
+    setOtherStoreModalOpen(true);
+  };
+  
 
   useEffect(() => {
     if (isOpen) {
@@ -114,23 +126,30 @@ function ModalDataScreen ({
 
   const ModalBanhang = ({ isOpen, onClose, children }) => {
     if (!isOpen) return null
-    return ReactDOM.createPortal(
-      <div className='modal-overlay-banhang' onClick={onClose}>
-        <div
-          className='modal-content-banhang'
-          onClick={e => e.stopPropagation()}
-        >
-          <button className='modal-close' onClick={onClose}>
-            <FontAwesomeIcon icon={faXmark} />
-          </button>
-          {children}
-        </div>
-      </div>,
-      document.body
-    )
+    return( <div className='modal-overlay-banhang' onClick={onClose}>
+      <div
+        className='modal-content-banhang'
+        onClick={e => e.stopPropagation()}
+      >
+        <button className='modal-close' onClick={onClose}>
+          <FontAwesomeIcon icon={faXmark} />
+        </button>
+        {children}
+      </div>
+    </div>)
+   
+ 
   }
 
   return (
+    <>
+    {/* Modal hiển thị chi tiết các cửa hàng khác */}
+    <OtherStoreModal
+  isOpen={isOtherStoreModalOpen}
+  onClose={() => setOtherStoreModalOpen(false)}
+  stores={selectedStores}
+  productName={selectedProductName} // Truyền tensp
+/>
     <ModalBanhang isOpen={isOpen} onClose={onClose}>
       <div className='modal-header'>
         <img
@@ -156,9 +175,8 @@ function ModalDataScreen ({
             <button
               key={item.name}
               onClick={() => handleSizeSelect(item.name)}
-              className={`size-btn ${
-                isSizeSelected(item.name) ? 'selected1' : ''
-              }`}
+              className={`size-btn ${isSizeSelected(item.name) ? 'selected1' : ''
+                }`}
             >
               {item.name} ({item.tonkho})
             </button>
@@ -226,7 +244,10 @@ function ModalDataScreen ({
                         }
                         placement='bottom'
                       >
-                        <span className='tooltip-target-wrapper'>
+                        <span
+                          className='tooltip-target-wrapper clickable'
+                          onClick={() => handleViewOtherStores(item.cacKhoKhac, item.tensp)}
+                        >
                           {item.tongSoLuongCacKhoKhac}
                         </span>
                       </Tippy>
@@ -248,7 +269,9 @@ function ModalDataScreen ({
         </button>
       </div>
     </ModalBanhang>
+</>
   )
+
 }
 
 export default ModalDataScreen

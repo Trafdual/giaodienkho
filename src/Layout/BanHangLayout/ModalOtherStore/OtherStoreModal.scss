@@ -1,0 +1,84 @@
+.modal-overlay-banhang12{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+}
+.modal-content-banhang12{
+  background: white;
+  padding: 20px;
+  padding-bottom: 80px; 
+  border-radius: 8px;
+  width: 80%;
+  max-width: 850px;
+  height: 70%;
+  position: relative;
+  overflow: hidden;
+  cursor: grab;
+
+}
+.search-input-otherstore{
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+.store-list {
+    max-height: 90%;
+    overflow-y: auto;
+    cursor: default;
+  }
+  
+  .store-item {
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 25px 8px 25px 8px;
+    border: 1px solid #a1a1a1;
+    border-radius: 15px;
+  }
+  
+  .request-transfer-btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .request-transfer-btn:hover {
+    background-color: #45a049;
+  }
+  .modal-footer-otherstore {
+    position: absolute;
+    bottom: 20px; /* Khoảng cách từ đáy modal */
+    right: 20px; /* Khoảng cách từ phải modal */
+    display: flex;
+    gap: 10px; /* Khoảng cách giữa các nút */
+    
+    .agree-btn {
+      background-color: #007bff;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  
+    .close-btn {
+      background-color: #f0f0f0;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  }

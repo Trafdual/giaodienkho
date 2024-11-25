@@ -1,0 +1,165 @@
+.transfer-request-modal {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 11000;
+
+    .modal-container {
+        background: #fff;
+        width: 80%;
+        height: 70%;
+        border-radius: 8px;
+        padding: 20px;
+        position: relative;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+
+        .modal-header {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        .modal-body-transfer {
+            .general-info {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 16px;
+
+                .info-group {
+                    display: flex;
+                    flex-direction: column;
+
+                    label {
+                        font-size: 14px;
+                        color: #666;
+                        margin-bottom: 4px;
+                    }
+
+                    input,
+                    select {
+                        padding: 8px;
+                        font-size: 14px;
+                        border: 1px solid #ddd;
+                        border-radius: 4px;
+                    }
+
+                    span {
+                        font-size: 14px;
+                        color: #333;
+                    }
+
+                    &.right {
+                        span.status {
+                            background: #fffbeb;
+                            color: #ff9800;
+                            font-weight: bold;
+                            padding: 4px 8px;
+                            border-radius: 4px;
+                        }
+                    }
+                }
+            }
+
+            .details1 {
+                margin-top: 20px;
+
+                h3 {
+                    font-size: 16px;
+                    font-weight: bold;
+                    color: #333;
+                    margin-bottom: 10px;
+                }
+
+                table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    font-size: 14px;
+
+                    thead {
+                        background: #f9f9f9;
+
+                        th {
+                            text-align: left;
+                            padding: 8px;
+                            border-bottom: 1px solid #ddd;
+                        }
+                    }
+
+                    tbody {
+                        tr {
+                            td {
+                                padding: 8px;
+                                border-bottom: 1px solid #eee;
+
+                                input,
+                                select {
+                                    width: 100%;
+                                    padding: 4px;
+                                    border: 1px solid #ddd;
+                                    border-radius: 4px;
+                                }
+
+                                .delete-btn {
+                                    border: none;
+                                    background: none;
+                                    color: #ff4d4f;
+                                    font-size: 16px;
+                                    cursor: pointer;
+
+                                    &:hover {
+                                        color: #d9363e;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    tfoot {
+                        td {
+                            font-weight: bold;
+                            text-align: right;
+                            padding: 8px;
+                        }
+                    }
+                }
+            }
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 16px;
+
+            .primary-btn {
+                background: #007bff;
+                color: #fff;
+                padding: 10px 20px;
+                border-radius: 4px;
+                cursor: pointer;
+                border: none;
+
+                &:hover {
+                    background: #0056b3;
+                }
+            }
+
+            .secondary-btn {
+                background: #f0f0f0;
+                color: #333;
+                padding: 10px 20px;
+                border-radius: 4px;
+                cursor: pointer;
+                border: none;
+
+                &:hover {
+                    background: #e0e0e0;
+                }
+            }
+        }
+    }
+}
