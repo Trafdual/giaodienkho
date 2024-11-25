@@ -296,7 +296,8 @@ body {
   padding: 10px;
   margin-bottom: 20px;
 }
-.payment-method input {
+
+.inputBanHang {
   height: 50px;
   font-size: 18px;
   border: none;
@@ -306,11 +307,22 @@ body {
   outline: none;
   text-align: right;
 }
-.payment-method input:hover {
+.inputBanHang:hover {
   border-bottom-color: var(--blue);
 }
-.payment-method .border-bottom {
+
+.border-bottom {
+  height: 50px;
+  font-size: 18px;
+  border: none;
   border-bottom: 2px solid var(--blue);
+  cursor: pointer;
+  background-color: white;
+  outline: none;
+  text-align: right;
+}
+.border-bottom:hover {
+  border-bottom-color: var(--blue);
 }
 
 .additional-options {

@@ -31,8 +31,10 @@ function BanHangLayout () {
   const [makh, setmakh] = useState('')
   const [textnganhang, setTextnganhang] = useState('')
   const [nganhang, setnganhang] = useState('')
+
   const [textkh, settextkh] = useState('')
   const [methods, setmethods] = useState(['Tiền mặt', 'Chuyển khoản'])
+  const [datcoc, setdatcoc] = useState(0)
   const [method, setmethod] = useState('Tiền mặt')
   const [nganhangs, setnganhangs] = useState([])
   const [isFocused, setIsFocused] = useState(false)
@@ -228,6 +230,44 @@ function BanHangLayout () {
     (total, item) => total + (item.thanhtien || 0),
     0
   )
+  const handleThanhToan = async () => {
+    const tienkhachtra = inputValue === 0 ? totalAmount : inputValue
+
+    const products = selectedItems.map(row => ({
+      imelist: row.selectedImeis,
+      dongia: row.dongia,
+      soluong: row.soluong,
+      idsku: row.idsku
+    }))
+
+    try {
+      const response = await fetch(
+        `http://localhost:8080/postchonsanpham/${storedKhoID}`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            tienkhachtra: tienkhachtra,
+            datcoc: datcoc,
+            method: method,
+            idnganhang: nganhang,
+            makh: makh,
+            products: products
+          })
+        }
+      )
+      if (response.ok) {
+        alert('thanh toán thành công')
+        setSelectedItems([])
+      } else {
+        console.error('Lỗi thanh toán')
+      }
+    } catch (error) {
+      console.error('Lỗi khi thanh toán hóa đơn:', error)
+    }
+  }
 
   return (
     <div className='app-container'>
@@ -459,11 +499,16 @@ function BanHangLayout () {
             </div>
             <div className='summary-item'>
               <span>Đặt cọc</span>
-              <span>0</span>
+              <input
+                type='text'
+                value={datcoc}
+                onChange={e => setdatcoc(e.target.value)}
+                className='inputBanHang'
+              />
             </div>
             <div className='summary-item'>
               <span>Còn phải thu</span>
-              <span>0</span>
+              <span>{(totalAmount - datcoc).toLocaleString()}</span>
             </div>
 
             <div className='payment-method'>
@@ -510,7 +555,7 @@ function BanHangLayout () {
               <input
                 onClick={() => setIsFocused(true)} // Khi focus
                 onBlur={() => setIsFocused(false)} // Khi mất focus
-                className={isFocused ? 'border-bottom' : ''}
+                className={isFocused ? 'border-bottom' : 'inputBanHang'}
                 value={
                   inputValue
                     ? inputValue.toLocaleString()
@@ -600,7 +645,9 @@ function BanHangLayout () {
 
           <div className='checkout-actions'>
             <button className='save-btn'>Lưu tạm (F10)</button>
-            <button className='pay-btn'>Thu tiền (F9)</button>
+            <button className='pay-btn' onClick={handleThanhToan}>
+              Thu tiền (F9)
+            </button>
           </div>
         </div>
       </div>
