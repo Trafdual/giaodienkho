@@ -18,6 +18,7 @@ function BanHangLayout () {
   const [selectedSku, setSelectedSku] = useState(null)
   const [InputSoLuong, setInputSoLuong] = useState(false)
   const [InputDonGian, setInputDonGian] = useState(false)
+  const [refundAmount, setRefundAmount] = useState(0)
 
   const [isOpen, setIsOpen] = useState(false)
   const [products, setProducts] = useState([])
@@ -510,7 +511,11 @@ function BanHangLayout () {
                 onClick={() => setIsFocused(true)} // Khi focus
                 onBlur={() => setIsFocused(false)} // Khi mất focus
                 className={isFocused ? 'border-bottom' : ''}
-                value={inputValue ? inputValue.toLocaleString() : totalAmount.toLocaleString()}
+                value={
+                  inputValue
+                    ? inputValue.toLocaleString()
+                    : totalAmount.toLocaleString()
+                }
                 onChange={e => setInputValue(e.target.value)}
               />
             </div>
@@ -567,7 +572,11 @@ function BanHangLayout () {
 
             <div className='summary-item'>
               <span>Trả lại khách</span>
-              <span>0</span>
+              <span>
+                {inputValue
+                  ? Number(inputValue - totalAmount).toLocaleString()
+                  : Number(totalAmount - totalAmount).toLocaleString()}
+              </span>
             </div>
           </div>
 
