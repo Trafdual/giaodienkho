@@ -4,7 +4,7 @@ import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import TransferRequestModal from "../TransferRequestModal/TransferRequestModal"; 
 import "./OtherStoreModal.scss";
 
-function OtherStoreModal({ isOpen, onClose, stores,productName }) {
+function OtherStoreModal({ isOpen, onClose, stores,productName,masku }) {
   const [selectedStore, setSelectedStore] = useState(null); // Lưu dữ liệu chuyển sang modal mới
   const [isTransferModalOpen, setTransferModalOpen] = useState(false); // Trạng thái modal mới
   const handleRequestTransfer = (store) => {
@@ -63,6 +63,7 @@ function OtherStoreModal({ isOpen, onClose, stores,productName }) {
         onClose={handleCloseTransferModal}
         store={selectedStore}
         productName={productName}
+        masku={masku}
       />
       )}
     </>

@@ -1,7 +1,7 @@
 import React from "react";
 import "./TransferRequestModal.scss";
 
-function TransferRequestModal({ isOpen, onClose, store,productName  }) {
+function TransferRequestModal({ isOpen, onClose, store,productName,masku  }) {
     if (!isOpen) return null;
 
     return (
@@ -52,7 +52,7 @@ function TransferRequestModal({ isOpen, onClose, store,productName  }) {
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>1P101</td>
+                                    <td>{masku}</td>
                                     <td>{productName}</td>
                                     <td>
                                         <select>

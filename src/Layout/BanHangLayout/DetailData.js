@@ -20,6 +20,8 @@ function ModalDataScreen ({
   const [selectAll, setSelectAll] = useState(false)
   //đang sửa
   const [selectedProductName, setSelectedProductName] = useState({})
+  const [selectedProductmaSKU, setSelectedProductmaSKU] = useState({})
+
 
   const [selectedProducts, setSelectedProducts] = useState([])
   const khoId1 = localStorage.getItem('khoIDBH') || ''
@@ -27,10 +29,11 @@ function ModalDataScreen ({
   const [isOtherStoreModalOpen, setOtherStoreModalOpen] = useState(false)
   const [selectedStores, setSelectedStores] = useState([])
 
-  const handleViewOtherStores = (stores, tensp) => {
+  const handleViewOtherStores = (stores, tensp,masku) => {
     setSelectedStores(stores)
     setSelectedProductName(tensp) // Lưu tên sản phẩm
     setOtherStoreModalOpen(true)
+    setSelectedProductmaSKU(masku)
   }
 
   useEffect(() => {
@@ -145,7 +148,8 @@ function ModalDataScreen ({
         isOpen={isOtherStoreModalOpen}
         onClose={() => setOtherStoreModalOpen(false)}
         stores={selectedStores}
-        productName={selectedProductName} // Truyền tensp
+        productName={selectedProductName}
+        masku={selectedProductmaSKU}
       />
       <ModalBanhang isOpen={isOpen} onClose={onClose}>
         <div className='modal-header'>
@@ -247,7 +251,7 @@ function ModalDataScreen ({
                           <span
                             className='tooltip-target-wrapper clickable'
                             onClick={() =>
-                              handleViewOtherStores(item.cacKhoKhac, item.tensp)
+                              handleViewOtherStores(item.cacKhoKhac, item.tensp,item.masku)
                             }
                           >
                             {item.tongSoLuongCacKhoKhac}
