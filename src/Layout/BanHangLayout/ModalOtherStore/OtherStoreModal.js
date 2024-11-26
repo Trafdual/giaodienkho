@@ -4,13 +4,11 @@ import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import TransferRequestModal from "../TransferRequestModal/TransferRequestModal"; 
 import "./OtherStoreModal.scss";
 
-function OtherStoreModal({ isOpen, onClose, stores }) {
+function OtherStoreModal({ isOpen, onClose, stores,productName }) {
   const [selectedStore, setSelectedStore] = useState(null); // Lưu dữ liệu chuyển sang modal mới
   const [isTransferModalOpen, setTransferModalOpen] = useState(false); // Trạng thái modal mới
-  const [selectedProductName, setSelectedProductName] = useState("");
-  const handleRequestTransfer = (store, tensp) => {
+  const handleRequestTransfer = (store) => {
     setSelectedStore(store); // Lưu thông tin sản phẩm/kho
-    setSelectedProductName(tensp); // Lưu tên sản phẩm
     setTransferModalOpen(true); // Mở modal mới
   };
 
@@ -63,7 +61,8 @@ function OtherStoreModal({ isOpen, onClose, stores }) {
         <TransferRequestModal
         isOpen={isTransferModalOpen}
         onClose={handleCloseTransferModal}
-        store={selectedStore} // Truyền sản phẩm
+        store={selectedStore}
+        productName={productName}
       />
       )}
     </>
