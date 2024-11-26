@@ -257,6 +257,24 @@ function Sidebar ({ isActive, setIsActive }) {
                   </a>
                 </Link>
               </li>
+              <li
+                className={`litong ${
+                  activeItem === '/lenhdieuchuyen' ? 'hovered' : ''
+                }`}
+                onClick={() => handleItemClick('/lenhdieuchuyen')}
+              >
+                <Link to={'/lenhdieuchuyen'}>
+                  <a>
+                    <span className='icon'>
+                      <FontAwesomeIcon
+                        className='fonticon'
+                        icon={faTruckFast}
+                      />
+                    </span>
+                    <span className='title'>Lệnh điều chuyển</span>
+                  </a>
+                </Link>
+              </li>
             </ul>
           )}
         </li>
