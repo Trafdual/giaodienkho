@@ -28,7 +28,7 @@ function DefaultLayout ({ children }) {
         console.log('Interval detected change, updating khoID:', newuserID)
         setuserID(newuserID)
       }
-    }, 1000) // Kiểm tra mỗi giây
+    }, 1000) 
 
     return () => clearInterval(intervalId)
   }, [ getFromLocalStorage('userId')])
