@@ -1,0 +1,1 @@
+export {default as ModalQrThanhToan} from './ModalQrThanhToan'

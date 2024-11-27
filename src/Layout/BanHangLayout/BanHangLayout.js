@@ -10,15 +10,24 @@ import HeaderBanHang from '../BanHangLayout/HeaderBanHang/HeaderBanHang'
 import { getFromLocalStorage } from '~/components/MaHoaLocalStorage/MaHoaLocalStorage'
 import { Tooltip } from 'react-tippy'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
+import {
+  faChevronDown,
+  faToggleOff,
+  faToggleOn
+} from '@fortawesome/free-solid-svg-icons'
+import { ModalQrThanhToan } from './ModalQrThanhToan'
 
 function BanHangLayout () {
+  const [currentTime, setCurrentTime] = useState(new Date())
+  const[issOpenModalQR,setIsOpenModalQR] =useState(false)
+
   const [isModalOpen, setModalOpen] = useState(false)
   const [imeiList, setImeiList] = useState([])
   const [selectedSku, setSelectedSku] = useState(null)
   const [InputSoLuong, setInputSoLuong] = useState(false)
   const [InputDonGian, setInputDonGian] = useState(false)
-  const [refundAmount, setRefundAmount] = useState(0)
+  const [inhoadon, setinhoadon] = useState(true)
+  const [hoadondata, sethoadondata] = useState({})
 
   const [isOpen, setIsOpen] = useState(false)
   const [products, setProducts] = useState([])
@@ -33,7 +42,7 @@ function BanHangLayout () {
   const [nganhang, setnganhang] = useState('')
 
   const [textkh, settextkh] = useState('')
-  const [methods, setmethods] = useState(['Tiền mặt', 'Chuyển khoản'])
+  const methods = ['Tiền mặt', 'Chuyển khoản']
   const [datcoc, setdatcoc] = useState(0)
   const [method, setmethod] = useState('Tiền mặt')
   const [nganhangs, setnganhangs] = useState([])
@@ -43,8 +52,31 @@ function BanHangLayout () {
   const [inputValue, setInputValue] = useState(0)
 
   const storedKhoID = localStorage.getItem('khoIDBH')
+  const userId = getFromLocalStorage('userId') || ''
+  const idkho1 = localStorage.getItem('khoIDBH')
 
   const inputRef = useRef()
+
+  //thời gian thực
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentTime(new Date())
+    }, 1000)
+
+    return () => clearInterval(interval)
+  }, [])
+
+  const formatDate = date => {
+    const day = String(date.getDate()).padStart(2, '0')
+    const month = String(date.getMonth() + 1).padStart(2, '0')
+    const year = date.getFullYear()
+    const hours = String(date.getHours()).padStart(2, '0')
+    const minutes = String(date.getMinutes()).padStart(2, '0')
+
+    return `${day}/${month}/${year} - ${hours}:${minutes}`
+  }
+
+  //....
 
   const handleItemsSelected = items => {
     const updatedItems = items.map(item => ({
@@ -56,9 +88,6 @@ function BanHangLayout () {
     }))
     setSelectedItems(prev => [...prev, ...updatedItems])
   }
-  // Lấy userId và khoId từ localStorage
-  const userId = getFromLocalStorage('userId') || ''
-  const idkho1 = localStorage.getItem('khoIDBH')
 
   const handleOpenModal = async idSku => {
     try {
@@ -242,7 +271,7 @@ function BanHangLayout () {
 
     try {
       const response = await fetch(
-        `http://localhost:8080/postchonsanpham/${storedKhoID}`,
+        `https://www.ansuataohanoi.com/postchonsanpham/${storedKhoID}`,
         {
           method: 'POST',
           headers: {
@@ -258,9 +287,11 @@ function BanHangLayout () {
           })
         }
       )
+      const data = await response.json()
       if (response.ok) {
         alert('thanh toán thành công')
         setSelectedItems([])
+        sethoadondata(data)
       } else {
         console.error('Lỗi thanh toán')
       }
@@ -431,7 +462,7 @@ function BanHangLayout () {
 
         <div className='checkout-section'>
           <div className='checkout-header'>
-            <span>22/10/2024 - 15:22</span>
+            <span>{formatDate(currentTime)}</span>
             <button className='store-btn'>Tại cửa hàng</button>
           </div>
 
@@ -642,11 +673,22 @@ function BanHangLayout () {
             <button>200.000</button>
             <button>100.000</button>
           </div>
+          <div className='divInhoadon'>
+            <FontAwesomeIcon
+              icon={inhoadon ? faToggleOn : faToggleOff}
+              onClick={() => setinhoadon(!inhoadon)}
+              className={`iconInhoadon ${inhoadon ? 'on' : 'off'}`}
+            />
+            <p>In hóa đơn</p>
+          </div>
 
           <div className='checkout-actions'>
             <button className='save-btn'>Lưu tạm (F10)</button>
             <button className='pay-btn' onClick={handleThanhToan}>
               Thu tiền (F9)
+            </button>
+            <button className='pay-btn' onClick={()=>setIsOpenModalQR(true)}>
+              Test Qr Thanh Toán
             </button>
           </div>
         </div>
@@ -669,7 +711,11 @@ function BanHangLayout () {
         onConfirm={handleImeiConfirm}
         allSelectedImeis={allSelectedImeis}
       />
-      
+      <ModalQrThanhToan
+      isOpen={issOpenModalQR}
+      onClose={()=>setIsOpenModalQR(false)}
+      Tongtien={totalAmount}
+      />
     </div>
   )
 }
