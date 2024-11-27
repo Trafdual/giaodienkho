@@ -66,6 +66,7 @@ function LenhDieuChuyen() {
             );
             if (response.status === 200) {
                 showToast("Duyệt lệnh điều chuyển thành công!", "success");
+                fetchOrders();
                 setOrders((prevOrders) =>
                     prevOrders.map((order) =>
                         order._id === orderId ? { ...order, duyet: true } : order
