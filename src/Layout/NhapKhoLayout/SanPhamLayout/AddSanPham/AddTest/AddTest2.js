@@ -268,6 +268,20 @@ function AddTest2 ({
     }
   }
 
+  useEffect(() => {
+    const eventSource = new EventSource('https://www.ansuataohanoi.com/events')
+
+    eventSource.onmessage = event => {
+      const newMessage = JSON.parse(event.data)
+      showToast(newMessage.message)
+      fetchlohang()
+    }
+
+    return () => {
+      eventSource.close()
+    }
+  }, [])
+
   return (
     <>
       <div>
