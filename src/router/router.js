@@ -16,7 +16,6 @@ import { ThietLapLayout } from '~/Layout/ThietLapLayout'
 import { SearchProductLayout } from '~/Layout/SearchProductLayout'
 import { TestLayout } from '~/Layout/TestLayout'
 import { BaoCaoKhoLayout } from '~/Layout/BaoCaoKhoLayout'
-import MyCalendar from '~/Layout/TestLungTung/CalendarLayoutTest'
 
 const publicRoutes = [
   { path: '/', component: Login, layout: null },
@@ -37,7 +36,6 @@ const publicRoutes = [
   { path: '/test', component: TestLayout },
   { path: '/baocaokho', component: BaoCaoKhoLayout },
   { path: '/register', component: Register, layout: null },
-  { path: '/calendar', component: MyCalendar, layout: null }
 ]
 const privateRoutes = []
 export { publicRoutes, privateRoutes }

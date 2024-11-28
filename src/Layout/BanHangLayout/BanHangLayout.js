@@ -16,7 +16,7 @@ import {
   faToggleOn
 } from '@fortawesome/free-solid-svg-icons'
 import { ModalQrThanhToan } from './ModalQrThanhToan'
-
+import { handleGeneratePDF } from './InHoaDon/InHoaDon'
 function BanHangLayout () {
   const [currentTime, setCurrentTime] = useState(new Date())
   const[issOpenModalQR,setIsOpenModalQR] =useState(false)
@@ -292,6 +292,7 @@ function BanHangLayout () {
         alert('thanh toán thành công')
         setSelectedItems([])
         sethoadondata(data)
+        handleGeneratePDF(data)
       } else {
         console.error('Lỗi thanh toán')
       }
