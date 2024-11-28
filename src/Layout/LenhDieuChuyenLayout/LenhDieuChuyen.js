@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useToast } from "../../components/GlobalStyles/ToastContext";
-import {Loading} from "../../components/Loading"; // Import component Loading
+import { Loading } from "../../components/Loading"; // Import component Loading
+import Calendar from "../../components/Calendar/Calendar"; // Import Calendar component (component đã tùy chỉnh ở trên)
 import "./LenhDieuChuyen.scss";
 
 function LenhDieuChuyen() {
@@ -14,6 +15,14 @@ function LenhDieuChuyen() {
 
     const [beginDate, setBeginDate] = useState("");
     const [endDate, setEndDate] = useState("");
+
+    // Lấy ngày hiện tại định dạng yyyy-MM-dd
+    useEffect(() => {
+        const today = new Date();
+        const formattedDate = today.toISOString().split("T")[0];
+        setBeginDate(formattedDate);
+        setEndDate(formattedDate);
+    }, []);
 
     const fetchOrders = async () => {
         setIsLoading(true); // Bắt đầu tải
@@ -86,10 +95,8 @@ function LenhDieuChuyen() {
         <div className="transfer-orders">
             <h2>Lệnh điều chuyển</h2>
 
-            {/* Bộ lọc */}
             <div className="filter-container">
                 <div className="dropdown-container">
-                    <label htmlFor="status-filter">Trạng thái:</label>
                     <select
                         id="status-filter"
                         value={filterStatus}
@@ -101,25 +108,20 @@ function LenhDieuChuyen() {
                 </div>
 
                 <div className="date-picker">
-                    <label htmlFor="beginDate">Ngày bắt đầu:</label>
-                    <input
-                        type="date"
-                        id="beginDate"
-                        value={beginDate}
-                        onChange={(e) => setBeginDate(e.target.value)}
+                    <label>Từ ngày</label>
+                    <Calendar
+                        selectedDate={beginDate}
+                        onDateChange={setBeginDate}
+                    />
+                    <label>Đến ngày</label>
+                    <Calendar
+                        selectedDate={endDate}
+                        onDateChange={setEndDate}
                     />
                 </div>
-                <div className="date-picker">
-                    <label htmlFor="endDate">Ngày kết thúc:</label>
-                    <input
-                        type="date"
-                        id="endDate"
-                        value={endDate}
-                        onChange={(e) => setEndDate(e.target.value)}
-                    />
-                </div>
+
                 <button className="search-btn" onClick={handleSearch}>
-                    Tìm kiếm
+                   Lấy dữ liệu
                 </button>
             </div>
 
