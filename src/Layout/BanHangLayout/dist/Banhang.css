@@ -471,3 +471,28 @@ body {
 .TaiKhoanThu button:hover {
   border-bottom-color: var(--blue);
 }
+
+.divInhoadon {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  gap: 10px;
+}
+
+.iconInhoadon {
+  font-size: 100px;
+  color: var(--blue);
+  width: 40px;
+  transition: all 0.3s ease;
+}
+
+.iconInhoadon.on {
+  color: var(--blue);
+  transform: scale(1.1);
+}
+
+.iconInhoadon.off {
+  color: var(--blue);
+  transform: scale(1);
+}

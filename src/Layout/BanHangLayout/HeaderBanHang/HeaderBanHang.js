@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
-  faSearch,
   faCaretDown,
   faMessage,
   faBell,
@@ -10,17 +9,14 @@ import {
 import Tippy from '@tippyjs/react'
 import 'tippy.js/dist/tippy.css'
 import './HeaderBanHang.scss'
-import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
 function HeaderBanHang ({ userId }) {
-  const [khoList, setKhoList] = useState([]) // Đảm bảo giá trị mặc định là []
-  const [keyword, setKeyword] = useState('')
+  const [khoList, setKhoList] = useState([])
   const [isLoading, setIsLoading] = useState(false)
   const [isDropdownVisible, setDropdownVisible] = useState(false)
   const [selectedKho, setSelectedKho] = useState(null)
   const dropdownRef = useRef(null)
-  const navigate = useNavigate()
 
 
   useEffect(() => {
@@ -68,17 +64,6 @@ function HeaderBanHang ({ userId }) {
       }
     }
   }, [khoList])
-  const handleSearch = () => {
-    if (keyword.trim()) {
-      navigate(`/search-products?keyword=${keyword}`)
-    }
-  }
-
-  const handleKeyDown = event => {
-    if (event.key === 'Enter') {
-      handleSearch()
-    }
-  }
 
   useEffect(() => {
     const handleClickOutside = event => {
@@ -96,25 +81,9 @@ function HeaderBanHang ({ userId }) {
   return (
     <div className='topbar1'>
       <div className='logo'>
-        <img src='/path-to-logo.png' alt='Logo' />
+        <img src='/LOGO.png' alt='Logo' />
+        <h3>BiCraft</h3>
       </div>
-
-      <div className='search'>
-        <input
-          type='text'
-          placeholder='Tìm kiếm sản phẩm...'
-          value={keyword}
-          onChange={e => setKeyword(e.target.value)}
-          onKeyDown={handleKeyDown}
-          disabled={isLoading}
-        />
-        <FontAwesomeIcon
-          className='icon-search'
-          icon={faSearch}
-          onClick={handleSearch}
-        />
-      </div>
-
       <div className='dropdown'>
         <button className='dropdown-button' onClick={toggleDropdown}>
           {selectedKho ? selectedKho.name : 'Chọn kho'}

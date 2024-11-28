@@ -4,7 +4,6 @@ import './HoaDonLayout.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { AddHoaDon } from './AddHoaDon'
-import { useReactToPrint } from 'react-to-print'
 import Invoice from './Invoice'
 
 function HoaDonLayout () {
@@ -54,9 +53,6 @@ function HoaDonLayout () {
   const handlePageChange = pageNumber => {
     setCurrentPage(pageNumber)
   }
-  const handlePrint1 = useReactToPrint({
-    content: () => componentRef.current // Chỉ định phần nội dung cần in
-  })
 
   const handlePrint = hd => {
     const printContent = `

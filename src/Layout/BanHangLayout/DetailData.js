@@ -141,7 +141,6 @@ function ModalDataScreen ({
       </div>
     )
   }
-  console.log(data)
   return (
     <>
       <OtherStoreModal

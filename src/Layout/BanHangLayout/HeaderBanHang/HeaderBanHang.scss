@@ -1,123 +1,135 @@
 .topbar1 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #ddd;
+
+  .logo {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 10px 20px;
-    background-color: #f8f9fa;
-    border-bottom: 1px solid #ddd;
-  
-    .logo img {
-      height: 50px;
-    }
-  
-    .search {
-      display: flex;
-      align-items: center;
-      input {
-        padding: 8px;
-        width: 300px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        outline: none;
-        &:disabled {
-          background-color: #f2f2f2;
-        }
-      }
-      .icon-search {
-        margin-left: 8px;
-        cursor: pointer;
-        color: #333;
+    gap: 10px;
+  }
+
+  .logo img {
+    height: 50px;
+  }
+
+  .search {
+    display: flex;
+    align-items: center;
+
+    input {
+      padding: 8px;
+      width: 300px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      outline: none;
+
+      &:disabled {
+        background-color: #f2f2f2;
       }
     }
-  
-    .dropdown {
-      position: relative;
-  
-      .dropdown-button {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 8px 12px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        background-color: #fff;
-        cursor: pointer;
-        font-size: 14px;
-      }
-  
-      .dropdown-list {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        width: 200px;
-        background: #fff;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        z-index: 10;
-        max-height: 200px;
-        overflow-y: auto;
-  
-        li {
-          padding: 8px 12px;
-          cursor: pointer;
-          &:hover {
-            background-color: #f2f2f2;
-          }
-        }
-      }
-    }
-  
-    .user {
-      display: flex;
-      align-items: center;
-  
-      .user-info {
-        display: flex;
-        align-items: center;
-  
-        img {
-          height: 40px;
-          width: 40px;
-          border-radius: 50%;
-          margin-right: 10px;
-        }
-  
-        h4 {
-          font-size: 14px;
-          margin: 0;
-        }
-      }
-  
-      .help {
-        display: flex;
-        align-items: center;
-  
-        .btn-icon {
-          margin-left: 10px;
-          background: none;
-          border: none;
-          cursor: pointer;
-  
-          .icon-help {
-            font-size: 18px;
-            color: #333;
-          }
-        }
-      }
-    }
-  
-    .loading-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(255, 255, 255, 0.7);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
+
+    .icon-search {
+      margin-left: 8px;
+      cursor: pointer;
       color: #333;
     }
   }
-  
+
+  .dropdown {
+    border: none;
+    position: relative;
+    width: 20%;
+
+    .dropdown-button {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 12px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      background-color: #fff;
+      cursor: pointer;
+      font-size: 14px;
+      width: 100%;
+    }
+
+    .dropdown-list {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      z-index: 10;
+      max-height: 200px;
+      overflow-y: auto;
+
+      li {
+        padding: 8px 12px;
+        cursor: pointer;
+
+        &:hover {
+          background-color: #f2f2f2;
+        }
+      }
+    }
+  }
+
+  .user {
+    display: flex;
+    align-items: center;
+
+    .user-info {
+      display: flex;
+      align-items: center;
+
+      img {
+        height: 40px;
+        width: 40px;
+        border-radius: 50%;
+        margin-right: 10px;
+      }
+
+      h4 {
+        font-size: 14px;
+        margin: 0;
+      }
+    }
+
+    .help {
+      display: flex;
+      align-items: center;
+
+      .btn-icon {
+        margin-left: 10px;
+        background: none;
+        border: none;
+        cursor: pointer;
+
+        .icon-help {
+          font-size: 18px;
+          color: #333;
+        }
+      }
+    }
+  }
+
+  .loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    color: #333;
+  }
+}

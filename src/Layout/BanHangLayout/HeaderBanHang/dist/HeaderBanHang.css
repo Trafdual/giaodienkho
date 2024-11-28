@@ -1,0 +1,116 @@
+.topbar1 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #ddd;
+}
+.topbar1 .logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.topbar1 .logo img {
+  height: 50px;
+}
+.topbar1 .search {
+  display: flex;
+  align-items: center;
+}
+.topbar1 .search input {
+  padding: 8px;
+  width: 300px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none;
+}
+.topbar1 .search input:disabled {
+  background-color: #f2f2f2;
+}
+.topbar1 .search .icon-search {
+  margin-left: 8px;
+  cursor: pointer;
+  color: #333;
+}
+.topbar1 .dropdown {
+  border: none;
+  position: relative;
+  width: 20%;
+}
+.topbar1 .dropdown .dropdown-button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  cursor: pointer;
+  font-size: 14px;
+  width: 100%;
+}
+.topbar1 .dropdown .dropdown-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  z-index: 10;
+  max-height: 200px;
+  overflow-y: auto;
+}
+.topbar1 .dropdown .dropdown-list li {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+.topbar1 .dropdown .dropdown-list li:hover {
+  background-color: #f2f2f2;
+}
+.topbar1 .user {
+  display: flex;
+  align-items: center;
+}
+.topbar1 .user .user-info {
+  display: flex;
+  align-items: center;
+}
+.topbar1 .user .user-info img {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+.topbar1 .user .user-info h4 {
+  font-size: 14px;
+  margin: 0;
+}
+.topbar1 .user .help {
+  display: flex;
+  align-items: center;
+}
+.topbar1 .user .help .btn-icon {
+  margin-left: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.topbar1 .user .help .btn-icon .icon-help {
+  font-size: 18px;
+  color: #333;
+}
+.topbar1 .loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  color: #333;
+}

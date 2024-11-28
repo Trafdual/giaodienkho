@@ -19,6 +19,8 @@ var _NhapKhoLayout = require("~/Layout/NhapKhoLayout");
 
 var _DieuChuyenLayout = require("~/Layout/DieuChuyenLayout");
 
+var _LenhDieuChuyenLayout = require("~/Layout/LenhDieuChuyenLayout");
+
 var _BanHangLayout = require("~/Layout/BanHangLayout");
 
 var _TroGiupLayout = require("~/Layout/TroGiupLayout");
@@ -38,8 +40,6 @@ var _SearchProductLayout = require("~/Layout/SearchProductLayout");
 var _TestLayout = require("~/Layout/TestLayout");
 
 var _BaoCaoKhoLayout = require("~/Layout/BaoCaoKhoLayout");
-
-var _CalendarLayoutTest = _interopRequireDefault(require("~/Layout/TestLungTung/CalendarLayoutTest"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -65,6 +65,9 @@ var publicRoutes = [{
 }, {
   path: '/dieuchuyen',
   component: _DieuChuyenLayout.DieuChuyenLayout
+}, {
+  path: '/lenhdieuchuyen',
+  component: _LenhDieuChuyenLayout.LenhDieuChuyenLayout
 }, {
   path: '/banhang',
   component: _BanHangLayout.BanHangLayout,
@@ -96,10 +99,6 @@ var publicRoutes = [{
 }, {
   path: '/register',
   component: _RegisterLayout.Register,
-  layout: null
-}, {
-  path: '/calendar',
-  component: _CalendarLayoutTest["default"],
   layout: null
 }];
 exports.publicRoutes = publicRoutes;
