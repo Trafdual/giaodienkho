@@ -16,6 +16,7 @@ import { ThietLapLayout } from '~/Layout/ThietLapLayout'
 import { SearchProductLayout } from '~/Layout/SearchProductLayout'
 import { TestLayout } from '~/Layout/TestLayout'
 import { BaoCaoKhoLayout } from '~/Layout/BaoCaoKhoLayout'
+import Datepicker from '~/Layout/TestLungTung/DatePicker'
 
 const publicRoutes = [
   { path: '/', component: Login, layout: null },
@@ -36,6 +37,7 @@ const publicRoutes = [
   { path: '/test', component: TestLayout },
   { path: '/baocaokho', component: BaoCaoKhoLayout },
   { path: '/register', component: Register, layout: null },
+  { path: '/calendar', component: Datepicker, layout: null }
 ]
 const privateRoutes = []
 export { publicRoutes, privateRoutes }
