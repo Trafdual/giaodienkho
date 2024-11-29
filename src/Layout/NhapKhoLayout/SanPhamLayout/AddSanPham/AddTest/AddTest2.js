@@ -286,232 +286,238 @@ function AddTest2 ({
     <>
       <div>
         <h3 style={{ marginBottom: '10px' }}>Chi tiết</h3>
-        <table className='modal-table-test'>
-          <thead>
-            <tr>
-              <th>Mã SKU</th>
-              <th>Tên máy</th>
-              <th>Imel</th>
-              <th>Số lượng</th>
-              <th>Đơn giá</th>
-              <th>Tổng tiền</th>
-            </tr>
-          </thead>
-          <tbody>
-            {rows.map((row, index) => (
-              <tr key={index}>
-                <td>{row.masku}</td>
-                <td>{row.name}</td>
-                <td
-                  onClick={() => toggleIMEIEdit(index)}
-                  style={{ cursor: 'pointer' }}
-                >
-                  {isEditingIMEI[index] ? (
-                    <div className='imel-input-container'>
-                      {row.imel.map((item, imelIndex) => (
-                        <span key={imelIndex} className='imel-tag'>
-                          {item}
-                          <button
-                            onMouseDown={e => {
-                              e.stopPropagation() // Ngăn sự kiện blur của input
-                              handleRemoveImel(index, imelIndex)
-                            }}
-                            className='remove-imel-btn'
-                          >
-                            &times;
-                          </button>
-                        </span>
-                      ))}
-                      <div className='divnhapImel'>
-                        <input
-                          ref={imeiInputRef}
-                          type='text'
-                          value={imel}
-                          placeholder='Nhập IMEI'
-                          onKeyPress={event => handleKeyPress(index, event)}
-                          onChange={e => setImel(e.target.value)}
-                          className='imel-input'
-                          autoFocus
-                        />
-                        <button
-                          className='btnnhapImel'
-                          onClick={() => {
-                            setIsOpenModalBarCode(true)
-                            setindex(index)
-                          }}
-                        >
-                          <FontAwesomeIcon icon={faBarcode} />
-                        </button>
-                      </div>
-                    </div>
-                  ) : (
-                    row.imel.join(', ') || 'Nhập IMEI'
-                  )}
-                </td>
-                <FormAddImel
-                  isOpen={isOpenModalBarCode}
-                  onClose={() => setIsOpenModalBarCode(false)}
-                  index={indexImel}
-                  handleAddImel={handleAddImel}
-                />
-                <td onClick={() => toggleSoluongEdit(index)}>
-                  {isEditingSoluong[index] ? (
-                    <input
-                      type='text'
-                      placeholder='Nhập số lượng'
-                      className='imel-input'
-                      value={row.soluong || ''}
-                      onChange={e => {
-                        const inputValue = e.target.value
-                        if (inputValue === '' || inputValue === '0') {
-                          handleInputChange(index, 'soluong', null)
-                        } else {
-                          const value = parseInt(inputValue, 10)
-                          if (!isNaN(value)) {
-                            handleInputChange(index, 'soluong', value)
-                          }
-                        }
-                      }}
-                      autoFocus
-                      onBlur={() => {
-                        setIsEditingSoluong(prev => {
-                          const updated = [...prev]
-                          updated[index] = false
-                          return updated
-                        })
-
-                        // Kiểm tra nếu có IMEI thì lấy độ dài IMEI
-                        if (row.imel && row.imel.length > 0) {
-                          setRows(prevRows =>
-                            prevRows.map((r, i) =>
-                              i === index ? { ...r, soluong: r.imel.length } : r
-                            )
-                          )
-                        }
-                      }}
-                    />
-                  ) : (
-                    row.soluong || 'Nhập số lượng'
-                  )}
-                </td>
-                <td onClick={() => togglePriceEdit(index)}>
-                  {isEditingPrice[index] ? (
-                    <input
-                      type='text'
-                      placeholder='Đơn giá'
-                      className='imel-input'
-                      value={
-                        row.price
-                          ? new Intl.NumberFormat().format(row.price)
-                          : ''
-                      }
-                      onChange={e => {
-                        const rawValue = e.target.value.replace(/\./g, '')
-                        const numericValue = parseFloat(rawValue)
-
-                        // Chỉ cập nhật nếu giá trị là hợp lệ
-                        if (!isNaN(numericValue) || rawValue === '') {
-                          handleInputChange(index, 'price', rawValue) // Cập nhật giá trị
-                        }
-                      }}
-                      autoFocus
-                      onBlur={() => setIsEditingPrice(false)}
-                    />
-                  ) : row.price ? (
-                    new Intl.NumberFormat().format(row.price.replace(/\./g, ''))
-                  ) : (
-                    'Nhập đơn giá'
-                  )}
-                </td>
-                <td>{new Intl.NumberFormat().format(row.tongtien)}</td>
+        <div className='divTableSP'>
+          <table className='modal-table-test'>
+            <thead>
+              <tr>
+                <th>Mã SKU</th>
+                <th>Tên máy</th>
+                <th>Imel</th>
+                <th>Số lượng</th>
+                <th>Đơn giá</th>
+                <th>Tổng tiền</th>
               </tr>
-            ))}
-            <tr>
-              <td>
-                <div className='tdMasku'>
-                  <Tooltip
-                    trigger='click'
-                    interactive
-                    arrow
-                    position='bottom'
-                    open={isTableVisible}
-                    onRequestClose={() => setIsTableVisible(false)}
-                    html={
-                      <div className='supplier-table-container'>
-                        {loadingSuppliers ? (
-                          <p>Đang tải danh sách sku...</p>
-                        ) : (
-                          <table className='supplier-info-table'>
-                            <thead>
-                              <tr>
-                                <th>Mã sku</th>
-                                <th>Tên</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {skudata.filter(
-                                supplier =>
-                                  !selectedSKUs.includes(supplier.madungluong)
-                              ).length > 0 ? (
-                                skudata
-                                  .filter(
-                                    supplier =>
-                                      !selectedSKUs.includes(
-                                        supplier.madungluong
-                                      )
-                                  )
-                                  .map(supplier => (
-                                    <tr
-                                      key={supplier._id}
-                                      onClick={() => {
-                                        addRow(supplier)
-                                        setIsTableVisible(false)
-                                      }}
-                                    >
-                                      <td>{supplier.madungluong}</td>
-                                      <td>{supplier.name}</td>
-                                    </tr>
-                                  ))
-                              ) : (
-                                <tr>
-                                  <td colSpan={'2'}>Không có mã sku nào</td>
-                                </tr>
-                              )}
-                            </tbody>
-                          </table>
-                        )}
+            </thead>
+            <tbody>
+              {rows.map((row, index) => (
+                <tr key={index}>
+                  <td>{row.masku}</td>
+                  <td>{row.name}</td>
+                  <td
+                    onClick={() => toggleIMEIEdit(index)}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    {isEditingIMEI[index] ? (
+                      <div className='imel-input-container'>
+                        {row.imel.map((item, imelIndex) => (
+                          <span key={imelIndex} className='imel-tag'>
+                            {item}
+                            <button
+                              onMouseDown={e => {
+                                e.stopPropagation() // Ngăn sự kiện blur của input
+                                handleRemoveImel(index, imelIndex)
+                              }}
+                              className='remove-imel-btn'
+                            >
+                              &times;
+                            </button>
+                          </span>
+                        ))}
+                        <div className='divnhapImel'>
+                          <input
+                            ref={imeiInputRef}
+                            type='text'
+                            value={imel}
+                            placeholder='Nhập IMEI'
+                            onKeyPress={event => handleKeyPress(index, event)}
+                            onChange={e => setImel(e.target.value)}
+                            className='imel-input'
+                            autoFocus
+                          />
+                          <button
+                            className='btnnhapImel'
+                            onClick={() => {
+                              setIsOpenModalBarCode(true)
+                              setindex(index)
+                            }}
+                          >
+                            <FontAwesomeIcon icon={faBarcode} />
+                          </button>
+                        </div>
                       </div>
-                    }
-                  >
-                    <button
-                      className='btnaddtest'
-                      onClick={() => setIsTableVisible(!isTableVisible)}
-                    >
-                      Chọn mã sku
-                      <FontAwesomeIcon
-                        icon={faChevronDown}
-                        className='iconaddtest'
-                      />
-                    </button>
-                  </Tooltip>
-                  <button
-                    className='btnaddskutest'
-                    onClick={() => setIsOpenAddSKU(true)}
-                  >
-                    <FontAwesomeIcon icon={faPlus} className='iconaddtest' />
-                  </button>
-                  <ModalAddSku
-                    isOpen={isOpenAddSKU}
-                    onClose={() => setIsOpenAddSKU(false)}
-                    fetchsku={fetchSku}
-                    userID={userID}
+                    ) : (
+                      row.imel.join(', ') || 'Nhập IMEI'
+                    )}
+                  </td>
+                  <FormAddImel
+                    isOpen={isOpenModalBarCode}
+                    onClose={() => setIsOpenModalBarCode(false)}
+                    index={indexImel}
+                    handleAddImel={handleAddImel}
                   />
-                </div>
-              </td>
-              <td colSpan='5'></td>
-            </tr>
-          </tbody>
-        </table>
+                  <td onClick={() => toggleSoluongEdit(index)}>
+                    {isEditingSoluong[index] ? (
+                      <input
+                        type='text'
+                        placeholder='Nhập số lượng'
+                        className='imel-input'
+                        value={row.soluong || ''}
+                        onChange={e => {
+                          const inputValue = e.target.value
+                          if (inputValue === '' || inputValue === '0') {
+                            handleInputChange(index, 'soluong', null)
+                          } else {
+                            const value = parseInt(inputValue, 10)
+                            if (!isNaN(value)) {
+                              handleInputChange(index, 'soluong', value)
+                            }
+                          }
+                        }}
+                        autoFocus
+                        onBlur={() => {
+                          setIsEditingSoluong(prev => {
+                            const updated = [...prev]
+                            updated[index] = false
+                            return updated
+                          })
+
+                          // Kiểm tra nếu có IMEI thì lấy độ dài IMEI
+                          if (row.imel && row.imel.length > 0) {
+                            setRows(prevRows =>
+                              prevRows.map((r, i) =>
+                                i === index
+                                  ? { ...r, soluong: r.imel.length }
+                                  : r
+                              )
+                            )
+                          }
+                        }}
+                      />
+                    ) : (
+                      row.soluong || 'Nhập số lượng'
+                    )}
+                  </td>
+                  <td onClick={() => togglePriceEdit(index)}>
+                    {isEditingPrice[index] ? (
+                      <input
+                        type='text'
+                        placeholder='Đơn giá'
+                        className='imel-input'
+                        value={
+                          row.price
+                            ? new Intl.NumberFormat().format(row.price)
+                            : ''
+                        }
+                        onChange={e => {
+                          const rawValue = e.target.value.replace(/\./g, '')
+                          const numericValue = parseFloat(rawValue)
+
+                          // Chỉ cập nhật nếu giá trị là hợp lệ
+                          if (!isNaN(numericValue) || rawValue === '') {
+                            handleInputChange(index, 'price', rawValue) // Cập nhật giá trị
+                          }
+                        }}
+                        autoFocus
+                        onBlur={() => setIsEditingPrice(false)}
+                      />
+                    ) : row.price ? (
+                      new Intl.NumberFormat().format(
+                        row.price.replace(/\./g, '')
+                      )
+                    ) : (
+                      'Nhập đơn giá'
+                    )}
+                  </td>
+                  <td>{new Intl.NumberFormat().format(row.tongtien)}</td>
+                </tr>
+              ))}
+              <tr>
+                <td>
+                  <div className='tdMasku'>
+                    <Tooltip
+                      trigger='click'
+                      interactive
+                      arrow
+                      position='bottom'
+                      open={isTableVisible}
+                      onRequestClose={() => setIsTableVisible(false)}
+                      html={
+                        <div className='supplier-table-container'>
+                          {loadingSuppliers ? (
+                            <p>Đang tải danh sách sku...</p>
+                          ) : (
+                            <table className='supplier-info-table'>
+                              <thead>
+                                <tr>
+                                  <th>Mã sku</th>
+                                  <th>Tên</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {skudata.filter(
+                                  supplier =>
+                                    !selectedSKUs.includes(supplier.madungluong)
+                                ).length > 0 ? (
+                                  skudata
+                                    .filter(
+                                      supplier =>
+                                        !selectedSKUs.includes(
+                                          supplier.madungluong
+                                        )
+                                    )
+                                    .map(supplier => (
+                                      <tr
+                                        key={supplier._id}
+                                        onClick={() => {
+                                          addRow(supplier)
+                                          setIsTableVisible(false)
+                                        }}
+                                      >
+                                        <td>{supplier.madungluong}</td>
+                                        <td>{supplier.name}</td>
+                                      </tr>
+                                    ))
+                                ) : (
+                                  <tr>
+                                    <td colSpan={'2'}>Không có mã sku nào</td>
+                                  </tr>
+                                )}
+                              </tbody>
+                            </table>
+                          )}
+                        </div>
+                      }
+                    >
+                      <button
+                        className='btnaddtest'
+                        onClick={() => setIsTableVisible(!isTableVisible)}
+                      >
+                        Chọn mã sku
+                        <FontAwesomeIcon
+                          icon={faChevronDown}
+                          className='iconaddtest'
+                        />
+                      </button>
+                    </Tooltip>
+                    <button
+                      className='btnaddskutest'
+                      onClick={() => setIsOpenAddSKU(true)}
+                    >
+                      <FontAwesomeIcon icon={faPlus} className='iconaddtest' />
+                    </button>
+                    <ModalAddSku
+                      isOpen={isOpenAddSKU}
+                      onClose={() => setIsOpenAddSKU(false)}
+                      fetchsku={fetchSku}
+                      userID={userID}
+                    />
+                  </div>
+                </td>
+                <td colSpan='5'></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
       <ModalOnClose
         isOpen={iscloseHuy}
