@@ -2,18 +2,31 @@
 
 
 .date-input {
-    padding: 10px;
-    font-size: 1rem;
-    border-radius: 5px;
-    border: 1px solid #eee;
-}
-
+    width: 100%;
+    padding: 10px 0px 10px 10px; /* Chừa khoảng trống bên phải cho icon */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+  
+    /* Thêm icon lịch vào input */
+    background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" fill="%23666666" viewBox="0 0 24 24"%3E%3Cpath d="M7 10h5v5H7zm6 0h4v5h-4zm0 6h4v4h-4zm-6 0h5v4H7zm9-9h5V4h-5V3h-2v1H9V3H7v1H2v2h20V7H7zm-9-2v4h5V5zm11 2h4v4h-4V7zm-6 2H7V7h5v2zm1 7h4v4h-4v-4zm-6 0h5v4H7v-4zm13 0h4v4h-4v-4z"/%3E%3C/svg%3E');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 20px;
+  }
+  
+  .date-input:focus {
+    border-color: #007bff;
+    outline: none;
+  }
 /* datepicker styles */
 
 .datepicker-container {
     position: relative;
 }
-
+.btnConfirm-datepicker{
+    color: rgb(0, 101, 196);
+}
 .datepicker {
     position: absolute;
     top: 100%;
@@ -68,11 +81,11 @@
 
 .dates button.today {
     background: rgba(147, 112, 216, 0.2);
-    color: mediumpurple;
+    color: rgb(34, 137, 255);
 }
 
 .dates button.selected {
-    background: mediumpurple;
+    background: rgb(55, 165, 255);
     color: #fff;
 }
 
@@ -99,7 +112,7 @@
 }
 
 .datepicker-header button:hover {
-    color: mediumpurple;
+    color: rgb(34, 137, 255);
 }
 
 .datepicker-footer {
@@ -116,6 +129,6 @@
 }
 
 .datepicker-footer button.apply {
-    background: mediumpurple;
+    background: rgb(34, 137, 255);
     color: #fff;
 }

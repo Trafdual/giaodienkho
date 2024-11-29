@@ -1,0 +1,38 @@
+*{
+    padding: 0;
+    margin: 0;
+    font-family: monospace;
+}
+ul{
+    list-style: none;
+    background: #0167c7;
+}
+ul li{
+    display: inline-block;
+    position: relative;
+}
+ul li a {
+    display: block;
+    padding: 20px 25px;
+    color: #fff;
+    text-decoration: none;
+    text-align: center;
+    font-size: 20px;
+}
+ul li ul.dropdown-help li {
+    display: block;
+}
+ul li ul.dropdown-help {
+    width: 100%;
+    background-color:  #0167c7;
+    position: absolute;
+    z-index: 99999;
+    display: none;
+
+}
+ul li a:hover{
+    background-color:  #305f7a;
+}
+ul li:hover ul.dropdown-help{
+    display: block;
+}

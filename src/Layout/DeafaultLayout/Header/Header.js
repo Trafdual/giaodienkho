@@ -14,10 +14,11 @@ import './Header.scss'
 import { ListKho } from './ListKho'
 import { AddKho } from './AddKho'
 import { useToast } from '../../../components/GlobalStyles/ToastContext'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Loading } from '~/components/Loading'
+import NotificationsList from "~/components/Notifications/Notification";
 
-function Header ({
+function Header({
   toggleMenu,
   userId,
   name,
@@ -41,6 +42,7 @@ function Header ({
   const [khoID, setKhoID] = useState(localStorage.getItem('khoID') || '')
   const [isLoading, setIsLoading] = useState(false) // Trạng thái loading
   const previousKhoID = useRef(khoID)
+  const [showNotifications, setShowNotifications] = useState(false);
 
   const navigate = useNavigate()
 
@@ -217,13 +219,15 @@ function Header ({
           </Tippy>
 
           <Tippy content='Thông báo' placement='bottom'>
-            <button className='btnicon'>
+            <button className='btnicon' onClick={() => setShowNotifications(!showNotifications)}>
               <FontAwesomeIcon className='iconhelp' icon={faBell} />
             </button>
           </Tippy>
-
+          {showNotifications && <NotificationsList />}
           <Tippy content='Trợ giúp' placement='bottom'>
-            <button className='btnicon'>
+            <button className='btnicon' onClick={() => {
+              navigate('/trogiuptongquan');
+            }}>
               <FontAwesomeIcon className='iconhelp' icon={faCircleQuestion} />
             </button>
           </Tippy>

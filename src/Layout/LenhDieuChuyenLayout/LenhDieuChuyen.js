@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useToast } from '../../components/GlobalStyles/ToastContext'
 import { Loading } from '../../components/Loading' // Import component Loading
-import Datepicker from '../TestLungTung/DatePicker' // Import Datepicker component
+import Datepicker from '../../components/Calendar/DatePicker' // Import Datepicker component
 import './LenhDieuChuyen.scss'
 
 function LenhDieuChuyen () {
@@ -101,15 +101,15 @@ function LenhDieuChuyen () {
           </select>
         </div>
 
-        {/* Sử dụng Datepicker thay cho input date */}
         <div className='date-picker'>
-          <label htmlFor='beginDate'>Ngày bắt đầu:</label>
-          <Datepicker selectedDate1={beginDate} onDateChange={setBeginDate} />
+          <label htmlFor='beginDate'>Từ ngày</label>
+          <Datepicker selectedDate1={beginDate || new Date().toISOString()} onDateChange={setBeginDate} />
+
         </div>
 
         <div className='date-picker'>
-          <label htmlFor='endDate'>Ngày kết thúc:</label>
-          <Datepicker selectedDate1={endDate} onDateChange={setEndDate} />
+          <label htmlFor='endDate'>Đến ngày</label>
+          <Datepicker selectedDate1={endDate || new Date().toISOString()} onDateChange={setEndDate} />
         </div>
 
         <button className='search-btn' onClick={handleSearch}>
@@ -117,7 +117,6 @@ function LenhDieuChuyen () {
         </button>
       </div>
 
-      {/* Hiển thị loading hoặc dữ liệu */}
       {isLoading ? (
         <Loading /> // Hiển thị component Loading khi đang tải
       ) : (

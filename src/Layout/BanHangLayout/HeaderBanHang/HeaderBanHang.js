@@ -10,6 +10,7 @@ import Tippy from '@tippyjs/react'
 import 'tippy.js/dist/tippy.css'
 import './HeaderBanHang.scss'
 import axios from 'axios'
+import NotificationsList from "~/components/Notifications/Notification";
 
 function HeaderBanHang ({ userId }) {
   const [khoList, setKhoList] = useState([])
@@ -17,6 +18,7 @@ function HeaderBanHang ({ userId }) {
   const [isDropdownVisible, setDropdownVisible] = useState(false)
   const [selectedKho, setSelectedKho] = useState(null)
   const dropdownRef = useRef(null)
+  const [showNotifications, setShowNotifications] = useState(false);
 
 
   useEffect(() => {
@@ -115,10 +117,12 @@ function HeaderBanHang ({ userId }) {
             </button>
           </Tippy>
           <Tippy content='Thông báo' placement='bottom'>
-            <button className='btn-icon'>
+            <button className='btn-icon' onClick={() => setShowNotifications(!showNotifications)}>
               <FontAwesomeIcon className='icon-help' icon={faBell} />
             </button>
           </Tippy>
+          {showNotifications && <NotificationsList />}
+
           <Tippy content='Trợ giúp' placement='bottom'>
             <button className='btn-icon'>
               <FontAwesomeIcon className='icon-help' icon={faQuestion} />
