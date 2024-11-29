@@ -8,12 +8,12 @@ import {
   faPen,
   faTrashCan
 } from '@fortawesome/free-solid-svg-icons'
-import { AddLoHang } from './AddLoHang'
 import { SanPhamLayout } from './SanPhamLayout'
 import { EditLoHang } from './EditLoHang'
 import { Loading } from '~/components/Loading'
 import { AddTest } from './SanPhamLayout/AddSanPham/AddTest'
 import PaginationComponent from '../../components/NextPage/PaginationComponent'
+import { useToast } from '~/components/GlobalStyles/ToastContext'
 
 function NhapKhoLayout () {
   const [lohang, setlohang] = useState([])
@@ -26,6 +26,7 @@ function NhapKhoLayout () {
   const [loadingsp, setLoadingsp] = useState(false)
   const [selectedItems, setSelectedItems] = useState([])
   const [selectAll, setSelectAll] = useState(false)
+  const { showToast } = useToast()
 
   // Trạng thái phân trang
   const [currentPage, setCurrentPage] = useState(1)

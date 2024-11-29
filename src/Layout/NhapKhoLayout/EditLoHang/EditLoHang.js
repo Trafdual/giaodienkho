@@ -249,7 +249,6 @@ function EditLoHang ({ isOpen, onClose, idloaisanpham, fetchlohang }) {
 
       fetchChitiet() // Tải dữ liệu mới
     }
-    console.log(idloaisanpham)
   }, [idloaisanpham, isOpen])
 
   const resetForm = useCallback(() => {
