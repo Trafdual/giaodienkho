@@ -1,5 +1,3 @@
-
-
 @keyframes spin {
     0% {
         transform: rotate(0deg);
@@ -9,6 +7,7 @@
         transform: rotate(360deg);
     }
 }
+
 .imei-cell {
     max-width: 150px;
     /* Đặt giới hạn chiều rộng cho ô chứa IMEI */
@@ -152,4 +151,12 @@
     background-color: var(--blue) !important;
     color: #333333 !important;
     border-left: 1px solid black !important;
+}
+
+@media (max-width: 480px) {
+    .divtablespnhapkho {
+        max-height: 200px;
+        overflow-y: auto;
+        overflow-x: auto;
+    }
 }
