@@ -1,13 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import "./HeaderTroGiupTQ.scss";
-import QuillHtmlContent from "../Quill/QuillHtml";
 const Header = () => {
-
-    const [quillHtmlContent, setQuillHtmlContent] = useState('<p>Đây là một ví dụ về <strong>Quill</strong> Editor.</p>');
 
     return (
         <div>
-            <ul>
+            <ul className='ul-tq'>
                 <li><a href="#">Home</a></li>
                 <li>
                     <a href="#">Dashboard</a>
@@ -21,7 +18,6 @@ const Header = () => {
                 <li><a href="#">Logout</a></li>
             </ul>
 
-            <QuillHtmlContent quillHtmlContent={quillHtmlContent} />
 
         </div>);
 };
