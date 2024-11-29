@@ -17,9 +17,11 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import { ModalQrThanhToan } from './ModalQrThanhToan'
 import { handleGeneratePDF } from './InHoaDon/InHoaDon'
+import { useToast } from '~/components/GlobalStyles/ToastContext'
 function BanHangLayout () {
   const [currentTime, setCurrentTime] = useState(new Date())
-  const[issOpenModalQR,setIsOpenModalQR] =useState(false)
+  const [issOpenModalQR, setIsOpenModalQR] = useState(false)
+  const { showToast } = useToast()
 
   const [isModalOpen, setModalOpen] = useState(false)
   const [imeiList, setImeiList] = useState([])
@@ -259,6 +261,22 @@ function BanHangLayout () {
     (total, item) => total + (item.thanhtien || 0),
     0
   )
+  const validate = () => {
+    let valid = true
+
+    if (selectedItems.length === 0) {
+      showToast('Bạn chưa chọn sản phẩm nào', 'error')
+      valid = false
+    } else if (selectedItems.some(item => item.soluong === 0)) {
+      showToast('Sản phẩm đã chọn có số lượng 0', 'error')
+      valid = false
+    } else if (selectedItems.some(item => item.dongia === 0)) {
+      showToast('bạn chưa nhập đơn giá', 'error')
+      valid = false
+    }
+
+    return valid
+  }
   const handleThanhToan = async () => {
     const tienkhachtra = inputValue === 0 ? totalAmount : inputValue
 
@@ -268,33 +286,36 @@ function BanHangLayout () {
       soluong: row.soluong,
       idsku: row.idsku
     }))
-
     try {
-      const response = await fetch(
-        `https://www.ansuataohanoi.com/postchonsanpham/${storedKhoID}`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            tienkhachtra: tienkhachtra,
-            datcoc: datcoc,
-            method: method,
-            idnganhang: nganhang,
-            makh: makh,
-            products: products
-          })
+      if (validate()) {
+        const response = await fetch(
+          `https://www.ansuataohanoi.com/postchonsanpham/${storedKhoID}`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              tienkhachtra: tienkhachtra,
+              datcoc: datcoc,
+              method: method,
+              idnganhang: nganhang,
+              makh: makh,
+              products: products
+            })
+          }
+        )
+        const data = await response.json()
+        if (response.ok) {
+          showToast('thanh toán thành công', 'success')
+          setSelectedItems([])
+          sethoadondata(data)
+          if (inhoadon === true) {
+            handleGeneratePDF(data)
+          }
+        } else {
+          console.error('Lỗi thanh toán')
         }
-      )
-      const data = await response.json()
-      if (response.ok) {
-        alert('thanh toán thành công')
-        setSelectedItems([])
-        sethoadondata(data)
-        handleGeneratePDF(data)
-      } else {
-        console.error('Lỗi thanh toán')
       }
     } catch (error) {
       console.error('Lỗi khi thanh toán hóa đơn:', error)
@@ -346,27 +367,32 @@ function BanHangLayout () {
                         <td>
                           {item.tensp}
                           <br />
-                          <div className='selected-imeis'>
-                            {item.selectedImeis && item.selectedImeis.length > 0
-                              ? item.selectedImeis.map((imei, index) => (
-                                  <button
-                                    key={index}
-                                    className='imei-btn'
-                                    onClick={() =>
-                                      handleRemoveImei(item.idsku, index)
-                                    }
-                                  >
-                                    {imei} ✕
-                                  </button>
-                                ))
-                              : 'Chưa chọn IMEI'}
-                          </div>
-                          <button
-                            className='select-serial-btn'
-                            onClick={() => handleOpenModal(item.idsku)}
-                          >
-                            Chọn Serial/IMEI
-                          </button>
+                          {item.loaihanghoa === 'Điện thoại' && (
+                            <>
+                              <div className='selected-imeis'>
+                                {item.selectedImeis &&
+                                item.selectedImeis.length > 0
+                                  ? item.selectedImeis.map((imei, index) => (
+                                      <button
+                                        key={index}
+                                        className='imei-btn'
+                                        onClick={() =>
+                                          handleRemoveImei(item.idsku, index)
+                                        }
+                                      >
+                                        {imei} ✕
+                                      </button>
+                                    ))
+                                  : 'Chưa chọn IMEI'}
+                              </div>
+                              <button
+                                className='select-serial-btn'
+                                onClick={() => handleOpenModal(item.idsku)}
+                              >
+                                Chọn Serial/IMEI
+                              </button>
+                            </>
+                          )}
                         </td>
                         <td onClick={() => setInputSoLuong(true)}>
                           {!InputSoLuong ? (
@@ -688,7 +714,7 @@ function BanHangLayout () {
             <button className='pay-btn' onClick={handleThanhToan}>
               Thu tiền (F9)
             </button>
-            <button className='pay-btn' onClick={()=>setIsOpenModalQR(true)}>
+            <button className='pay-btn' onClick={() => setIsOpenModalQR(true)}>
               Test Qr Thanh Toán
             </button>
           </div>
@@ -713,9 +739,9 @@ function BanHangLayout () {
         allSelectedImeis={allSelectedImeis}
       />
       <ModalQrThanhToan
-      isOpen={issOpenModalQR}
-      onClose={()=>setIsOpenModalQR(false)}
-      Tongtien={totalAmount}
+        isOpen={issOpenModalQR}
+        onClose={() => setIsOpenModalQR(false)}
+        Tongtien={totalAmount}
       />
     </div>
   )

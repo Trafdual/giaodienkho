@@ -15,7 +15,6 @@ function SanPhamLayout ({
   const [isOpen, setIsOpen] = useState(false)
   const [isOpenXuakho, setIsOpenXuakho] = useState(false)
   const [SanPham, setSanPham] = useState([])
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
   const [khoID, setKhoID] = useState(localStorage.getItem('khoID') || '')
   const [masku, setmasku] = useState('')
   const [isOpenEdit, setIsOpenEdit] = useState(false)
