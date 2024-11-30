@@ -8,6 +8,7 @@ import Tippy from '@tippyjs/react'
 import 'tippy.js/dist/tippy.css'
 import axios from 'axios'
 import OtherStoreModal from './ModalOtherStore/OtherStoreModal'
+import { useToast } from '~/components/GlobalStyles/ToastContext'
 function ModalDataScreen ({
   isOpen,
   onClose,
@@ -18,10 +19,11 @@ function ModalDataScreen ({
   const [data, setData] = useState([])
   const [selectedSizes, setSelectedSizes] = useState([])
   const [selectAll, setSelectAll] = useState(false)
+  const { showToast } = useToast()
+
   //đang sửa
   const [selectedProductName, setSelectedProductName] = useState({})
   const [selectedProductmaSKU, setSelectedProductmaSKU] = useState({})
-
 
   const [selectedProducts, setSelectedProducts] = useState([])
   const khoId1 = localStorage.getItem('khoIDBH') || ''
@@ -29,7 +31,7 @@ function ModalDataScreen ({
   const [isOtherStoreModalOpen, setOtherStoreModalOpen] = useState(false)
   const [selectedStores, setSelectedStores] = useState([])
 
-  const handleViewOtherStores = (stores, tensp,masku) => {
+  const handleViewOtherStores = (stores, tensp, masku) => {
     setSelectedStores(stores)
     setSelectedProductName(tensp) // Lưu tên sản phẩm
     setOtherStoreModalOpen(true)
@@ -75,7 +77,10 @@ function ModalDataScreen ({
     if (size === 'all') {
       setSelectAll(!selectAll)
       if (!selectAll) {
-        setSelectedSizes(data.map(item => item.name))
+        const selectableSizes = data
+          .filter(item => item.tonkho > 0)
+          .map(item => item.name)
+        setSelectedSizes(selectableSizes)
       } else {
         setSelectedSizes([]) // Bỏ chọn tất cả
       }
@@ -94,6 +99,10 @@ function ModalDataScreen ({
     selectAll ? true : selectedSizes.includes(size)
 
   const handleProductSelect = item => {
+    if (item.tonkho === 0) {
+      showToast('kho chứa đã hết hàng','error')
+      return
+    }
     setSelectedProducts(prevState =>
       prevState.includes(item.idsku)
         ? prevState.filter(productId => productId !== item.idsku)
@@ -118,6 +127,10 @@ function ModalDataScreen ({
     : data.filter(item => selectedSizes.includes(item.name))
 
   const handleAgree = () => {
+    if (selectedProducts.length === 0) {
+      showToast('Vui lòng chọn sản phẩm','error')
+      return
+    }
     const selectedItems = data.filter(item =>
       selectedProducts.includes(item.idsku)
     )
@@ -201,18 +214,36 @@ function ModalDataScreen ({
                     <th>
                       <input
                         type='checkbox'
-                        checked={filteredItems.every(item =>
-                          selectedProducts.includes(item.idsku)
-                        )}
+                        checked={filteredItems
+                          .filter(item => item.tonkho > 0) // Chỉ kiểm tra sản phẩm có tồn kho > 0
+                          .every(item => selectedProducts.includes(item.idsku))}
                         onChange={() => {
+                          const availableItems = filteredItems.filter(
+                            item => item.tonkho > 0
+                          ) // Lọc sản phẩm có tồn kho > 0
+
                           if (
-                            selectedProducts.length === filteredItems.length
-                          ) {
-                            setSelectedProducts([]) // Bỏ chọn tất cả
-                          } else {
-                            setSelectedProducts(
-                              filteredItems.map(item => item.idsku)
+                            availableItems.every(item =>
+                              selectedProducts.includes(item.idsku)
                             )
+                          ) {
+                            // Nếu tất cả sản phẩm có tồn kho > 0 đã được chọn, bỏ chọn chúng
+                            setSelectedProducts(prevState =>
+                              prevState.filter(
+                                id =>
+                                  !availableItems.some(
+                                    item => item.idsku === id
+                                  )
+                              )
+                            )
+                          } else {
+                            // Nếu chưa, thêm tất cả sản phẩm có tồn kho > 0 vào danh sách chọn
+                            setSelectedProducts(prevState => [
+                              ...prevState,
+                              ...availableItems
+                                .filter(item => !prevState.includes(item.idsku)) // Tránh thêm trùng lặp
+                                .map(item => item.idsku)
+                            ])
                           }
                         }}
                       />
@@ -250,7 +281,11 @@ function ModalDataScreen ({
                           <span
                             className='tooltip-target-wrapper clickable'
                             onClick={() =>
-                              handleViewOtherStores(item.cacKhoKhac, item.tensp,item.masku)
+                              handleViewOtherStores(
+                                item.cacKhoKhac,
+                                item.tensp,
+                                item.masku
+                              )
                             }
                           >
                             {item.tongSoLuongCacKhoKhac}
