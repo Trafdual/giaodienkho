@@ -8,14 +8,13 @@ import {
 } from '@zxing/library'
 import './FormAddImel.scss'
 import { useToast } from '../../../../../components/GlobalStyles/ToastContext'
-import 'webrtc-adapter'
 
 function FormAddImel ({ isOpen, onClose, handleAddImel, index }) {
   const [barcodeData, setBarcodeData] = useState('')
   const videoRef = useRef(null)
   const { showToast } = useToast()
   const [isScanning, setIsScanning] = useState(false)
-  const [hasScanned, setHasScanned] = useState(false) // Biến để theo dõi đã quét thành công hay chưa
+  const [hasScanned, setHasScanned] = useState(true) // Biến để theo dõi đã quét thành công hay chưa
 
   const handleAddSanPham = async result => {
     try {
@@ -54,67 +53,70 @@ function FormAddImel ({ isOpen, onClose, handleAddImel, index }) {
   }
 
   useEffect(() => {
-    if (isOpen && !hasScanned) {
-      // Chỉ bắt đầu quét nếu chưa quét thành công
-      const codeReader = new BrowserMultiFormatReader()
-
-      const hints = new Map()
-      hints.set(DecodeHintType.POSSIBLE_FORMATS, [
-        BarcodeFormat.CODE_39,
-        BarcodeFormat.CODE_93,
-        BarcodeFormat.CODE_128,
-        BarcodeFormat.EAN_8,
-        BarcodeFormat.EAN_13
-      ])
-
-      const startScan = async () => {
+    if (isOpen) {
+      const startCamera = async () => {
         try {
           const videoElement = videoRef.current
           const constraints = {
             video: {
-              facingMode: { exact: 'environment' }, // Camera sau
-              width: { ideal: 1280 },
-              height: { ideal: 720 }
+              facingMode: 'environment',
+              width: { ideal: 1920 },
+              height: { ideal: 1080 }
             }
           }
 
-          // Chuẩn hóa API getUserMedia
           const stream = await navigator.mediaDevices.getUserMedia(constraints)
           videoElement.srcObject = stream
           videoElement.play()
-
-          setIsScanning(true)
-          codeReader.decodeFromVideoElement(
-            videoElement,
-            (result, error) => {
-              if (result) {
-                setBarcodeData(result.text)
-                setIsScanning(false) // Stop scanning after a successful scan
-                setHasScanned(true) // Đánh dấu đã quét thành công
-                handleAddSanPham(result.text)
-              }
-              if (error && !result) {
-                if (error.name !== 'NotFoundException') {
-                  alert(`Lỗi khi quét: ${error}`)
-                }
-              }
-            },
-            hints
-          )
         } catch (error) {
-          console.error('Không thể truy cập camera:', error)
-          alert('Vui lòng cấp quyền truy cập camera.')
+          console.error('Lỗi khi mở camera:', error)
+          alert('Không thể truy cập camera. Vui lòng kiểm tra quyền truy cập.')
         }
       }
 
-      startScan()
+      startCamera()
 
       return () => {
-        codeReader.reset()
-        setIsScanning(false) // Ensure scanning is stopped on cleanup
+        const videoElement = videoRef.current
+        if (videoElement && videoElement.srcObject) {
+          const stream = videoElement.srcObject
+          const tracks = stream.getTracks()
+          tracks.forEach(track => track.stop())
+          videoElement.srcObject = null
+        }
       }
     }
-  }, [isOpen, hasScanned])
+  }, [isOpen])
+
+  const handleCaptureAndScan = async () => {
+    if (!videoRef.current) return
+
+    const videoElement = videoRef.current
+    const canvas = document.createElement('canvas')
+    const context = canvas.getContext('2d')
+
+    // Cài đặt kích thước canvas theo video
+    canvas.width = videoElement.videoWidth
+    canvas.height = videoElement.videoHeight
+
+    // Vẽ khung hình hiện tại của video lên canvas
+    context.drawImage(videoElement, 0, 0, canvas.width, canvas.height)
+
+    // Lấy dữ liệu ảnh từ canvas
+    const imageData = context.getImageData(0, 0, canvas.width, canvas.height)
+
+    // Quét mã vạch từ ảnh
+    const codeReader = new BrowserMultiFormatReader()
+    try {
+      const result = await codeReader.decodeFromImageData(imageData)
+      setBarcodeData(result.text) // Cập nhật mã quét được
+      setHasScanned(true) // Đánh dấu đã quét xong
+      handleAddSanPham(result.text) // Thêm sản phẩm với mã quét được
+    } catch (error) {
+      console.error('Lỗi khi quét từ ảnh:', error)
+      alert('Không thể quét mã vạch từ ảnh. Vui lòng thử lại.')
+    }
+  }
 
   return (
     <Modal isOpen={isOpen} onClose={handleClose}>
@@ -140,8 +142,8 @@ function FormAddImel ({ isOpen, onClose, handleAddImel, index }) {
           Hủy
         </button>
         {hasScanned && (
-          <button onClick={tieptucquet} className='btntieptucquet'>
-            Tiếp tục quét
+          <button onClick={handleCaptureAndScan} className='btntieptucquet'>
+            chụp và quét
           </button>
         )}
       </div>

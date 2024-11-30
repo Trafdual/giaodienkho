@@ -269,18 +269,18 @@ function AddTest2 ({
     }
   }
 
-  useEffect(() => {
-    const eventSource = new EventSource('http://localhost:8080/events')
+  // useEffect(() => {
+  //   const eventSource = new EventSource('http://localhost:8080/events')
 
-    eventSource.onmessage = event => {
-      const newMessage = JSON.parse(event.data)
-      showToast(newMessage.message)
-      fetchlohang()
-    }
-    return () => {
-      eventSource.close()
-    }
-  }, [])
+  //   eventSource.onmessage = event => {
+  //     const newMessage = JSON.parse(event.data)
+  //     showToast(newMessage.message)
+  //     fetchlohang()
+  //   }
+  //   return () => {
+  //     eventSource.close()
+  //   }
+  // }, [])
 
   return (
     <>
