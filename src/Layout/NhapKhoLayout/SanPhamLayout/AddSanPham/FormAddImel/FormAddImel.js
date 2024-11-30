@@ -96,8 +96,8 @@ function FormAddImel ({ isOpen, onClose, handleAddImel, index }) {
     const context = canvas.getContext('2d')
 
     // Cài đặt kích thước canvas theo video
-    canvas.width = videoElement.videoWidth
-    canvas.height = videoElement.videoHeight
+    canvas.width = videoElement.videoWidth*2
+    canvas.height = videoElement.videoHeight*2
 
     // Vẽ khung hình hiện tại của video lên canvas
     context.drawImage(videoElement, 0, 0, canvas.width, canvas.height)
@@ -109,13 +109,13 @@ function FormAddImel ({ isOpen, onClose, handleAddImel, index }) {
     // Đảm bảo rằng ảnh đã tải xong trước khi quét mã
     image.onload = async () => {
       const codeReader = new BrowserMultiFormatReader()
-      const hints = new Map()
-      hints.set(DecodeHintType.TRY_HARDER, true) // Thử mạnh mẽ hơn để phát hiện mã vạch từ xa
-      codeReader.setHints(hints)
+      
 
       try {
         // Quét mã từ HTMLImageElement
         const result = await codeReader.decodeFromImageElement(image)
+        console.log('Quét thành công:', result)
+
         setBarcodeData(result.text) // Cập nhật mã quét được
         setHasScanned(true) // Đánh dấu đã quét xong
         handleAddSanPham(result.text) // Thêm sản phẩm với mã quét được
