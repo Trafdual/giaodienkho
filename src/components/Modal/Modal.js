@@ -15,7 +15,7 @@ const Modal = ({ isOpen, onClose, children }) => {
         <div className="modal-content" onClick={(e) => e.stopPropagation()}>
           <div className="modal-header">
             <button className="modal-close" onClick={onClose}>
-              <FontAwesomeIcon icon={faXmark} />
+              <FontAwesomeIcon icon={faXmark} className='iconHuy'/>
             </button>
           </div>
           {children}

@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState, useRef } from 'react'
 import { ModalBig } from '~/components/ModalBig'
 import { useToast } from '~/components/GlobalStyles/ToastContext'

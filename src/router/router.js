@@ -5,6 +5,7 @@ import XuatKhoLayout from '~/Layout/XuatKhoLayout/XuatKhoLayout'
 import { NhaCungCap } from '~/Layout/NhaCungCapLayout'
 import { NhapKhoLayout } from '~/Layout/NhapKhoLayout'
 import { DieuChuyenLayout } from '~/Layout/DieuChuyenLayout'
+import { LenhDieuChuyenLayout } from '~/Layout/LenhDieuChuyenLayout'
 import { BanHangLayout } from '~/Layout/BanHangLayout'
 import { TroGiupLayout } from '~/Layout/TroGiupLayout'
 import { TestLungTung } from '~/Layout/TestLungTung'
@@ -15,7 +16,9 @@ import { ThietLapLayout } from '~/Layout/ThietLapLayout'
 import { SearchProductLayout } from '~/Layout/SearchProductLayout'
 import { TestLayout } from '~/Layout/TestLayout'
 import { BaoCaoKhoLayout } from '~/Layout/BaoCaoKhoLayout'
+import { TroGiupTongQuan } from '~/Layout/TroGiupTongQuan'
 
+  
 const publicRoutes = [
   { path: '/', component: Login, layout: null },
   { path: '/home', component: DashboardLayout },
@@ -24,6 +27,7 @@ const publicRoutes = [
   { path: '/nhacungcap', component: NhaCungCap },
   { path: '/khachhang', component: KhachHangLayout },
   { path: '/dieuchuyen', component: DieuChuyenLayout },
+  { path: '/lenhdieuchuyen', component: LenhDieuChuyenLayout },
   { path: '/banhang', component: BanHangLayout, layout: null },
   { path: '/trogiup', component: TroGiupLayout },
   { path: '/testlungtung', component: TestLungTung },
@@ -33,7 +37,10 @@ const publicRoutes = [
   { path: '/search-products', component: SearchProductLayout },
   { path: '/test', component: TestLayout },
   { path: '/baocaokho', component: BaoCaoKhoLayout },
-  { path: '/register', component: Register, layout: null }
+  { path: '/register', component: Register, layout: null },
+  { path: '/trogiuptongquan', component: TroGiupTongQuan, layout: null },
+
+
 ]
 const privateRoutes = []
 export { publicRoutes, privateRoutes }

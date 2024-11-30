@@ -1,0 +1,56 @@
+.pagination-container {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  /* Slightly reduce the gap */
+  padding: 10px;
+  font-size: 14px;
+  /* Add font size to match text styling */
+  flex-wrap: wrap;
+}
+
+.pagination-container button {
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pagination-container button:disabled {
+  color: #ccc;
+  cursor: not-allowed;
+}
+
+.pagination-container input {
+  width: 30px;
+  /* Adjust width for a more compact look */
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  /* Add border radius for rounded look */
+}
+
+.pagination-container select {
+  padding: 3px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  /* Add border radius to match styling */
+  height: 30px;
+  /* Set consistent height */
+}
+
+.pagination-container span {
+  margin: 0 4px;
+  /* Add slight margin for spacing */
+  font-weight: 500;
+  /* Adjust font-weight if needed */
+}
+
+.pagination-container .results-info {
+  margin-left: auto;
+  color: #666;
+  font-size: 13px;
+}

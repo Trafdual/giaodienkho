@@ -8,14 +8,14 @@ import {
   faPen,
   faTrashCan
 } from '@fortawesome/free-solid-svg-icons'
-import { AddLoHang } from './AddLoHang'
 import { SanPhamLayout } from './SanPhamLayout'
 import { EditLoHang } from './EditLoHang'
 import { Loading } from '~/components/Loading'
 import { AddTest } from './SanPhamLayout/AddSanPham/AddTest'
-import PaginationComponent from '../../components/NextPage/PaginationComponent';
+import PaginationComponent from '../../components/NextPage/PaginationComponent'
+import { useToast } from '~/components/GlobalStyles/ToastContext'
 
-function NhapKhoLayout() {
+function NhapKhoLayout () {
   const [lohang, setlohang] = useState([])
   const [isOpen, setIsOpen] = useState(false)
   const [khoID, setKhoID] = useState(localStorage.getItem('khoID') || '')
@@ -26,10 +26,11 @@ function NhapKhoLayout() {
   const [loadingsp, setLoadingsp] = useState(false)
   const [selectedItems, setSelectedItems] = useState([])
   const [selectAll, setSelectAll] = useState(false)
+  const { showToast } = useToast()
 
   // Trạng thái phân trang
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [currentPage, setCurrentPage] = useState(1)
+  const [itemsPerPage, setItemsPerPage] = useState(10)
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
   const [idloaisanpham, setIdloaisanpham] = useState(null)
 
@@ -167,13 +168,12 @@ function NhapKhoLayout() {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage
   const currentItems = lohang.slice(indexOfFirstItem, indexOfLastItem)
   const totalPages = Math.ceil(lohang.length / itemsPerPage)
-  const totalResults = lohang.length;
-
+  const totalResults = lohang.length
 
   // Chuyển trang
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
-  };
+  const handlePageChange = page => {
+    setCurrentPage(page)
+  }
   useEffect(() => {
     setLoading(true)
     fetchData()
@@ -201,7 +201,10 @@ function NhapKhoLayout() {
     setSelectedItems(updatedSelectedItems)
     setSelectAll(updatedSelectedItems.length === lohang.length)
   }
-  const totalAmount = currentItems.reduce((sum, ncc) => sum + (ncc.tongtien || 0), 0);
+  const totalAmount = currentItems.reduce(
+    (sum, ncc) => sum + (ncc.tongtien || 0),
+    0
+  )
 
   return (
     <>
@@ -220,22 +223,23 @@ function NhapKhoLayout() {
             >
               <div
                 className='action-menu'
-                style={{ position: 'sticky', top: '10px' }}
+                style={{ position: 'sticky', top: '0px' }}
               >
                 <h4>{selectedItems.length} lô hàng được chọn</h4>
                 <button
                   className={`btn-xoa `}
                   onClick={() => setIsOpen(true)}
-                // disabled={!idloaisp}
+                  // disabled={!idloaisp}
                 >
                   <FontAwesomeIcon icon={faPlus} className='iconMenuSanPham' />
                   Thêm lô hàng
                 </button>
                 <button
-                  className={`btn-xoa ${selectedItems.length > 1 || selectedItems.length === 0
-                    ? 'disabled'
-                    : ''
-                    }`}
+                  className={`btn-xoa ${
+                    selectedItems.length > 1 || selectedItems.length === 0
+                      ? 'disabled'
+                      : ''
+                  }`}
                   disabled={
                     selectedItems.length > 1 || selectedItems.length === 0
                   }
@@ -244,10 +248,11 @@ function NhapKhoLayout() {
                   Sửa
                 </button>
                 <button
-                  className={`btn-xoa ${selectedItems.length > 1 || selectedItems.length === 0
-                    ? 'disabled'
-                    : ''
-                    }`}
+                  className={`btn-xoa ${
+                    selectedItems.length > 1 || selectedItems.length === 0
+                      ? 'disabled'
+                      : ''
+                  }`}
                   disabled={
                     selectedItems.length > 1 || selectedItems.length === 0
                   }
@@ -257,8 +262,9 @@ function NhapKhoLayout() {
                 </button>
 
                 <button
-                  className={`btn-xoa ${selectedItems.length === 0 ? 'disabled' : ''
-                    }`}
+                  className={`btn-xoa ${
+                    selectedItems.length === 0 ? 'disabled' : ''
+                  }`}
                   disabled={selectedItems.length === 0}
                 >
                   <FontAwesomeIcon
@@ -345,19 +351,20 @@ function NhapKhoLayout() {
                       <td colSpan='8'>Không có lô hàng nào</td>
                     </tr>
                   )}
-
                 </tbody>
               </table>
-
             </div>
             <table className='tablenhap table-tong-cong'>
               <tbody>
                 <tr>
-                  <td colSpan={isMobile ? 3 : 6} className='tdnhap'><strong>Tổng cộng</strong></td>
-                  {!isMobile && (
-                    <td className='tdnhap'><strong>{totalAmount.toLocaleString()} VNĐ</strong></td>
-                  )}
-                  <td className='tdnhap'></td>
+                  <td colSpan={isMobile ? 3 : 6} className='tdnhap'>
+                    <strong>Tổng cộng</strong>
+                  </td>
+                  <td className='tdnhap'>
+                    <strong>{totalAmount.toLocaleString()} VNĐ</strong>
+                  </td>
+
+                  {!isMobile && <td className='tdnhap'></td>}
                 </tr>
               </tbody>
             </table>
@@ -368,8 +375,8 @@ function NhapKhoLayout() {
               handlePageChange={handlePageChange}
               itemsPerPage={itemsPerPage}
               setItemsPerPage={setItemsPerPage}
-              totalResults = {totalResults}
-              fetchData = {fetchData}
+              totalResults={totalResults}
+              fetchData={fetchData}
             />
             <div
               className='resizer'

@@ -4,6 +4,7 @@
   gap: 6px; /* Slightly reduce the gap */
   padding: 10px;
   font-size: 14px; /* Add font size to match text styling */
+  flex-wrap: wrap;
 }
 
 .pagination-container button {

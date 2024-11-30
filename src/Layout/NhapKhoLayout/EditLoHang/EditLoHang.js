@@ -12,6 +12,7 @@ import 'react-time-picker/dist/TimePicker.css'
 import 'react-clock/dist/Clock.css'
 import { ModalAddNganHang } from '../AddLoHang/ModalAddNganHang'
 import { setDate } from 'date-fns'
+import { getFromLocalStorage } from '~/components/MaHoaLocalStorage/MaHoaLocalStorage'
 
 function EditLoHang ({ isOpen, onClose, idloaisanpham, fetchlohang }) {
   const [name, setName] = useState('')
@@ -38,7 +39,7 @@ function EditLoHang ({ isOpen, onClose, idloaisanpham, fetchlohang }) {
   const [suppliers, setSuppliers] = useState([])
   const [loadingSuppliers, setLoadingSuppliers] = useState(true)
   const [khoID, setKhoID] = useState(localStorage.getItem('khoID') || '')
-  const [userID, setuserID] = useState(localStorage.getItem('userId') || '')
+  const [userID, setuserID] = useState(getFromLocalStorage('userId') || '')
 
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false)
   const [isTimePickerOpen, setIsTimePickerOpen] = useState(false)
@@ -60,7 +61,7 @@ function EditLoHang ({ isOpen, onClose, idloaisanpham, fetchlohang }) {
 
   useEffect(() => {
     const intervalId = setInterval(() => {
-      const newuserID = localStorage.getItem('userId') || ''
+      const newuserID =  getFromLocalStorage('userId') || ''
       if (newuserID !== userID) {
         console.log('Interval detected change, updating khoID:', newuserID)
         setuserID(newuserID)
@@ -68,7 +69,7 @@ function EditLoHang ({ isOpen, onClose, idloaisanpham, fetchlohang }) {
     }, 1000) // Kiểm tra mỗi giây
 
     return () => clearInterval(intervalId)
-  }, [localStorage.getItem('userId')])
+  }, [ getFromLocalStorage('userId')])
 
   useEffect(() => {
     const fetchSuppliers = async () => {
@@ -248,7 +249,6 @@ function EditLoHang ({ isOpen, onClose, idloaisanpham, fetchlohang }) {
 
       fetchChitiet() // Tải dữ liệu mới
     }
-    console.log(idloaisanpham)
   }, [idloaisanpham, isOpen])
 
   const resetForm = useCallback(() => {

@@ -14,7 +14,7 @@ import { ModalBig } from '~/components/ModalBig'
 import './AddTest.scss'
 import { ModalAddNganHang } from '~/Layout/NhapKhoLayout/AddLoHang/ModalAddNganHang'
 import { ModalAddNhaCungCap } from '~/Layout/NhapKhoLayout/ModalAddNhaCungCap'
-
+import { getFromLocalStorage } from '~/components/MaHoaLocalStorage/MaHoaLocalStorage'
 
 function AddTest ({ isOpen, onClose, fetclohang }) {
   const [name, setName] = useState('')
@@ -42,7 +42,7 @@ function AddTest ({ isOpen, onClose, fetclohang }) {
   const [suppliers, setSuppliers] = useState([])
   const [loadingSuppliers, setLoadingSuppliers] = useState(true)
   const [khoID, setKhoID] = useState(localStorage.getItem('khoID') || '')
-  const [userID, setuserID] = useState(localStorage.getItem('userId') || '')
+  const [userID, setuserID] = useState(getFromLocalStorage('userId') || '')
 
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false)
   const [isTimePickerOpen, setIsTimePickerOpen] = useState(false)
@@ -117,7 +117,7 @@ function AddTest ({ isOpen, onClose, fetclohang }) {
 
   useEffect(() => {
     const intervalId = setInterval(() => {
-      const newuserID = localStorage.getItem('userId') || ''
+      const newuserID = getFromLocalStorage('userId') || ''
       if (newuserID !== userID) {
         console.log('Interval detected change, updating khoID:', newuserID)
         setuserID(newuserID)
@@ -125,7 +125,7 @@ function AddTest ({ isOpen, onClose, fetclohang }) {
     }, 1000) // Kiểm tra mỗi giây
 
     return () => clearInterval(intervalId)
-  }, [localStorage.getItem('userId')])
+  }, [getFromLocalStorage('userId')])
 
   const fetchSuppliers = async () => {
     try {
@@ -261,63 +261,65 @@ function AddTest ({ isOpen, onClose, fetclohang }) {
             />
             <label htmlFor='ghino'>Ghi nợ nhà cung cấp</label>
           </div>
-          <div className='divthanhtoanngay'>
-            <input
-              type='radio'
-              name='paymentMethod'
-              id='thanhtoanngay'
-              value='thanhtoanngay'
-              onChange={e => setpayment(e.target.value)}
-              checked={payment === 'thanhtoanngay'}
-            />
-            <label htmlFor='thanhtoanngay'>Thanh toán ngay</label>
-          </div>
-          <div className='divinputmethod'>
-            <Tooltip
-              trigger='click'
-              interactive
-              arrow
-              position='bottom'
-              open={isTableMethod}
-              onRequestClose={() => setIsTableMethod(false)}
-              html={
-                <div
-                  className='supplier-table-container'
-                  ref={tooltipRefMethod}
-                >
-                  <table className='supplier-info-table'>
-                    <thead>
-                      <tr>
-                        <th>Phương thức</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {methods.map((paymentMethod, index) => (
-                        <tr
-                          className='trdulieu'
-                          key={index}
-                          onClick={() => {
-                            setmethod(paymentMethod)
-                            setIsTableMethod(false)
-                          }}
-                        >
-                          <td>{paymentMethod}</td>
+          <div className='divttntong'>
+            <div className='divthanhtoanngay'>
+              <input
+                type='radio'
+                name='paymentMethod'
+                id='thanhtoanngay'
+                value='thanhtoanngay'
+                onChange={e => setpayment(e.target.value)}
+                checked={payment === 'thanhtoanngay'}
+              />
+              <label htmlFor='thanhtoanngay'>Thanh toán ngay</label>
+            </div>
+            <div className='divinputmethod'>
+              <Tooltip
+                trigger='click'
+                interactive
+                arrow
+                position='bottom'
+                open={isTableMethod}
+                onRequestClose={() => setIsTableMethod(false)}
+                html={
+                  <div
+                    className='supplier-table-container'
+                    ref={tooltipRefMethod}
+                  >
+                    <table className='supplier-info-table'>
+                      <thead>
+                        <tr>
+                          <th>Phương thức</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              }
-            >
-              <button
-                className='divChonncc'
-                onClick={() => setIsTableMethod(!isTableMethod)}
-                disabled={payment !== 'thanhtoanngay'}
+                      </thead>
+                      <tbody>
+                        {methods.map((paymentMethod, index) => (
+                          <tr
+                            className='trdulieu'
+                            key={index}
+                            onClick={() => {
+                              setmethod(paymentMethod)
+                              setIsTableMethod(false)
+                            }}
+                          >
+                            <td>{paymentMethod}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                }
               >
-                {method ? `${method}` : 'Chọn phương thức'}
-                <FontAwesomeIcon icon={faChevronDown} className='iconNcc' />
-              </button>
-            </Tooltip>
+                <button
+                  className='divChonncc'
+                  onClick={() => setIsTableMethod(!isTableMethod)}
+                  disabled={payment !== 'thanhtoanngay'}
+                >
+                  {method ? `${method}` : 'Chọn phương thức'}
+                  <FontAwesomeIcon icon={faChevronDown} className='iconNcc' />
+                </button>
+              </Tooltip>
+            </div>
           </div>
         </div>
 
@@ -540,7 +542,7 @@ function AddTest ({ isOpen, onClose, fetclohang }) {
                   selected={date}
                   onChange={handleDateChange}
                   dateFormat='dd/MM/yyyy'
-                  inline 
+                  inline
                 />
               </div>
             }
@@ -550,7 +552,11 @@ function AddTest ({ isOpen, onClose, fetclohang }) {
                 type='text'
                 className={`diachi`}
                 placeholder='dd/mm/yyyy'
-                value={date ? date.toLocaleDateString('vi-VN') : new Date(Date.now()).toLocaleDateString('vi-VN')}
+                value={
+                  date
+                    ? date.toLocaleDateString('vi-VN')
+                    : new Date(Date.now()).toLocaleDateString('vi-VN')
+                }
                 onClick={() => setIsDatePickerOpen(!isDatePickerOpen)}
                 readOnly
               />

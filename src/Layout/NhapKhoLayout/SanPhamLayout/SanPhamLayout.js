@@ -15,11 +15,10 @@ function SanPhamLayout ({
   const [isOpen, setIsOpen] = useState(false)
   const [isOpenXuakho, setIsOpenXuakho] = useState(false)
   const [SanPham, setSanPham] = useState([])
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
   const [khoID, setKhoID] = useState(localStorage.getItem('khoID') || '')
   const [masku, setmasku] = useState('')
   const [isOpenEdit, setIsOpenEdit] = useState(false)
-  
+
   const Loading = () => {
     return (
       <div
@@ -143,74 +142,69 @@ function SanPhamLayout ({
                   Thêm sản phẩm
                 </button>
               </div> */}
-
-              <table className='tablenhap'>
-                <thead className='theadnhap'>
-                  <tr>
-                    {/* <td className='tdnhap'>
+              <div className='divtablespnhapkho'>
+                <table className='tablenhap'>
+                  <thead className='theadnhap'>
+                    <tr>
+                      {/* <td className='tdnhap'>
                       <input
                         type='checkbox'
                         checked={selectAll}
                         onChange={handleSelectAll}
                       />
                     </td> */}
-                    <td className='tdnhap'>Mã sku</td>
-                    <td className='tdnhap'>Imel</td>
-                    {!isMobile && (
-                      <>
-                        <td className='tdnhap'>Tên máy</td>
-                        <td className='tdnhap'>Số lượng</td>
-                        <td className='tdnhap'> Đơn giá</td>
-                        <td className='tdnhap'>Thành tiền</td>
-                      </>
-                    )}
+                      <td className='tdnhap'>Mã sku</td>
+                      <td className='tdnhap'>Imel</td>
+                        <>
+                          <td className='tdnhap'>Tên máy/Linh kiện</td>
+                          <td className='tdnhap'>Số lượng</td>
+                          <td className='tdnhap'> Đơn giá</td>
+                          <td className='tdnhap'>Thành tiền</td>
+                        </>
 
-                    <td className='tdnhap'>Chức năng</td>
-                  </tr>
-                </thead>
-                <tbody className='tbodynhap'>
-                  {SanPham.length > 0 ? (
-                    SanPham.map(ncc => (
-                      <>
-                        <tr key={ncc._id}>
-                          {/* <td>
+                      <td className='tdnhap'>Chức năng</td>
+                    </tr>
+                  </thead>
+                  <tbody className='tbodynhap'>
+                    {SanPham.length > 0 ? (
+                      SanPham.map(ncc => (
+                        <>
+                          <tr key={ncc._id}>
+                            {/* <td>
                             <input
                               type='checkbox'
                               checked={selectedItems.includes(ncc._id)}
                               onChange={() => handleSelectItem(ncc._id)}
                             />
                           </td> */}
-                          <td>{ncc.masku}</td>
-                          <td className='imei-cell'>{ncc.imel}</td>
-                          {!isMobile && (
-                            <>
-                              <td className='imei-cell'>{ncc.name}</td>
-                              <td>{ncc.quantity}</td>
-                              <td>{ncc.price.toLocaleString()} VNĐ</td>
-                              <td>{ncc.total.toLocaleString()} VNĐ</td>
-                            </>
-                          )}
-
-                          <td className='tdchucnang'>
-                            <button
-                              className='btninimel'
-                              onClick={() => ModalEdit(ncc.masku)}
-                            >
-                              Cập nhật
-                            </button>
-                          </td>
-                        </tr>
-                        <ModalXuatKho
-                          isOpen={isOpenXuakho}
-                          onClose={handleCloseModalXuakho}
-                          setsanpham={setSanPham}
-                          idsanpham={ncc._id}
-                          idloaisp={idloaisp}
-                          khoID={khoID}
-                          fetchData={fetchData}
-                          fetchlohang={fetchlohang}
-                        />
-                        {/* <ModalChuyenKhoFull
+                            <td>{ncc.masku}</td>
+                            <td className='imei-cell'>{ncc.imel}</td>
+                              <>
+                                <td className='imei-cell'>{ncc.name}</td>
+                                <td>{ncc.quantity}</td>
+                                <td>{ncc.price.toLocaleString()} VNĐ</td>
+                                <td>{ncc.total.toLocaleString()} VNĐ</td>
+                              </>
+                            <td className='tdchucnang'>
+                              <button
+                                className='btninimel'
+                                onClick={() => ModalEdit(ncc.masku)}
+                              >
+                                Cập nhật
+                              </button>
+                            </td>
+                          </tr>
+                          <ModalXuatKho
+                            isOpen={isOpenXuakho}
+                            onClose={handleCloseModalXuakho}
+                            setsanpham={setSanPham}
+                            idsanpham={ncc._id}
+                            idloaisp={idloaisp}
+                            khoID={khoID}
+                            fetchData={fetchData}
+                            fetchlohang={fetchlohang}
+                          />
+                          {/* <ModalChuyenKhoFull
                           isOpen={isOpenChuyenKhoFull}
                           onClose={handleCloseModalChuyenKhoFull}
                           selectedItems={selectedItems}
@@ -230,17 +224,18 @@ function SanPhamLayout ({
                           idloaisp={idloaisp}
                           khoID={khoID}
                         /> */}
-                      </>
-                    ))
-                  ) : (
-                    <tr>
-                      <td colSpan={isMobile ? '4' : '8'}>
-                        Không có sản phẩm nào
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
+                        </>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan='8'>
+                          Không có sản phẩm nào
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
             </div>
             <AddSanPham
               isOpen={isOpen}

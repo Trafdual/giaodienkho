@@ -8,6 +8,7 @@ import { LogoSwitcher as LogoSwitcherLogin } from '../../components/SwitchImageL
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
 import { useToast } from '../../components/GlobalStyles/ToastContext'
+import { saveToLocalStorage } from '~/components/MaHoaLocalStorage/MaHoaLocalStorage'
 function Login () {
   const [showPassword, setShowPassword] = useState(false)
   const [isIconVisible, setIsIconVisible] = useState(false)
@@ -78,15 +79,15 @@ function Login () {
           const name = data.data.user[0].name
           if (rememberMe) {
             localStorage.setItem('token', data.token)
-            localStorage.setItem('userId', userId)
-            localStorage.setItem('name', name)
+            saveToLocalStorage('userId', userId)
+            saveToLocalStorage('name', name)
           } else {
             sessionStorage.setItem('token', data.token)
-            sessionStorage.setItem('userId', userId)
-            sessionStorage.setItem('name', name)
+            saveToLocalStorage('userId', userId)
+            saveToLocalStorage('name', name)
           }
           showToast('Đăng nhập thành công!')
-          navigate(publicRoutes[1].path)
+          navigate(publicRoutes[1].path,{ state: { userId: userId }})
         } else {
           showToast(data.message, 'error')
         }

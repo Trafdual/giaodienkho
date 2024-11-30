@@ -105,3 +105,11 @@
   background-color: white;
   font-size: 30px;
 }
+
+@media (max-width: 480px) {
+  .divTableSP {
+    max-height: 400px;
+    overflow-y: auto;
+    overflow-x: auto;
+  }
+}

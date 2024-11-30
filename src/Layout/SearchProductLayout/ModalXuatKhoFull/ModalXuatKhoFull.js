@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react'
 import { useToast } from '../../../components/GlobalStyles/ToastContext'
 import { Modal } from '../../../components/Modal'
+import { getFromLocalStorage } from '~/components/MaHoaLocalStorage/MaHoaLocalStorage'
 function ModalXuatKhoFull ({
   isOpen,
   onClose,
@@ -13,14 +14,16 @@ function ModalXuatKhoFull ({
   const { showToast } = useToast()
   const [datakho, setdatakho] = useState([])
   const [tenkho, setTenkho] = useState('')
-  const [userID, setuserID] = useState(
-    localStorage.getItem('userId') || sessionStorage.getItem('userId') || ''
+  const [userID, setuserID] = useState(getFromLocalStorage('userId'))
+  const [khoID, setkhoID] = useState(
+    localStorage.getItem('khoID') || sessionStorage.getItem('khoID') || ''
   )
+
   const [loadingSuppliers, setLoadingSuppliers] = useState(true) // Trạng thái tải dữ liệu
 
   useEffect(() => {
     const intervalId = setInterval(() => {
-      const newuserID = localStorage.getItem('userId') || ''
+      const newuserID = getFromLocalStorage('userId') || ''
       if (newuserID !== userID) {
         console.log('Interval detected change, updating khoID:', newuserID)
         setuserID(newuserID)
@@ -28,7 +31,19 @@ function ModalXuatKhoFull ({
     }, 1000) // Kiểm tra mỗi giây
 
     return () => clearInterval(intervalId)
-  }, [localStorage.getItem('userId')])
+  }, [getFromLocalStorage('userId')])
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      const newkhoID = localStorage.getItem('khoID') || ''
+      if (newkhoID !== khoID) {
+        console.log('Interval detected change, updating khoID:', newkhoID)
+        setkhoID(newkhoID)
+      }
+    }, 1000) // Kiểm tra mỗi giây
+
+    return () => clearInterval(intervalId)
+  }, [localStorage.getItem('khoID')])
 
   const handleGetKho = async () => {
     try {
@@ -62,16 +77,19 @@ function ModalXuatKhoFull ({
   const postchuyenkho = async () => {
     const idsanpham1 = selectedItems.map(item => item._id)
     try {
-      const response = await fetch(`https://www.ansuataohanoi.com/chuyenkho1`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          tenkho: tenkho,
-          idsanpham1: idsanpham1
-        })
-      })
+      const response = await fetch(
+        `https://www.ansuataohanoi.com/chuyenkho2/${khoID}`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            tenkho: tenkho,
+            idsanpham1: idsanpham1
+          })
+        }
+      )
       const data = await response.json()
 
       if (data.message) {
@@ -115,13 +133,12 @@ function ModalXuatKhoFull ({
           Kho chứa
         </label>
         <button onClick={postchuyenkho} className='btnAddLoHang'>
-        Chuyển kho
-      </button>
-      <button onClick={onClose} className='btnhuyAddLoHang'>
-        Hủy
-      </button>
+          Chuyển kho
+        </button>
+        <button onClick={onClose} className='btnhuyAddLoHang'>
+          Hủy
+        </button>
       </div>
-    
     </Modal>
   )
 }

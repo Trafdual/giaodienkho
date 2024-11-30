@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronDown, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { Tooltip } from 'react-tippy'
 import 'react-tippy/dist/tippy.css'
+import { getFromLocalStorage } from '~/components/MaHoaLocalStorage/MaHoaLocalStorage'
 
 function FormAddTay ({ isOpen, onClose, loaispid, fetchData, fetchlohang }) {
   const [name, setName] = useState('')
@@ -14,7 +15,7 @@ function FormAddTay ({ isOpen, onClose, loaispid, fetchData, fetchlohang }) {
   const [mangimel, setmangimel] = useState([])
   const [skudata, setskudata] = useState([])
   const [masku, setmasku] = useState('')
-  const [userID, setuserID] = useState(localStorage.getItem('userId') || '')
+  const [userID, setuserID] = useState( getFromLocalStorage('userId') || '')
   const [loadingSuppliers, setLoadingSuppliers] = useState(true)
   const [isTableVisible, setIsTableVisible] = useState(false)
   const { showToast } = useToast()
@@ -25,7 +26,7 @@ function FormAddTay ({ isOpen, onClose, loaispid, fetchData, fetchlohang }) {
 
   useEffect(() => {
     const intervalId = setInterval(() => {
-      const newuserID = localStorage.getItem('userId') || ''
+      const newuserID =  getFromLocalStorage('userId') || ''
       if (newuserID !== userID) {
         console.log('Interval detected change, updating khoID:', newuserID)
         setuserID(newuserID)
@@ -33,7 +34,7 @@ function FormAddTay ({ isOpen, onClose, loaispid, fetchData, fetchlohang }) {
     }, 1000) // Kiểm tra mỗi giây
 
     return () => clearInterval(intervalId)
-  }, [localStorage.getItem('userId')])
+  }, [ getFromLocalStorage('userId')])
 
   const valicolorInputs = () => {
     let valid = true

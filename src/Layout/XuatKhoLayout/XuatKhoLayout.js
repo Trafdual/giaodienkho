@@ -81,7 +81,7 @@ function XuatKhoLayout () {
 
     try {
       const response = await fetch(
-        `https://www.ansuataohanoi.com/getxuatkho/${khoID}`,
+        `http://localhost:8080/getxuatkho/${khoID}`,
         {
           method: 'GET',
           headers: {
@@ -180,6 +180,7 @@ function XuatKhoLayout () {
 
                     <td className='tdnhap'>Mã Lô Hàng</td>
                     <td className='tdnhap'>Mã Sản Phẩm</td>
+                    <td className='tdnhap'>Imel</td>
                     <td className='tdnhap'>Tên Sản Phẩm</td>
                     {!isMobile && (
                       <>
@@ -203,6 +204,7 @@ function XuatKhoLayout () {
 
                         <td>{ncc.malohang}</td>
                         <td>{ncc.masp}</td>
+                        <td>{ncc.imel}</td>
                         <td>{ncc.tenmay}</td>
                         {!isMobile && (
                           <>

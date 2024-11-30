@@ -8,29 +8,30 @@ import './DefaultLayout.scss'
 import { Header } from './Header'
 import { Sidebar } from './Sidebar'
 import { Loading } from '~/components/Loading'
+import { getFromLocalStorage } from '~/components/MaHoaLocalStorage/MaHoaLocalStorage'
 
 function DefaultLayout ({ children }) {
   const [isActive, setIsActive] = useState(false)
   const [loading, setloading] = useState(true)
   const [userID, setuserID] = useState(
-    localStorage.getItem('userId') || sessionStorage.getItem('userId') || ''
+    getFromLocalStorage('userId')
   )
   const [datakho, setdatakho] = useState([])
 
   const [selectedKho, setSelectedKho] = useState(null)
-  const name = localStorage.getItem('name') || sessionStorage.getItem('name')
+  const name = getFromLocalStorage('name')
 
   useEffect(() => {
     const intervalId = setInterval(() => {
-      const newuserID = localStorage.getItem('userId') || ''
+      const newuserID =  getFromLocalStorage('userId') || ''
       if (newuserID !== userID) {
         console.log('Interval detected change, updating khoID:', newuserID)
         setuserID(newuserID)
       }
-    }, 1000) // Kiểm tra mỗi giây
+    }, 1000) 
 
     return () => clearInterval(intervalId)
-  }, [localStorage.getItem('userId')])
+  }, [ getFromLocalStorage('userId')])
 
   const handleGetKho = async () => {
     try {
