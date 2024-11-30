@@ -88,42 +88,43 @@ function FormAddImel ({ isOpen, onClose, handleAddImel, index }) {
     }
   }, [isOpen])
 
-const handleCaptureAndScan = async () => {
-  if (!videoRef.current) return
+  const handleCaptureAndScan = async () => {
+    if (!videoRef.current) return
 
-  const videoElement = videoRef.current
-  const canvas = document.createElement('canvas')
-  const context = canvas.getContext('2d')
+    const videoElement = videoRef.current
+    const canvas = document.createElement('canvas')
+    const context = canvas.getContext('2d')
 
-  // Cài đặt kích thước canvas theo video
-  canvas.width = videoElement.videoWidth
-  canvas.height = videoElement.videoHeight
+    // Cài đặt kích thước canvas theo video
+    canvas.width = videoElement.videoWidth
+    canvas.height = videoElement.videoHeight
 
-  // Vẽ khung hình hiện tại của video lên canvas
-  context.drawImage(videoElement, 0, 0, canvas.width, canvas.height)
+    // Vẽ khung hình hiện tại của video lên canvas
+    context.drawImage(videoElement, 0, 0, canvas.width, canvas.height)
 
-  // Tạo một đối tượng image từ canvas
-  const image = new Image()
-  image.src = canvas.toDataURL()
+    // Tạo một đối tượng image từ canvas
+    const image = new Image()
+    image.src = canvas.toDataURL()
 
-  // Đảm bảo rằng ảnh đã tải xong trước khi quét mã
-  image.onload = async () => {
-    const codeReader = new BrowserMultiFormatReader()
+    // Đảm bảo rằng ảnh đã tải xong trước khi quét mã
+    image.onload = async () => {
+      const codeReader = new BrowserMultiFormatReader()
+      const hints = new Map()
+      hints.set(DecodeHintType.TRY_HARDER, true) // Thử mạnh mẽ hơn để phát hiện mã vạch từ xa
+      codeReader.setHints(hints)
 
-    try {
-      // Quét mã từ HTMLImageElement
-      const result = await codeReader.decodeFromImage(image)
-      setBarcodeData(result.text) // Cập nhật mã quét được
-      setHasScanned(true) // Đánh dấu đã quét xong
-      handleAddSanPham(result.text) // Thêm sản phẩm với mã quét được
-    } catch (error) {
-      console.error('Lỗi khi quét từ ảnh:', error)
-      alert('Không thể quét mã vạch từ ảnh. Vui lòng thử lại.')
+      try {
+        // Quét mã từ HTMLImageElement
+        const result = await codeReader.decodeFromImageElement(image)
+        setBarcodeData(result.text) // Cập nhật mã quét được
+        setHasScanned(true) // Đánh dấu đã quét xong
+        handleAddSanPham(result.text) // Thêm sản phẩm với mã quét được
+      } catch (error) {
+        console.log('Lỗi khi quét từ ảnh:', error)
+        alert('Không thể quét mã vạch từ ảnh. Vui lòng thử lại.')
+      }
     }
   }
-}
-
-
 
   return (
     <Modal isOpen={isOpen} onClose={handleClose}>
