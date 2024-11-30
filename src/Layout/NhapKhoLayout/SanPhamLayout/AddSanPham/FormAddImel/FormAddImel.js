@@ -8,8 +8,9 @@ import {
 } from '@zxing/library'
 import './FormAddImel.scss'
 import { useToast } from '../../../../../components/GlobalStyles/ToastContext'
+import 'webrtc-adapter'
 
-function FormAddImel ({ isOpen, onClose,handleAddImel,index }) {
+function FormAddImel ({ isOpen, onClose, handleAddImel, index }) {
   const [barcodeData, setBarcodeData] = useState('')
   const videoRef = useRef(null)
   const { showToast } = useToast()
@@ -18,7 +19,7 @@ function FormAddImel ({ isOpen, onClose,handleAddImel,index }) {
 
   const handleAddSanPham = async result => {
     try {
-      handleAddImel(index,result)
+      handleAddImel(index, result)
     } catch (error) {
       console.error('Lỗi khi gửi yêu cầu thêm sản phẩm:', error)
       showToast('Thêm lô hàng thất bại', 'error')
@@ -71,17 +72,19 @@ function FormAddImel ({ isOpen, onClose,handleAddImel,index }) {
           const videoElement = videoRef.current
           const constraints = {
             video: {
-              facingMode: 'environment',
-              width: { ideal: 1920 },
-              height: { ideal: 1080 },
-              frameRate: {
-                ideal: 100
-              }
+              facingMode: { exact: 'environment' }, // Camera sau
+              width: { ideal: 1280 },
+              height: { ideal: 720 }
             }
           }
+
+          // Chuẩn hóa API getUserMedia
+          const stream = await navigator.mediaDevices.getUserMedia(constraints)
+          videoElement.srcObject = stream
+          videoElement.play()
+
           setIsScanning(true)
-          await codeReader.decodeFromConstraints(
-            constraints,
+          codeReader.decodeFromVideoElement(
             videoElement,
             (result, error) => {
               if (result) {
@@ -92,15 +95,15 @@ function FormAddImel ({ isOpen, onClose,handleAddImel,index }) {
               }
               if (error && !result) {
                 if (error.name !== 'NotFoundException') {
-                  // Chỉ hiển thị lỗi nếu không phải lỗi "NotFoundException"
-                  console.error(error)
+                  alert(`Lỗi khi quét: ${error}`)
                 }
               }
             },
             hints
           )
         } catch (error) {
-          console.error(error)
+          console.error('Không thể truy cập camera:', error)
+          alert('Vui lòng cấp quyền truy cập camera.')
         }
       }
 
@@ -111,7 +114,7 @@ function FormAddImel ({ isOpen, onClose,handleAddImel,index }) {
         setIsScanning(false) // Ensure scanning is stopped on cleanup
       }
     }
-  }, [isOpen, hasScanned]) // Add hasScanned to dependencies
+  }, [isOpen, hasScanned])
 
   return (
     <Modal isOpen={isOpen} onClose={handleClose}>
@@ -121,6 +124,9 @@ function FormAddImel ({ isOpen, onClose,handleAddImel,index }) {
           <video
             ref={videoRef}
             className={`video ${hasScanned ? 'thanhcong' : ''}`}
+            playsInline
+            muted
+            autoPlay
           />
           <div className='scanner-line'></div>
         </div>
