@@ -146,9 +146,9 @@ function FormAddImel ({ isOpen, onClose, handleAddImel, index }) {
             <p>{barcodeData}</p>
           </div>
         )}
-        <button onClick={handleClose} className='btnhuyAddLoHang'>
+        {/* <button onClick={handleClose} className='btnhuyAddLoHang'>
           Hủy
-        </button>
+        </button> */}
         {hasScanned && (
           <button onClick={handleCaptureAndScan} className='btntieptucquet'>
             chụp và quét
