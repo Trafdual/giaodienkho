@@ -1,119 +1,143 @@
-import React, { useEffect, useRef, useState } from 'react'
-import Quagga from '@ericblade/quagga2'
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useRef, useEffect, useState } from 'react'
 import { Modal } from '../../../../../components/Modal'
-import { useToast } from '../../../../../components/GlobalStyles/ToastContext'
+import {
+  BrowserMultiFormatReader,
+  DecodeHintType,
+  BarcodeFormat
+} from '@zxing/library'
 import './FormAddImel.scss'
+import { useToast } from '../../../../../components/GlobalStyles/ToastContext'
 
 function FormAddImel ({ isOpen, onClose, handleAddImel, index }) {
+  const [barcodeData, setBarcodeData] = useState('')
   const videoRef = useRef(null)
   const { showToast } = useToast()
-  const [barcodeData, setBarcodeData] = useState('')
+  const [isScanning, setIsScanning] = useState(false)
+  const [hasScanned, setHasScanned] = useState(false) // Biến để theo dõi đã quét thành công hay chưa
 
-  const handleAddSanPham = result => {
+  const handleAddSanPham = async result => {
     try {
       handleAddImel(index, result)
-      showToast('Thêm sản phẩm thành công!', 'success')
     } catch (error) {
       console.error('Lỗi khi gửi yêu cầu thêm sản phẩm:', error)
-      showToast('Thêm sản phẩm thất bại', 'error')
+      showToast('Thêm lô hàng thất bại', 'error')
+      handleClose()
     }
   }
 
-  const startQuagga = () => {
-    if (!videoRef.current) return
+  // useEffect(() => {
+  //   const eventSource = new EventSource('https://www.ansuataohanoi.com/events')
 
-    Quagga.init(
-      {
-        inputStream: {
-          name: 'Live',
-          type: 'LiveStream',
-          target: videoRef.current, // Element chứa video
-          constraints: {
-            width: { ideal: 1920 }, // Độ rộng mong muốn (Full HD)
-            height: { ideal: 1080 }, // Độ cao mong muốn (Full HD)
-            facingMode: 'environment' // Sử dụng camera sau
-          }
-        },
-        decoder: {
-          readers: [
-            'code_128_reader', // Mã Code 128
-            'ean_reader', // Mã EAN-13
-            'ean_8_reader', // Mã EAN-8
-            'code_39_reader', // Mã Code 39
-            'code_39_vin_reader', // Mã Code 39 VIN
-            'codabar_reader', // Mã Codabar
-            'upc_reader', // Mã UPC-A
-            'upc_e_reader', // Mã UPC-E
-            'i2of5_reader', // Mã Interleaved 2 of 5
-            '2of5_reader', // Mã Standard 2 of 5
-            'qr_reader' // Mã QR Code
-          ]
-          // Thêm loại mã vạch cần quét
-        },
-        locator: {
-          patchSize: 'medium', // Có thể là 'small', 'medium', 'large'
-          halfSample: true
-        }
-      },
-      err => {
-        if (err) {
-          console.error('Lỗi khởi tạo Quagga:', err)
-          return
-        }
-        Quagga.start()
-      }
-    )
+  //   eventSource.onmessage = event => {
+  //     const newMessage = JSON.parse(event.data)
+  //     showToast(newMessage.message)
+  //     fetchData()
+  //   }
 
-    Quagga.onDetected(data => {
-      const code = data.codeResult.code
-      setBarcodeData(code)
-      handleAddSanPham(code)
-      Quagga.stop() // Dừng scanner sau khi quét xong
-    })
+  //   return () => {
+  //     eventSource.close()
+  //   }
+  // }, [])
+
+  const handleClose = () => {
+    onClose()
+    setBarcodeData('') // Clear scanned data when closing
+    setIsScanning(false) // Stop scanning when closing
+    setHasScanned(false) // Reset trạng thái đã quét khi đóng modal
   }
-
-  const stopQuagga = () => {
-    if (Quagga && Quagga.stop) {
-      try {
-        Quagga.stop()
-      } catch (error) {
-        console.error('Lỗi khi dừng Quagga:', error)
-      }
-    }
+  const tieptucquet = () => {
+    setBarcodeData('') // Clear scanned data when closing
+    setIsScanning(false) // Stop scanning when closing
+    setHasScanned(false) // Reset trạng thái đã quét khi đóng modal
   }
 
   useEffect(() => {
-    if (isOpen) {
-      startQuagga()
-    } else {
-      stopQuagga()
-    }
+    if (isOpen && !hasScanned) {
+      // Chỉ bắt đầu quét nếu chưa quét thành công
+      const codeReader = new BrowserMultiFormatReader()
 
-    return () => stopQuagga()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isOpen])
+      const hints = new Map()
+      hints.set(DecodeHintType.POSSIBLE_FORMATS, [
+        BarcodeFormat.CODE_39,
+        BarcodeFormat.CODE_93,
+        BarcodeFormat.CODE_128,
+        BarcodeFormat.EAN_8,
+        BarcodeFormat.EAN_13
+      ])
+
+      const startScan = async () => {
+        try {
+          const videoElement = videoRef.current
+          const constraints = {
+            video: {
+              facingMode: 'environment',
+              width: { ideal: 1920 },
+              height: { ideal: 1080 },
+              frameRate: {
+                ideal: 100
+              }
+            }
+          }
+          setIsScanning(true)
+          await codeReader.decodeFromConstraints(
+            constraints,
+            videoElement,
+            (result, error) => {
+              if (result) {
+                setBarcodeData(result.text)
+                setIsScanning(false) // Stop scanning after a successful scan
+                setHasScanned(true) // Đánh dấu đã quét thành công
+                handleAddSanPham(result.text)
+              }
+              if (error && !result) {
+                if (error.name !== 'NotFoundException') {
+                  // Chỉ hiển thị lỗi nếu không phải lỗi "NotFoundException"
+                  console.error(error)
+                }
+              }
+            },
+            hints
+          )
+        } catch (error) {
+          console.error(error)
+        }
+      }
+
+      startScan()
+
+      return () => {
+        codeReader.reset()
+        setIsScanning(false) // Ensure scanning is stopped on cleanup
+      }
+    }
+  }, [isOpen, hasScanned]) // Add hasScanned to dependencies
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
-      <div className='divAddSanPham'>
+    <Modal isOpen={isOpen} onClose={handleClose}>
+      <div className='divAddSanPham' style={{ position: 'relative' }}>
         <h2>Quét IMEI</h2>
-        <div
-          className='divvideo'
-          ref={videoRef}
-          style={{ width: '100%', height: '400px', position: 'relative' }}
-        >
-          <video ref={videoRef} className='video' playsInline muted autoPlay />
+        <div className='divvideo'>
+          <video
+            ref={videoRef}
+            className={`video ${hasScanned ? 'thanhcong' : ''}`}
+          />
           <div className='scanner-line'></div>
         </div>
         {barcodeData && (
           <div>
-            <h3>Mã quét được:</h3>
+            <h3>Thông tin quét được:</h3>
             <p>{barcodeData}</p>
           </div>
         )}
-        <button onClick={onClose} className='btnhuyAddLoHang'>
-          Đóng
+        <button onClick={handleClose} className='btnhuyAddLoHang'>
+          Hủy
         </button>
+        {hasScanned && (
+          <button onClick={tieptucquet} className='btntieptucquet'>
+            Tiếp tục quét
+          </button>
+        )}
       </div>
     </Modal>
   )

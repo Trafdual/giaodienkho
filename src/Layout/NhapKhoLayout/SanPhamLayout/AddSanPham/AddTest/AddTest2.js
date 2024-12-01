@@ -32,7 +32,6 @@ function AddTest2 ({
   validateInputs,
   resetForm
 }) {
-
   const [skudata, setSkudata] = useState([])
   const [userID, setUserID] = useState(getFromLocalStorage('userId') || '')
   const [loadingSuppliers, setLoadingSuppliers] = useState(true)
@@ -246,7 +245,7 @@ function AddTest2 ({
       setIsClickButton(true)
       try {
         const response = await fetch(
-          `http://localhost:8080/postloaisanpham4`,
+          `https://www.ansuataohanoi.com/postloaisanpham4`,
           {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -270,7 +269,7 @@ function AddTest2 ({
   }
 
   // useEffect(() => {
-  //   const eventSource = new EventSource('http://localhost:8080/events')
+  //   const eventSource = new EventSource('https://www.ansuataohanoi.com/events')
 
   //   eventSource.onmessage = event => {
   //     const newMessage = JSON.parse(event.data)
