@@ -29,6 +29,8 @@ function FormAddImel ({ isOpen, onClose, handleAddImel, index }) {
           type: 'LiveStream',
           target: videoRef.current, // Element chứa video
           constraints: {
+            width: { ideal: 1920 }, // Độ rộng mong muốn (Full HD)
+            height: { ideal: 1080 }, // Độ cao mong muốn (Full HD)
             facingMode: 'environment' // Sử dụng camera sau
           }
         },
