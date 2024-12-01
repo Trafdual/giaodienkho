@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react'
-import Quagga from 'quagga'
+import Quagga from '@ericblade/quagga2'
 import { Modal } from '../../../../../components/Modal'
 import { useToast } from '../../../../../components/GlobalStyles/ToastContext'
+import './FormAddImel.scss'
 
 function FormAddImel ({ isOpen, onClose, handleAddImel, index }) {
   const videoRef = useRef(null)
@@ -32,7 +33,24 @@ function FormAddImel ({ isOpen, onClose, handleAddImel, index }) {
           }
         },
         decoder: {
-          readers: ['code_128_reader', 'ean_reader'] // Thêm loại mã vạch cần quét
+          readers: [
+            'code_128_reader', // Mã Code 128
+            'ean_reader', // Mã EAN-13
+            'ean_8_reader', // Mã EAN-8
+            'code_39_reader', // Mã Code 39
+            'code_39_vin_reader', // Mã Code 39 VIN
+            'codabar_reader', // Mã Codabar
+            'upc_reader', // Mã UPC-A
+            'upc_e_reader', // Mã UPC-E
+            'i2of5_reader', // Mã Interleaved 2 of 5
+            '2of5_reader', // Mã Standard 2 of 5
+            'qr_reader' // Mã QR Code
+          ]
+          // Thêm loại mã vạch cần quét
+        },
+        locator: {
+          patchSize: 'medium', // Có thể là 'small', 'medium', 'large'
+          halfSample: true
         }
       },
       err => {
@@ -53,7 +71,13 @@ function FormAddImel ({ isOpen, onClose, handleAddImel, index }) {
   }
 
   const stopQuagga = () => {
-    Quagga.stop()
+    if (Quagga && Quagga.stop) {
+      try {
+        Quagga.stop()
+      } catch (error) {
+        console.error('Lỗi khi dừng Quagga:', error)
+      }
+    }
   }
 
   useEffect(() => {
@@ -64,6 +88,7 @@ function FormAddImel ({ isOpen, onClose, handleAddImel, index }) {
     }
 
     return () => stopQuagga()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen])
 
   return (
@@ -75,13 +100,7 @@ function FormAddImel ({ isOpen, onClose, handleAddImel, index }) {
           ref={videoRef}
           style={{ width: '100%', height: '400px', position: 'relative' }}
         >
-          <video
-            ref={videoRef}
-            className={`video`}
-            playsInline
-            muted
-            autoPlay
-          />
+          <video ref={videoRef} className='video' playsInline muted autoPlay />
           <div className='scanner-line'></div>
         </div>
         {barcodeData && (
