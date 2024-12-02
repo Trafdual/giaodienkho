@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect, useCallback } from 'react'
 import Quagga from '@ericblade/quagga2'
 import { Scanner } from '../Scanner' // Scanner tùy chỉnh của bạn
 import './FormAddImel.scss'
+import { Modal } from '~/components/Modal'
 
 const FormAddImel = ({ isOpen, onClose, handleAddImel, index }) => {
   const [scanning, setScanning] = useState(false) // Trạng thái bật/tắt quét
@@ -56,73 +57,69 @@ const FormAddImel = ({ isOpen, onClose, handleAddImel, index }) => {
   }
 
   return isOpen ? (
-    <div className='modal form-add-imel'>
-      <div className='modal-content'>
-        <h2>Thêm IMEI</h2>
-        {cameraError ? (
-          <p className='error-message'>
-            Lỗi khi khởi động camera: {JSON.stringify(cameraError)}. Vui lòng
-            kiểm tra quyền truy cập.
-          </p>
-        ) : (
-          <>
-            <div className='camera-selector'>
-              {cameras.length === 0 ? (
-                <p>Đang kiểm tra danh sách camera...</p>
-              ) : (
-                <select onChange={e => setCameraId(e.target.value)}>
-                  {cameras.map(camera => (
-                    <option key={camera.deviceId} value={camera.deviceId}>
-                      {camera.label || camera.deviceId}
-                    </option>
-                  ))}
-                </select>
-              )}
-            </div>
-            <div
-              className='scanner-wrapper'
-              ref={scannerRef}
-              style={{ position: 'relative', border: '2px solid red' }}
-            >
-              <canvas
-                className='drawingBuffer'
-                style={{
-                  position: 'absolute',
-                  top: '0',
-                  border: '3px solid green'
-                }}
-                width='640'
-                height='480'
+    <Modal isOpen={isOpen} onClose={onClose}>
+      <h2>Thêm IMEI</h2>
+      {cameraError ? (
+        <p className='error-message'>
+          Lỗi khi khởi động camera: {JSON.stringify(cameraError)}. Vui lòng kiểm
+          tra quyền truy cập.
+        </p>
+      ) : (
+        <>
+          <div className='camera-selector'>
+            {cameras.length === 0 ? (
+              <p>Đang kiểm tra danh sách camera...</p>
+            ) : (
+              <select onChange={e => setCameraId(e.target.value)}>
+                {cameras.map(camera => (
+                  <option key={camera.deviceId} value={camera.deviceId}>
+                    {camera.label || camera.deviceId}
+                  </option>
+                ))}
+              </select>
+            )}
+          </div>
+          <div
+            className='scanner-wrapper'
+            ref={scannerRef}
+            style={{ position: 'relative', border: '2px solid red' }}
+          >
+            <canvas
+              className='drawingBuffer'
+              style={{
+                position: 'absolute',
+                top: '0',
+                border: '3px solid green'
+              }}
+              width='640'
+              height='480'
+            />
+            {scanning && (
+              <Scanner
+                scannerRef={scannerRef}
+                cameraId={cameraId}
+                onDetected={onDetected}
               />
-              {scanning && (
-                <Scanner
-                  scannerRef={scannerRef}
-                  cameraId={cameraId}
-                  onDetected={onDetected}
-                />
-              )}
-            </div>
-          </>
-        )}
+            )}
+          </div>
+        </>
+      )}
 
-        <div className='results'>
-          <h3>Kết quả:</h3>
-          <ul>
-            {results.map((result, idx) => (
-              <li key={idx}>{result.codeResult?.code}</li>
-            ))}
-          </ul>
-        </div>
-
-        <button onClick={() => setScanning(!scanning)}>
-          {scanning ? 'Dừng quét' : 'Bắt đầu quét'}
-        </button>
-        <button onClick={onTorchClick}>
-          {torchOn ? 'Tắt đèn' : 'Bật đèn'}
-        </button>
-        <button onClick={onClose}>Đóng</button>
+      <div className='results'>
+        <h3>Kết quả:</h3>
+        <ul>
+          {results.map((result, idx) => (
+            <li key={idx}>{result.codeResult?.code}</li>
+          ))}
+        </ul>
       </div>
-    </div>
+
+      <button onClick={() => setScanning(!scanning)}>
+        {scanning ? 'Dừng quét' : 'Bắt đầu quét'}
+      </button>
+      <button onClick={onTorchClick}>{torchOn ? 'Tắt đèn' : 'Bật đèn'}</button>
+      <button onClick={onClose}>Đóng</button>
+    </Modal>
   ) : null
 }
 
