@@ -81,7 +81,7 @@ function XuatKhoLayout () {
 
     try {
       const response = await fetch(
-        `http://localhost:8080/getxuatkho/${khoID}`,
+        `https://www.ansuataohanoi.com/getxuatkho/${khoID}`,
         {
           method: 'GET',
           headers: {

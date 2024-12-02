@@ -329,7 +329,7 @@ function NhapKhoLayout () {
                               <td>
                                 {ncc.tongtien
                                   ? ncc.tongtien.toLocaleString()
-                                  : 0}{' '}
+                                  : 0}
                                 VNĐ
                               </td>
                               <td>{ncc.conlai}</td>
