@@ -97,9 +97,10 @@ const FormAddImel = ({ isOpen, onClose, handleAddImel, index }) => {
               <canvas
                 className='drawingBuffer'
                 style={{
-                  top: '130',
+                  top: '130px',
                   border: '3px solid green',
-                  position: 'absolute'
+                  position: 'absolute',
+                  left: '0',
                 }}
               />
               {scanning && (

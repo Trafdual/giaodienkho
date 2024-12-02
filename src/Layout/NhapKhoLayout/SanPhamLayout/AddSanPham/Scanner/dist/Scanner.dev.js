@@ -61,7 +61,7 @@ var defaultLocatorSettings = {
   halfSample: false,
   // Không giảm chất lượng ảnh
   region: {
-    top: 130,
+    top: '20%',
     // Bắt đầu từ đầu trang
     right: '100%',
     // Chiều rộng toàn bộ
