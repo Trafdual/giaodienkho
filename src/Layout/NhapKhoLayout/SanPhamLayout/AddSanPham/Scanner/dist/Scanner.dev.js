@@ -61,13 +61,13 @@ var defaultLocatorSettings = {
   halfSample: false,
   // Không giảm chất lượng ảnh
   region: {
-    top: '20%',
-    // Cách phần trên 20%
-    right: '20%',
-    // Cách phải 20%
-    bottom: '20%',
-    // Cách dưới 20%
-    left: '20%' // Cách trái 20%
+    top: 130,
+    // Bắt đầu từ đầu trang
+    right: '100%',
+    // Chiều rộng toàn bộ
+    bottom: '0%',
+    // Kết thúc tại cùng vị trí
+    left: 0 // Bắt đầu từ trái
 
   }
 };
