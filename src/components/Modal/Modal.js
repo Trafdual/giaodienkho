@@ -10,8 +10,7 @@ const Modal = ({ isOpen, onClose, children }) => {
 
   return ReactDOM.createPortal(
     <div className="modal-overlay">
-      {/* Bọc modal-content với Draggable */}
-      <Draggable handle=".modal-header">
+      <Draggable handle="modal-header">
         <div className="modal-content" onClick={(e) => e.stopPropagation()}>
           <div className="modal-header">
             <button className="modal-close" onClick={onClose}>

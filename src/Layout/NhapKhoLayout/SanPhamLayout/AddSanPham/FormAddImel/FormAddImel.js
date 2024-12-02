@@ -55,6 +55,10 @@ const FormAddImel = ({ isOpen, onClose, handleAddImel, index }) => {
     handleAddImel(index, result) // Gọi hàm thêm IMEI
     setScanning(false) // Tắt quét sau khi thành công
   }
+  const handleclose =()=>{
+    onClose()
+    setScanning(false)
+  }
 
   return isOpen ? (
     <Modal isOpen={isOpen} onClose={onClose}>
@@ -79,27 +83,29 @@ const FormAddImel = ({ isOpen, onClose, handleAddImel, index }) => {
               </select>
             )}
           </div>
-          <div
-            className='scanner-wrapper'
-            ref={scannerRef}
-            style={{ border: '2px solid red' }}
-          >
-            <canvas
-              className='drawingBuffer'
-              style={{
-                top: '0',
-                border: '3px solid green',
-                position: 'absolute',
-              }}
-            />
-            {scanning && (
-              <Scanner
-                scannerRef={scannerRef}
-                cameraId={cameraId}
-                onDetected={onDetected}
+          {scanning && (
+            <div
+              className='scanner-wrapper'
+              ref={scannerRef}
+              style={{ border: '2px solid red' }}
+            >
+              <canvas
+                className='drawingBuffer'
+                style={{
+                  top: '130',
+                  border: '3px solid green',
+                  position: 'absolute'
+                }}
               />
-            )}
-          </div>
+              {scanning && (
+                <Scanner
+                  scannerRef={scannerRef}
+                  cameraId={cameraId}
+                  onDetected={onDetected}
+                />
+              )}
+            </div>
+          )}
         </>
       )}
 
@@ -116,7 +122,7 @@ const FormAddImel = ({ isOpen, onClose, handleAddImel, index }) => {
         {scanning ? 'Dừng quét' : 'Bắt đầu quét'}
       </button>
       <button onClick={onTorchClick}>{torchOn ? 'Tắt đèn' : 'Bật đèn'}</button>
-      <button onClick={onClose}>Đóng</button>
+      <button onClick={handleclose}>Đóng</button>
     </Modal>
   ) : null
 }
