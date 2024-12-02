@@ -9,7 +9,7 @@ import {
 import './FormAddImel.scss'
 import { useToast } from '../../../../../components/GlobalStyles/ToastContext'
 
-function FormAddImel ({ isOpen, onClose,handleAddImel,index }) {
+function FormAddImel ({ isOpen, onClose, handleAddImel, index }) {
   const [barcodeData, setBarcodeData] = useState('')
   const videoRef = useRef(null)
   const { showToast } = useToast()
@@ -18,7 +18,7 @@ function FormAddImel ({ isOpen, onClose,handleAddImel,index }) {
 
   const handleAddSanPham = async result => {
     try {
-      handleAddImel(index,result)
+      handleAddImel(index, result)
     } catch (error) {
       console.error('Lỗi khi gửi yêu cầu thêm sản phẩm:', error)
       showToast('Thêm lô hàng thất bại', 'error')
@@ -72,11 +72,22 @@ function FormAddImel ({ isOpen, onClose,handleAddImel,index }) {
           const constraints = {
             video: {
               facingMode: 'environment',
-              width: { ideal: 1920 },
-              height: { ideal: 1080 },
+              width: { ideal: 1920, max: 2560 },
+              height: { ideal: 1080, max: 1440 },
               frameRate: {
-                ideal: 100
-              }
+                ideal: 60,
+                max: 100
+              },
+              advanced: [
+                {
+                  regionOfInterest: {
+                    x: 0.25,
+                    y: 0.25,
+                    width: 0.5,
+                    height: 0.5
+                  }
+                }
+              ]
             }
           }
           setIsScanning(true)
