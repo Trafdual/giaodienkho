@@ -37,13 +37,9 @@ var _ThietLapLayout = require("~/Layout/ThietLapLayout");
 
 var _SearchProductLayout = require("~/Layout/SearchProductLayout");
 
-var _TestLayout = require("~/Layout/TestLayout");
-
 var _BaoCaoKhoLayout = require("~/Layout/BaoCaoKhoLayout");
 
 var _TroGiupTongQuan = require("~/Layout/TroGiupTongQuan");
-
-var _TestBarcode = _interopRequireDefault(require("~/Layout/TestLungTung/TestBarcode"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -94,9 +90,6 @@ var publicRoutes = [{
 }, {
   path: '/search-products',
   component: _SearchProductLayout.SearchProductLayout
-}, {
-  path: '/test',
-  component: _TestBarcode["default"]
 }, {
   path: '/baocaokho',
   component: _BaoCaoKhoLayout.BaoCaoKhoLayout

@@ -14,10 +14,8 @@ import { DoanhThuLayout } from '~/Layout/DoanhThuLayout'
 import { HoaDonLayout } from '~/Layout/HoaDonLayout'
 import { ThietLapLayout } from '~/Layout/ThietLapLayout'
 import { SearchProductLayout } from '~/Layout/SearchProductLayout'
-import { TestLayout } from '~/Layout/TestLayout'
 import { BaoCaoKhoLayout } from '~/Layout/BaoCaoKhoLayout'
 import { TroGiupTongQuan } from '~/Layout/TroGiupTongQuan'
-import TestBarcode from '~/Layout/TestLungTung/TestBarcode'
 
   
 const publicRoutes = [
@@ -36,7 +34,6 @@ const publicRoutes = [
   { path: '/hoadon', component: HoaDonLayout },
   { path: '/thietlap', component: ThietLapLayout },
   { path: '/search-products', component: SearchProductLayout },
-  { path: '/test', component: TestBarcode },
   { path: '/baocaokho', component: BaoCaoKhoLayout },
   { path: '/register', component: Register, layout: null },
   { path: '/trogiuptongquan', component: TroGiupTongQuan, layout: null },
