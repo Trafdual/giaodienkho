@@ -52,8 +52,8 @@ function getMedianOfCodeErrors(decodedCodes) {
 }
 
 var defaultConstraints = {
-  width: 1920,
-  height: 1080
+  width: 640,
+  height: 480
 };
 var defaultLocatorSettings = {
   patchSize: 'medium',
