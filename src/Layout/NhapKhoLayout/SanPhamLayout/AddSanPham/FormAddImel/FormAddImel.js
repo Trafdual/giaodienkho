@@ -11,8 +11,10 @@ const FormAddImel = ({ isOpen, onClose, handleAddImel, index }) => {
   const [cameraId, setCameraId] = useState(null) // ID của camera đang được chọn
   const [cameraError, setCameraError] = useState(null) // Thông báo lỗi camera (nếu có)
   const [results, setResults] = useState([]) // Kết quả quét
+  const [result,setResult]=useState('')
   const [torchOn, setTorch] = useState(false) // Trạng thái bật/tắt đèn flash
   const scannerRef = useRef(null) // Tham chiếu đến DOM của scanner
+
 
   // Lấy danh sách camera khả dụng khi component mount
   useEffect(() => {
@@ -53,6 +55,7 @@ const FormAddImel = ({ isOpen, onClose, handleAddImel, index }) => {
   // Xử lý khi quét thành công
   const onDetected = result => {
     setResults([...results, result]) // Lưu kết quả
+    setResult(result)
     handleAddImel(index, result) // Gọi hàm thêm IMEI
     setScanning(false) // Tắt quét sau khi thành công
   }
@@ -113,10 +116,8 @@ const FormAddImel = ({ isOpen, onClose, handleAddImel, index }) => {
 
       <div className='results'>
         <h3>Kết quả:</h3>
-        <ul>
-          {results.map((result, idx) => (
-            <li key={idx}>{result.codeResult?.code}</li>
-          ))}
+        <ul>  
+            <li >{result}</li>
         </ul>
       </div>
 
