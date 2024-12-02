@@ -5,13 +5,16 @@ import './FormAddImel.scss'
 import { Modal } from '~/components/Modal'
 
 const FormAddImel = ({ isOpen, onClose, handleAddImel, index }) => {
+  const [scanning1, setScanning1] = useState(false)
   const [scanning, setScanning] = useState(false) // Trạng thái bật/tắt quét
   const [cameras, setCameras] = useState([]) // Danh sách các camera khả dụng
   const [cameraId, setCameraId] = useState(null) // ID của camera đang được chọn
   const [cameraError, setCameraError] = useState(null) // Thông báo lỗi camera (nếu có)
   const [results, setResults] = useState([]) // Kết quả quét
+  const [result,setResult]=useState('')
   const [torchOn, setTorch] = useState(false) // Trạng thái bật/tắt đèn flash
   const scannerRef = useRef(null) // Tham chiếu đến DOM của scanner
+
 
   // Lấy danh sách camera khả dụng khi component mount
   useEffect(() => {
@@ -52,8 +55,14 @@ const FormAddImel = ({ isOpen, onClose, handleAddImel, index }) => {
   // Xử lý khi quét thành công
   const onDetected = result => {
     setResults([...results, result]) // Lưu kết quả
-    handleAddImel(index, result.codeResult.code) // Gọi hàm thêm IMEI
+    setResult(result)
+    handleAddImel(index, result) // Gọi hàm thêm IMEI
     setScanning(false) // Tắt quét sau khi thành công
+  }
+  const handleclose = () => {
+    onClose()
+    setScanning(false)
+    setScanning1(false)
   }
 
   return isOpen ? (
@@ -79,45 +88,49 @@ const FormAddImel = ({ isOpen, onClose, handleAddImel, index }) => {
               </select>
             )}
           </div>
-          <div
-            className='scanner-wrapper'
-            ref={scannerRef}
-            style={{ border: '2px solid red' }}
-          >
-            <canvas
-              className='drawingBuffer'
-              style={{
-                top: '0',
-                border: '3px solid green'
-              }}
-              width='640'
-              height='480'
-            />
-            {scanning && (
-              <Scanner
-                scannerRef={scannerRef}
-                cameraId={cameraId}
-                onDetected={onDetected}
+          {scanning1 && (
+            <div
+              className='scanner-wrapper'
+              ref={scannerRef}
+              style={{ border: '2px solid red' }}
+            >
+              <canvas
+                className='drawingBuffer'
+                style={{
+                  top: '130',
+                  border: '3px solid green',
+                  position: 'absolute'
+                }}
               />
-            )}
-          </div>
+              {scanning && (
+                <Scanner
+                  scannerRef={scannerRef}
+                  cameraId={cameraId}
+                  onDetected={onDetected}
+                />
+              )}
+            </div>
+          )}
         </>
       )}
 
       <div className='results'>
         <h3>Kết quả:</h3>
-        <ul>
-          {results.map((result, idx) => (
-            <li key={idx}>{result.codeResult?.code}</li>
-          ))}
+        <ul>  
+            <li >{result}</li>
         </ul>
       </div>
 
-      <button onClick={() => setScanning(!scanning)}>
+      <button
+        onClick={() => {
+          setScanning(!scanning)
+          setScanning1(!scanning1)
+        }}
+      >
         {scanning ? 'Dừng quét' : 'Bắt đầu quét'}
       </button>
       <button onClick={onTorchClick}>{torchOn ? 'Tắt đèn' : 'Bật đèn'}</button>
-      <button onClick={onClose}>Đóng</button>
+      <button onClick={handleclose}>Đóng</button>
     </Modal>
   ) : null
 }

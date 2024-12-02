@@ -52,12 +52,12 @@ function getMedianOfCodeErrors(decodedCodes) {
 }
 
 var defaultConstraints = {
-  width: 640,
-  height: 480
+  width: 1920,
+  height: 1080
 };
 var defaultLocatorSettings = {
-  patchSize: 'medium',
-  halfSample: true,
+  patchSize: 'large',
+  halfSample: false,
   willReadFrequently: true
 };
 var defaultDecoders = ['ean_reader', 'code_128_reader', // Mã Code 128

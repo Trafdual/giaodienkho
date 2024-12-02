@@ -1,46 +1,49 @@
-/* Modal.scss */
+@charset "UTF-8";
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 1000;
 }
 
 .modal-content {
-  background: white;
-  padding: 20px;
+  position: relative;
+  width: 650px;
+  background-color: #fff;
   border-radius: 8px;
-  width: 80%;
-  max-width: 550px;
-  position: absolute;
-  overflow: hidden;
-  cursor: grab;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+}
+
+.modal-header {
+  padding: 16px;
+  background-color: #f1f1f1;
+  cursor: move;
+  display: flex;
+  justify-content: space-between;
+  /* Căn giữa nội dung và nút đóng */
+  align-items: center;
 }
 
 .modal-close {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: none;
   border: none;
-  font-size: 20px;
+  background: none;
   cursor: pointer;
-  font-weight: bold;
+  font-size: 1.2em;
+  color: #888;
+}
+.modal-close:hover {
+  color: #555;
 }
 
-@media screen and (max-width: 46.1875em) {
-  .modal-content {
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    width: 100%;
-    max-width: 46.1875em;
-    position: absolute;
-    overflow: hidden;
-  }
+.modal-body {
+  padding: 20px;
+  font-size: 1em;
+  color: #333;
 }

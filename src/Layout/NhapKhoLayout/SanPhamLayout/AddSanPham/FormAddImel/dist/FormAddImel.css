@@ -50,4 +50,20 @@
     height: 100px;
     overflow: hidden;
   }
+
+  .camera-selector {
+    justify-items: center;
+  }
+
+  .scanner-wrapper video {
+    width: 100%;
+    height: 100px;
+    object-fit: cover;
+    image-rendering: crisp-edges;
+  }
+
+  .scanner-wrapper canvas {
+    width: 100%;
+    height: 100px;
+  }
 }
