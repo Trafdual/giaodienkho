@@ -57,19 +57,8 @@ var defaultConstraints = {
 };
 var defaultLocatorSettings = {
   patchSize: 'large',
-  // Tăng độ chính xác
   halfSample: false,
-  // Không giảm chất lượng ảnh
-  region: {
-    top: '20%',
-    // Bắt đầu từ đầu trang
-    right: '100%',
-    // Chiều rộng toàn bộ
-    bottom: '0%',
-    // Kết thúc tại cùng vị trí
-    left: 0 // Bắt đầu từ trái
-
-  }
+  willReadFrequently: true
 };
 var defaultDecoders = ['ean_reader', 'code_128_reader', // Mã Code 128
 'code_39_reader', // Mã Code 39
