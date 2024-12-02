@@ -82,12 +82,11 @@ const FormAddImel = ({ isOpen, onClose, handleAddImel, index }) => {
           <div
             className='scanner-wrapper'
             ref={scannerRef}
-            style={{ position: 'relative', border: '2px solid red' }}
+            style={{ border: '2px solid red' }}
           >
             <canvas
               className='drawingBuffer'
               style={{
-                position: 'absolute',
                 top: '0',
                 border: '3px solid green'
               }}
