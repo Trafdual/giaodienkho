@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-
-const BlogDetail = ({ id, onBack }) => {
+import "./DetailTroGiup.scss";
+const BlogDetail = ({ id }) => {
   const [blog, setBlog] = useState(null);
 
   useEffect(() => {
@@ -13,8 +13,7 @@ const BlogDetail = ({ id, onBack }) => {
   if (!blog) return <div>Loading...</div>;
 
   return (
-    <div>
-      <button onClick={onBack}>Quay lại</button>
+    <div className="blog-detail">
       <h1>{blog.tieude}</h1>
       <div dangerouslySetInnerHTML={{ __html: blog.noidung }} />
     </div>
