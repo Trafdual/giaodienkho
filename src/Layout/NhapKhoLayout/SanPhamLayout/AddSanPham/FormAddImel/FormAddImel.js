@@ -90,8 +90,6 @@ const FormAddImel = ({ isOpen, onClose, handleAddImel, index }) => {
                 top: '0',
                 border: '3px solid green'
               }}
-              width='640'
-              height='480'
             />
             {scanning && (
               <Scanner
