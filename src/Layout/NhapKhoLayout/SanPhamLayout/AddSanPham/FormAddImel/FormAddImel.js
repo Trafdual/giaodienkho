@@ -1,24 +1,21 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, { useRef, useEffect, useState } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
+import { Scanner } from '../Scanner'
 import { Modal } from '../../../../../components/Modal'
-import {
-  BrowserMultiFormatReader,
-  DecodeHintType,
-  BarcodeFormat
-} from '@zxing/library'
-import './FormAddImel.scss'
 import { useToast } from '../../../../../components/GlobalStyles/ToastContext'
+import './FormAddImel.scss'
 
-function FormAddImel ({ isOpen, onClose, handleAddImel, index }) {
+const FormAddImel = ({ isOpen, onClose, handleAddImel, index }) => {
   const [barcodeData, setBarcodeData] = useState('')
-  const videoRef = useRef(null)
+  const scannerRef = useRef(null)
   const { showToast } = useToast()
-  const [isScanning, setIsScanning] = useState(false)
-  const [hasScanned, setHasScanned] = useState(false) // Biến để theo dõi đã quét thành công hay chưa
+  const [scanning, setScanning] = useState(false)
+  const [hasScanned, setHasScanned] = useState(false)
 
+  // Thêm sản phẩm sau khi quét thành công
   const handleAddSanPham = async result => {
     try {
       handleAddImel(index, result)
+      setHasScanned(true)
     } catch (error) {
       console.error('Lỗi khi gửi yêu cầu thêm sản phẩm:', error)
       showToast('Thêm lô hàng thất bại', 'error')
@@ -26,113 +23,52 @@ function FormAddImel ({ isOpen, onClose, handleAddImel, index }) {
     }
   }
 
-  // useEffect(() => {
-  //   const eventSource = new EventSource('https://www.ansuataohanoi.com/events')
-
-  //   eventSource.onmessage = event => {
-  //     const newMessage = JSON.parse(event.data)
-  //     showToast(newMessage.message)
-  //     fetchData()
-  //   }
-
-  //   return () => {
-  //     eventSource.close()
-  //   }
-  // }, [])
-
+  // Đóng Modal và reset trạng thái
   const handleClose = () => {
     onClose()
-    setBarcodeData('') // Clear scanned data when closing
-    setIsScanning(false) // Stop scanning when closing
-    setHasScanned(false) // Reset trạng thái đã quét khi đóng modal
-  }
-  const tieptucquet = () => {
-    setBarcodeData('') // Clear scanned data when closing
-    setIsScanning(false) // Stop scanning when closing
-    setHasScanned(false) // Reset trạng thái đã quét khi đóng modal
+    setBarcodeData('')
+    setScanning(false)
+    setHasScanned(false)
   }
 
+  // Tiếp tục quét mã mới
+  const tieptucquet = () => {
+    setBarcodeData('')
+    setScanning(true)
+    setHasScanned(false)
+  }
+
+  // Callback khi Scanner nhận diện được mã
+  const onDetected = result => {
+    setBarcodeData(result)
+    setScanning(false)
+    setHasScanned(true)
+    handleAddSanPham(result)
+  }
+
+  // Bật Scanner khi Modal mở
   useEffect(() => {
     if (isOpen && !hasScanned) {
-      // Chỉ bắt đầu quét nếu chưa quét thành công
-      const codeReader = new BrowserMultiFormatReader()
-
-      const hints = new Map()
-      hints.set(DecodeHintType.POSSIBLE_FORMATS, [
-        BarcodeFormat.CODE_39,
-        BarcodeFormat.CODE_93,
-        BarcodeFormat.CODE_128,
-        BarcodeFormat.EAN_8,
-        BarcodeFormat.EAN_13
-      ])
-
-      const startScan = async () => {
-        try {
-          const videoElement = videoRef.current
-          const constraints = {
-            video: {
-              facingMode: 'environment',
-              width: { ideal: 1920, max: 2560 },
-              height: { ideal: 1080, max: 1440 },
-              frameRate: {
-                ideal: 60,
-                max: 100
-              },
-              advanced: [
-                {
-                  regionOfInterest: {
-                    x: 0.25,
-                    y: 0.25,
-                    width: 0.5,
-                    height: 0.5
-                  }
-                }
-              ]
-            }
-          }
-          setIsScanning(true)
-          await codeReader.decodeFromConstraints(
-            constraints,
-            videoElement,
-            (result, error) => {
-              if (result) {
-                setBarcodeData(result.text)
-                setIsScanning(false) // Stop scanning after a successful scan
-                setHasScanned(true) // Đánh dấu đã quét thành công
-                handleAddSanPham(result.text)
-              }
-              if (error && !result) {
-                if (error.name !== 'NotFoundException') {
-                  // Chỉ hiển thị lỗi nếu không phải lỗi "NotFoundException"
-                  console.error(error)
-                }
-              }
-            },
-            hints
-          )
-        } catch (error) {
-          console.error(error)
-        }
-      }
-
-      startScan()
-
-      return () => {
-        codeReader.reset()
-        setIsScanning(false) // Ensure scanning is stopped on cleanup
-      }
+      setScanning(true)
     }
-  }, [isOpen, hasScanned]) // Add hasScanned to dependencies
+    return () => {
+      setScanning(false)
+    }
+  }, [isOpen, hasScanned])
 
   return (
     <Modal isOpen={isOpen} onClose={handleClose}>
       <div className='divAddSanPham' style={{ position: 'relative' }}>
         <h2>Quét IMEI</h2>
-        <div className='divvideo'>
-          <video
-            ref={videoRef}
-            className={`video ${hasScanned ? 'thanhcong' : ''}`}
-          />
+        <div className='divvideo' ref={scannerRef}>
+          {scanning && (
+            <Scanner
+              scannerRef={scannerRef}
+              onDetected={onDetected}
+              facingMode='environment'
+              constraints={{ width: 640, height: 480 }}
+            />
+          )}
           <div className='scanner-line'></div>
         </div>
         {barcodeData && (
