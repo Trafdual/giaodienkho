@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react'
 import Quagga from '@ericblade/quagga2'
-import Scanner from './Scanner' // Scanner tùy chỉnh của bạn
+import { Scanner } from '../Scanner' // Scanner tùy chỉnh của bạn
 import './FormAddImel.scss'
 
 const FormAddImel = ({ isOpen, onClose, handleAddImel, index }) => {
