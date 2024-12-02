@@ -5,6 +5,7 @@ import './FormAddImel.scss'
 import { Modal } from '~/components/Modal'
 
 const FormAddImel = ({ isOpen, onClose, handleAddImel, index }) => {
+  const [scanning1, setScanning1] = useState(false)
   const [scanning, setScanning] = useState(false) // Trạng thái bật/tắt quét
   const [cameras, setCameras] = useState([]) // Danh sách các camera khả dụng
   const [cameraId, setCameraId] = useState(null) // ID của camera đang được chọn
@@ -55,9 +56,10 @@ const FormAddImel = ({ isOpen, onClose, handleAddImel, index }) => {
     handleAddImel(index, result) // Gọi hàm thêm IMEI
     setScanning(false) // Tắt quét sau khi thành công
   }
-  const handleclose =()=>{
+  const handleclose = () => {
     onClose()
     setScanning(false)
+    setScanning1(false)
   }
 
   return isOpen ? (
@@ -83,7 +85,7 @@ const FormAddImel = ({ isOpen, onClose, handleAddImel, index }) => {
               </select>
             )}
           </div>
-          {scanning && (
+          {scanning1 && (
             <div
               className='scanner-wrapper'
               ref={scannerRef}
@@ -118,7 +120,12 @@ const FormAddImel = ({ isOpen, onClose, handleAddImel, index }) => {
         </ul>
       </div>
 
-      <button onClick={() => setScanning(!scanning)}>
+      <button
+        onClick={() => {
+          setScanning(!scanning)
+          setScanning1(!scanning1)
+        }}
+      >
         {scanning ? 'Dừng quét' : 'Bắt đầu quét'}
       </button>
       <button onClick={onTorchClick}>{torchOn ? 'Tắt đèn' : 'Bật đèn'}</button>
