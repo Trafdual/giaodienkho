@@ -10,18 +10,27 @@ const FloatingChatbot = ({ userName }) => {
 
   useEffect(() => {
     if (!userId) return;
-
+  
     const messagesRef = ref(db, `messages/${userId}`);
     const unsubscribe = onValue(messagesRef, (snapshot) => {
       const msgList = [];
-      snapshot.forEach((child) => {
-        msgList.push(child.val());
-      });
+      const data = snapshot.val();
+  
+      if (data) {
+        for (const key in data) {
+          const message = data[key];
+          if (message) {
+            msgList.push({ id: key, ...message });
+          }
+        }
+      }
+  
       setMessages(msgList);
     });
-
+  
     return () => unsubscribe();
   }, [userId]);
+  
 
   useEffect(() => {
     if (chatBodyRef.current) {
@@ -52,9 +61,9 @@ const FloatingChatbot = ({ userName }) => {
         <h3>Chatbot Hỗ trợ</h3>
       </div>
       <div style={styles.chatBody} ref={chatBodyRef}>
-        {messages.map((msg, index) => (
+        {messages.map((msg) => (
           <div
-            key={index}
+            key={msg.id}
             style={{
               ...styles.message,
               alignSelf: msg.isSupport ? "flex-start" : "flex-end",
