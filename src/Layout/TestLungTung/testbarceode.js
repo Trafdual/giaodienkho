@@ -28,6 +28,9 @@ function Testbarceode ({
         }}
         stopStream={!scanning}
       />
+      <div className='scanner-overlay'>
+        <div className='scanner-box'></div>
+      </div>
     </>
   )
 }
