@@ -41,6 +41,8 @@ var _BaoCaoKhoLayout = require("~/Layout/BaoCaoKhoLayout");
 
 var _TroGiupTongQuan = require("~/Layout/TroGiupTongQuan");
 
+var _testbarceode = _interopRequireDefault(require("~/Layout/TestLungTung/testbarceode"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var publicRoutes = [{
@@ -90,6 +92,10 @@ var publicRoutes = [{
 }, {
   path: '/search-products',
   component: _SearchProductLayout.SearchProductLayout
+}, {
+  path: '/search-products',
+  component: _testbarceode["default"],
+  layout: null
 }, {
   path: '/baocaokho',
   component: _BaoCaoKhoLayout.BaoCaoKhoLayout
