@@ -1,5 +1,6 @@
 import React,{useState} from 'react'
 import BarcodeScannerComponent from 'react-qr-barcode-scanner'
+import './test.scss'
 
 function Testbarceode() {
    const [data, setData] = useState('barcode')
