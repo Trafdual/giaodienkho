@@ -63,7 +63,7 @@
   }
 
   .scanner-wrapper canvas {
-    width: 100%;
+    width: 400px;
     height: 200px;
   }
 }
