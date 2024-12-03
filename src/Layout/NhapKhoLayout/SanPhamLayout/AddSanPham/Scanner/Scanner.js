@@ -19,13 +19,13 @@ function getMedianOfCodeErrors (decodedCodes) {
 }
 
 const defaultConstraints = {
-  width: 640,
-  height: 480
+  width: 1920,
+  height: 1080
 }
 
 const defaultLocatorSettings = {
   patchSize: 'medium',
-  halfSample: true,
+  halfSample: false,
   willReadFrequently: true
 }
 
@@ -64,6 +64,17 @@ const Scanner = ({
     },
     [onDetected]
   )
+  function isWithinScanBox (box, canvas) {
+    const top = canvas.height * 0.3
+    const bottom = canvas.height * 0.7
+    const left = canvas.width * 0.2
+    const right = canvas.width * 0.8
+
+    return (
+      box.some(point => point.y >= top && point.y <= bottom) &&
+      box.some(point => point.x >= left && point.x <= right)
+    )
+  }
 
   const handleProcessed = result => {
     const drawingCtx = Quagga.canvas.ctx.overlay
@@ -83,18 +94,21 @@ const Scanner = ({
         result.boxes
           .filter(box => box !== result.box)
           .forEach(box => {
-            Quagga.ImageDebug.drawPath(box, { x: 0, y: 1 }, drawingCtx, {
-              color: 'purple',
-              lineWidth: 2
-            })
+            if (isWithinScanBox(box, drawingCanvas)) {
+              Quagga.ImageDebug.drawPath(box, { x: 0, y: 1 }, drawingCtx, {
+                color: 'purple',
+                lineWidth: 2
+              })
+            }
           })
       }
-      if (result.box) {
+      if (result.box && isWithinScanBox(result.box, drawingCanvas)) {
         Quagga.ImageDebug.drawPath(result.box, { x: 0, y: 1 }, drawingCtx, {
           color: 'blue',
           lineWidth: 2
         })
       }
+
       if (result.codeResult && result.codeResult.code) {
         // const validated = barcodeValidator(result.codeResult.code);
         // const validated = validateBarcode(result.codeResult.code);
@@ -133,8 +147,15 @@ const Scanner = ({
               ...(!cameraId && { facingMode })
             },
             target: scannerRef.current,
-            willReadFrequently: true
+            willReadFrequently: true,
+            area: {
+              top: '30%', // Vùng bắt đầu từ 30% chiều cao
+              right: '20%', // Vùng kết thúc cách 20% từ mép phải
+              left: '20%', // Vùng bắt đầu cách 20% từ mép trái
+              bottom: '30%' // Vùng kết thúc cách 30% từ mép dưới
+            }
           },
+
           locator,
           decoder: { readers: decoders },
           locate
