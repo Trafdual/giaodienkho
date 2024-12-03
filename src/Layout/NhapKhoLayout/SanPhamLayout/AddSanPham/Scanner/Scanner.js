@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useCallback, useLayoutEffect } from 'react'
 import PropTypes from 'prop-types'
 import Quagga from '@ericblade/quagga2'
@@ -59,23 +58,12 @@ const Scanner = ({
       }
       const err = getMedianOfCodeErrors(result.codeResult.decodedCodes)
       // if Quagga is at least 75% certain that it read correctly, then accept the code.
-      if (err === 0) {
+      if (err < 0.25) {
         onDetected(result.codeResult.code)
       }
     },
     [onDetected]
   )
-  function isWithinScanBox (box, canvas) {
-    const top = canvas.height * 0.3
-    const bottom = canvas.height * 0.7
-    const left = canvas.width * 0.2
-    const right = canvas.width * 0.8
-
-    return (
-      box.some(point => point.y >= top && point.y <= bottom) &&
-      box.some(point => point.x >= left && point.x <= right)
-    )
-  }
 
   const handleProcessed = result => {
     const drawingCtx = Quagga.canvas.ctx.overlay
@@ -95,21 +83,18 @@ const Scanner = ({
         result.boxes
           .filter(box => box !== result.box)
           .forEach(box => {
-            if (isWithinScanBox(box, drawingCanvas)) {
-              Quagga.ImageDebug.drawPath(box, { x: 0, y: 1 }, drawingCtx, {
-                color: 'purple',
-                lineWidth: 2
-              })
-            }
+            Quagga.ImageDebug.drawPath(box, { x: 0, y: 1 }, drawingCtx, {
+              color: 'purple',
+              lineWidth: 2
+            })
           })
       }
-      if (result.box && isWithinScanBox(result.box, drawingCanvas)) {
+      if (result.box) {
         Quagga.ImageDebug.drawPath(result.box, { x: 0, y: 1 }, drawingCtx, {
           color: 'blue',
           lineWidth: 2
         })
       }
-
       if (result.codeResult && result.codeResult.code) {
         // const validated = barcodeValidator(result.codeResult.code);
         // const validated = validateBarcode(result.codeResult.code);
@@ -148,15 +133,8 @@ const Scanner = ({
               ...(!cameraId && { facingMode })
             },
             target: scannerRef.current,
-            willReadFrequently: true,
-            area: {
-              top: '30%', // Vùng bắt đầu từ 30% chiều cao
-              right: '20%', // Vùng kết thúc cách 20% từ mép phải
-              left: '20%', // Vùng bắt đầu cách 20% từ mép trái
-              bottom: '30%' // Vùng kết thúc cách 30% từ mép dưới
-            }
+            willReadFrequently: true
           },
-
           locator,
           decoder: { readers: decoders },
           locate

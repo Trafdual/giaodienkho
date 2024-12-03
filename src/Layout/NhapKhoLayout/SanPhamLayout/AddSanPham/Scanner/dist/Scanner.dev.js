@@ -90,22 +90,10 @@ var Scanner = function Scanner(_ref) {
 
     var err = getMedianOfCodeErrors(result.codeResult.decodedCodes); // if Quagga is at least 75% certain that it read correctly, then accept the code.
 
-    if (err === 0) {
+    if (err < 0.25) {
       onDetected(result.codeResult.code);
     }
   }, [onDetected]);
-
-  function isWithinScanBox(box, canvas) {
-    var top = canvas.height * 0.3;
-    var bottom = canvas.height * 0.7;
-    var left = canvas.width * 0.2;
-    var right = canvas.width * 0.8;
-    return box.some(function (point) {
-      return point.y >= top && point.y <= bottom;
-    }) && box.some(function (point) {
-      return point.x >= left && point.x <= right;
-    });
-  }
 
   var handleProcessed = function handleProcessed(result) {
     var drawingCtx = _quagga["default"].canvas.ctx.overlay;
@@ -120,19 +108,17 @@ var Scanner = function Scanner(_ref) {
         result.boxes.filter(function (box) {
           return box !== result.box;
         }).forEach(function (box) {
-          if (isWithinScanBox(box, drawingCanvas)) {
-            _quagga["default"].ImageDebug.drawPath(box, {
-              x: 0,
-              y: 1
-            }, drawingCtx, {
-              color: 'purple',
-              lineWidth: 2
-            });
-          }
+          _quagga["default"].ImageDebug.drawPath(box, {
+            x: 0,
+            y: 1
+          }, drawingCtx, {
+            color: 'purple',
+            lineWidth: 2
+          });
         });
       }
 
-      if (result.box && isWithinScanBox(result.box, drawingCanvas)) {
+      if (result.box) {
         _quagga["default"].ImageDebug.drawPath(result.box, {
           x: 0,
           y: 1
@@ -192,17 +178,7 @@ var Scanner = function Scanner(_ref) {
                     facingMode: facingMode
                   }),
                   target: scannerRef.current,
-                  willReadFrequently: true,
-                  area: {
-                    top: '30%',
-                    // Vùng bắt đầu từ 30% chiều cao
-                    right: '20%',
-                    // Vùng kết thúc cách 20% từ mép phải
-                    left: '20%',
-                    // Vùng bắt đầu cách 20% từ mép trái
-                    bottom: '30%' // Vùng kết thúc cách 30% từ mép dưới
-
-                  }
+                  willReadFrequently: true
                 },
                 locator: locator,
                 decoder: {
