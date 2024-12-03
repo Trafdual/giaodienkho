@@ -19,6 +19,16 @@
         height: 100%;
         pointer-events: none;
         background-color: rgba(0, 0, 0, 0.5);
+        clip-path: polygon(0 0,
+            100% 0,
+            100% 100%,
+            0 100%,
+            0 0,
+            calc(50% - 150px) calc(50% - 50px),
+            calc(50% + 150px) calc(50% - 50px),
+            calc(50% + 150px) calc(50% + 50px),
+            calc(50% - 150px) calc(50% + 50px),
+            calc(50% - 150px) calc(50% - 50px));
 
         .scanner-box {
             position: absolute;
