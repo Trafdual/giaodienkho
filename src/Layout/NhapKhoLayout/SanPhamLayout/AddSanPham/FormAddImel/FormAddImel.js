@@ -5,7 +5,7 @@ import { Modal } from '~/components/Modal'
 import Testbarceode from '~/Layout/TestLungTung/testbarceode'
 
 const FormAddImel = ({ isOpen, onClose, handleAddImel, index }) => {
-  const [scanning, setScanning] = useState(true)
+  const [scanning, setScanning] = useState(false)
 
   const [result, setResult] = useState('')
 
@@ -19,13 +19,15 @@ const FormAddImel = ({ isOpen, onClose, handleAddImel, index }) => {
     <Modal isOpen={isOpen} onClose={onClose}>
       <h2>Thêm IMEI</h2>
       <div className='divvideo'>
-        <Testbarceode
-          setData={setResult}
-          handleAddImel={handleAddImel}
-          index={index}
-          scanning={scanning}
-          setScanning={setScanning}
-        />
+        {scanning && (
+          <Testbarceode
+            setData={setResult}
+            handleAddImel={handleAddImel}
+            index={index}
+            scanning={scanning}
+            setScanning={setScanning}
+          />
+        )}
       </div>
 
       <div className='results'>
