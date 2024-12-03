@@ -56,7 +56,7 @@ var defaultConstraints = {
   height: 480
 };
 var defaultLocatorSettings = {
-  patchSize: 'large',
+  patchSize: 'medium',
   halfSample: true,
   willReadFrequently: true
 };

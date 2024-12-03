@@ -25,7 +25,7 @@ const defaultConstraints = {
 }
 
 const defaultLocatorSettings = {
-  patchSize: 'large',
+  patchSize: 'medium',
   halfSample: true,
   willReadFrequently: true
 }
