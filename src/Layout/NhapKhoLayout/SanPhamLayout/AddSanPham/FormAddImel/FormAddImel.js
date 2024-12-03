@@ -51,9 +51,9 @@ const FormAddImel = ({ isOpen, onClose, handleAddImel, index }) => {
 
   // Xử lý khi quét thành công
   const onDetected = result => {
-    setResults([...results, result]) // Lưu kết quả
-    handleAddImel(index, result.codeResult.code) // Gọi hàm thêm IMEI
-    setScanning(false) // Tắt quét sau khi thành công
+    setResults([...results, result])
+    handleAddImel(index, result)
+    setScanning(false)
   }
 
   return isOpen ? (
