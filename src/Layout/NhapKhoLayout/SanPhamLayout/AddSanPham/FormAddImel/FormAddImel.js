@@ -5,7 +5,7 @@ import { Modal } from '~/components/Modal'
 import Testbarceode from '~/Layout/TestLungTung/testbarceode'
 
 const FormAddImel = ({ isOpen, onClose, handleAddImel, index }) => {
-  const [scanning, setScanning] = useState(true)
+  const [scanning, setScanning] = useState(false)
 
   const [result, setResult] = useState('')
 

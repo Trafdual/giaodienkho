@@ -17,8 +17,8 @@ function Testbarceode ({
         onUpdate={(err, result) => {
           if (result) {
             setData(result.text)
-            handleAddImel(result.text, index)
-            setScanning(true)
+            handleAddImel(index, result.text)
+            setScanning(false)
           }
         }}
         stopStream={scanning}
