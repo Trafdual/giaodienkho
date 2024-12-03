@@ -1,3 +1,69 @@
-video {
+@charset "UTF-8";
+.scanner-container {
+  position: relative;
+  width: 500px;
+  height: 500px;
+  margin: 0 auto;
+}
+.scanner-container video {
+  display: block;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
+}
+.scanner-container .scanner-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.scanner-container .scanner-overlay .overlay-top,
+.scanner-container .scanner-overlay .overlay-bottom,
+.scanner-container .scanner-overlay .overlay-left,
+.scanner-container .scanner-overlay .overlay-right {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.scanner-container .scanner-overlay .overlay-top {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: calc(50% - 75px);
+  /* Nửa trên trừ chiều cao box */
+}
+.scanner-container .scanner-overlay .overlay-bottom {
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: calc(50% - 75px);
+  /* Nửa dưới trừ chiều cao box */
+}
+.scanner-container .scanner-overlay .overlay-left {
+  top: calc(50% - 75px);
+  /* Đỉnh box */
+  left: 0;
+  height: 100px;
+}
+.scanner-container .scanner-overlay .overlay-right {
+  top: calc(50% - 75px);
+  /* Đỉnh box */
+  right: 0;
+  height: 100px;
+}
+.scanner-container .scanner-overlay .scanner-box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  /* Kích thước khung */
+  height: 150px;
+  /* Chiều cao khung */
+  border: 2px solid red;
+  /* Đường viền khung */
+  box-shadow: 0 0 10px rgba(255, 0, 0, 0.7);
+  /* Hiệu ứng đổ bóng */
+  background-color: transparent;
 }
