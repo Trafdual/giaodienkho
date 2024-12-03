@@ -107,26 +107,6 @@ var Scanner = function Scanner(_ref) {
     });
   }
 
-  function validateBarcode(barcode) {
-    if (barcode.length !== 13) {
-      return false; // Không phải EAN-13
-    }
-
-    var digits = barcode.split('').map(Number); // Chuyển thành mảng số
-
-    if (digits.some(isNaN)) {
-      return false; // Không hợp lệ nếu có ký tự không phải số
-    }
-
-    var checksum = digits.pop(); // Lấy số cuối cùng làm checksum
-
-    var sum = digits.reduce(function (acc, digit, idx) {
-      return acc + digit * (idx % 2 === 0 ? 1 : 3); // Lẻ x 1, chẵn x 3
-    }, 0);
-    var calculatedChecksum = (10 - sum % 10) % 10;
-    return checksum === calculatedChecksum;
-  }
-
   var handleProcessed = function handleProcessed(result) {
     var drawingCtx = _quagga["default"].canvas.ctx.overlay;
     var drawingCanvas = _quagga["default"].canvas.dom.overlay;
@@ -164,24 +144,14 @@ var Scanner = function Scanner(_ref) {
 
       if (result) {
         // const validated = barcodeValidator(result.codeResult.code);
-        var validated = validateBarcode(result);
+        // const validated = validateBarcode(result.codeResult.code);
+        // Quagga.ImageDebug.drawPath(result.line, { x: 'x', y: 'y' }, drawingCtx, { color: validated ? 'green' : 'red', lineWidth: 3 });
+        drawingCtx.font = '24px Arial'; // drawingCtx.fillStyle = validated ? 'green' : 'red';
+        // drawingCtx.fillText(`${result.codeResult.code} valid: ${validated}`, 10, 50);
 
-        _quagga["default"].ImageDebug.drawPath(result.line, {
-          x: 'x',
-          y: 'y'
-        }, drawingCtx, {
-          color: validated ? 'green' : 'red',
-          lineWidth: 3
-        });
-
-        drawingCtx.font = '24px Arial';
-        drawingCtx.fillStyle = validated ? 'green' : 'red';
-        drawingCtx.fillText("".concat(result, " valid: ").concat(validated), 10, 50);
-        drawingCtx.fillText(result, 10, 20);
-
-        if (validated) {
-          onDetected(result);
-        }
+        drawingCtx.fillText(result, 10, 20); // if (validated) {
+        //     onDetected(result);
+        // }
       }
     }
   };

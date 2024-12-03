@@ -76,24 +76,6 @@ const Scanner = ({
       box.some(point => point.x >= left && point.x <= right)
     )
   }
-  function validateBarcode (barcode) {
-  if (barcode.length !== 13) {
-    return false // Không phải EAN-13
-  }
-  const digits = barcode.split('').map(Number) // Chuyển thành mảng số
-  if (digits.some(isNaN)) {
-    return false // Không hợp lệ nếu có ký tự không phải số
-  }
-
-  const checksum = digits.pop() // Lấy số cuối cùng làm checksum
-  const sum = digits.reduce((acc, digit, idx) => {
-    return acc + digit * (idx % 2 === 0 ? 1 : 3) // Lẻ x 1, chẵn x 3
-  }, 0)
-
-  const calculatedChecksum = (10 - (sum % 10)) % 10
-  return checksum === calculatedChecksum
-}
-
 
   const handleProcessed = result => {
     const drawingCtx = Quagga.canvas.ctx.overlay
@@ -130,15 +112,15 @@ const Scanner = ({
 
       if (result) {
         // const validated = barcodeValidator(result.codeResult.code);
-        const validated = validateBarcode(result);
-        Quagga.ImageDebug.drawPath(result.line, { x: 'x', y: 'y' }, drawingCtx, { color: validated ? 'green' : 'red', lineWidth: 3 });
+        // const validated = validateBarcode(result.codeResult.code);
+        // Quagga.ImageDebug.drawPath(result.line, { x: 'x', y: 'y' }, drawingCtx, { color: validated ? 'green' : 'red', lineWidth: 3 });
         drawingCtx.font = '24px Arial'
-        drawingCtx.fillStyle = validated ? 'green' : 'red';
-        drawingCtx.fillText(`${result} valid: ${validated}`, 10, 50);
+        // drawingCtx.fillStyle = validated ? 'green' : 'red';
+        // drawingCtx.fillText(`${result.codeResult.code} valid: ${validated}`, 10, 50);
         drawingCtx.fillText(result, 10, 20)
-        if (validated) {
-            onDetected(result);
-        }
+        // if (validated) {
+        //     onDetected(result);
+        // }
       }
     }
   }
