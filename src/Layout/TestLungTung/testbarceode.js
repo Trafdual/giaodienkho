@@ -21,7 +21,7 @@ function Testbarceode ({
             setScanning(false)
           }
         }}
-        stopStream={scanning}
+        stopStream={!scanning}
       />
     </>
   )

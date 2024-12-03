@@ -5,7 +5,7 @@ import { Modal } from '~/components/Modal'
 import Testbarceode from '~/Layout/TestLungTung/testbarceode'
 
 const FormAddImel = ({ isOpen, onClose, handleAddImel, index }) => {
-  const [scanning, setScanning] = useState(false)
+  const [scanning, setScanning] = useState(true)
 
   const [result, setResult] = useState('')
 
@@ -17,24 +17,29 @@ const FormAddImel = ({ isOpen, onClose, handleAddImel, index }) => {
   return isOpen ? (
     <Modal isOpen={isOpen} onClose={onClose}>
       <h2>Thêm IMEI</h2>
-      <Testbarceode
-        setData={setResult}
-        handleAddImel={handleAddImel}
-        index={index}
-        scanning={scanning}
-        setScanning={setScanning}
-      />
+      <div className='divvideo'>
+        <Testbarceode
+          setData={setResult}
+          handleAddImel={handleAddImel}
+          index={index}
+          scanning={scanning}
+          setScanning={setScanning}
+        />
+      </div>
+
       <div className='results'>
         <h3>Kết quả: {result}</h3>
       </div>
-      <button
-        onClick={() => {
-          setScanning(!scanning)
-        }}
-      >
-        bắt đầu quét
-      </button>
-      <button onClick={handleclose}>Đóng</button>
+      <div className='divButtonImel'>
+        <button
+          onClick={() => {
+            setScanning(!scanning)
+          }}
+        >
+          bắt đầu quét
+        </button>
+        <button onClick={handleclose}>Đóng</button>
+      </div>
     </Modal>
   ) : null
 }
