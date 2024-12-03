@@ -31,7 +31,7 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: calc(50% - 100px);
+            height: calc(50% - 75px);
             /* Nửa trên trừ chiều cao box */
         }
 
@@ -39,19 +39,19 @@
             bottom: 0;
             left: 0;
             width: 100%;
-            height: calc(50% - 100px);
+            height: calc(50% - 75px);
             /* Nửa dưới trừ chiều cao box */
         }
 
         .overlay-left {
-            top: calc(50% - 50px);
+            top: calc(50% - 75px);
             /* Đỉnh box */
             left: 0;
             height: 100px;
         }
 
         .overlay-right {
-            top: calc(50% - 50px);
+            top: calc(50% - 75px);
             /* Đỉnh box */
             right: 0;
             height: 100px;

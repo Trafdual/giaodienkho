@@ -30,24 +30,24 @@
   top: 0;
   left: 0;
   width: 100%;
-  height: calc(50% - 100px);
+  height: calc(50% - 75px);
   /* Nửa trên trừ chiều cao box */
 }
 .scanner-container .scanner-overlay .overlay-bottom {
   bottom: 0;
   left: 0;
   width: 100%;
-  height: calc(50% - 100px);
+  height: calc(50% - 75px);
   /* Nửa dưới trừ chiều cao box */
 }
 .scanner-container .scanner-overlay .overlay-left {
-  top: calc(50% - 50px);
+  top: calc(50% - 75px);
   /* Đỉnh box */
   left: 0;
   height: 100px;
 }
 .scanner-container .scanner-overlay .overlay-right {
-  top: calc(50% - 50px);
+  top: calc(50% - 75px);
   /* Đỉnh box */
   right: 0;
   height: 100px;
