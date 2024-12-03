@@ -56,14 +56,14 @@
   }
 
   .scanner-wrapper video {
-    width: 100%;
+    width: 640px;
     object-fit: cover;
     height: 200px;
     image-rendering: crisp-edges;
   }
 
   .scanner-wrapper canvas {
-    width: 100%;
+    width: 640px;
     height: 200px;
   }
 }
