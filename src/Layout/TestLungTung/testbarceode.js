@@ -10,7 +10,7 @@ function Testbarceode ({
   setScanning
 }) {
   return (
-    <>
+    <div className="scanner-container">
       <BarcodeScannerComponent
         width={500}
         height={500}
@@ -23,16 +23,18 @@ function Testbarceode ({
         }}
         videoConstraints={{
           facingMode: 'environment',
-          width: { ideal: 1920 }, // Độ phân giải ngang mong muốn (Full HD)
+          width: { ideal: 1920 }, // Full HD width
           height: { ideal: 1080 }
         }}
         stopStream={!scanning}
       />
-      <div className='scanner-overlay'>
-        <div className='scanner-box'></div>
+      {/* Overlay khung nhận diện */}
+      <div className="scanner-overlay">
+        <div className="scanner-box"></div>
       </div>
-    </>
+    </div>
   )
 }
+
 
 export default Testbarceode
