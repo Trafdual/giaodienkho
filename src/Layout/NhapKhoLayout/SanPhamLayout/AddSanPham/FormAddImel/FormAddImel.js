@@ -11,7 +11,7 @@ const FormAddImel = ({ isOpen, onClose, handleAddImel, index }) => {
 
   const handleclose = () => {
     onClose()
-    setScanning(false)
+    setScanning(true)
     setResult('')
   }
 
