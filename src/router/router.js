@@ -17,6 +17,7 @@ import { SearchProductLayout } from '~/Layout/SearchProductLayout'
 import { BaoCaoKhoLayout } from '~/Layout/BaoCaoKhoLayout'
 import { TroGiupTongQuan } from '~/Layout/TroGiupTongQuan'
 import Testbarceode from '~/Layout/TestLungTung/testbarceode'
+import SupportChat from '~/Layout/TroGiupTongQuan/TongDaiTuVan/SupportChat'
 
   
 const publicRoutes = [
@@ -39,6 +40,8 @@ const publicRoutes = [
   { path: '/baocaokho', component: BaoCaoKhoLayout },
   { path: '/register', component: Register, layout: null },
   { path: '/trogiuptongquan', component: TroGiupTongQuan, layout: null },
+  { path: '/supportchat', component: SupportChat, layout: null },
+
 
 
 

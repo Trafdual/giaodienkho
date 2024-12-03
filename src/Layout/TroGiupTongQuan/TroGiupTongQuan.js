@@ -6,8 +6,12 @@ import BlogDetail from "./AllTroGiup/DetailTroGiup";
 import ThanhDinhHuong from "./ThanhDinhHuong/ThanhDinhHuong";
 import TongDaiTuVan from "./TongDaiTuVan/TongDaiTuVan";
 import FloatingChatbot from "./TongDaiTuVan/FloatingChatbot";
+import { getFromLocalStorage } from '~/components/MaHoaLocalStorage/MaHoaLocalStorage'
+
 function TroGiupTongQuan() {
   const [selectedBlogId, setSelectedBlogId] = useState(null);
+  const name = getFromLocalStorage('name')
+
 
   const breadcrumbs = [
     { label: "Trang Chủ", link: "/" },
@@ -39,7 +43,7 @@ function TroGiupTongQuan() {
           <TongDaiTuVan />
         </div>
       </div>
-      <FloatingChatbot />
+      <FloatingChatbot userName={name} />
     </div>
   );
 }
