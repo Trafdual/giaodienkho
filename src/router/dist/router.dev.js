@@ -93,7 +93,7 @@ var publicRoutes = [{
   path: '/search-products',
   component: _SearchProductLayout.SearchProductLayout
 }, {
-  path: '/search-products',
+  path: '/test',
   component: _testbarceode["default"],
   layout: null
 }, {

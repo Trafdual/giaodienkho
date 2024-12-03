@@ -35,7 +35,7 @@ const publicRoutes = [
   { path: '/hoadon', component: HoaDonLayout },
   { path: '/thietlap', component: ThietLapLayout },
   { path: '/search-products', component: SearchProductLayout },
-    { path: '/search-products', component: Testbarceode,layout:null },
+    { path: '/test', component: Testbarceode,layout:null },
   { path: '/baocaokho', component: BaoCaoKhoLayout },
   { path: '/register', component: Register, layout: null },
   { path: '/trogiuptongquan', component: TroGiupTongQuan, layout: null },
