@@ -44,16 +44,12 @@
   top: calc(50% - 50px);
   /* Đỉnh box */
   left: 0;
-  width: calc(50% - 150px);
-  /* Nửa trái trừ chiều rộng box */
   height: 100px;
 }
 .scanner-container .scanner-overlay .overlay-right {
   top: calc(50% - 50px);
   /* Đỉnh box */
   right: 0;
-  width: calc(50% - 150px);
-  /* Nửa phải trừ chiều rộng box */
   height: 100px;
 }
 .scanner-container .scanner-overlay .scanner-box {
@@ -61,7 +57,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 300px;
+  width: 100%;
   /* Kích thước khung */
   height: 100px;
   /* Chiều cao khung */

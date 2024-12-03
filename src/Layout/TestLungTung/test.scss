@@ -44,14 +44,12 @@
         .overlay-left {
             top: calc(50% - 50px); /* Đỉnh box */
             left: 0;
-            width: calc(50% - 150px); /* Nửa trái trừ chiều rộng box */
             height: 100px;
         }
 
         .overlay-right {
             top: calc(50% - 50px); /* Đỉnh box */
             right: 0;
-            width: calc(50% - 150px); /* Nửa phải trừ chiều rộng box */
             height: 100px;
         }
 
@@ -60,7 +58,7 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 300px; /* Kích thước khung */
+            width: 100%; /* Kích thước khung */
             height: 100px; /* Chiều cao khung */
             border: 2px solid red; /* Đường viền khung */
             box-shadow: 0 0 10px rgba(255, 0, 0, 0.7); /* Hiệu ứng đổ bóng */
