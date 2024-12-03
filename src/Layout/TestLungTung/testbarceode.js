@@ -28,8 +28,6 @@ function Testbarceode ({
         }}
         stopStream={!scanning}
       />
-      <div class='scanner-container'>
-        <video></video>
         <div class='scanner-overlay'>
           <div class='overlay-top'></div>
           <div class='overlay-bottom'></div>
@@ -37,7 +35,6 @@ function Testbarceode ({
           <div class='overlay-right'></div>
           <div class='scanner-box'></div>
         </div>
-      </div>
     </div>
   )
 }
