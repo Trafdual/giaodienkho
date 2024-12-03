@@ -10,7 +10,7 @@ function Testbarceode ({
   setScanning
 }) {
   return (
-    <div className="scanner-container">
+    <div className='scanner-container'>
       <BarcodeScannerComponent
         width={500}
         height={500}
@@ -28,13 +28,18 @@ function Testbarceode ({
         }}
         stopStream={!scanning}
       />
-      {/* Overlay khung nhận diện */}
-      <div className="scanner-overlay">
-        <div className="scanner-box"></div>
+      <div class='scanner-container'>
+        <video></video>
+        <div class='scanner-overlay'>
+          <div class='overlay-top'></div>
+          <div class='overlay-bottom'></div>
+          <div class='overlay-left'></div>
+          <div class='overlay-right'></div>
+          <div class='scanner-box'></div>
+        </div>
       </div>
     </div>
   )
 }
-
 
 export default Testbarceode
