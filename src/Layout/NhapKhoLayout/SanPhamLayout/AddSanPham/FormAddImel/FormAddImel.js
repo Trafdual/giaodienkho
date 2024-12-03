@@ -1,135 +1,39 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react'
-import Quagga from '@ericblade/quagga2'
-import { Scanner } from '../Scanner' // Scanner tùy chỉnh của bạn
+import React, { useState } from 'react'
+
 import './FormAddImel.scss'
 import { Modal } from '~/components/Modal'
+import Testbarceode from '~/Layout/TestLungTung/testbarceode'
 
 const FormAddImel = ({ isOpen, onClose, handleAddImel, index }) => {
-  const [scanning1, setScanning1] = useState(false)
-  const [scanning, setScanning] = useState(false) // Trạng thái bật/tắt quét
-  const [cameras, setCameras] = useState([]) // Danh sách các camera khả dụng
-  const [cameraId, setCameraId] = useState(null) // ID của camera đang được chọn
-  const [cameraError, setCameraError] = useState(null) // Thông báo lỗi camera (nếu có)
-  const [results, setResults] = useState([]) // Kết quả quét
-  const [result,setResult]=useState('')
-  const [torchOn, setTorch] = useState(false) // Trạng thái bật/tắt đèn flash
-  const scannerRef = useRef(null) // Tham chiếu đến DOM của scanner
+  const [scanning, setScanning] = useState(true)
 
+  const [result, setResult] = useState('')
 
-  // Lấy danh sách camera khả dụng khi component mount
-  useEffect(() => {
-    if (!isOpen) return
-
-    const enableCamera = async () => {
-      await Quagga.CameraAccess.request(null, {})
-    }
-    const disableCamera = async () => {
-      await Quagga.CameraAccess.release()
-    }
-    const enumerateCameras = async () => {
-      const cameras = await Quagga.CameraAccess.enumerateVideoDevices()
-      return cameras
-    }
-
-    enableCamera()
-      .then(disableCamera)
-      .then(enumerateCameras)
-      .then(cameras => setCameras(cameras))
-      .then(() => Quagga.CameraAccess.disableTorch()) // Tắt đèn flash mặc định
-      .catch(err => setCameraError(err))
-
-    return () => disableCamera()
-  }, [isOpen])
-
-  // Bật/tắt đèn flash
-  const onTorchClick = useCallback(() => {
-    const torch = !torchOn
-    setTorch(torch)
-    if (torch) {
-      Quagga.CameraAccess.enableTorch()
-    } else {
-      Quagga.CameraAccess.disableTorch()
-    }
-  }, [torchOn])
-
-  // Xử lý khi quét thành công
-  const onDetected = result => {
-    setResults([...results, result]) // Lưu kết quả
-    setResult(result)
-    handleAddImel(index, result) // Gọi hàm thêm IMEI
-    setScanning(false) // Tắt quét sau khi thành công
-  }
   const handleclose = () => {
     onClose()
     setScanning(false)
-    setScanning1(false)
   }
 
   return isOpen ? (
     <Modal isOpen={isOpen} onClose={onClose}>
       <h2>Thêm IMEI</h2>
-      {cameraError ? (
-        <p className='error-message'>
-          Lỗi khi khởi động camera: {JSON.stringify(cameraError)}. Vui lòng kiểm
-          tra quyền truy cập.
-        </p>
-      ) : (
-        <>
-          <div className='camera-selector'>
-            {cameras.length === 0 ? (
-              <p>Đang kiểm tra danh sách camera...</p>
-            ) : (
-              <select onChange={e => setCameraId(e.target.value)}>
-                {cameras.map(camera => (
-                  <option key={camera.deviceId} value={camera.deviceId}>
-                    {camera.label || camera.deviceId}
-                  </option>
-                ))}
-              </select>
-            )}
-          </div>
-          {scanning1 && (
-            <div
-              className='scanner-wrapper'
-              ref={scannerRef}
-              style={{ border: '2px solid red' }}
-            >
-              <canvas
-                className='drawingBuffer'
-                style={{
-                  top: '130',
-                  border: '3px solid green',
-                  position: 'absolute'
-                }}
-              />
-              {scanning && (
-                <Scanner
-                  scannerRef={scannerRef}
-                  cameraId={cameraId}
-                  onDetected={onDetected}
-                />
-              )}
-            </div>
-          )}
-        </>
-      )}
-
+      <Testbarceode
+        setData={setResult}
+        handleAddImel={handleAddImel}
+        index={index}
+        scanning={scanning}
+        setScanning={setScanning}
+      />
       <div className='results'>
-        <h3>Kết quả:</h3>
-        <ul>  
-            <li >{result}</li>
-        </ul>
+        <h3>Kết quả: {result}</h3>
       </div>
-
       <button
         onClick={() => {
           setScanning(!scanning)
-          setScanning1(!scanning1)
         }}
       >
-        {scanning ? 'Dừng quét' : 'Bắt đầu quét'}
+        bắt đầu quét
       </button>
-      <button onClick={onTorchClick}>{torchOn ? 'Tắt đèn' : 'Bật đèn'}</button>
       <button onClick={handleclose}>Đóng</button>
     </Modal>
   ) : null

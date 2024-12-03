@@ -1,24 +1,30 @@
-import React,{useState} from 'react'
+import React from 'react'
 import BarcodeScannerComponent from 'react-qr-barcode-scanner'
 import './test.scss'
 
-function Testbarceode() {
-   const [data, setData] = useState('barcode')
-
-return (
-  <>
-    <BarcodeScannerComponent
-      width={600}
-      height={200}
-      onUpdate={(err, result) => {
-        if (result) setData(result.text)
-        else setData('Not Found')
-      }}
-    />
-    <p>{data}</p>
-  </>
-)
-
+function Testbarceode ({
+  setData,
+  handleAddImel,
+  index,
+  scanning,
+  setScanning
+}) {
+  return (
+    <>
+      <BarcodeScannerComponent
+        width={600}
+        height={200}
+        onUpdate={(err, result) => {
+          if (result) {
+            setData(result.text)
+            handleAddImel(result.text, index)
+            setScanning(true)
+          }
+        }}
+        stopStream={scanning}
+      />
+    </>
+  )
 }
 
-export default Testbarceode;
+export default Testbarceode
