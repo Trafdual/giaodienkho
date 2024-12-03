@@ -33,7 +33,7 @@ const FormAddImel = ({ isOpen, onClose, handleAddImel, index }) => {
       <div className='divButtonImel'>
         <button
           onClick={() => {
-            setScanning(!scanning)
+            setScanning(true)
           }}
         >
           bắt đầu quét
