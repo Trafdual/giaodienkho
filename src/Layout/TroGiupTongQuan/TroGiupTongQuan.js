@@ -39,7 +39,7 @@ function TroGiupTongQuan() {
         </div>
 
         {/* Bên phải: chiếm 3 phần */}
-        <div style={{ flex: 3, backgroundColor: "#f9f9f9", padding: "16px" }}>
+        <div style={{ flex: 3, paddingLeft: "16px" }}>
           <TongDaiTuVan />
         </div>
       </div>

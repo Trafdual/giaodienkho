@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-
+import "./BlogList.scss";
 const BlogList = ({ onSelectBlog }) => {
   const [blogs, setBlogs] = useState([]);
 
@@ -11,7 +11,7 @@ const BlogList = ({ onSelectBlog }) => {
   }, []);
 
   return (
-    <div style={{ padding: "1rem", overflowY: "auto" }}>
+    <div className="blog-list-container">
       <h1>Danh sách Blog</h1>
       <div className="blog-list">
         {blogs.map((blog) => (
