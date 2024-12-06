@@ -1,14 +1,86 @@
-import React from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import BarcodeScannerComponent from 'react-qr-barcode-scanner'
+import Tesseract from 'tesseract.js'
 import './test.scss'
 
-function Testbarceode ({
+function TestBarcodeOCR ({
   setData,
   handleAddImel,
   index,
   scanning,
   setScanning
 }) {
+  const [debouncedResult, setDebouncedResult] = useState(null)
+  const [ocrText, setOcrText] = useState(null)
+  const videoRef = useRef(null) // Tham chiếu đến video
+
+  useEffect(() => {
+    if (debouncedResult) {
+      setData(debouncedResult)
+      handleAddImel(index, debouncedResult)
+      setScanning(false)
+    }
+  }, [debouncedResult, setData, handleAddImel, index, setScanning])
+
+  // Hàm debounce
+  const debounce = (func, delay) => {
+    let timeoutId
+    return (...args) => {
+      clearTimeout(timeoutId)
+      timeoutId = setTimeout(() => {
+        func(...args)
+      }, delay)
+    }
+  }
+
+  const handleBarcodeUpdate = debounce(result => {
+    if (result) {
+      setDebouncedResult(result.text)
+    }
+  }, 500) // Debounce 500ms
+
+  // Hàm xử lý OCR từ video
+  const captureImageAndProcessOCR = () => {
+    const videoElement = videoRef.current
+    if (videoElement) {
+      // Tạo canvas
+      const canvas = document.createElement('canvas')
+      const ctx = canvas.getContext('2d')
+      canvas.width = videoElement.videoWidth
+      canvas.height = videoElement.videoHeight
+
+      // Chụp ảnh từ video
+      ctx.drawImage(videoElement, 0, 0, canvas.width, canvas.height)
+      const imageData = canvas.toDataURL('image/png') // Chuyển ảnh sang định dạng PNG
+
+      // Gửi ảnh vào Tesseract.js để xử lý OCR
+      Tesseract.recognize(
+        imageData, // Dữ liệu hình ảnh
+        'eng', // Ngôn ngữ OCR (tiếng Anh)
+        {
+          logger: info => console.log(info) // Theo dõi tiến trình OCR
+        }
+      )
+        .then(({ data: { text } }) => {
+          setOcrText(text.trim()) // Cập nhật kết quả OCR
+          console.log('OCR Text:', text)
+        })
+        .catch(err => {
+          console.error('OCR Error:', err)
+        })
+    }
+  }
+
+  // Bắt đầu OCR mỗi khi video được cập nhật
+  useEffect(() => {
+    if (scanning) {
+      const intervalId = setInterval(() => {
+        captureImageAndProcessOCR() // Chụp ảnh và chạy OCR liên tục
+      }, 2000) // Chạy OCR mỗi 2 giây
+      return () => clearInterval(intervalId)
+    }
+  }, [scanning])
+
   return (
     <div className='scanner-container'>
       <BarcodeScannerComponent
@@ -16,27 +88,28 @@ function Testbarceode ({
         height={500}
         onUpdate={(err, result) => {
           if (result) {
-            setData(result.text)
-            handleAddImel(index, result.text)
-            setScanning(false)
+            handleBarcodeUpdate(result)
           }
         }}
         videoConstraints={{
           facingMode: 'environment',
-          width: { ideal: 1920 }, // Full HD width
-          height: { ideal: 1080 }
+          width: { ideal: 2560 },
+          height: { ideal: 1440 },
+          frameRate: { ideal: 30 }
         }}
         stopStream={!scanning}
+        videoRef={videoRef} // Tham chiếu video vào OCR
       />
-        <div class='scanner-overlay'>
-          <div class='overlay-top'></div>
-          <div class='overlay-bottom'></div>
-          <div class='overlay-left'></div>
-          <div class='overlay-right'></div>
-          <div class='scanner-box'></div>
-        </div>
+      <div className='scanner-overlay'>
+        <div className='overlay-top'></div>
+        <div className='overlay-bottom'></div>
+        <div className='overlay-left'></div>
+        <div className='overlay-right'></div>
+        <div className='scanner-box'></div>
+      </div>
+      {ocrText && <div className='ocr-result'>OCR Result: {ocrText}</div>}
     </div>
   )
 }
 
-export default Testbarceode
+export default TestBarcodeOCR
