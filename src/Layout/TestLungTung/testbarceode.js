@@ -1,27 +1,64 @@
-import React, { useState } from 'react'
-import {BarcodeScanner} from 'react-barcode-scanner'
+import React, { useState, useEffect } from 'react'
+import BarcodeScannerComponent from 'react-qr-barcode-scanner'
+import './test.scss'
 
-function Testbarceode () {
-  const [scannedData, setScannedData] = useState(null)
+function Testbarceode ({
+  setData,
+  handleAddImel,
+  index,
+  scanning,
+  setScanning
+}) {
+  const [debouncedResult, setDebouncedResult] = useState(null)
 
-  const handleScan = data => {
-    if (data) {
-      setScannedData(data)
+  useEffect(() => {
+    if (debouncedResult) {
+      setData(debouncedResult)
+      handleAddImel(index, debouncedResult)
+      setScanning(false)
+    }
+  }, [debouncedResult, setData, handleAddImel, index, setScanning])
+
+  // Hàm debounce
+  const debounce = (func, delay) => {
+    let timeoutId
+    return (...args) => {
+      clearTimeout(timeoutId)
+      timeoutId = setTimeout(() => {
+        func(...args)
+      }, delay)
     }
   }
 
-  const handleError = err => {
-    console.error('Lỗi quét mã vạch:', err)
-  }
+  const handleBarcodeUpdate = debounce(result => {
+    if (result) {
+      setDebouncedResult(result.text)
+    }
+  }, 500) // Debounce 500ms
 
   return (
-    <div style={{ textAlign: 'center', marginTop: '20px' }}>
-      <h1>Barcode Scanner</h1>
-      <BarcodeScanner onError={handleError} onScan={handleScan} />
-      <div style={{ marginTop: '20px', fontSize: '18px', color: 'green' }}>
-        {scannedData
-          ? `Kết quả quét: ${scannedData}`
-          : 'Đưa mã vạch vào khung quét.'}
+    <div className='scanner-container'>
+      <BarcodeScannerComponent
+        width={500}
+        height={500}
+        onUpdate={(err, result) => {
+          if (result) {
+            handleBarcodeUpdate(result)
+          }
+        }}
+        videoConstraints={{
+          facingMode: 'environment',
+          width: { ideal: 1920 }, // Full HD width
+          height: { ideal: 1080 }
+        }}
+        stopStream={!scanning}
+      />
+      <div className='scanner-overlay'>
+        <div className='overlay-top'></div>
+        <div className='overlay-bottom'></div>
+        <div className='overlay-left'></div>
+        <div className='overlay-right'></div>
+        <div className='scanner-box'></div>
       </div>
     </div>
   )
