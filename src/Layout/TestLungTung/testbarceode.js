@@ -1,40 +1,28 @@
-import React from 'react'
-import BarcodeScannerComponent from 'react-qr-barcode-scanner'
-import './test.scss'
+import React, { useState } from 'react'
+import BarcodeScanner from 'react-barcode-scanner'
 
-function Testbarceode ({
-  setData,
-  handleAddImel,
-  index,
-  scanning,
-  setScanning
-}) {
+function Testbarceode () {
+  const [scannedData, setScannedData] = useState(null)
+
+  const handleScan = data => {
+    if (data) {
+      setScannedData(data)
+    }
+  }
+
+  const handleError = err => {
+    console.error('Lỗi quét mã vạch:', err)
+  }
+
   return (
-    <div className='scanner-container'>
-      <BarcodeScannerComponent
-        width={500}
-        height={500}
-        onUpdate={(err, result) => {
-          if (result) {
-            setData(result.text)
-            handleAddImel(index, result.text)
-            setScanning(false)
-          }
-        }}
-        videoConstraints={{
-          facingMode: 'environment',
-          width: { ideal: 1920 }, // Full HD width
-          height: { ideal: 1080 }
-        }}
-        stopStream={!scanning}
-      />
-        <div class='scanner-overlay'>
-          <div class='overlay-top'></div>
-          <div class='overlay-bottom'></div>
-          <div class='overlay-left'></div>
-          <div class='overlay-right'></div>
-          <div class='scanner-box'></div>
-        </div>
+    <div style={{ textAlign: 'center', marginTop: '20px' }}>
+      <h1>Barcode Scanner</h1>
+      <BarcodeScanner onError={handleError} onScan={handleScan} />
+      <div style={{ marginTop: '20px', fontSize: '18px', color: 'green' }}>
+        {scannedData
+          ? `Kết quả quét: ${scannedData}`
+          : 'Đưa mã vạch vào khung quét.'}
+      </div>
     </div>
   )
 }
