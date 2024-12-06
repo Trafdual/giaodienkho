@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useRef, useState } from 'react'
-import { db } from '~/firebase/firebase' // Import Firebase cấu hình của bạn
+import { db,ref,set } from '~/firebase/firebase' // Import Firebase cấu hình của bạn
 import Quagga from 'quagga' // Import QuaggaJS
 
 function Testbarceode () {

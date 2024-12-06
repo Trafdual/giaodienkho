@@ -21,6 +21,12 @@ Object.defineProperty(exports, "push", {
     return _database.push;
   }
 });
+Object.defineProperty(exports, "set", {
+  enumerable: true,
+  get: function get() {
+    return _database.set;
+  }
+});
 exports.db = void 0;
 
 var _app = require("firebase/app");
