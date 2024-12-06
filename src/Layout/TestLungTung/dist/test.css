@@ -30,36 +30,38 @@
   top: 0;
   left: 0;
   width: 100%;
-  height: calc(50% - 75px);
+  height: calc(50% - 50px);
   /* Nửa trên trừ chiều cao box */
 }
 .scanner-container .scanner-overlay .overlay-bottom {
   bottom: 0;
   left: 0;
   width: 100%;
-  height: calc(50% - 75px);
+  height: calc(50% - 50px);
   /* Nửa dưới trừ chiều cao box */
 }
 .scanner-container .scanner-overlay .overlay-left {
-  top: calc(50% - 75px);
+  top: calc(50% - 50px);
   /* Đỉnh box */
   left: 0;
   height: 100px;
+  width: calc(50% - 175px);
 }
 .scanner-container .scanner-overlay .overlay-right {
-  top: calc(50% - 75px);
+  top: calc(50% - 50px);
   /* Đỉnh box */
   right: 0;
   height: 100px;
+  width: calc(50% - 175px);
 }
 .scanner-container .scanner-overlay .scanner-box {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 100%;
+  width: 70%;
   /* Kích thước khung */
-  height: 150px;
+  height: 100px;
   /* Chiều cao khung */
   border: 2px solid red;
   /* Đường viền khung */
