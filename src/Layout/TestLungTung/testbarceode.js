@@ -42,8 +42,11 @@ function TestBarcodeOCR ({
   // Hàm xử lý OCR từ video
   const captureImageAndProcessOCR = () => {
     const videoElement = videoRef.current
+
     if (videoElement) {
-      // Tạo canvas
+      if (videoElement.style && videoElement.style.zoom) {
+        videoElement.style.zoom = 2.5 // Điều chỉnh zoom trực tiếp nếu có thể
+      }
       const canvas = document.createElement('canvas')
       const ctx = canvas.getContext('2d')
       canvas.width = videoElement.videoWidth
