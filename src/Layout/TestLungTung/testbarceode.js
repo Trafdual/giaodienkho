@@ -48,8 +48,8 @@ function Testbarceode ({
         }}
         videoConstraints={{
           facingMode: 'environment',
-          width: { ideal: 1920 }, // Full HD width
-          height: { ideal: 1080 }
+          width: { ideal: 2560 }, // Độ phân giải cao hơn
+          height: { ideal: 1440 }
         }}
         stopStream={!scanning}
       />
