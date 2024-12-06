@@ -1,40 +1,36 @@
-import React from 'react'
-import BarcodeScannerComponent from 'react-qr-barcode-scanner'
-import './test.scss'
+import React, { useEffect, useRef } from 'react'
+import { BarcodeScanner } from 'dynamsoft-javascript-barcode'
 
-function Testbarceode ({
-  setData,
-  handleAddImel,
-  index,
-  scanning,
-  setScanning
-}) {
+function Testbarceode () {
+  const videoRef = useRef(null)
+
+  useEffect(() => {
+    let scanner
+
+    (async () => {
+      scanner = await BarcodeScanner.createInstance()
+      await scanner.setUIElement(videoRef.current)
+      scanner.onFrameRead = results => {
+        if (results.length > 0) {
+          alert(results[0].barcodeText)
+          scanner.stop() // Dừng quét khi đã nhận mã.
+        }
+      }
+      scanner.onUnduplicatedRead = (txt, result) => {
+        console.log(txt)
+      }
+      scanner.start()
+    })()
+    return () => {
+      if (scanner) scanner.destroy()
+    }
+  })
+
   return (
-    <div className='scanner-container'>
-      <BarcodeScannerComponent
-        width={500}
-        height={500}
-        onUpdate={(err, result) => {
-          if (result) {
-            setData(result.text)
-            handleAddImel(index, result.text)
-            setScanning(false)
-          }
-        }}
-        videoConstraints={{
-          facingMode: 'environment',
-          width: { ideal: 1920 }, // Full HD width
-          height: { ideal: 1080 }
-        }}
-        stopStream={!scanning}
-      />
-        <div class='scanner-overlay'>
-          <div class='overlay-top'></div>
-          <div class='overlay-bottom'></div>
-          <div class='overlay-left'></div>
-          <div class='overlay-right'></div>
-          <div class='scanner-box'></div>
-        </div>
+    <div>
+      <h2>Quét IMEI</h2>
+      <div ref={videoRef} style={{ width: '100%', height: 'auto' }}></div>
+      <button>Đóng</button>
     </div>
   )
 }
