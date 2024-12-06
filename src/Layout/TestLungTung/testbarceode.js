@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import BarcodeScannerComponent from 'react-qr-barcode-scanner'
 import './test.scss'
 
@@ -9,6 +9,33 @@ function Testbarceode ({
   scanning,
   setScanning
 }) {
+  const [debouncedResult, setDebouncedResult] = useState(null)
+
+  useEffect(() => {
+    if (debouncedResult) {
+      setData(debouncedResult)
+      handleAddImel(index, debouncedResult)
+      setScanning(false)
+    }
+  }, [debouncedResult, setData, handleAddImel, index, setScanning])
+
+  // Hàm debounce
+  const debounce = (func, delay) => {
+    let timeoutId
+    return (...args) => {
+      clearTimeout(timeoutId)
+      timeoutId = setTimeout(() => {
+        func(...args)
+      }, delay)
+    }
+  }
+
+  const handleBarcodeUpdate = debounce(result => {
+    if (result) {
+      setDebouncedResult(result.text)
+    }
+  }, 500) // Debounce 500ms
+
   return (
     <div className='scanner-container'>
       <BarcodeScannerComponent
@@ -16,9 +43,7 @@ function Testbarceode ({
         height={500}
         onUpdate={(err, result) => {
           if (result) {
-            setData(result.text)
-            handleAddImel(index, result.text)
-            setScanning(false)
+            handleBarcodeUpdate(result)
           }
         }}
         videoConstraints={{
@@ -28,13 +53,13 @@ function Testbarceode ({
         }}
         stopStream={!scanning}
       />
-        <div class='scanner-overlay'>
-          <div class='overlay-top'></div>
-          <div class='overlay-bottom'></div>
-          <div class='overlay-left'></div>
-          <div class='overlay-right'></div>
-          <div class='scanner-box'></div>
-        </div>
+      <div className='scanner-overlay'>
+        <div className='overlay-top'></div>
+        <div className='overlay-bottom'></div>
+        <div className='overlay-left'></div>
+        <div className='overlay-right'></div>
+        <div className='scanner-box'></div>
+      </div>
     </div>
   )
 }
