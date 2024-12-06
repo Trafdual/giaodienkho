@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import BarcodeScannerComponent from 'react-qr-barcode-scanner'
 import Tesseract from 'tesseract.js'
 import './test.scss'
@@ -12,6 +12,7 @@ function TestBarcodeOCR ({
 }) {
   const [debouncedResult, setDebouncedResult] = useState(null)
   const [ocrText, setOcrText] = useState(null)
+  const videoRef = useRef(null) // Tham chiếu đến video
 
   useEffect(() => {
     if (debouncedResult) {
@@ -38,23 +39,47 @@ function TestBarcodeOCR ({
     }
   }, 500) // Debounce 500ms
 
-  // Hàm xử lý OCR
-  const processOCR = imageData => {
-    Tesseract.recognize(
-      imageData, // Dữ liệu hình ảnh
-      'eng', // Ngôn ngữ OCR (English)
-      {
-        logger: info => console.log(info) // Theo dõi tiến trình OCR
-      }
-    )
-      .then(({ data: { text } }) => {
-        setOcrText(text.trim()) // Cập nhật văn bản OCR nhận diện được
-        console.log('OCR Text:', text)
-      })
-      .catch(err => {
-        console.error('OCR Error:', err)
-      })
+  // Hàm xử lý OCR từ video
+  const captureImageAndProcessOCR = () => {
+    const videoElement = videoRef.current
+    if (videoElement) {
+      // Tạo canvas
+      const canvas = document.createElement('canvas')
+      const ctx = canvas.getContext('2d')
+      canvas.width = videoElement.videoWidth
+      canvas.height = videoElement.videoHeight
+
+      // Chụp ảnh từ video
+      ctx.drawImage(videoElement, 0, 0, canvas.width, canvas.height)
+      const imageData = canvas.toDataURL('image/png') // Chuyển ảnh sang định dạng PNG
+
+      // Gửi ảnh vào Tesseract.js để xử lý OCR
+      Tesseract.recognize(
+        imageData, // Dữ liệu hình ảnh
+        'eng', // Ngôn ngữ OCR (tiếng Anh)
+        {
+          logger: info => console.log(info) // Theo dõi tiến trình OCR
+        }
+      )
+        .then(({ data: { text } }) => {
+          setOcrText(text.trim()) // Cập nhật kết quả OCR
+          console.log('OCR Text:', text)
+        })
+        .catch(err => {
+          console.error('OCR Error:', err)
+        })
+    }
   }
+
+  // Bắt đầu OCR mỗi khi video được cập nhật
+  useEffect(() => {
+    if (scanning) {
+      const intervalId = setInterval(() => {
+        captureImageAndProcessOCR() // Chụp ảnh và chạy OCR liên tục
+      }, 2000) // Chạy OCR mỗi 2 giây
+      return () => clearInterval(intervalId)
+    }
+  }, [scanning])
 
   return (
     <div className='scanner-container'>
@@ -73,11 +98,8 @@ function TestBarcodeOCR ({
           frameRate: { ideal: 30 }
         }}
         stopStream={!scanning}
+        videoRef={videoRef} // Tham chiếu video vào OCR
       />
-      <canvas
-        id='canvas' // Canvas dùng để xử lý hình ảnh từ camera
-        style={{ display: 'none' }}
-      ></canvas>
       <div className='scanner-overlay'>
         <div className='overlay-top'></div>
         <div className='overlay-bottom'></div>
