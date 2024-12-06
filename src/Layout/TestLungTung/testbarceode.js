@@ -93,9 +93,10 @@ function TestBarcodeOCR ({
         }}
         videoConstraints={{
           facingMode: 'environment',
-          width: { ideal: 440 },
-          height: { ideal: 280 },
-          frameRate: { ideal: 30 }
+          width: { ideal: 1280 },
+          height: { ideal: 720 },
+          frameRate: { ideal: 30 },
+          advanced: [{ zoom: 2.5 }]
         }}
         stopStream={!scanning}
         videoRef={videoRef} // Tham chiếu video vào OCR
