@@ -22,12 +22,12 @@ function TestBarcodeOCR ({
         qrReaderRef.current.style.display = 'none'
         handleAddImel(index, decodedText)
         setData(decodedText)
+        setScanning(false)
         if (qrScannerRef.current) {
           qrScannerRef.current
             .stop()
             .then(() => {
               qrScannerRef.current.clear()
-              setScanning(false)
             })
             .catch(err => {
               console.error('Failed to stop scanner:', err)
@@ -58,10 +58,7 @@ function TestBarcodeOCR ({
       return () => {
         if (qrScannerRef.current) {
           qrScannerRef.current.clear()
-          qrScannerRef.current = null
-          setScanning(false)
         }
-        setScanResult(null)
       }
     }
   }, [scanning]) // Chỉ kích hoạt lại khi giá trị scanning thay đổi
