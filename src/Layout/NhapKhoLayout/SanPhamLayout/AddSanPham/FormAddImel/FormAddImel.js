@@ -37,6 +37,7 @@ const FormAddImel = ({ isOpen, onClose, handleAddImel, index }) => {
         <button
           onClick={() => {
             setScanning(true)
+            setResult('')
           }}
         >
           bắt đầu quét
