@@ -14,11 +14,6 @@ const FormAddImel = ({ isOpen, onClose, handleAddImel, index }) => {
     setScanning(true)
     setResult('')
   }
-  const handlestart = () => {
-    setResult('')
-    setScanning(false)
-    setTimeout(() => setScanning(true), 1000)
-  }
 
   return isOpen ? (
     <Modal isOpen={isOpen} onClose={onClose}>
@@ -39,7 +34,14 @@ const FormAddImel = ({ isOpen, onClose, handleAddImel, index }) => {
         <h3>Kết quả: {result}</h3>
       </div>
       <div className='divButtonImel'>
-        <button onClick={() => handlestart()}>bắt đầu quét</button>
+        <button
+          onClick={() => {
+            setScanning(true)
+            
+          }}
+        >
+          bắt đầu quét
+        </button>
         <button onClick={handleclose}>Đóng</button>
       </div>
     </Modal>

@@ -22,12 +22,12 @@ function TestBarcodeOCR ({
         qrReaderRef.current.style.display = 'none'
         handleAddImel(index, decodedText)
         setData(decodedText)
-        setScanning(false)
         if (qrScannerRef.current) {
           qrScannerRef.current
             .stop()
             .then(() => {
               qrScannerRef.current.clear()
+              setScanning(false)
             })
             .catch(err => {
               console.error('Failed to stop scanner:', err)
@@ -59,7 +59,7 @@ function TestBarcodeOCR ({
         if (qrScannerRef.current) {
           qrScannerRef.current.clear()
           qrScannerRef.current = null
-
+          setScanning(false)
         }
         setScanResult(null)
       }
