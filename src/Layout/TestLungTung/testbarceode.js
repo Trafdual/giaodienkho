@@ -59,6 +59,7 @@ function TestBarcodeOCR ({
         if (qrScannerRef.current) {
           qrScannerRef.current.clear()
         }
+        setScanResult(null)
       }
     }
   }, [scanning]) // Chỉ kích hoạt lại khi giá trị scanning thay đổi
