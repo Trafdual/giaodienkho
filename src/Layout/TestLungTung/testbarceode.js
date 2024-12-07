@@ -31,7 +31,10 @@ function TestBarcodeOCR ({
         'qr-reader',
         {
           fps: 10,
-          qrbox: 300,
+          qrbox: {
+            width: 300,
+            height: 100
+          },
           facingMode: { exact: 'environment' },
           videoConstraints: {
             width: { ideal: 1280 },
@@ -58,10 +61,8 @@ function TestBarcodeOCR ({
         id='qr-reader'
         ref={qrReaderRef}
         style={{ display: scanning ? 'block' : 'none' }}
-      >
-        <div className='qr-box'></div>
-        <div className='scan-line'></div>
-      </div>
+      ></div>
+
       <div
         id='result'
         style={{
