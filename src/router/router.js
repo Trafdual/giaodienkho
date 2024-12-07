@@ -41,10 +41,6 @@ const publicRoutes = [
   { path: '/register', component: Register, layout: null },
   { path: '/trogiuptongquan', component: TroGiupTongQuan, layout: null },
   { path: '/supportchat', component: SupportChat, layout: null },
-
-
-
-
 ]
 const privateRoutes = []
 export { publicRoutes, privateRoutes }

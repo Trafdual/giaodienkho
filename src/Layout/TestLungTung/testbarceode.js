@@ -39,6 +39,33 @@ function TestBarcodeOCR ({
     }
   }, 500) // Debounce 500ms
 
+  const preprocessImage = canvas => {
+  const ctx = canvas.getContext('2d')
+  const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height)
+  const data = imageData.data
+
+  for (let i = 0; i < data.length; i += 4) {
+    // Tăng tương phản
+    const r = data[i]
+    const g = data[i + 1]
+    const b = data[i + 2]
+    const brightness = (r + g + b) / 3
+
+    // Áp dụng ngưỡng để làm nổi bật mã vạch trắng trên nền đen
+    if (brightness > 128) {
+      data[i] = 255 // R
+      data[i + 1] = 255 // G
+      data[i + 2] = 255 // B
+    } else {
+      data[i] = 0
+      data[i + 1] = 0
+      data[i + 2] = 0
+    }
+  }
+
+  ctx.putImageData(imageData, 0, 0)
+}
+
   // Hàm xử lý OCR từ video
   const captureImageAndProcessOCR = () => {
     const videoElement = videoRef.current
@@ -51,6 +78,8 @@ function TestBarcodeOCR ({
 
       // Chụp ảnh từ video
       ctx.drawImage(videoElement, 0, 0, canvas.width, canvas.height)
+      preprocessImage(canvas)
+
       const imageData = canvas.toDataURL('image/png') // Chuyển ảnh sang định dạng PNG
 
       // Gửi ảnh vào Tesseract.js để xử lý OCR
@@ -93,9 +122,9 @@ function TestBarcodeOCR ({
         }}
         videoConstraints={{
           facingMode: 'environment',
-          width: { ideal: 2560 },
-          height: { ideal: 1440 },
-          frameRate: { ideal: 30 }
+          width: { ideal: 3840 },
+          height: { ideal: 2160 },
+          frameRate: { ideal: 60 }
         }}
         stopStream={!scanning}
         videoRef={videoRef} // Tham chiếu video vào OCR

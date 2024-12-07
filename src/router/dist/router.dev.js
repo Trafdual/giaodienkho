@@ -43,6 +43,8 @@ var _TroGiupTongQuan = require("~/Layout/TroGiupTongQuan");
 
 var _testbarceode = _interopRequireDefault(require("~/Layout/TestLungTung/testbarceode"));
 
+var _SupportChat = _interopRequireDefault(require("~/Layout/TroGiupTongQuan/TongDaiTuVan/SupportChat"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var publicRoutes = [{
@@ -106,6 +108,10 @@ var publicRoutes = [{
 }, {
   path: '/trogiuptongquan',
   component: _TroGiupTongQuan.TroGiupTongQuan,
+  layout: null
+}, {
+  path: '/supportchat',
+  component: _SupportChat["default"],
   layout: null
 }];
 exports.publicRoutes = publicRoutes;
