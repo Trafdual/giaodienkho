@@ -32,7 +32,10 @@ function TestBarcodeOCR ({
         {
           fps: 10,
           qrbox: 300,
+          facingMode: { exact: 'environment' },
           videoConstraints: {
+            width: { ideal: 1280 },
+            height: { ideal: 720 },
             facingMode: 'environment'
           }
         },
@@ -74,7 +77,7 @@ function TestBarcodeOCR ({
         {scanResult ? (
           <p>Code scanned: {scanResult}</p>
         ) : (
-          <p>{!scanning &&'Click to start scanning.'}</p>
+          <p>{!scanning && 'Click to start scanning.'}</p>
         )}
       </div>
     </div>
