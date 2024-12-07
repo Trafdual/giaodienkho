@@ -41,7 +41,7 @@ var _BaoCaoKhoLayout = require("~/Layout/BaoCaoKhoLayout");
 
 var _TroGiupTongQuan = require("~/Layout/TroGiupTongQuan");
 
-var _testbarceode = _interopRequireDefault(require("~/Layout/TestLungTung/testbarceode"));
+var _SupportChat = _interopRequireDefault(require("~/Layout/TroGiupTongQuan/TongDaiTuVan/SupportChat"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -79,7 +79,8 @@ var publicRoutes = [{
   component: _TroGiupLayout.TroGiupLayout
 }, {
   path: '/testlungtung',
-  component: _TestLungTung.TestLungTung
+  component: _TestLungTung.TestLungTung,
+  layout: null
 }, {
   path: '/doanhthu',
   component: _DoanhThuLayout.DoanhThuLayout
@@ -92,11 +93,8 @@ var publicRoutes = [{
 }, {
   path: '/search-products',
   component: _SearchProductLayout.SearchProductLayout
-}, {
-  path: '/test',
-  component: _testbarceode["default"],
-  layout: null
-}, {
+}, // { path: '/test', component: Testbarceode,layout:null },
+{
   path: '/baocaokho',
   component: _BaoCaoKhoLayout.BaoCaoKhoLayout
 }, {
@@ -106,6 +104,10 @@ var publicRoutes = [{
 }, {
   path: '/trogiuptongquan',
   component: _TroGiupTongQuan.TroGiupTongQuan,
+  layout: null
+}, {
+  path: '/supportchat',
+  component: _SupportChat["default"],
   layout: null
 }];
 exports.publicRoutes = publicRoutes;
