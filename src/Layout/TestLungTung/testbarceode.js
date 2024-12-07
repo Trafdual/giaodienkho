@@ -58,6 +58,8 @@ function TestBarcodeOCR ({
       return () => {
         if (qrScannerRef.current) {
           qrScannerRef.current.clear()
+          qrScannerRef.current = null
+
         }
         setScanResult(null)
       }
