@@ -14,7 +14,6 @@ function TestBarcodeOCR ({
   const [debouncedResult, setDebouncedResult] = useState(null)
   const [ocrText, setOcrText] = useState(null)
   const videoRef = useRef(null) // Tham chiếu đến video
-  const [zoom, setZoom] = useState(1) // Trạng thái zoom
 
   useEffect(() => {
     if (debouncedResult) {
@@ -42,31 +41,31 @@ function TestBarcodeOCR ({
   }, 500) // Debounce 500ms
 
   const preprocessImage = canvas => {
-    const ctx = canvas.getContext('2d')
-    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height)
-    const data = imageData.data
+  const ctx = canvas.getContext('2d')
+  const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height)
+  const data = imageData.data
 
-    for (let i = 0; i < data.length; i += 4) {
-      // Tăng tương phản
-      const r = data[i]
-      const g = data[i + 1]
-      const b = data[i + 2]
-      const brightness = (r + g + b) / 3
+  for (let i = 0; i < data.length; i += 4) {
+    // Tăng tương phản
+    const r = data[i]
+    const g = data[i + 1]
+    const b = data[i + 2]
+    const brightness = (r + g + b) / 3
 
-      // Áp dụng ngưỡng để làm nổi bật mã vạch trắng trên nền đen
-      if (brightness > 128) {
-        data[i] = 255 // R
-        data[i + 1] = 255 // G
-        data[i + 2] = 255 // B
-      } else {
-        data[i] = 0
-        data[i + 1] = 0
-        data[i + 2] = 0
-      }
+    // Áp dụng ngưỡng để làm nổi bật mã vạch trắng trên nền đen
+    if (brightness > 128) {
+      data[i] = 255 // R
+      data[i + 1] = 255 // G
+      data[i + 2] = 255 // B
+    } else {
+      data[i] = 0
+      data[i + 1] = 0
+      data[i + 2] = 0
     }
-
-    ctx.putImageData(imageData, 0, 0)
   }
+
+  ctx.putImageData(imageData, 0, 0)
+}
 
   // Hàm xử lý OCR từ video
   const captureImageAndProcessOCR = () => {
@@ -112,21 +111,6 @@ function TestBarcodeOCR ({
     }
   }, [scanning])
 
-  const handlePinchZoom = e => {
-    if (e.touches.length === 2) {
-      const pinchStart = Math.abs(e.touches[0].clientX - e.touches[1].clientX)
-      e.target.addEventListener('touchmove', moveEvent => {
-        if (moveEvent.touches.length === 2) {
-          const pinchEnd = Math.abs(
-            moveEvent.touches[0].clientX - moveEvent.touches[1].clientX
-          )
-          const scaleFactor = pinchEnd / pinchStart
-          setZoom(scaleFactor * 2.5) // Cập nhật zoom lên 2.5 khi có cử chỉ pinch
-        }
-      })
-    }
-  }
-
   return (
     <div className='scanner-container'>
       <BarcodeScannerComponent
@@ -141,12 +125,13 @@ function TestBarcodeOCR ({
           facingMode: 'environment',
           width: { ideal: 3840 },
           height: { ideal: 2160 },
-          frameRate: { ideal: 60 }
-        }}
+          frameRate: { ideal: 60 },
+          advanced: [{ zoom: 2.5 }]
+         }}
         stopStream={!scanning}
         videoRef={videoRef} // Tham chiếu video vào OCR
       />
-      <div className='scanner-overlay' onTouchStart={handlePinchZoom}>
+      <div className='scanner-overlay'>
         <div className='overlay-top'></div>
         <div className='overlay-bottom'></div>
         <div className='overlay-left'></div>
