@@ -25,7 +25,7 @@ const BlogList = ({ onSelectBlog }) => {
             <img
               src={blog.image}
               alt={blog.tieude}
-              style={{ width: "100%", maxHeight: "200px", objectFit: "cover" }}
+              style={{ width: "50%", maxHeight: "200px", objectFit: "cover" }}
             />
           </div>
         ))}

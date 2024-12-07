@@ -1,4 +1,30 @@
-// .blog-list-container{
-//     background-color: #ec0000;
-//     padding-left: 15%;
-// }
+.blog-list-container{
+  
+    padding-left: 15%;
+}
+.blog-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Chia làm 3 cột */
+    gap: 20px; /* Khoảng cách giữa các blog */
+  }
+  
+  .blog-item {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    text-align: center;
+  }
+  .blog-item h4 {
+  font-size: 16px; /* Kích thước chữ */
+  font-weight: bold;
+  white-space: nowrap; /* Không cho xuống dòng */
+  overflow: hidden; /* Ẩn phần vượt quá */
+  text-overflow: ellipsis; /* Thêm dấu ... */
+}
+  .blog-item img {
+    max-width: 100%;
+    border-radius: 8px;
+    
+  }
+  
