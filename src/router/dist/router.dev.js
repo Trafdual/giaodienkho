@@ -81,7 +81,8 @@ var publicRoutes = [{
   component: _TroGiupLayout.TroGiupLayout
 }, {
   path: '/testlungtung',
-  component: _TestLungTung.TestLungTung
+  component: _TestLungTung.TestLungTung,
+  layout: null
 }, {
   path: '/doanhthu',
   component: _DoanhThuLayout.DoanhThuLayout

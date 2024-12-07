@@ -31,7 +31,7 @@ const publicRoutes = [
   { path: '/lenhdieuchuyen', component: LenhDieuChuyenLayout },
   { path: '/banhang', component: BanHangLayout, layout: null },
   { path: '/trogiup', component: TroGiupLayout },
-  { path: '/testlungtung', component: TestLungTung },
+  { path: '/testlungtung', component: TestLungTung,layout: null },
   { path: '/doanhthu', component: DoanhThuLayout },
   { path: '/hoadon', component: HoaDonLayout },
   { path: '/thietlap', component: ThietLapLayout },
