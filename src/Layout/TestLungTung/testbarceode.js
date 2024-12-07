@@ -19,14 +19,22 @@ function TestBarcodeOCR ({
       // Hàm xử lý khi quét QR thành công
       const onScanSuccess = decodedText => {
         setScanResult(decodedText)
-        qrReaderRef.current.style.display = 'none' // Ẩn vùng quét sau khi quét thành công
+        qrReaderRef.current.style.display = 'none'
         handleAddImel(index, decodedText)
         setData(decodedText)
         setScanning(false)
-        qrScannerRef.current.clear() // Dừng và xóa scanner
+        if (qrScannerRef.current) {
+          qrScannerRef.current
+            .stop()
+            .then(() => {
+              qrScannerRef.current.clear()
+            })
+            .catch(err => {
+              console.error('Failed to stop scanner:', err)
+            })
+        }
       }
 
-      // Khởi tạo Html5QrcodeScanner nếu scanning = true
       qrScannerRef.current = new Html5QrcodeScanner(
         'qr-reader',
         {
