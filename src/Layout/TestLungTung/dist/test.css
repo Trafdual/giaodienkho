@@ -1,70 +1,43 @@
-@charset "UTF-8";
-.scanner-container {
+#qr-reader {
+  width: 100%;
+  height: 200px;
   position: relative;
-  width: 500px;
-  height: 500px;
-  margin: 0 auto;
 }
-.scanner-container video {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-.scanner-container .scanner-overlay {
+
+#qr-shaded-region {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
+  border-width: 125px 83px;
+  border-style: solid;
+  border-color: rgba(0, 0, 0, 0.48);
+  box-sizing: border-box;
+  inset: 0px;
 }
-.scanner-container .scanner-overlay .overlay-top,
-.scanner-container .scanner-overlay .overlay-bottom,
-.scanner-container .scanner-overlay .overlay-left,
-.scanner-container .scanner-overlay .overlay-right {
+
+.qr-box {
   position: absolute;
-  background-color: rgba(0, 0, 0, 0.5);
-}
-.scanner-container .scanner-overlay .overlay-top {
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: calc(50% - 50px);
-  /* Nửa trên trừ chiều cao box */
-}
-.scanner-container .scanner-overlay .overlay-bottom {
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: calc(50% - 50px);
-  /* Nửa dưới trừ chiều cao box */
-}
-.scanner-container .scanner-overlay .overlay-left {
-  top: calc(50% - 50px);
-  /* Đỉnh box */
-  left: 0;
-  height: 100px;
-  width: calc(50% - 175px);
-}
-.scanner-container .scanner-overlay .overlay-right {
-  top: calc(50% - 50px);
-  /* Đỉnh box */
-  right: 0;
-  height: 100px;
-  width: calc(50% - 175px);
-}
-.scanner-container .scanner-overlay .scanner-box {
-  position: absolute;
+  border: 2px dashed red;
+  width: 300px;
+  height: 150px;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 70%;
-  /* Kích thước khung */
-  height: 100px;
-  /* Chiều cao khung */
-  border: 2px solid red;
-  /* Đường viền khung */
-  box-shadow: 0 0 10px rgba(255, 0, 0, 0.7);
-  /* Hiệu ứng đổ bóng */
-  background-color: transparent;
+}
+
+.scan-line {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: red;
+}
+
+#result {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  font-size: 1.5rem;
+  color: white;
 }

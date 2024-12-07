@@ -16,7 +16,7 @@ import { ThietLapLayout } from '~/Layout/ThietLapLayout'
 import { SearchProductLayout } from '~/Layout/SearchProductLayout'
 import { BaoCaoKhoLayout } from '~/Layout/BaoCaoKhoLayout'
 import { TroGiupTongQuan } from '~/Layout/TroGiupTongQuan'
-import Testbarceode from '~/Layout/TestLungTung/testbarceode'
+// import Testbarceode from '~/Layout/TestLungTung/testbarceode'
 import SupportChat from '~/Layout/TroGiupTongQuan/TongDaiTuVan/SupportChat'
 
   
@@ -36,7 +36,7 @@ const publicRoutes = [
   { path: '/hoadon', component: HoaDonLayout },
   { path: '/thietlap', component: ThietLapLayout },
   { path: '/search-products', component: SearchProductLayout },
-    { path: '/test', component: Testbarceode,layout:null },
+    // { path: '/test', component: Testbarceode,layout:null },
   { path: '/baocaokho', component: BaoCaoKhoLayout },
   { path: '/register', component: Register, layout: null },
   { path: '/trogiuptongquan', component: TroGiupTongQuan, layout: null },
