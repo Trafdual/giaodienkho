@@ -74,8 +74,8 @@ function TestBarcodeOCR ({
       // Tạo canvas
       const canvas = document.createElement('canvas')
       const ctx = canvas.getContext('2d')
-      canvas.width = videoElement.videoWidth
-      canvas.height = videoElement.videoHeight
+      canvas.width = videoElement.videoWidth * 2.5
+      canvas.height = videoElement.videoHeight * 2.5
 
       // Chụp ảnh từ video
       ctx.drawImage(videoElement, 0, 0, canvas.width, canvas.height)
@@ -126,7 +126,7 @@ function TestBarcodeOCR ({
           width: { ideal: 3840 },
           height: { ideal: 2160 },
           frameRate: { ideal: 60 },
-          advanced: [{ zoom: 2.5 }]
+          // advanced: [{ zoom: 2.5 }]
          }}
         stopStream={!scanning}
         videoRef={videoRef} // Tham chiếu video vào OCR
