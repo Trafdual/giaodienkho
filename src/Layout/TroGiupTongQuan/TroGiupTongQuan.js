@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Header from "./Header/HeaderTroGiupTQ";
 import QuillHtmlContent from "./Quill/QuillHtml";
-import BlogList from "./AllTroGiup/AllTroGiup";
+import BlogList from "./AllTroGiup/BlogList";
 import BlogDetail from "./AllTroGiup/DetailTroGiup";
 import ThanhDinhHuong from "./ThanhDinhHuong/ThanhDinhHuong";
 import TongDaiTuVan from "./TongDaiTuVan/TongDaiTuVan";

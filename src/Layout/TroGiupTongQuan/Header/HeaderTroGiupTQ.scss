@@ -36,6 +36,14 @@
 .ul-tq li:hover ul.dropdown-help{
     display: block;
 }
-.ql-align-center{
+.ql-align-center {
+    width: 100%;
     text-align: center;
+}
+
+.ql-align-center img {
+    display: inline-block;
+    max-width: 100%; /* Đảm bảo ảnh không vượt quá khung */
+    height: auto;
+    
 }
