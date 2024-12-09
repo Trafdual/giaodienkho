@@ -52,7 +52,6 @@ function TestBarcodeOCR ({
         },
         false
       )
-
       qrScannerRef.current.render(onScanSuccess)
     }
 
