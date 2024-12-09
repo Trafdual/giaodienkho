@@ -54,7 +54,6 @@ function TestBarcodeOCR ({
       qrScannerRef.current.render(onScanSuccess)
     }
 
-    // Tự động khởi động quét khi component mount
     if (scanning) {
       startScanning()
     }
@@ -66,9 +65,6 @@ function TestBarcodeOCR ({
     }
   }, [scanning])
 
-  useEffect(() => {
-  setScanning(true)
-}, [])
 
   return (
     <div className='Barcode'>
