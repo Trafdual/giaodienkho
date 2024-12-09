@@ -47,3 +47,9 @@
   font-size: 1em;
   color: #333;
 }
+
+@media screen and (max-width: 46.1875em) {
+  .modal-content {
+    overflow-y: auto;
+  }
+}
