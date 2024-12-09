@@ -1,6 +1,7 @@
+/* eslint-disable no-use-before-define */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect, useRef } from 'react'
-import { Html5QrcodeScanner } from 'html5-qrcode'
+import React, { useEffect, useRef, useState } from 'react'
+import { Html5Qrcode } from 'html5-qrcode'
 import './test.scss'
 
 function TestBarcodeOCR ({
@@ -11,53 +12,59 @@ function TestBarcodeOCR ({
   setScanning
 }) {
   const [scanResult, setScanResult] = useState(null)
-  const qrScannerRef = useRef(null) // Giữ tham chiếu đến Html5QrcodeScanner để quản lý
+  const html5QrcodeRef = useRef(null)
 
   useEffect(() => {
-    const startScanning = () => {
-      // Hàm xử lý khi quét QR thành công
-      const onScanSuccess = decodedText => {
-        setScanResult(decodedText)
-        handleAddImel(index, decodedText)
-        setData(decodedText)
-        if (qrScannerRef.current) {
-          qrScannerRef.current
-            .stop()
-            .then(() => {
-              qrScannerRef.current.clear()
-              setScanning(false)
-            })
-            .catch(err => {
-              console.error('Failed to stop scanner:', err)
-            })
-        }
-      }
+    const startCamera = async () => {
+      try {
+        const cameraId = (await Html5Qrcode.getCameras())[0].id // Chọn camera mặc định
+        html5QrcodeRef.current = new Html5Qrcode('qr-reader')
 
-      qrScannerRef.current = new Html5QrcodeScanner(
-        'qr-reader',
-        {
-          fps: 10,
-          qrbox: {
-            width: 300,
-            height: 100
+        await html5QrcodeRef.current.start(
+          { deviceId: cameraId },
+          {
+            fps: 10,
+            qrbox: { width: 300, height: 100 },
+            facingMode: { exact: 'environment' },
+            videoConstraints: {
+              width: { ideal: 1280 },
+              height: { ideal: 720 },
+              facingMode: 'environment'
+            },
+            aspectRatio: 1.7777778
           },
-          facingMode: { exact: 'environment' } // Mặc định sử dụng camera sau
-        },
-        false
-      )
-
-      qrScannerRef.current.render(onScanSuccess)
+          decodedText => {
+            // Khi quét thành công
+            setScanResult(decodedText)
+            handleAddImel(index, decodedText)
+            setData(decodedText)
+            stopCamera() // Dừng camera sau khi quét
+          }
+        )
+      } catch (err) {
+        console.error('Lỗi khi mở camera:', err)
+        alert('Không thể mở camera. Vui lòng kiểm tra cài đặt quyền truy cập.')
+      }
     }
 
-    // Tự động khởi động quét khi component mount
     if (scanning) {
-      startScanning()
+      startCamera()
+    }
+    else{
+      stopCamera();
+    }
+
+    const stopCamera = async () => {
+      if (html5QrcodeRef.current) {
+        await html5QrcodeRef.current.stop()
+        html5QrcodeRef.current.clear()
+        html5QrcodeRef.current = null
+        setScanning(false)
+      }
     }
 
     return () => {
-      if (qrScannerRef.current) {
-        qrScannerRef.current.clear()
-      }
+      stopCamera()
     }
   }, [scanning])
 

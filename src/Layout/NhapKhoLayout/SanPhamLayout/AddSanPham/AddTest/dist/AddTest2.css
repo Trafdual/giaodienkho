@@ -104,6 +104,12 @@
   border: none;
   background-color: white;
   font-size: 30px;
+  display: none;
+}
+
+.tippy-tooltip-content {
+  max-height: 200px;
+  overflow: auto;
 }
 
 @media (max-width: 480px) {
@@ -111,5 +117,13 @@
     max-height: 400px;
     overflow-y: auto;
     overflow-x: auto;
+  }
+
+  td input {
+    font-size: 16px;
+  }
+
+  .btnnhapImel {
+    display: block;
   }
 }

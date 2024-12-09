@@ -437,7 +437,7 @@ function AddTest2 ({
                       trigger='click'
                       interactive
                       arrow
-                      position='bottom'
+                      position='bottom-start'
                       open={isTableVisible}
                       onRequestClose={() => setIsTableVisible(false)}
                       html={

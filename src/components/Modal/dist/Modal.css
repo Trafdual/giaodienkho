@@ -23,7 +23,6 @@
 
 .modal-header {
   padding: 16px;
-  background-color: #f1f1f1;
   cursor: move;
   display: flex;
   justify-content: space-between;
@@ -46,4 +45,15 @@
   padding: 20px;
   font-size: 1em;
   color: #333;
+}
+
+@media screen and (max-width: 46.1875em) {
+  .modal-content {
+    overflow-y: auto;
+    max-height: 100%;
+  }
+
+  .modal-close {
+    font-size: 20px;
+  }
 }
