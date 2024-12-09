@@ -24,6 +24,12 @@ function TestBarcodeOCR ({
           {
             fps: 10,
             qrbox: { width: 300, height: 100 },
+            facingMode: { exact: 'environment' },
+            videoConstraints: {
+              width: { ideal: 1280 },
+              height: { ideal: 720 },
+              facingMode: 'environment'
+            },
             aspectRatio: 1.7777778 // 16:9
           },
           decodedText => {
