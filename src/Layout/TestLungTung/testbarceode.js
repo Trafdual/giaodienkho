@@ -41,7 +41,12 @@ function TestBarcodeOCR ({
             width: 300,
             height: 100
           },
-          facingMode: 'environment' // Mặc định sử dụng camera sau
+          facingMode: { exact: 'environment' },
+          videoConstraints: {
+            width: { ideal: 1280 },
+            height: { ideal: 720 },
+            facingMode: 'environment'
+          }
         },
         false
       )
