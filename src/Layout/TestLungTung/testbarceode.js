@@ -25,10 +25,12 @@ function TestBarcodeOCR ({
             .stop()
             .then(() => {
               qrScannerRef.current.clear()
-              setScanning(false)
             })
             .catch(err => {
               console.error('Failed to stop scanner:', err)
+            })
+            .finally(() => {
+              setScanning(false) // Luôn đảm bảo setScanning được gọi
             })
         }
       }
@@ -64,7 +66,6 @@ function TestBarcodeOCR ({
       }
     }
   }, [scanning])
-
 
   return (
     <div className='Barcode'>
