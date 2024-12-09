@@ -113,6 +113,10 @@
 .tippy-popper {
     height: 200px;
     overflow: auto;
+    touch-action: none;
+    /* Ngăn việc trình duyệt hiểu nhầm thao tác kéo */
+    -webkit-overflow-scrolling: touch;
+    /* Kích hoạt scrolling mượt trên iOS */
 }
 
 @media (max-width: 480px) {
