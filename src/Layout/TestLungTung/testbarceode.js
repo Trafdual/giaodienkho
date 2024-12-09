@@ -41,7 +41,7 @@ function TestBarcodeOCR ({
             width: 300,
             height: 100
           },
-          facingMode: { exact: 'environment' } // Mặc định sử dụng camera sau
+          facingMode: 'environment' // Mặc định sử dụng camera sau
         },
         false
       )
@@ -60,6 +60,10 @@ function TestBarcodeOCR ({
       }
     }
   }, [scanning])
+
+  useEffect(() => {
+  setScanning(true)
+}, [])
 
   return (
     <div className='Barcode'>
