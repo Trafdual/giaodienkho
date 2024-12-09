@@ -49,6 +49,9 @@ function TestBarcodeOCR ({
     if (scanning) {
       startCamera()
     }
+    else{
+      stopCamera();
+    }
 
     const stopCamera = async () => {
       if (html5QrcodeRef.current) {

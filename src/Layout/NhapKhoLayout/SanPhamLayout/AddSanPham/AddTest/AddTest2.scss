@@ -110,6 +110,11 @@
     display: none;
 }
 
+.tippy-popper {
+    height: 200px;
+    overflow: auto;
+}
+
 @media (max-width: 480px) {
     .divTableSP {
         max-height: 400px;

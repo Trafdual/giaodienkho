@@ -11,7 +11,7 @@ const FormAddImel = ({ isOpen, onClose, handleAddImel, index }) => {
 
   const handleclose = () => {
     onClose()
-    setScanning(true)
+    setScanning(false)
     setResult('')
   }
 
@@ -31,17 +31,23 @@ const FormAddImel = ({ isOpen, onClose, handleAddImel, index }) => {
       </div>
 
       <div className='results'>
-        <h3>Kết quả: {result}</h3>
+        <h3>Kết quả: {result ? result : 'chưa có kết quả'}</h3>
       </div>
       <div className='divButtonImel'>
         <button
           onClick={() => {
             setScanning(true)
           }}
+          className='btnAddImelist'
         >
           bắt đầu quét
         </button>
-        <button onClick={handleclose}>Đóng</button>
+        <button
+          onClick={handleclose}
+          className='btnHuyImelist'
+        >
+          Đóng
+        </button>
       </div>
     </Modal>
   ) : null

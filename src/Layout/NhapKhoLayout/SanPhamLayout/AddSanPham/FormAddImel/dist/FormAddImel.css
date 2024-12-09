@@ -48,6 +48,29 @@
   justify-content: center;
   align-items: center;
   margin-top: 20px;
+  gap: 10px;
+}
+
+.btnAddImelist {
+  padding: 10px;
+  border: none;
+  width: 100px;
+  background-color: var(--blue);
+  color: var(--white);
+  border-radius: 5px;
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}
+
+.btnHuyImelist {
+  padding: 10px;
+  border: none;
+  width: 100px;
+  background-color: #fe2c2c;
+  color: var(--white);
+  border-radius: 5px;
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
 }
 
 @media screen and (max-width: 46.1875em) {
@@ -58,6 +81,7 @@
   }
 
   .results {
+    margin-top: 10px;
     text-align: center;
   }
 }
