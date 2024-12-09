@@ -1,9 +1,9 @@
-
 #qr-reader {
     width: 100%;
     position: relative;
 }
-#qr-shaded-region{
+
+#qr-shaded-region {
     position: absolute;
     border-width: 125px 83px;
     border-style: solid;
@@ -46,3 +46,6 @@
 //         display: none;
 //     }
 // }
+video {
+    height: 100px;
+}
