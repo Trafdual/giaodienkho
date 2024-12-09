@@ -30,7 +30,7 @@ function TestBarcodeOCR ({
               height: { ideal: 720 },
               facingMode: 'environment'
             },
-            aspectRatio: 1.7777778 // 16:9
+            aspectRatio: 1.7777778
           },
           decodedText => {
             // Khi quét thành công

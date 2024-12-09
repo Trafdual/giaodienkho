@@ -20,7 +20,7 @@
         overflow: hidden;
         width: 170px;
         padding: 0;
-         white-space: nowrap;
+        white-space: nowrap;
     }
 
     th {
@@ -81,33 +81,45 @@
     padding: 5px;
     flex-grow: 1;
 }
-.divtableSP{
+
+.divtableSP {
     height: 150px;
     overflow-y: auto;
 }
-.tdMasku{
+
+.tdMasku {
     display: flex;
     align-items: center;
 }
-.btnaddskutest{
+
+.btnaddskutest {
     border: 1px solid rgb(204, 204, 204);
     background-color: rgb(243, 243, 243);
 }
+
 .divnhapImel {
     display: flex;
     align-items: center;
 
 }
-.btnnhapImel{
+
+.btnnhapImel {
     border: none;
     background-color: white;
     font-size: 30px;
 }
 
 @media (max-width: 480px) {
-   .divTableSP{
-    max-height: 400px;
-    overflow-y: auto;
-    overflow-x: auto;
-   }
+    .divTableSP {
+        max-height: 400px;
+        overflow-y: auto;
+        overflow-x: auto;
+    }
+
+    td {
+        input {
+            font-size: 16px;
+
+        }
+    }
 }
