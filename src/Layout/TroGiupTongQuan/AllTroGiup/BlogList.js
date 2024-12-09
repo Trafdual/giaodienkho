@@ -19,14 +19,14 @@ const BlogList = ({ onSelectBlog }) => {
             key={blog._id}
             className="blog-item"
             onClick={() => onSelectBlog(blog._id)}
-            style={{ cursor: "pointer", marginBottom: "1rem" }}
+           
           >
-            <h2>{blog.tieude}</h2>
             <img
               src={blog.image}
               alt={blog.tieude}
-              style={{ width: "50%", maxHeight: "200px", objectFit: "cover" }}
+              
             />
+            <div className="blog-title">{blog.tieude}</div>
           </div>
         ))}
       </div>

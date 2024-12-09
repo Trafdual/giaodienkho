@@ -27,21 +27,17 @@ function TroGiupTongQuan() {
         placeholder="Tìm kiếm bài viết..."
         onSearch={(query) => console.log("Tìm kiếm:", query)}
       />
-      <div style={{ display: "flex", flex: 1 }}>
-        {/* Bên trái: chiếm 7 phần */}
-        <div style={{ flex: 7, paddingRight: "16px" }}>
+      <div >
+        <div >
           {!selectedBlogId ? (
             <BlogList onSelectBlog={(id) => setSelectedBlogId(id)} />
           ) : (
             <BlogDetail id={selectedBlogId} onBack={() => setSelectedBlogId(null)} />
           )}
-          <QuillHtmlContent />
+          {/* <QuillHtmlContent /> */}
         </div>
 
-        {/* Bên phải: chiếm 3 phần */}
-        <div style={{ flex: 3, paddingLeft: "16px" }}>
-          <TongDaiTuVan />
-        </div>
+       
       </div>
       <FloatingChatbot userName={name} />
     </div>

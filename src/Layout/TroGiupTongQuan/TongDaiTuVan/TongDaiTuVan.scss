@@ -1,32 +1,39 @@
 .tong-dai-tu-van {
-    background: #f7f9fb;
-    width: 50%;
-    padding: 20px;
-    border-radius: 8px;
-    text-align: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin: 10px 10px;
-  }
+  // position: fixed;
   
-  .tong-dai-tu-van p {
-    font-size: 14px;
-    color: #333;
-    margin-bottom: 10px;
-  }
-  
-  .hotline-button {
-    display: inline-block;
-    background-color: #007bff;
-    color: #fff;
-    text-decoration: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    font-size: 16px;
-    font-weight: bold;
-    transition: background-color 0.3s;
-  }
-  
-  .hotline-button:hover {
-    background-color: #0056b3;
-  }
-  
+  background: #f7f9fb;
+  width: 20%;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin: 10px 10px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* Nội dung ở trên */
+  align-items: center; /* Căn giữa nội dung */
+}
+
+.hotline-button {
+  margin-top: auto; /* Đẩy nút xuống cuối */
+  display: inline-block;
+  background-color: #007bff;
+  color: #fff;
+  text-decoration: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.hotline-button:hover {
+  background-color: #0056b3;
+}
+
+// @media screen and (max-width: 768px) {
+//   .tong-dai-tu-van {
+//     display: none;
+//   }
+// }

@@ -13,7 +13,6 @@ const QuillHtmlContent = ({ quillHtmlContent }) => {
 
   return (
     <div
-      style={{ padding: '20px', border: '1px solid #ccc', marginTop: '20px' }}
       dangerouslySetInnerHTML={{ __html: cleanHtml }} // Chèn HTML đã làm sạch
     />
   );
