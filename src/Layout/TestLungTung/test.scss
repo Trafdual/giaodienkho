@@ -41,6 +41,8 @@
     color: white;
 }
 
-#qr-reader__dashboard_section_csr{
-    display: none;
+#qr-reader__dashboard_section_csr {
+    span{
+        display: none;
+    }
 }
