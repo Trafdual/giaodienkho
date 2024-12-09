@@ -164,7 +164,7 @@ function ModalDataScreen ({
         masku={selectedProductmaSKU}
       />
       <ModalBanhang isOpen={isOpen} onClose={onClose}>
-        <div className='modal-header'>
+        <div className='modal-header1'>
           <img
             src='https://png.pngtree.com/png-clipart/20220125/original/pngtree-illustration-vector-design-of-shop-market-png-image_7224159.png'
             alt='Product'
