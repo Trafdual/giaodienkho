@@ -107,6 +107,7 @@
     border: none;
     background-color: white;
     font-size: 30px;
+    display: none;
 }
 
 @media (max-width: 480px) {
@@ -119,7 +120,10 @@
     td {
         input {
             font-size: 16px;
-
         }
+    }
+
+    .btnnhapImel {
+        display: block;
     }
 }
