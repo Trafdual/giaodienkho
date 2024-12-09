@@ -107,8 +107,8 @@
   display: none;
 }
 
-.tippy-popper {
-  height: 200px;
+.tippy-tooltip-content {
+  max-height: 200px;
   overflow: auto;
 }
 
