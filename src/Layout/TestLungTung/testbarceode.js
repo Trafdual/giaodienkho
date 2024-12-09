@@ -11,15 +11,18 @@ function TestBarcodeOCR ({
   setScanning
 }) {
   const [scanResult, setScanResult] = useState(null)
+  const qrReaderRef = useRef(null) // Tham chiếu đến phần tử quét QR
   const qrScannerRef = useRef(null) // Giữ tham chiếu đến Html5QrcodeScanner để quản lý
 
   useEffect(() => {
-    const startScanning = () => {
+    if (scanning) {
       // Hàm xử lý khi quét QR thành công
       const onScanSuccess = decodedText => {
         setScanResult(decodedText)
+        qrReaderRef.current.style.display = 'none'
         handleAddImel(index, decodedText)
         setData(decodedText)
+        setScanning(false)
         if (qrScannerRef.current) {
           qrScannerRef.current
             .stop()
@@ -28,9 +31,6 @@ function TestBarcodeOCR ({
             })
             .catch(err => {
               console.error('Failed to stop scanner:', err)
-            })
-            .finally(() => {
-              setScanning(false) // Luôn đảm bảo setScanning được gọi
             })
         }
       }
@@ -52,26 +52,25 @@ function TestBarcodeOCR ({
         },
         false
       )
+
       qrScannerRef.current.render(onScanSuccess)
-    }
 
-    if (scanning) {
-      startScanning()
-    }
-
-    return () => {
-      if (qrScannerRef.current) {
-        qrScannerRef.current.clear()
+      return () => {
+        if (qrScannerRef.current) {
+          qrScannerRef.current.clear()
+        }
       }
     }
-  }, [scanning])
+  }, [scanning]) // Chỉ kích hoạt lại khi giá trị scanning thay đổi
 
   return (
     <div className='Barcode'>
       <div
         id='qr-reader'
+        ref={qrReaderRef}
         style={{ display: scanning ? 'block' : 'none' }}
       ></div>
+
       <div
         id='result'
         style={{
@@ -87,7 +86,7 @@ function TestBarcodeOCR ({
         {scanResult ? (
           <p>Code scanned: {scanResult}</p>
         ) : (
-          <p>{!scanning && 'Scanning stopped.'}</p>
+          <p>{!scanning && 'Click to start scanning.'}</p>
         )}
       </div>
     </div>
