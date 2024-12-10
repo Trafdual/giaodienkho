@@ -18,8 +18,8 @@ import { BaoCaoKhoLayout } from '~/Layout/BaoCaoKhoLayout'
 import { TroGiupTongQuan } from '~/Layout/TroGiupTongQuan'
 // import Testbarceode from '~/Layout/TestLungTung/testbarceode'
 import SupportChat from '~/Layout/TroGiupTongQuan/TongDaiTuVan/SupportChat'
+import { QuyTienGuiLayout } from '~/Layout/QuyTienLayout/QuyTienGuiLayout'
 
-  
 const publicRoutes = [
   { path: '/', component: Login, layout: null },
   { path: '/home', component: DashboardLayout },
@@ -28,19 +28,20 @@ const publicRoutes = [
   { path: '/nhacungcap', component: NhaCungCap },
   { path: '/khachhang', component: KhachHangLayout },
   { path: '/dieuchuyen', component: DieuChuyenLayout },
+  { path: '/quytienmat', component: QuyTienGuiLayout },
   { path: '/lenhdieuchuyen', component: LenhDieuChuyenLayout },
   { path: '/banhang', component: BanHangLayout, layout: null },
   { path: '/trogiup', component: TroGiupLayout },
-  { path: '/testlungtung', component: TestLungTung,layout: null },
+  { path: '/testlungtung', component: TestLungTung, layout: null },
   { path: '/doanhthu', component: DoanhThuLayout },
   { path: '/hoadon', component: HoaDonLayout },
   { path: '/thietlap', component: ThietLapLayout },
   { path: '/search-products', component: SearchProductLayout },
-    // { path: '/test', component: Testbarceode,layout:null },
+  // { path: '/test', component: Testbarceode,layout:null },
   { path: '/baocaokho', component: BaoCaoKhoLayout },
   { path: '/register', component: Register, layout: null },
   { path: '/trogiuptongquan', component: TroGiupTongQuan, layout: null },
-  { path: '/supportchat', component: SupportChat, layout: null },
+  { path: '/supportchat', component: SupportChat, layout: null }
 ]
 const privateRoutes = []
 export { publicRoutes, privateRoutes }
