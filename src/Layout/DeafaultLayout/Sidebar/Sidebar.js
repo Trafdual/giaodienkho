@@ -17,7 +17,12 @@ import {
   faShieldHalved,
   faTruckFast,
   faUserGroup,
-  faFileInvoiceDollar
+  faFileInvoiceDollar,
+  faMoneyBill,
+  faMoneyCheck,
+  faReceipt,
+  faWallet,
+  faCartShopping
 } from '@fortawesome/free-solid-svg-icons'
 import { publicRoutes } from '../../../router'
 import { Link, useLocation } from 'react-router-dom'
@@ -30,6 +35,7 @@ function Sidebar ({ isActive, setIsActive }) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const [isDropdownOpenBaoCao, setIsDropdownOpenBaoCao] = useState(false)
   const [isDropdownOpenKho, setIsDropdownOpenKho] = useState(false)
+  const [isDropdownOpenQuyTien, setIsDropdownOpenQuyTien] = useState(false)
   const khoID = localStorage.getItem('khoID')
 
   const toggleDropdown = () => {
@@ -40,6 +46,9 @@ function Sidebar ({ isActive, setIsActive }) {
   }
   const toggleDropdownKho = () => {
     setIsDropdownOpenKho(!isDropdownOpenKho)
+  }
+  const toggleDropdownQuyTien = () => {
+    setIsDropdownOpenQuyTien(!isDropdownOpenQuyTien)
   }
 
   // Lấy trạng thái active từ localStorage khi trang load
@@ -279,6 +288,89 @@ function Sidebar ({ isActive, setIsActive }) {
           )}
         </li>
 
+        <li className='litong1'>
+          <a onClick={toggleDropdownQuyTien}>
+            <span className='icon'>
+              <FontAwesomeIcon className='fonticon' icon={faWallet} />
+            </span>
+            <span className='title'>Quỹ tiền</span>
+            <FontAwesomeIcon
+              icon={isDropdownOpenQuyTien ? faChevronUp : faChevronDown}
+              className='dropdown-icon'
+            />
+          </a>
+          {isDropdownOpenQuyTien && (
+            <ul className='dropdown-menu'>
+              <li
+                className={`litong ${
+                  activeItem === '/quytienmat' ? 'hovered' : ''
+                }`}
+                onClick={() => handleItemClick('/quytienmat')}
+              >
+                <Link to={'/quytienmat'}>
+                  <a>
+                    <span className='icon'>
+                      <FontAwesomeIcon
+                        className='fonticon'
+                        icon={faMoneyBill}
+                      />
+                    </span>
+                    <span className='title'>Thu, chi tiền mặt</span>
+                  </a>
+                </Link>
+              </li>
+              <li
+                className={`litong ${
+                  activeItem === '/xuatkho' ? 'hovered' : ''
+                }`}
+                onClick={() => handleItemClick('/xuatkho')}
+              >
+                <Link to={'/xuatkho'}>
+                  <a>
+                    <span className='icon'>
+                      <FontAwesomeIcon className='fonticon' icon={faReceipt} />
+                    </span>
+                    <span className='title'>Sổ chi tiết tiền mặt</span>
+                  </a>
+                </Link>
+              </li>
+              <li
+                className={`litong ${
+                  activeItem === '/dieuchuyen' ? 'hovered' : ''
+                }`}
+                onClick={() => handleItemClick('/dieuchuyen')}
+              >
+                <Link to={'/dieuchuyen'}>
+                  <a>
+                    <span className='icon'>
+                      <FontAwesomeIcon
+                        className='fonticon'
+                        icon={faMoneyCheck}
+                      />
+                    </span>
+                    <span className='title'>Thu, chi tiền gửi</span>
+                  </a>
+                </Link>
+              </li>
+              <li
+                className={`litong ${
+                  activeItem === '/lenhdieuchuyen' ? 'hovered' : ''
+                }`}
+                onClick={() => handleItemClick('/lenhdieuchuyen')}
+              >
+                <Link to={'/lenhdieuchuyen'}>
+                  <a>
+                    <span className='icon'>
+                      <FontAwesomeIcon className='fonticon' icon={faReceipt} />
+                    </span>
+                    <span className='title'>Sổ chi tiết tiền gửi</span>
+                  </a>
+                </Link>
+              </li>
+            </ul>
+          )}
+        </li>
+
         <li
           className={`litong ${activeItem === '/hoadon' ? 'hovered' : ''}`}
           onClick={() => handleItemClick('/hoadon')}
@@ -306,7 +398,7 @@ function Sidebar ({ isActive, setIsActive }) {
             <span className='icon'>
               <FontAwesomeIcon
                 className='fonticon'
-                icon={faFileInvoiceDollar}
+                icon={faCartShopping}
               />
             </span>
             <span className='title'>Bán Hàng</span>

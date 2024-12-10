@@ -4,10 +4,9 @@ import QuillHtmlContent from "./Quill/QuillHtml";
 import BlogList from "./AllTroGiup/BlogList";
 import BlogDetail from "./AllTroGiup/DetailTroGiup";
 import ThanhDinhHuong from "./ThanhDinhHuong/ThanhDinhHuong";
-import TongDaiTuVan from "./TongDaiTuVan/TongDaiTuVan";
 import FloatingChatbot from "./TongDaiTuVan/FloatingChatbot";
 import { getFromLocalStorage } from '~/components/MaHoaLocalStorage/MaHoaLocalStorage'
-
+import Footer from './Footer/Footer'
 function TroGiupTongQuan() {
   const [selectedBlogId, setSelectedBlogId] = useState(null);
   const name = getFromLocalStorage('name')
@@ -27,23 +26,20 @@ function TroGiupTongQuan() {
         placeholder="Tìm kiếm bài viết..."
         onSearch={(query) => console.log("Tìm kiếm:", query)}
       />
-      <div style={{ display: "flex", flex: 1 }}>
-        {/* Bên trái: chiếm 7 phần */}
-        <div style={{ flex: 7, paddingRight: "16px" }}>
+      <div >
+        <div >
           {!selectedBlogId ? (
             <BlogList onSelectBlog={(id) => setSelectedBlogId(id)} />
           ) : (
             <BlogDetail id={selectedBlogId} onBack={() => setSelectedBlogId(null)} />
           )}
-          <QuillHtmlContent />
+          {/* <QuillHtmlContent /> */}
         </div>
 
-        {/* Bên phải: chiếm 3 phần */}
-        <div style={{ flex: 3, paddingLeft: "16px" }}>
-          <TongDaiTuVan />
-        </div>
+       
       </div>
       <FloatingChatbot userName={name} />
+      <Footer />
     </div>
   );
 }

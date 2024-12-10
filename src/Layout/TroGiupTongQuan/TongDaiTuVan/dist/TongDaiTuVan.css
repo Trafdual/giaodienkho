@@ -1,6 +1,5 @@
+@charset "UTF-8";
 .tong-dai-tu-van {
-  // position: fixed;
-
   background: #f7f9fb;
   width: 20%;
   padding: 20px;
@@ -8,7 +7,6 @@
   text-align: center;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   margin: 10px 10px;
-
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -36,9 +34,3 @@
 .hotline-button:hover {
   background-color: #0056b3;
 }
-
-// @media screen and (max-width: 768px) {
-//   .tong-dai-tu-van {
-//     display: none;
-//   }
-// }
