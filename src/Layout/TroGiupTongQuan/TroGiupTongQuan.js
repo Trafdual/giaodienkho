@@ -4,10 +4,9 @@ import QuillHtmlContent from "./Quill/QuillHtml";
 import BlogList from "./AllTroGiup/BlogList";
 import BlogDetail from "./AllTroGiup/DetailTroGiup";
 import ThanhDinhHuong from "./ThanhDinhHuong/ThanhDinhHuong";
-import TongDaiTuVan from "./TongDaiTuVan/TongDaiTuVan";
 import FloatingChatbot from "./TongDaiTuVan/FloatingChatbot";
 import { getFromLocalStorage } from '~/components/MaHoaLocalStorage/MaHoaLocalStorage'
-
+import Footer from './Footer/Footer'
 function TroGiupTongQuan() {
   const [selectedBlogId, setSelectedBlogId] = useState(null);
   const name = getFromLocalStorage('name')
@@ -40,6 +39,7 @@ function TroGiupTongQuan() {
        
       </div>
       <FloatingChatbot userName={name} />
+      <Footer />
     </div>
   );
 }
