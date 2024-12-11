@@ -1,83 +1,12 @@
-// .footer {
-//     background-color: #25264a;
-//     color: #fff;
-//     text-align: center;
-//     padding: 20px 0;
-//   }
-  
-//   .footer-support h3 {
-//     margin-bottom: 20px;
-//     color: #fff;
-//   }
-  
-//   .support-channels {
-//     display: flex;
-//     justify-content: center;
-//     flex-wrap: wrap;
-//     gap: 20px;
-//   }
-  
-//   .support-channels div {
-//     display: flex;
-//     flex-direction: column;
-//     align-items: center;
-//     font-size: 14px;
-   
-//   }
-//   .facebook-icon{
-//     width: 50px;
-//     height: 50px;
-// }
-//   .support-channels i {
-//     font-size: 30px;
-//     margin-bottom: 10px;
-//     color: #00aaff;
-//   }
-  
-//   .contact-info {
-//     margin-top: 20px;
-//     font-size: 14px;
-//   }
-  
-//   .contact-info a {
-//     color: #00aaff;
-//     text-decoration: none;
-//   }
-  
-//   .footer-bottom {
-//     margin-top: 20px;
-//     border-top: 1px solid #444;
-//     padding-top: 10px;
-//   }
-  
-//   .footer-bottom p {
-//     margin: 5px 0;
-//     font-size: 12px;
-//   }
-  
-//   .footer-bottom a {
-//     color: #00aaff;
-//     text-decoration: none;
-//   }
-  
-//   .social-icons {
-//     display: flex;
-//     justify-content: center;
-//     gap: 10px;
-//     margin-top: 10px;
-//   }
-  
-//   .social-icons i {
-//     font-size: 18px;
-//     cursor: pointer;
-//     color: #00aaff;
-//   }
+
 .footer {
     background-color: #25264a;
     color: #fff;
     text-align: center;
+    margin-top: auto;
     padding: 20px 0;
-  
+    bottom: 0;
+    width: 100%;
     .footer-support {
       h3 {
         margin-bottom: 20px;
@@ -85,14 +14,15 @@
       }
   
       .support-channels {
-        display: flex;
         justify-content: center;
-        flex-wrap: wrap;
+        // flex-wrap: wrap;
         gap: 20px;
+  display: grid;
+
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   
-        div {
-          background-color: #2d2f50;
-          padding: 10px 15px;
+        div {   
+          padding: 25px 15px;
           border-radius: 8px;
           text-align: center;
           cursor: pointer;
@@ -107,6 +37,8 @@
           p {
             font-size: 14px;
             margin-bottom: 10px;
+        flex-wrap: wrap;
+
           }
   
           img {
@@ -140,11 +72,13 @@
       margin-top: 20px;
       border-top: 1px solid #444;
       padding-top: 10px;
-  
+      display: flex;
+      justify-content: space-between;
       p {
         margin: 5px 0;
         font-size: 12px;
-  
+        justify-items: center;
+
         a {
           color: #00aaff;
           text-decoration: none;
@@ -157,10 +91,10 @@
   
       .social-icons {
         display: flex;
-        justify-content: center;
+        justify-content: right;
+        float: right;
         gap: 10px;
-        margin-top: 10px;
-  
+          padding-right: 150px;
         i {
           font-size: 18px;
           cursor: pointer;
@@ -170,6 +104,9 @@
           &:hover {
             transform: scale(1.2);
           }
+        }
+        .fab{
+          filter: grayscale(100%);
         }
       }
     }
