@@ -2,28 +2,24 @@
 import './QuyTienGuiLayout.scss'
 import { useState, useEffect, useCallback } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {
-  faPlus,
-  faEye,
-  faPen,
-  faTrashCan
-} from '@fortawesome/free-solid-svg-icons'
+import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { Loading } from '~/components/Loading'
-// import { AddTest } from './SanPhamLayout/AddSanPham/AddTest'
+import { AddQuyTien } from '../AddQuyTien'
 import { PaginationComponent } from '~/components/NextPage'
-// import { useToast } from '~/components/GlobalStyles/ToastContext'
+import ChiTietQuyTienGui from './ChiTietQuyTienGui'
 
-function QuyTienMatLayout () {
+function QuyTienGuiLayout () {
   const [quytien, setquytien] = useState([])
   const [isOpen, setIsOpen] = useState(false)
+  const [isOpenAdd, setIsOpenAdd] = useState(false)
   const [khoID, setKhoID] = useState(localStorage.getItem('khoID') || '')
   const [idquytien, setidquytien] = useState('')
   const [loading, setLoading] = useState(true)
   //   const [isOpenEdit, setIsOpenEdit] = useState(false)
   const [selectedRow, setSelectedRow] = useState(null)
   const [loadingsp, setLoadingsp] = useState(false)
-  const [selectedItems, setSelectedItems] = useState([])
-  const [selectAll, setSelectAll] = useState(false)
+  const [loaitien, setloaitien] = useState('')
+  const method = 'Tiền gửi'
   //   const { showToast } = useToast()
 
   // Trạng thái phân trang
@@ -88,7 +84,7 @@ function QuyTienMatLayout () {
 
     try {
       const response = await fetch(
-        `http://localhost:8080/getthuchitienmat/${khoID}`,
+        `https://www.ansuataohanoi.com/getthuchichuyenkhoan/${khoID}`,
         {
           method: 'GET',
           headers: {
@@ -134,15 +130,8 @@ function QuyTienMatLayout () {
   }, [])
 
   const handleCloseModal = () => {
-    setIsOpen(false)
+    setIsOpenAdd(false)
   }
-  //   const handleCloseEdit = () => {
-  //     setIsOpenEdit(false)
-  //   }
-  //   const handleEditClick = id => {
-  //     setIdloaisanpham(id) // Lưu ID của sản phẩm cần cập nhật
-  //     setIsOpenEdit(true) // Mở modal
-  //   }
 
   const handlequytien = useCallback(id => {
     setidquytien(id)
@@ -216,59 +205,27 @@ function QuyTienMatLayout () {
                 {isOpen && (
                   <div className='dropdown-menu1'>
                     <ul>
-                      <li  onClick={() => alert('Quỹ tiền 1')}>
-                        <button>
-                          Phiếu thu tiền
-                        </button>
+                      <li
+                        onClick={() => {
+                          setIsOpenAdd(true)
+                          setloaitien('Tiền thu')
+                          setIsOpen(false)
+                        }}
+                      >
+                        <button>Phiếu thu tiền</button>
                       </li>
-                      <li onClick={() => alert('Quỹ tiền 2')}>
-                        <button >
-                          Phiếu chi tiền
-                        </button>
+                      <li
+                        onClick={() => {
+                          setIsOpenAdd(true)
+                          setloaitien('Tiền chi')
+                          setIsOpen(false)
+                        }}
+                      >
+                        <button>Phiếu chi tiền</button>
                       </li>
                     </ul>
                   </div>
                 )}
-
-                <button
-                  className={`btn-xoa ${
-                    selectedItems.length > 1 || selectedItems.length === 0
-                      ? 'disabled'
-                      : ''
-                  }`}
-                  disabled={
-                    selectedItems.length > 1 || selectedItems.length === 0
-                  }
-                >
-                  <FontAwesomeIcon icon={faPen} className='iconMenuSanPham' />
-                  Sửa
-                </button>
-                <button
-                  className={`btn-xoa ${
-                    selectedItems.length > 1 || selectedItems.length === 0
-                      ? 'disabled'
-                      : ''
-                  }`}
-                  disabled={
-                    selectedItems.length > 1 || selectedItems.length === 0
-                  }
-                >
-                  <FontAwesomeIcon icon={faEye} className='iconMenuSanPham' />
-                  Xem
-                </button>
-
-                <button
-                  className={`btn-xoa ${
-                    selectedItems.length === 0 ? 'disabled' : ''
-                  }`}
-                  disabled={selectedItems.length === 0}
-                >
-                  <FontAwesomeIcon
-                    icon={faTrashCan}
-                    className='iconMenuSanPham'
-                  />
-                  Xóa
-                </button>
               </div>
 
               <table className='tablenhap'>
@@ -304,8 +261,9 @@ function QuyTienMatLayout () {
                           }}
                           style={{ cursor: 'pointer' }}
                         >
-                          <td>{ncc.mathuchi}</td>
                           <td>{ncc.date}</td>
+                          <td>{ncc.mathuchi}</td>
+
                           {!isMobile && (
                             <>
                               <td>{ncc.loaichungtu}</td>
@@ -369,29 +327,24 @@ function QuyTienMatLayout () {
               }}
             ></div>
 
-            {/* <AddTest
-              isOpen={isOpen}
+            <AddQuyTien
+              isOpen={isOpenAdd}
               onClose={handleCloseModal}
-              fetcquytien={fetchData}
-            /> */}
-            {/* <Editquytien
-              idloaisanpham={idloaisanpham}
-              isOpen={isOpenEdit}
-              onClose={handleCloseEdit}
               fetchquytien={fetchData}
-            /> */}
+              loaitien={loaitien}
+              method={method}
+            />
           </div>
-          {/* <SanPhamLayout
+          <ChiTietQuyTienGui
             remainingHeight={remainingHeight}
-            idloaisp={idquytien}
-            fetchquytien={fetchData}
+            idquytien={idquytien}
             loading={loadingsp}
             setLoading={setLoadingsp}
-          /> */}
+          />
         </>
       )}
     </>
   )
 }
 
-export default QuyTienMatLayout
+export default QuyTienGuiLayout

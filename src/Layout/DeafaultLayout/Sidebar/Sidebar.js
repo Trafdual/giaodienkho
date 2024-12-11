@@ -340,7 +340,7 @@ function Sidebar ({ isActive, setIsActive }) {
                 }`}
                 onClick={() => handleItemClick('/dieuchuyen')}
               >
-                <Link to={'/dieuchuyen'}>
+                <Link to={'/quytiengui'}>
                   <a>
                     <span className='icon'>
                       <FontAwesomeIcon
