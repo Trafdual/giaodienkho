@@ -19,6 +19,7 @@ import { TroGiupTongQuan } from '~/Layout/TroGiupTongQuan'
 // import Testbarceode from '~/Layout/TestLungTung/testbarceode'
 import SupportChat from '~/Layout/TroGiupTongQuan/TongDaiTuVan/SupportChat'
 import { QuyTienGuiLayout } from '~/Layout/QuyTienLayout/QuyTienGuiLayout'
+import { QuyTienMatLayout } from '~/Layout/QuyTienLayout/QuyTienMatLayout'
 
 const publicRoutes = [
   { path: '/', component: Login, layout: null },
@@ -28,7 +29,8 @@ const publicRoutes = [
   { path: '/nhacungcap', component: NhaCungCap },
   { path: '/khachhang', component: KhachHangLayout },
   { path: '/dieuchuyen', component: DieuChuyenLayout },
-  { path: '/quytienmat', component: QuyTienGuiLayout },
+  { path: '/quytiengui', component: QuyTienGuiLayout },
+  { path: '/quytienmat', component: QuyTienMatLayout },
   { path: '/lenhdieuchuyen', component: LenhDieuChuyenLayout },
   { path: '/banhang', component: BanHangLayout, layout: null },
   { path: '/trogiup', component: TroGiupLayout },
