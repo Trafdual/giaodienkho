@@ -1,0 +1,1 @@
+export{default as QuyTienMatLayout} from './QuyTienMatLayout'

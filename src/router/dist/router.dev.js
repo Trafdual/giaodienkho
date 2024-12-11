@@ -45,6 +45,8 @@ var _SupportChat = _interopRequireDefault(require("~/Layout/TroGiupTongQuan/Tong
 
 var _QuyTienGuiLayout = require("~/Layout/QuyTienLayout/QuyTienGuiLayout");
 
+var _QuyTienMatLayout = require("~/Layout/QuyTienLayout/QuyTienMatLayout");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var publicRoutes = [{
@@ -70,8 +72,11 @@ var publicRoutes = [{
   path: '/dieuchuyen',
   component: _DieuChuyenLayout.DieuChuyenLayout
 }, {
-  path: '/quytienmat',
+  path: '/quytiengui',
   component: _QuyTienGuiLayout.QuyTienGuiLayout
+}, {
+  path: '/quytienmat',
+  component: _QuyTienMatLayout.QuyTienMatLayout
 }, {
   path: '/lenhdieuchuyen',
   component: _LenhDieuChuyenLayout.LenhDieuChuyenLayout
