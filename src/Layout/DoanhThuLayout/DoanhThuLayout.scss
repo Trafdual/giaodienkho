@@ -12,11 +12,13 @@
                 
                 .filter-section {
                     display: flex;
-                    justify-content: space-between;
                     margin-bottom: 20px;
+                    align-items: start;
+                    gap: 10px;
                     .filter-group {
                         display: flex;
                         align-items: center;
+                        
                         label {
                             margin-right: 10px;
                             font-weight: bold;

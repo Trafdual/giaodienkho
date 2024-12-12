@@ -185,6 +185,24 @@ function Sidebar ({ isActive, setIsActive }) {
                   </a>
                 </Link>
               </li>
+              <li
+                className={`litong ${
+                  activeItem === '/baocaobanhang' ? 'hovered' : ''
+                }`}
+                onClick={() => handleItemClick('/baocaobanhang')}
+              >
+                <Link to={'/baocaobanhang'}>
+                  <a>
+                    <span className='icon'>
+                      <FontAwesomeIcon
+                        className='fonticon'
+                        icon={faCartShopping}
+                      />
+                    </span>
+                    <span className='title'>Bán hàng</span>
+                  </a>
+                </Link>
+              </li>
             </ul>
           )}
         </li>
@@ -396,10 +414,7 @@ function Sidebar ({ isActive, setIsActive }) {
         >
           <a href='/banhang' target='_blank' rel='noopener noreferrer'>
             <span className='icon'>
-              <FontAwesomeIcon
-                className='fonticon'
-                icon={faCartShopping}
-              />
+              <FontAwesomeIcon className='fonticon' icon={faCartShopping} />
             </span>
             <span className='title'>Bán Hàng</span>
           </a>
