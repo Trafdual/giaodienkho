@@ -13,6 +13,7 @@ import AddQuyTien2 from './AddQuyTien2'
 import { ModalBig } from '~/components/ModalBig'
 import { ModalAddNhaCungCap } from '~/Layout/NhapKhoLayout/ModalAddNhaCungCap'
 import { getFromLocalStorage } from '~/components/MaHoaLocalStorage/MaHoaLocalStorage'
+import { AddLoaiChungTu } from './AddLoaiChungTu'
 
 function AddQuyTien ({ isOpen, onClose, fetchquytien, loaitien, method }) {
   const [lydo, setlydo] = useState('')
@@ -29,6 +30,7 @@ function AddQuyTien ({ isOpen, onClose, fetchquytien, loaitien, method }) {
   const [manccError, setmanccError] = useState('')
   const [loaichungtuError, setloaichungtuError] = useState('')
   const [isModalHuy, setIsModalHuy] = useState(false)
+  const [isOpenModalAddLct, setIsOpenModalAddLct] = useState(false)
 
   const [suppliers, setSuppliers] = useState([])
   const [loadingSuppliers, setLoadingSuppliers] = useState(true)
@@ -172,7 +174,7 @@ function AddQuyTien ({ isOpen, onClose, fetchquytien, loaitien, method }) {
     let valid = true
 
     if (!lydo) {
-      setlydoError('Vui lòng nhập tên nhà cung cấp.')
+      setlydoError('Vui lòng nhập lý do.')
       valid = false
       setIsModalHuy(false)
     } else {
@@ -180,7 +182,7 @@ function AddQuyTien ({ isOpen, onClose, fetchquytien, loaitien, method }) {
     }
 
     if (!date) {
-      setdateError('Vui lòng nhập ngày nhập lô hàng.')
+      setdateError('Vui lòng nhập ngày tháng.')
       valid = false
       setIsModalHuy(false)
     } else {
@@ -195,7 +197,7 @@ function AddQuyTien ({ isOpen, onClose, fetchquytien, loaitien, method }) {
       setmanccError('')
     }
     if (!loaichungtu) {
-      setloaichungtuError('Vui lòng chọn loại hàng hóa.')
+      setloaichungtuError('Vui lòng chọn loại chứng từ.')
       valid = false
       setIsModalHuy(false)
     } else {
@@ -271,6 +273,15 @@ function AddQuyTien ({ isOpen, onClose, fetchquytien, loaitien, method }) {
               <FontAwesomeIcon icon={faChevronDown} className='iconNcc' />
             </button>
           </Tooltip>
+          <button className='btnadd' onClick={() => setIsOpenModalAddLct(true)}>
+            <FontAwesomeIcon icon={faPlus} className='icon' />
+          </button>
+          <AddLoaiChungTu
+            isOpen={isOpenModalAddLct}
+            onClose={() => setIsOpenModalAddLct(false)}
+            fetchdata={fetchLoaichungtu}
+            userID={userID}
+          />
         </div>
         {loaichungtuError && <div className='error'>{loaichungtuError}</div>}
 
@@ -303,6 +314,7 @@ function AddQuyTien ({ isOpen, onClose, fetchquytien, loaitien, method }) {
                           onClick={() => {
                             setmancc(supplier.mancc)
                             setIsTableVisible(false)
+                            setmanccError('')
                           }}
                         >
                           <td>{supplier.mancc}</td>

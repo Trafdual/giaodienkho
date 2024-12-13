@@ -33,12 +33,18 @@ function AddKhachHang ({ isOpen, onClose, khoID, fetchData }) {
     if (!email) {
       setEmailError('Vui lòng nhập email.')
       valid = false
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setEmailError('Email không hợp lệ.')
+      valid = false
     } else {
       setEmailError('')
     }
 
     if (!phone) {
       setPhoneError('Vui lòng nhập số điện thoại.')
+      valid = false
+    } else if (!/^\d{10}$/.test(phone)) {
+      setPhoneError('Số điện thoại phải 10 số.')
       valid = false
     } else {
       setPhoneError('')
@@ -132,7 +138,10 @@ function AddKhachHang ({ isOpen, onClose, khoID, fetchData }) {
             className={`tenkho ${nameError ? 'input-error' : ''}`}
             placeholder=''
             value={name}
-            onChange={e => setName(e.target.value)}
+            onChange={e => {
+              setName(e.target.value)
+              setNameError('')
+            }}
           />
           <label htmlFor='' className='label'>
             Nhập tên khách hàng
@@ -145,7 +154,10 @@ function AddKhachHang ({ isOpen, onClose, khoID, fetchData }) {
             className={`diachi ${phoneError ? 'input-error' : ''}`}
             placeholder=''
             value={phone}
-            onChange={e => setPhone(e.target.value)}
+            onChange={e => {
+              setPhone(e.target.value)
+              setPhoneError('')
+            }}
           />
           <label htmlFor='' className='label'>
             Nhập số điện thoại
@@ -154,11 +166,14 @@ function AddKhachHang ({ isOpen, onClose, khoID, fetchData }) {
         {phoneError && <div className='error'>{phoneError}</div>}
         <div className='divdiachikho'>
           <input
-            type='text'
+            type='email'
             className={`diachi ${emailError ? 'input-error' : ''}`}
             placeholder=''
             value={email}
-            onChange={e => setEmail(e.target.value)}
+            onChange={e => {
+              setEmail(e.target.value)
+              setEmailError('')
+            }}
           />
           <label htmlFor='' className='label'>
             Nhập email
@@ -171,7 +186,10 @@ function AddKhachHang ({ isOpen, onClose, khoID, fetchData }) {
             className={`diachi ${addressError ? 'input-error' : ''}`}
             placeholder=''
             value={address}
-            onChange={e => setAddress(e.target.value)}
+            onChange={e => {
+              setAddress(e.target.value)
+              setAddressError('')
+            }}
           />
           <label htmlFor='' className='label'>
             Nhập địa chỉ
@@ -184,7 +202,10 @@ function AddKhachHang ({ isOpen, onClose, khoID, fetchData }) {
             className={`diachi ${cancuocError ? 'input-error' : ''}`}
             placeholder=''
             value={cancuoc}
-            onChange={e => setCancuoc(e.target.value)}
+            onChange={e => {
+              setCancuoc(e.target.value)
+              setCancuocError('')
+            }}
           />
           <label htmlFor='' className='label'>
             Nhập căn cước công dân
@@ -194,14 +215,18 @@ function AddKhachHang ({ isOpen, onClose, khoID, fetchData }) {
 
         <div className='divdiachikho'>
           <input
-            type='text'
+            type='date'
             className={`diachi ${dateError ? 'input-error' : ''}`}
             placeholder=''
             value={date}
-            onChange={e => setDate(e.target.value)}
+            onChange={e => {
+              setDate(e.target.value)
+              setDateError('')
+            }}
+            max={new Date().toISOString().split('T')[0]}
           />
           <label htmlFor='' className='label'>
-            Ngày tháng năm sinh dd/mm/yyyy
+            Ngày tháng năm sinh
           </label>
         </div>
         {cancuocError && <div className='error'>{cancuocError}</div>}

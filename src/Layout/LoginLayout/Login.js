@@ -87,7 +87,7 @@ function Login () {
             saveToLocalStorage('name', name)
           }
           showToast('Đăng nhập thành công!')
-          navigate(publicRoutes[1].path,{ state: { userId: userId }})
+          navigate(publicRoutes[1].path, { state: { userId: userId } })
         } else {
           showToast(data.message, 'error')
         }

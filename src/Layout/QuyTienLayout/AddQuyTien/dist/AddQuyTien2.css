@@ -19,3 +19,21 @@
   color: red;
   cursor: pointer;
 }
+
+.btnaddskutest1 {
+  display: flex;
+  height: 40px;
+  align-items: center;
+  width: 40px;
+  padding: 10px;
+  border: 1px solid #cccccc;
+  background-color: #f3f3f3;
+  justify-content: center;
+  cursor: pointer;
+}
+.btnaddskutest1:hover {
+  background-color: #e4e4e4;
+}
+.btnaddskutest1 .iconaddtest1 {
+  width: 10px;
+}

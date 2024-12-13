@@ -27,6 +27,7 @@ import {
 import { publicRoutes } from '../../../router'
 import { Link, useLocation } from 'react-router-dom'
 import { useEffect, useState } from 'react'
+import { ModalDangXuat } from './ModalDangXuat'
 
 function Sidebar ({ isActive, setIsActive }) {
   const location = useLocation()
@@ -36,6 +37,7 @@ function Sidebar ({ isActive, setIsActive }) {
   const [isDropdownOpenBaoCao, setIsDropdownOpenBaoCao] = useState(false)
   const [isDropdownOpenKho, setIsDropdownOpenKho] = useState(false)
   const [isDropdownOpenQuyTien, setIsDropdownOpenQuyTien] = useState(false)
+  const [isModalDangXuat, setIsModalDangXuat] = useState(false)
   const khoID = localStorage.getItem('khoID')
 
   const toggleDropdown = () => {
@@ -503,7 +505,7 @@ function Sidebar ({ isActive, setIsActive }) {
         </li>
 
         <li className='litong'>
-          <a onClick={handleLogout}>
+          <a onClick={() => setIsModalDangXuat(true)}>
             <span className='icon'>
               <FontAwesomeIcon className='fonticon' icon={faRightFromBracket} />
             </span>
@@ -511,6 +513,11 @@ function Sidebar ({ isActive, setIsActive }) {
           </a>
         </li>
       </ul>
+      <ModalDangXuat
+        dangxuat={handleLogout}
+        isOpen={isModalDangXuat}
+        Cancel={() => setIsModalDangXuat(false)}
+      />
     </div>
   )
 }

@@ -40,7 +40,7 @@ if (!isOpen) return null
           {children}
         </div>
       ) : (
-        <Draggable handle='modal-header'>
+        <Draggable handle='.modal-header'>
           <div className='modal-content' onClick={e => e.stopPropagation()}>
             <div className='modal-header'>
               <button className='modal-close' onClick={onClose}>
