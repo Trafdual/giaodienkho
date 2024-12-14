@@ -14,8 +14,11 @@ function ModalDataScreen ({
   onClose,
   userId,
   product,
-  onItemsSelected
+  onItemsSelected,
+  selected
 }) {
+  const [selectedSize, setSelectedSize] = useState('all')
+
   const [data, setData] = useState([])
   const [selectedSizes, setSelectedSizes] = useState([])
   const [selectAll, setSelectAll] = useState(false)
@@ -75,16 +78,23 @@ function ModalDataScreen ({
 
   const handleSizeSelect = size => {
     if (size === 'all') {
+      setSelectedSizes([])
+      setSelectedSize('all')
       setSelectAll(!selectAll)
       if (!selectAll) {
         const selectableSizes = data
           .filter(item => item.tonkho > 0)
           .map(item => item.name)
+
         setSelectedSizes(selectableSizes)
       } else {
         setSelectedSizes([]) // Bỏ chọn tất cả
       }
     } else {
+      if (selectedSize.length > 0) {
+        setSelectedSizes([])
+      }
+      setSelectedSize(size)
       setSelectAll(false)
       setSelectedSizes(
         prevSelected =>
@@ -100,7 +110,7 @@ function ModalDataScreen ({
 
   const handleProductSelect = item => {
     if (item.tonkho === 0) {
-      showToast('kho chứa đã hết hàng','error')
+      showToast('kho chứa đã hết hàng', 'error')
       return
     }
     setSelectedProducts(prevState =>
@@ -128,13 +138,23 @@ function ModalDataScreen ({
 
   const handleAgree = () => {
     if (selectedProducts.length === 0) {
-      showToast('Vui lòng chọn sản phẩm','error')
+      showToast('Vui lòng chọn sản phẩm', 'error')
       return
     }
     const selectedItems = data.filter(item =>
       selectedProducts.includes(item.idsku)
     )
+    const existingProducts = selected.filter(item =>
+      selectedProducts.includes(item.idsku)
+    )
+
+    if (existingProducts.length > 0) {
+      showToast('Sản phẩm đã có trong danh sách', 'error')
+      return
+    }
+
     onItemsSelected(selectedItems)
+    setSelectedProducts([])
     onClose()
   }
 
@@ -179,8 +199,13 @@ function ModalDataScreen ({
         <div className='modal-body'>
           <div className='size-selector'>
             <button
-              onClick={() => handleSizeSelect('all')}
-              className={`size-btn ${selectAll ? 'selected1' : ''}`}
+              onClick={() => {
+                handleSizeSelect('all')
+                setSelectedSize('all')
+              }}
+              className={`size-btn ${
+                selectAll && selectedSize === 'all' ? 'selected1' : ''
+              }`}
             >
               Tất cả
             </button>
@@ -189,7 +214,9 @@ function ModalDataScreen ({
                 key={item.name}
                 onClick={() => handleSizeSelect(item.name)}
                 className={`size-btn ${
-                  isSizeSelected(item.name) ? 'selected1' : ''
+                  isSizeSelected(item.name) && selectedSize !== 'all'
+                    ? 'selected1'
+                    : ''
                 }`}
               >
                 {item.name} ({item.tonkho})
@@ -212,41 +239,49 @@ function ModalDataScreen ({
                 <thead>
                   <tr>
                     <th>
-                      <input
-                        type='checkbox'
-                        checked={filteredItems
-                          .filter(item => item.tonkho > 0) // Chỉ kiểm tra sản phẩm có tồn kho > 0
-                          .every(item => selectedProducts.includes(item.idsku))}
-                        onChange={() => {
-                          const availableItems = filteredItems.filter(
-                            item => item.tonkho > 0
-                          ) // Lọc sản phẩm có tồn kho > 0
-
-                          if (
-                            availableItems.every(item =>
+                      <label className='ModalThemImel-label'>
+                        <input
+                          type='checkbox'
+                          checked={filteredItems
+                            .filter(item => item.tonkho > 0) // Chỉ kiểm tra sản phẩm có tồn kho > 0
+                            .every(item =>
                               selectedProducts.includes(item.idsku)
-                            )
-                          ) {
-                            // Nếu tất cả sản phẩm có tồn kho > 0 đã được chọn, bỏ chọn chúng
-                            setSelectedProducts(prevState =>
-                              prevState.filter(
-                                id =>
-                                  !availableItems.some(
-                                    item => item.idsku === id
-                                  )
+                            )}
+                          onChange={() => {
+                            const availableItems = filteredItems.filter(
+                              item => item.tonkho > 0
+                            ) // Lọc sản phẩm có tồn kho > 0
+
+                            if (
+                              availableItems.every(item =>
+                                selectedProducts.includes(item.idsku)
                               )
-                            )
-                          } else {
-                            // Nếu chưa, thêm tất cả sản phẩm có tồn kho > 0 vào danh sách chọn
-                            setSelectedProducts(prevState => [
-                              ...prevState,
-                              ...availableItems
-                                .filter(item => !prevState.includes(item.idsku)) // Tránh thêm trùng lặp
-                                .map(item => item.idsku)
-                            ])
-                          }
-                        }}
-                      />
+                            ) {
+                              // Nếu tất cả sản phẩm có tồn kho > 0 đã được chọn, bỏ chọn chúng
+                              setSelectedProducts(prevState =>
+                                prevState.filter(
+                                  id =>
+                                    !availableItems.some(
+                                      item => item.idsku === id
+                                    )
+                                )
+                              )
+                            } else {
+                              // Nếu chưa, thêm tất cả sản phẩm có tồn kho > 0 vào danh sách chọn
+                              setSelectedProducts(prevState => [
+                                ...prevState,
+                                ...availableItems
+                                  .filter(
+                                    item => !prevState.includes(item.idsku)
+                                  ) // Tránh thêm trùng lặp
+                                  .map(item => item.idsku)
+                              ])
+                            }
+                          }}
+                          className='custom-checkbox-input'
+                        />
+                        <span className='custom-checkbox-box'></span>
+                      </label>
                     </th>
                     <th>Tên sản phẩm</th>
                     <th>Tồn kho</th>
@@ -257,11 +292,15 @@ function ModalDataScreen ({
                   {filteredItems.map(item => (
                     <tr key={item.idsku}>
                       <td>
-                        <input
-                          type='checkbox'
-                          checked={selectedProducts.includes(item.idsku)}
-                          onChange={() => handleProductSelect(item)} // Chọn lẻ sản phẩm
-                        />
+                        <label className='ModalThemImel-label'>
+                          <input
+                            type='checkbox'
+                            checked={selectedProducts.includes(item.idsku)}
+                            onChange={() => handleProductSelect(item)}
+                            className='custom-checkbox-input'
+                          />
+                          <span className='custom-checkbox-box'></span>
+                        </label>
                       </td>
                       <td>{item.tensp}</td>
                       <td>{item.tonkho}</td>
