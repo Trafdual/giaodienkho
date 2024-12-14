@@ -5,6 +5,8 @@ export const handleGeneratePDF = hoadondata => {
     alert('Không có dữ liệu hóa đơn để tạo PDF.')
     return
   }
+  const noidung = 'Thanh toan hoa don'
+
 
   const invoiceHTML = `
     <div style="font-family: Arial, sans-serif; padding: 20px;">
@@ -44,6 +46,7 @@ export const handleGeneratePDF = hoadondata => {
             .join('')}
         </tbody>
       </table>
+      <img src="https://img.vietqr.io/image/MB-2220198032222-compact2.png?amount=${hoadondata.tongtien}&addInfo=${noidung}&accountName=NGUYEN NGOC CHIEN" alt="logo" style="width: 200px; margin-top: 20px;"/>
     </div>
   `
 

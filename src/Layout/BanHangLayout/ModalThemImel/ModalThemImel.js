@@ -50,12 +50,14 @@ const ModalThemImel = ({ isOpen, onClose, imeiList, onConfirm, allSelectedImeis 
               <ul>
                 {filteredImeis.map((imei, index) => (
                   <li key={index}>
-                    <label>
+                    <label className="ModalThemImel-label">
                       <input
                         type="checkbox"
                         value={imei.imel}
                         onChange={(e) => handleCheckboxChange(e, imei.imel)}
+                        className = 'custom-checkbox-input'
                       />
+                      <span className='custom-checkbox-box'></span>
                       {typeof imei.imel === "string" || typeof imei.imel === "number"
                         ? imei.imel
                         : JSON.stringify(imei.imel) || "Không có thông tin IMEI"}
