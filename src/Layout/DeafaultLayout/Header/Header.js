@@ -17,7 +17,7 @@ import { useToast } from '../../../components/GlobalStyles/ToastContext'
 import { Link, useNavigate } from 'react-router-dom'
 import { Loading } from '~/components/Loading'
 import NotificationsList from "~/components/Notifications/Notification";
-
+import { Modal } from '~/components/Modal'
 function Header({
   toggleMenu,
   userId,
@@ -43,9 +43,19 @@ function Header({
   const [isLoading, setIsLoading] = useState(false) // Trạng thái loading
   const previousKhoID = useRef(khoID)
   const [showNotifications, setShowNotifications] = useState(false);
-
   const navigate = useNavigate()
-
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  useEffect(() => {
+    // Mở modal nếu chưa chọn kho
+    if (!selectedKho) {
+      setIsModalOpen(true)
+    }
+  }, [selectedKho])
+  const handleKhoChange = (kho) => {
+    setSelectedKho(kho)
+    localStorage.setItem('khoID', kho._id)
+    setIsModalOpen(false)
+  }
   useEffect(() => {
     const intervalId = setInterval(() => {
       const newKhoID = localStorage.getItem('khoID') || ''
@@ -110,7 +120,11 @@ function Header({
   }
 
   const searchProduct = async () => {
-    setIsLoading(true) // Bắt đầu loading
+    if (!selectedKho) {
+      showToast('Vui lòng chọn kho trước khi tìm kiếm!', 'warning');
+      return;
+    }
+    setIsLoading(true); 
     try {
       const response = await fetch(
         `https://www.ansuataohanoi.com/searchsanpham/${khoID}`,
@@ -239,6 +253,27 @@ function Header({
         userId={userId}
         setdatakho={setdatakho}
       />
+      {isModalOpen && (
+  <Modal isOpen={isModalOpen} title="Vui lòng chọn kho">
+    <p>Trước khi sử dụng các chức năng, bạn cần chọn một kho:</p>
+    <ListKho
+      datakho={datakho}
+      setdatakho={setdatakho}
+      setloading={setloading}
+      selectedKho={selectedKho}
+      setSelectedKho={setSelectedKho}
+    />
+    <div className='divthemkho'>
+          <Tippy content='Thêm kho' placement='bottom'>
+            <button className='btnicon' onClick={() => setIsOpen(true)}>
+              <FontAwesomeIcon className='iconhelp' icon={faPlus} />
+            </button>
+          </Tippy>
+        </div>
+  </Modal>
+)}
+
+
       {isLoading && <Loading />}
     </div>
   )
