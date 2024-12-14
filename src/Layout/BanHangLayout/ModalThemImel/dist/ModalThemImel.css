@@ -1,3 +1,4 @@
+@charset "UTF-8";
 .ModalThemImel-overlay {
   position: fixed;
   top: 0;
@@ -16,7 +17,7 @@
   border-radius: 8px;
   width: 400px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
+}
 
 .ModalThemImel-header {
   background: #f5f5f5;
@@ -26,8 +27,7 @@
   align-items: center;
   border-bottom: 1px solid #ddd;
   cursor: move;
-  border-radius: 8px
-  /* Draggable handle */
+  border-radius: 8px;
 }
 
 .ModalThemImel-title {
@@ -78,7 +78,7 @@
   border-radius: 4px;
   padding: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-   transition: box-shadow 0.3s ease;
+  transition: box-shadow 0.3s ease;
 }
 
 .ModalThemImel-item {
@@ -169,14 +169,14 @@
 }
 
 /* Khi checkbox được chọn */
-.custom-checkbox-input:checked+.custom-checkbox-box {
+.custom-checkbox-input:checked + .custom-checkbox-box {
   background-color: var(--blue);
   /* Màu nền khi được chọn */
   border-color: var(--blue);
   /* Đổi màu viền */
 }
 
-.custom-checkbox-input:checked+.custom-checkbox-box::after {
+.custom-checkbox-input:checked + .custom-checkbox-box::after {
   transform: rotate(45deg) scale(1);
   /* Hiển thị dấu tick */
 }

@@ -212,7 +212,7 @@ function AddTest ({ isOpen, onClose, fetclohang }) {
     let valid = true
 
     if (!name) {
-      setNameError('Vui lòng nhập tên nhà cung cấp.')
+      setNameError('Vui lòng nhập diễn giải.')
       valid = false
       setIsModalHuy(false)
     } else {
@@ -399,6 +399,7 @@ function AddTest ({ isOpen, onClose, fetclohang }) {
                           onClick={() => {
                             setmancc(supplier.mancc)
                             setIsTableVisible(false)
+                            setmanccError('')
                           }}
                         >
                           <td>{supplier.mancc}</td>

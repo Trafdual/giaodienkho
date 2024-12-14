@@ -5,7 +5,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faBarcode,
   faChevronDown,
-  faPlus
+  faPlus,
+  faTrashCan
 } from '@fortawesome/free-solid-svg-icons'
 import { Tooltip } from 'react-tippy'
 import 'react-tippy/dist/tippy.css'
@@ -220,6 +221,23 @@ function AddTest2 ({
       imeiInputRef.current?.focus() // Đặt lại focus vào input
     }, 0)
   }
+  const validateInputs2 = () => {
+    if (rows.length === 0) {
+      showToast('Bạn chưa thêm chi tiết', 'error')
+      return false
+    }
+    for (const row of rows) {
+      if (!row.soluong) {
+        showToast(`Số lượng không được để trống`, 'error')
+        return false
+      }
+      if (!row.price) {
+        showToast(`đơn giá không được để trống`, 'error')
+        return false
+      }
+    }
+    return true
+  }
 
   const submitProducts = async () => {
     const products = rows.map(row => ({
@@ -241,7 +259,7 @@ function AddTest2 ({
       manganhangkho,
       loaihanghoa
     }
-    if (validateInputs()) {
+    if (validateInputs() && validateInputs2()) {
       setIsClickButton(true)
       try {
         const response = await fetch(
@@ -267,6 +285,9 @@ function AddTest2 ({
       }
     }
   }
+  const deleteRow = index => {
+    setRows(prevRows => prevRows.filter((_, rowIndex) => rowIndex !== index))
+  }
 
   // useEffect(() => {
   //   const eventSource = new EventSource('https://www.ansuataohanoi.com/events')
@@ -291,10 +312,11 @@ function AddTest2 ({
               <tr>
                 <th>Mã SKU</th>
                 <th>Tên máy</th>
-                <th>Imel</th>
+                {loaihanghoa === 'Điện thoại' && <th>Imel</th>}
                 <th>Số lượng</th>
                 <th>Đơn giá</th>
                 <th>Tổng tiền</th>
+                <td></td>
               </tr>
             </thead>
             <tbody>
@@ -302,52 +324,54 @@ function AddTest2 ({
                 <tr key={index}>
                   <td>{row.masku}</td>
                   <td>{row.name}</td>
-                  <td
-                    onClick={() => toggleIMEIEdit(index)}
-                    style={{ cursor: 'pointer' }}
-                  >
-                    {isEditingIMEI[index] ? (
-                      <div className='imel-input-container'>
-                        {row.imel.map((item, imelIndex) => (
-                          <span key={imelIndex} className='imel-tag'>
-                            {item}
+                  {loaihanghoa === 'Điện thoại' && (
+                    <td
+                      onClick={() => toggleIMEIEdit(index)}
+                      style={{ cursor: 'pointer' }}
+                    >
+                      {isEditingIMEI[index] ? (
+                        <div className='imel-input-container'>
+                          {row.imel.map((item, imelIndex) => (
+                            <span key={imelIndex} className='imel-tag'>
+                              {item}
+                              <button
+                                onMouseDown={e => {
+                                  e.stopPropagation() // Ngăn sự kiện blur của input
+                                  handleRemoveImel(index, imelIndex)
+                                }}
+                                className='remove-imel-btn'
+                              >
+                                &times;
+                              </button>
+                            </span>
+                          ))}
+                          <div className='divnhapImel'>
+                            <input
+                              ref={imeiInputRef}
+                              type='text'
+                              value={imel}
+                              placeholder='Nhập IMEI'
+                              onKeyPress={event => handleKeyPress(index, event)}
+                              onChange={e => setImel(e.target.value)}
+                              className='imel-input'
+                              autoFocus
+                            />
                             <button
-                              onMouseDown={e => {
-                                e.stopPropagation() // Ngăn sự kiện blur của input
-                                handleRemoveImel(index, imelIndex)
+                              className='btnnhapImel'
+                              onClick={() => {
+                                setIsOpenModalBarCode(true)
+                                setindex(index)
                               }}
-                              className='remove-imel-btn'
                             >
-                              &times;
+                              <FontAwesomeIcon icon={faBarcode} />
                             </button>
-                          </span>
-                        ))}
-                        <div className='divnhapImel'>
-                          <input
-                            ref={imeiInputRef}
-                            type='text'
-                            value={imel}
-                            placeholder='Nhập IMEI'
-                            onKeyPress={event => handleKeyPress(index, event)}
-                            onChange={e => setImel(e.target.value)}
-                            className='imel-input'
-                            autoFocus
-                          />
-                          <button
-                            className='btnnhapImel'
-                            onClick={() => {
-                              setIsOpenModalBarCode(true)
-                              setindex(index)
-                            }}
-                          >
-                            <FontAwesomeIcon icon={faBarcode} />
-                          </button>
+                          </div>
                         </div>
-                      </div>
-                    ) : (
-                      row.imel.join(', ') || 'Nhập IMEI'
-                    )}
-                  </td>
+                      ) : (
+                        row.imel.join(', ') || 'Nhập IMEI'
+                      )}
+                    </td>
+                  )}
                   <FormAddImel
                     isOpen={isOpenModalBarCode}
                     onClose={() => setIsOpenModalBarCode(false)}
@@ -412,7 +436,10 @@ function AddTest2 ({
                           const numericValue = parseFloat(rawValue)
 
                           // Chỉ cập nhật nếu giá trị là hợp lệ
-                          if (!isNaN(numericValue) || rawValue === '') {
+                          if (
+                            (!isNaN(numericValue) && numericValue > 0) ||
+                            rawValue === ''
+                          ) {
                             handleInputChange(index, 'price', rawValue) // Cập nhật giá trị
                           }
                         }}
@@ -428,6 +455,14 @@ function AddTest2 ({
                     )}
                   </td>
                   <td>{new Intl.NumberFormat().format(row.tongtien)}</td>
+                  <td>
+                    <button
+                      className='btnDeleterow'
+                      onClick={() => deleteRow(index)}
+                    >
+                      <FontAwesomeIcon icon={faTrashCan} />
+                    </button>
+                  </td>
                 </tr>
               ))}
               <tr>
@@ -512,6 +547,7 @@ function AddTest2 ({
                     />
                   </div>
                 </td>
+
                 <td colSpan='5'></td>
               </tr>
             </tbody>

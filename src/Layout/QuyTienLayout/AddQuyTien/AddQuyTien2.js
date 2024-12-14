@@ -5,7 +5,8 @@ import { ModalOnClose } from '~/components/ModalOnClose'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import '~/components/Loadingnut/loadingnut.scss'
 import './AddQuyTien2.scss'
-import { faTrashCan } from '@fortawesome/free-solid-svg-icons'
+import { faPlus, faTrashCan } from '@fortawesome/free-solid-svg-icons'
+import { AddMucThu } from './AddMucThu'
 
 function AddQuyTien2 ({
   onClose,
@@ -28,6 +29,7 @@ function AddQuyTien2 ({
   const [isClickButton, setIsClickButton] = useState(false)
   const [mucthudata, setmucthudata] = useState([])
   const [tongtien, setTongtien] = useState(0)
+  const [isOpenModalAddMt, setIsOpenModalAddMt] = useState(false)
 
   useEffect(() => {
     const total = rows.reduce((acc, row) => {
@@ -83,6 +85,33 @@ function AddQuyTien2 ({
   useEffect(() => {
     fetchMucThu()
   }, [userID])
+
+  const validateInputs2 = () => {
+    if (rows.length === 0) {
+      showToast('Bạn chưa thêm chi tiết', 'error')
+      return false
+    }
+    for (const row of rows) {
+      if (!row.dienGiai) {
+        showToast(`diễn giải không được để trống`, 'error')
+        return false
+      }
+      if (!row.soTien) {
+        showToast(`số tiền không được để trông`, 'error')
+        return false
+      }
+      if (row.soTien === '0') {
+        showToast(`số tiền phải lớn hơn 0`, 'error')
+        return false
+      }
+      if (!row.mucThu) {
+        showToast(`bạn chưa chọn mục thu`, 'error')
+        return false
+      }
+    }
+    return true
+  }
+
   const submitProducts = async () => {
     const products = rows.map(row => ({
       diengiai: row.dienGiai,
@@ -90,7 +119,7 @@ function AddQuyTien2 ({
       mamucthu: row.mucThu
     }))
 
-    if (validateInputs()) {
+    if (validateInputs() && validateInputs2()) {
       setIsClickButton(true)
       try {
         const response = await fetch(
@@ -168,28 +197,41 @@ function AddQuyTien2 ({
                     />
                   </td>
                   <td>
-                    <select
-                      value={row.mucThu || 'Chọn mục thu'}
-                      onChange={e =>
-                        handleInputChange(index, 'mucThu', e.target.value)
-                      }
-                      className='selectMucThu'
-                    >
-                      <option value='Chọn mục thu' disabled>
-                        Chọn mục thu
-                      </option>
+                    <div className='tdMasku'>
+                      <select
+                        value={row.mucThu || 'Chọn mục thu'}
+                        onChange={e =>
+                          handleInputChange(index, 'mucThu', e.target.value)
+                        }
+                        className='selectMucThu'
+                      >
+                        <option value='Chọn mục thu' disabled>
+                          Chọn mục thu
+                        </option>
 
-                      {mucthudata
-                        .filter(mucThu => mucThu.loaimuc === loaitien)
-                        .map(filteredMucThu => (
-                          <option
-                            key={filteredMucThu.id}
-                            value={filteredMucThu.mamuc}
-                          >
-                            {filteredMucThu.name}
-                          </option>
-                        ))}
-                    </select>
+                        {mucthudata
+                          .filter(mucThu => mucThu.loaimuc === loaitien)
+                          .map(filteredMucThu => (
+                            <option
+                              key={filteredMucThu.id}
+                              value={filteredMucThu.mamuc}
+                            >
+                              {filteredMucThu.name}
+                            </option>
+                          ))}
+                      </select>
+                      {index === 0 && ( // Chỉ hiển thị nút ở row đầu tiên
+                        <button
+                          className='btnaddskutest1'
+                          onClick={() => setIsOpenModalAddMt(true)}
+                        >
+                          <FontAwesomeIcon
+                            icon={faPlus}
+                            className='iconaddtest1'
+                          />
+                        </button>
+                      )}
+                    </div>
                   </td>
                   <td>
                     <button
@@ -211,6 +253,13 @@ function AddQuyTien2 ({
         Save={submitProducts}
         DontSave={handleClose}
         Cancel={() => setIsCloseHuy(false)}
+      />
+      <AddMucThu
+        isOpen={isOpenModalAddMt}
+        onClose={() => setIsOpenModalAddMt(false)}
+        fetchdata={fetchMucThu}
+        userId={userID}
+        loaitien={loaitien}
       />
 
       <button

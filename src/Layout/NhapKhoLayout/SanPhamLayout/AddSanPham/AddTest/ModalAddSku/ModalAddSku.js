@@ -123,7 +123,7 @@ function ModalAddSku ({ isOpen, onClose, userID, fetchsku }) {
         {nameError && <div className='error'>{nameError}</div>}
         <div className='divdiachikho'>
           <input
-            type='text'
+            type='number'
             className={`diachi ${dungluongError ? 'input-error' : ''}`}
             placeholder=''
             value={dungluong}

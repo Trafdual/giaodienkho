@@ -27,6 +27,7 @@ import {
 import { publicRoutes } from '../../../router'
 import { Link, useLocation } from 'react-router-dom'
 import { useEffect, useState } from 'react'
+import { ModalDangXuat } from './ModalDangXuat'
 
 function Sidebar ({ isActive, setIsActive }) {
   const location = useLocation()
@@ -36,6 +37,7 @@ function Sidebar ({ isActive, setIsActive }) {
   const [isDropdownOpenBaoCao, setIsDropdownOpenBaoCao] = useState(false)
   const [isDropdownOpenKho, setIsDropdownOpenKho] = useState(false)
   const [isDropdownOpenQuyTien, setIsDropdownOpenQuyTien] = useState(false)
+  const [isModalDangXuat, setIsModalDangXuat] = useState(false)
   const khoID = localStorage.getItem('khoID')
 
   const toggleDropdown = () => {
@@ -182,6 +184,24 @@ function Sidebar ({ isActive, setIsActive }) {
                       />
                     </span>
                     <span className='title'>Kho</span>
+                  </a>
+                </Link>
+              </li>
+              <li
+                className={`litong ${
+                  activeItem === '/baocaobanhang' ? 'hovered' : ''
+                }`}
+                onClick={() => handleItemClick('/baocaobanhang')}
+              >
+                <Link to={'/baocaobanhang'}>
+                  <a>
+                    <span className='icon'>
+                      <FontAwesomeIcon
+                        className='fonticon'
+                        icon={faCartShopping}
+                      />
+                    </span>
+                    <span className='title'>Bán hàng</span>
                   </a>
                 </Link>
               </li>
@@ -396,10 +416,7 @@ function Sidebar ({ isActive, setIsActive }) {
         >
           <a href='/banhang' target='_blank' rel='noopener noreferrer'>
             <span className='icon'>
-              <FontAwesomeIcon
-                className='fonticon'
-                icon={faCartShopping}
-              />
+              <FontAwesomeIcon className='fonticon' icon={faCartShopping} />
             </span>
             <span className='title'>Bán Hàng</span>
           </a>
@@ -488,7 +505,7 @@ function Sidebar ({ isActive, setIsActive }) {
         </li>
 
         <li className='litong'>
-          <a onClick={handleLogout}>
+          <a onClick={() => setIsModalDangXuat(true)}>
             <span className='icon'>
               <FontAwesomeIcon className='fonticon' icon={faRightFromBracket} />
             </span>
@@ -496,6 +513,11 @@ function Sidebar ({ isActive, setIsActive }) {
           </a>
         </li>
       </ul>
+      <ModalDangXuat
+        dangxuat={handleLogout}
+        isOpen={isModalDangXuat}
+        Cancel={() => setIsModalDangXuat(false)}
+      />
     </div>
   )
 }

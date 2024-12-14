@@ -31,12 +31,18 @@ function AddNhaCungCap ({ isOpen, onClose, khoID, setnhacungcap }) {
     if (!email) {
       setEmailError('Vui lòng nhập email.')
       valid = false
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setEmailError('Email không hợp lệ.')
+      valid = false
     } else {
       setEmailError('')
     }
 
     if (!phone) {
       setPhoneError('Vui lòng nhập số điện thoại.')
+      valid = false
+    } else if (!/^\d{10,11}$/.test(phone)) {
+      setPhoneError('Số điện thoại phải 10 hoặc 11 số.')
       valid = false
     } else {
       setPhoneError('')
@@ -99,8 +105,8 @@ function AddNhaCungCap ({ isOpen, onClose, khoID, setnhacungcap }) {
     setAddressError('')
   }, [])
 
-  const handelsave =()=>{
-    resetForm();
+  const handelsave = () => {
+    resetForm()
     onClose()
     setIsModalHuy(false)
   }
@@ -119,7 +125,10 @@ function AddNhaCungCap ({ isOpen, onClose, khoID, setnhacungcap }) {
             className={`tenkho ${nameError ? 'input-error' : ''}`}
             placeholder=''
             value={name}
-            onChange={e => setName(e.target.value)}
+            onChange={e => {
+              setName(e.target.value)
+              setNameError('')
+            }}
           />
           <label htmlFor='' className='label'>
             Nhập tên nhà cung cấp
@@ -133,7 +142,10 @@ function AddNhaCungCap ({ isOpen, onClose, khoID, setnhacungcap }) {
             className={`diachi ${phoneError ? 'input-error' : ''}`}
             placeholder=''
             value={phone}
-            onChange={e => setPhone(e.target.value)}
+            onChange={e => {
+              setPhone(e.target.value)
+              setPhoneError('')
+            }}
           />
           <label htmlFor='' className='label'>
             Nhập số điện thoại
@@ -147,7 +159,10 @@ function AddNhaCungCap ({ isOpen, onClose, khoID, setnhacungcap }) {
             className={`diachi ${emailError ? 'input-error' : ''}`}
             placeholder=''
             value={email}
-            onChange={e => setEmail(e.target.value)}
+            onChange={e => {
+              setEmail(e.target.value)
+              setEmailError('')
+            }}
           />
           <label htmlFor='' className='label'>
             Nhập email
@@ -161,7 +176,10 @@ function AddNhaCungCap ({ isOpen, onClose, khoID, setnhacungcap }) {
             className={`diachi ${addressError ? 'input-error' : ''}`}
             placeholder=''
             value={address}
-            onChange={e => setAddress(e.target.value)}
+            onChange={e => {
+              setAddress(e.target.value)
+              setAddressError('')
+            }}
           />
           <label htmlFor='' className='label'>
             Nhập địa chỉ

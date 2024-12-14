@@ -184,8 +184,10 @@ function BanHangLayout () {
     setIsOpen(true)
   }
 
-  const handleRemove = id => {
-    setSelectedItems(selectedItems.filter(item => item.idsku !== id))
+  const handleRemove = index => {
+    setSelectedItems(prevRows =>
+      prevRows.filter((_, rowIndex) => rowIndex !== index)
+    )
   }
 
   const handleManualQuantityChange = (idSku, quantity) => {
@@ -394,7 +396,12 @@ function BanHangLayout () {
                             </>
                           )}
                         </td>
-                        <td onClick={() => setInputSoLuong(true)}>
+                        <td onClick={() => setInputSoLuong(true)}
+                          onMouseLeave={() => {
+                            setInputSoLuong(false)
+                            handleManualQuantityChange(item.idsku, item.soluong)
+                          }}
+                          >
                           {!InputSoLuong ? (
                             item.soluong
                           ) : (
@@ -420,14 +427,15 @@ function BanHangLayout () {
                                   setInputSoLuong(false)
                                 }
                               }}
+                               className={`inputbanhang`}
                             />
                           )}
                         </td>
                         <td
                           onClick={() => setInputDonGian(true)}
                           onMouseLeave={() => {
-                            setInputSoLuong(false)
-                            handleManualQuantityChange(item.idsku, item.soluong)
+                            setInputDonGian(false)
+                            handleManualQuantityChange(item.idsku, item.dongia)
                           }}
                         >
                           {!InputDonGian ? (
@@ -444,6 +452,7 @@ function BanHangLayout () {
                                 handleDonGiaChange(item.idsku, item.dongia)
                                 setInputDonGian(false)
                               }}
+                              className={`inputbanhang`}
                             />
                           )}
                         </td>
@@ -454,7 +463,7 @@ function BanHangLayout () {
                         <td>
                           <button
                             className='remove-btn'
-                            onClick={() => handleRemove(item.idsku)}
+                            onClick={() => handleRemove(index)}
                           >
                             X
                           </button>
@@ -728,6 +737,7 @@ function BanHangLayout () {
           product={selectedProduct}
           userId={userId}
           onItemsSelected={handleItemsSelected}
+          selected={selectedItems}
         />
       )}
 
