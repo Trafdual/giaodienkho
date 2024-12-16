@@ -1,0 +1,14 @@
+.divnhomkhachhang {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+.divnhomkhachhang select {
+  outline: none;
+  cursor: pointer;
+}
+
+.labelnhomkhachHang {
+  position: static !important;
+}
