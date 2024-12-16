@@ -274,11 +274,6 @@ body {
   outline: none;
 }
 
-.iconbanhang {
-  font-size: 1.5rem;
-  color: #888;
-}
-
 .checkout-summary {
   margin-bottom: 20px;
 }
@@ -541,5 +536,24 @@ body {
   &:hover {
     background-color: #dfdfdf;
     transform: scale(1.05);
+  }
+}
+
+.iconaddkhachhang {
+  font-size: 1.5rem;
+  color: white;
+  background-color: var(--blue);
+  padding: 5px;
+  border-radius: 50%;
+  width: 15px;
+  height: 15px;
+  border: 5px solid #ADD8E6;
+  cursor: pointer;
+   transition: box-shadow 0.3s ease,
+   transform 0.3s ease;
+  &:hover {
+    box-shadow: 0 0 0 10px #e6e6e6;
+    /* Thêm hiệu ứng vòng ngoài */
+    transform: scale(1);
   }
 }

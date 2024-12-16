@@ -7,11 +7,13 @@ import { MdSearch } from 'react-icons/md'
 import ModalDataScreen from './DetailData'
 import ModalThemImel from '../BanHangLayout/ModalThemImel/ModalThemImel'
 import HeaderBanHang from '../BanHangLayout/HeaderBanHang/HeaderBanHang'
+import { ModalAddKhachHang } from './ModalAddKhachHang'
 import { getFromLocalStorage } from '~/components/MaHoaLocalStorage/MaHoaLocalStorage'
 import { Tooltip } from 'react-tippy'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faChevronDown,
+  faPlus,
   faToggleOff,
   faToggleOn
 } from '@fortawesome/free-solid-svg-icons'
@@ -22,7 +24,9 @@ function BanHangLayout () {
   const [currentTime, setCurrentTime] = useState(new Date())
   const [issOpenModalQR, setIsOpenModalQR] = useState(false)
   const { showToast } = useToast()
+  const [isChecked, setIsChecked] = useState(false)
 
+  const [ghino, setGhino] = useState(false)
   const [isModalOpen, setModalOpen] = useState(false)
   const [imeiList, setImeiList] = useState([])
   const [selectedSku, setSelectedSku] = useState(null)
@@ -30,6 +34,7 @@ function BanHangLayout () {
   const [InputDonGian, setInputDonGian] = useState(false)
   const [inhoadon, setinhoadon] = useState(true)
   const [hoadondata, sethoadondata] = useState({})
+  const [isModalOpenKh, setIsModalOpenKh] = useState(false)
 
   const [isOpen, setIsOpen] = useState(false)
   const [products, setProducts] = useState([])
@@ -58,6 +63,16 @@ function BanHangLayout () {
   const idkho1 = localStorage.getItem('khoIDBH')
 
   const inputRef = useRef()
+
+  // Hàm xử lý khi checkbox được tích hoặc bỏ tích
+  const handleCheckboxChange = () => {
+    setIsChecked(prevState => {
+      // Khi checkbox được tích, gán ghino thành true
+      const newCheckedState = !prevState
+      setGhino(newCheckedState) // Cập nhật ghino thành true khi tích, false khi bỏ tích
+      return newCheckedState
+    })
+  }
 
   //thời gian thực
   useEffect(() => {
@@ -303,6 +318,7 @@ function BanHangLayout () {
               method: method,
               idnganhang: nganhang,
               makh: makh,
+              ghino:ghino,
               products: products
             })
           }
@@ -396,12 +412,13 @@ function BanHangLayout () {
                             </>
                           )}
                         </td>
-                        <td onClick={() => setInputSoLuong(true)}
+                        <td
+                          onClick={() => setInputSoLuong(true)}
                           onMouseLeave={() => {
                             setInputSoLuong(false)
                             handleManualQuantityChange(item.idsku, item.soluong)
                           }}
-                          >
+                        >
                           {!InputSoLuong ? (
                             item.soluong
                           ) : (
@@ -427,7 +444,7 @@ function BanHangLayout () {
                                   setInputSoLuong(false)
                                 }
                               }}
-                               className={`inputbanhang`}
+                              className={`inputbanhang`}
                             />
                           )}
                         </td>
@@ -554,7 +571,11 @@ function BanHangLayout () {
                 />
               </Tooltip>
 
-              <FaBarcode className='iconbanhang' />
+              <FontAwesomeIcon
+                icon={faPlus}
+                className='iconaddkhachhang'
+                onClick={() => setIsModalOpenKh(true)}
+              />
               <FaShoppingCart className='iconbanhang' />
             </div>
           </div>
@@ -694,7 +715,11 @@ function BanHangLayout () {
 
           <div className='additional-options'>
             <label>
-              <input type='checkbox' />
+              <input
+                type='checkbox'
+                checked={isChecked}
+                onChange={handleCheckboxChange}
+              />
               Tính vào công nợ
             </label>
             <input
@@ -752,6 +777,13 @@ function BanHangLayout () {
         isOpen={issOpenModalQR}
         onClose={() => setIsOpenModalQR(false)}
         Tongtien={totalAmount}
+      />
+      <ModalAddKhachHang
+        isOpen={isModalOpenKh}
+        onClose={() => setIsModalOpenKh(false)}
+        fetchData={handleKhacHang}
+        userId={userId}
+        khoID={storedKhoID}
       />
     </div>
   )
