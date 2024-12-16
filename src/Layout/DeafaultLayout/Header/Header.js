@@ -73,6 +73,9 @@ function Header({
   const handleCloseModal = () => {
     setIsOpen(false)
   }
+  const handleCloseModalKho = () => {
+    showToast('Vui lòng chọn kho trước khi sử dụng!', 'warning');
+  }
 
   const toggleDropdown = () => {
     setDropdownVisible(prev => !prev)
@@ -124,7 +127,7 @@ function Header({
       showToast('Vui lòng chọn kho trước khi tìm kiếm!', 'warning');
       return;
     }
-    setIsLoading(true); 
+    setIsLoading(true);
     try {
       const response = await fetch(
         `https://www.ansuataohanoi.com/searchsanpham/${khoID}`,
@@ -254,24 +257,26 @@ function Header({
         setdatakho={setdatakho}
       />
       {isModalOpen && (
-  <Modal isOpen={isModalOpen} title="Vui lòng chọn kho">
-    <p>Trước khi sử dụng các chức năng, bạn cần chọn một kho:</p>
-    <ListKho
-      datakho={datakho}
-      setdatakho={setdatakho}
-      setloading={setloading}
-      selectedKho={selectedKho}
-      setSelectedKho={setSelectedKho}
-    />
-    <div className='divthemkho'>
-          <Tippy content='Thêm kho' placement='bottom'>
-            <button className='btnicon' onClick={() => setIsOpen(true)}>
-              <FontAwesomeIcon className='iconhelp' icon={faPlus} />
-            </button>
-          </Tippy>
-        </div>
-  </Modal>
-)}
+        <Modal isOpen={isModalOpen} title="Vui lòng chọn kho" onClose={handleCloseModalKho}>
+          <p>Trước khi sử dụng các chức năng, bạn cần chọn một kho:</p>
+          <div className='landauvaoapp' style={{ display: 'flex',alignItems:'center', margin: '20px 0'}}>
+            <ListKho
+              datakho={datakho}
+              setdatakho={setdatakho}
+              setloading={setloading}
+              selectedKho={selectedKho}
+              setSelectedKho={setSelectedKho}
+            />
+            <div className='divthemkho' style={{width:'50px',height:'50px'}}>
+              <Tippy content='Thêm kho' placement='bottom'>
+                <button className='btnicon' onClick={() => setIsOpen(true)}>
+                  Thêm kho
+                </button>
+              </Tippy>
+            </div>
+          </div>
+        </Modal>
+      )}
 
 
       {isLoading && <Loading />}

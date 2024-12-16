@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import { Modal } from '../../../../components/Modal'
 import { useToast } from '../../../../components/GlobalStyles/ToastContext'
-import {Loading} from '../../../../components/Loading' // Giả sử bạn có component Loading
+import { Loading } from '../../../../components/Loading' // Giả sử bạn có component Loading
 import './AddKho.scss'
 
-function AddKho ({ isOpen, onClose, userId, setdatakho }) {
+function AddKho({ isOpen, onClose, userId, setdatakho }) {
   const [tenkho, setTenkho] = useState('')
   const [diachi, setDiachi] = useState('')
   const { showToast } = useToast()
@@ -111,7 +111,8 @@ function AddKho ({ isOpen, onClose, userId, setdatakho }) {
           <button onClick={handleAddKho} className='btnaddkho'>
             Thêm Kho
           </button>
-          <button onClick={() => alert('Hủy thêm kho')} className='btnhuyaddkho'>
+          <button onClick={() => onClose()
+          } className='btnhuyaddkho'>
             Hủy
           </button>
         </div>
