@@ -267,7 +267,7 @@ function Header({
               selectedKho={selectedKho}
               setSelectedKho={setSelectedKho}
             />
-            <div className='divthemkho' style={{width:'50px',height:'50px'}}>
+            <div className='divthemkho' style={{width:'50px',height:'50px', paddingLeft:'10px'}}>
               <Tippy content='Thêm kho' placement='bottom'>
                 <button className='btnicon' onClick={() => setIsOpen(true)}>
                   Thêm kho

@@ -131,6 +131,7 @@
             .btnicon {
                 background: var(--blue);
                 height: 100%;
+                color: #fff;
                 border-radius: 5px;
                 border: 1px solid var(--blue);
                 width: 50px;
@@ -140,6 +141,7 @@
                 &:hover {
                     background: rgb(2, 55, 104);
                     border-color: rgb(2, 55, 104);
+                    color: #fff;
                 }
                 .iconhelp {
                     font-size: 20px;

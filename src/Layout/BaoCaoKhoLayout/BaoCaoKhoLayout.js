@@ -1,59 +1,64 @@
-import React, { useState, useEffect } from 'react'
-import './BaoCaoKhoLayout.scss'
-import { enableColumnResizing } from '../ColumnResizer/columnResizer'
+import React, { useState, useEffect } from 'react';
+import './BaoCaoKhoLayout.scss';
+import { enableColumnResizing } from '../ColumnResizer/columnResizer';
+import {Loading} from '~/components/Loading'; // Import component Loading
 
-function BaoCaoKhoLayout () {
-  const today = new Date().toISOString().split('T')[0]
+function BaoCaoKhoLayout() {
+  const today = new Date().toISOString().split('T')[0];
 
-  const [startDate, setStartDate] = useState(today) // Quản lý ngày bắt đầu
-  const [endDate, setEndDate] = useState(today) // Quản lý ngày kết thúc
-  const [data, setdata] = useState([])
-  const [khoID, setKhoID] = useState(localStorage.getItem('khoID') || '')
-  console.log(startDate)
+  const [startDate, setStartDate] = useState(today); // Quản lý ngày bắt đầu
+  const [endDate, setEndDate] = useState(today); // Quản lý ngày kết thúc
+  const [data, setData] = useState([]);
+  const [khoID, setKhoID] = useState(localStorage.getItem('khoID') || '');
+  const [loading, setLoading] = useState(false); // Trạng thái loading
 
   useEffect(() => {
     const intervalId = setInterval(() => {
-      const newKhoID = localStorage.getItem('khoID') || ''
+      const newKhoID = localStorage.getItem('khoID') || '';
       if (newKhoID !== khoID) {
-        console.log('Interval detected change, updating khoID:', newKhoID)
-        setKhoID(newKhoID)
+        console.log('Interval detected change, updating khoID:', newKhoID);
+        setKhoID(newKhoID);
       }
-    }, 1000) // Kiểm tra mỗi giây
+    }, 1000); // Kiểm tra mỗi giây
 
-    return () => clearInterval(intervalId)
-  }, [khoID])
+    return () => clearInterval(intervalId);
+  }, [khoID]);
 
   const HandleGetBaoCao = async () => {
+    setLoading(true); // Hiển thị loading khi bắt đầu tải
     try {
       const response = await fetch(
         `https://www.ansuataohanoi.com/getsptest/${khoID}?fromDate=${startDate}&endDate=${endDate}`
-      )
-      const data = await response.json()
-      setdata(data)
-      console.log('Dữ liệu báo cáo kho:', data)
+      );
+      const data = await response.json();
+      setData(data);
+      console.log('Dữ liệu báo cáo kho:', data);
     } catch (error) {
-      console.error(' khi lấy dữ liệu báo cáo kho:', error)
+      console.error('Lỗi khi lấy dữ liệu báo cáo kho:', error);
+    } finally {
+      setLoading(false); // Tắt loading khi hoàn tất
     }
-  }
+  };
 
   useEffect(() => {
-    enableColumnResizing('.tablebaocaokho')
-  }, [])
+    enableColumnResizing('.tablebaocaokho');
+  }, []);
 
   return (
     <div className='baocaokho-container'>
+      {loading && <Loading />} {/* Hiển thị loading khi đang tải */}
       <div className='date-filter'>
         <label>Từ ngày:</label>
         <input
           type='date'
           value={startDate}
-          onChange={e => setStartDate(e.target.value)}
+          onChange={(e) => setStartDate(e.target.value)}
         />
         <label>Đến ngày:</label>
         <input
           type='date'
           value={endDate}
-          onChange={e => setEndDate(e.target.value)}
+          onChange={(e) => setEndDate(e.target.value)}
         />
         <button className='btn-get-data' onClick={HandleGetBaoCao}>
           Lấy dữ liệu
@@ -156,7 +161,7 @@ function BaoCaoKhoLayout () {
         </tbody>
       </table>
     </div>
-  )
+  );
 }
 
-export default BaoCaoKhoLayout
+export default BaoCaoKhoLayout;
