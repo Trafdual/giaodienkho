@@ -1,0 +1,138 @@
+/* General Reset */
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: monospace;
+  }
+  
+  /* Header Section */
+  .header-tq {
+    background: #0167c7;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    position: fixed; /* Đặt header luôn cố định */
+    top: 0; /* Canh trên cùng */
+    left: 0;
+    width: 100%;
+    z-index: 1000; /* Đưa header lên trên cùng */
+  }
+  
+  /* Logo Section */
+  .header-logo {
+    display: flex;
+    align-items: center;
+  
+    .logo-trogiup {
+      width: 80px;
+      height: 80px;
+      margin-right: 10px;
+    }
+  
+    .appname {
+      color: #ffffff;
+      font-size: 20px;
+      font-weight: bold;
+    }
+  }
+  
+  /* Main Menu */
+  .ul-tq {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+  
+    li {
+      position: relative;
+  
+      a {
+        display: block;
+        color: #fff;
+        text-decoration: none;
+        padding: 15px 20px;
+        transition: background-color 0.3s;
+        white-space: nowrap;
+  
+        &:hover {
+          background-color: #305f7a;
+        }
+      }
+  
+      ul.dropdown-help {
+        display: none;
+        position: absolute;
+        top: 100%; /* Dropdown sẽ nằm ngay dưới menu chính */
+        left: 0;
+        background-color: #0167c7;
+        list-style: none;
+        padding: 10px 0;
+        z-index: 9999;
+  
+        li {
+          a {
+            padding: 10px 20px;
+            display: block;
+            color: #fff;
+  
+            &:hover {
+              background-color: #305f7a;
+            }
+          }
+        }
+      }
+  
+      &:hover ul.dropdown-help {
+        display: block;
+      }
+    }
+  }
+  
+  /* Menu Icon (Hamburger for Mobile) */
+  .menu-icon {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    gap: 5px;
+  
+    .bar {
+      width: 25px;
+      height: 3px;
+      background-color: #fff;
+    }
+  }
+  
+  /* Responsive Design */
+  @media screen and (max-width: 768px) {
+    .menu-icon {
+      display: flex;
+    }
+  
+    .ul-tq {
+      display: none; /* Ẩn menu trên mobile mặc định */
+      flex-direction: column;
+      gap: 10px;
+      position: absolute;
+      top: 100%; /* Menu sẽ xuất hiện ngay dưới header */
+      left: 0;
+      width: 100%;
+      background-color: #0167c7;
+      padding: 10px;
+      z-index: 999;
+  
+      &.show-menu {
+        display: flex !important; /* Hiển thị menu khi bật */
+      }
+  
+      li {
+        width: 100%; /* Chiều rộng full màn hình cho item */
+  
+        a {
+          padding: 10px 20px;
+          text-align: left;
+        }
+      }
+    }
+  }
+  

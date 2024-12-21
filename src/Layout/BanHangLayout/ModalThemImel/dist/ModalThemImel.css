@@ -1,0 +1,182 @@
+@charset "UTF-8";
+.ModalThemImel-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.ModalThemImel-content {
+  background: #fff;
+  border-radius: 8px;
+  width: 400px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.ModalThemImel-header {
+  background: #f5f5f5;
+  padding: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+  cursor: move;
+  border-radius: 8px;
+}
+
+.ModalThemImel-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.ModalThemImel-refresh {
+  margin-left: 10px;
+  cursor: pointer;
+  color: #007bff;
+}
+
+.ModalThemImel-close {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #333;
+}
+
+.ModalThemImel-body {
+  padding: 16px;
+}
+
+.ModalThemImel-info {
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.ModalThemImel-search {
+  margin-bottom: 16px;
+}
+
+.ModalThemImel-search input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.ModalThemImel-list {
+  max-height: 200px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+}
+
+.ModalThemImel-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.ModalThemImel-item label {
+  margin-left: 8px;
+  font-size: 14px;
+}
+
+.ModalThemImel-footer {
+  display: flex;
+  justify-content: flex-end;
+  padding: 12px;
+  border-top: 1px solid #ddd;
+}
+
+.ModalThemImel-confirm,
+.ModalThemImel-cancel {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.ModalThemImel-confirm {
+  background: #007bff;
+  color: #fff;
+  margin-right: 8px;
+}
+
+.ModalThemImel-cancel {
+  background: #f5f5f5;
+  color: #333;
+}
+
+.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.disabled input {
+  cursor: not-allowed;
+}
+
+.ModalThemImel-label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  user-select: none;
+  margin-top: 5px;
+}
+
+.custom-checkbox-input {
+  display: none;
+  /* Ẩn checkbox mặc định */
+}
+
+/* Thiết kế hộp checkbox */
+.custom-checkbox-box {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  /* Tùy chỉnh để bo góc */
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+/* Icon dấu tick */
+.custom-checkbox-box::after {
+  content: "";
+  width: 5px;
+  height: 10px;
+  background-color: transparent;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg) scale(0);
+  transition: transform 0.2s ease;
+}
+
+/* Khi checkbox được chọn */
+.custom-checkbox-input:checked + .custom-checkbox-box {
+  background-color: var(--blue);
+  /* Màu nền khi được chọn */
+  border-color: var(--blue);
+  /* Đổi màu viền */
+}
+
+.custom-checkbox-input:checked + .custom-checkbox-box::after {
+  transform: rotate(45deg) scale(1);
+  /* Hiển thị dấu tick */
+}

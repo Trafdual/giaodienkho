@@ -1,0 +1,162 @@
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.imei-cell {
+    max-width: 150px;
+    /* Đặt giới hạn chiều rộng cho ô chứa IMEI */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.h3loading {
+    font-size: 20px;
+    /* Tăng kích thước chữ */
+    font-weight: 500;
+    margin-top: 20px;
+    /* Tạo khoảng cách giữa spinner và tiêu đề */
+    color: #333;
+    /* Màu chữ tối để dễ đọc */
+    text-align: center;
+    /* Căn giữa chữ */
+}
+
+
+/* Hiệu ứng thêm cho tiêu đề */
+
+.h3loading::after {
+    content: '';
+    display: block;
+    width: 50px;
+    /* Độ rộng của đường kẻ dưới */
+    height: 3px;
+    /* Độ cao của đường kẻ dưới */
+    background: #3498db;
+    /* Màu đường kẻ dưới */
+    margin: 10px auto;
+    /* Căn giữa đường kẻ dưới */
+}
+
+.action-menu {
+    display: flex;
+    align-items: center;
+    background-color: var(--blue);
+    margin-bottom: 10px;
+    border-radius: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.action-menu h4 {
+    margin: 0;
+    font-size: 16px;
+    margin-right: 5px;
+    color: white;
+}
+
+.action-menu .btn-xoa,
+.action-menu .btn-xuat {
+    padding: 5px 10px;
+    font-size: 15px;
+    cursor: pointer;
+    background-color: var(--blue);
+    color: white;
+    border: none;
+    border-left: 1px solid white;
+    height: 50px;
+}
+
+.action-menu .btn-xoa:hover,
+.action-menu .btn-xuat:hover {
+    background-color: #3e6a9c;
+}
+
+.barcode-print {
+    width: 300px;
+    height: auto;
+    margin-left: 80px;
+}
+
+.barcode-print1 {
+    width: 100%;
+    height: auto;
+}
+
+.btninimel {
+    border: none;
+    background-color: #28a745;
+    color: var(--white);
+    height: 30px;
+    padding: 5px;
+    border-radius: 10px;
+    align-items: center;
+    flex: 1 1;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+@media (max-width: 480px) {
+    .barcode-print {
+        width: 200px;
+        height: 200px;
+        margin-left: 90px;
+    }
+
+    .barcode-print1 {
+        width: 100%;
+        height: 100%;
+    }
+
+    .btninimel {
+        font-size: 15px;
+        margin-top: 5px;
+    }
+}
+
+@media print {
+
+    /* Ẩn mọi thành phần khác ngoài barcode */
+    body * {
+        visibility: hidden;
+    }
+
+    /* Hiển thị chỉ phần chứa mã barcode */
+    .barcode-print,
+    .barcode-print * {
+        visibility: visible;
+    }
+
+    /* Đảm bảo phần barcode in được hiển thị đúng */
+    .barcode-print {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: auto;
+    }
+}
+
+.iconMenuSanPham {
+    width: 20px;
+}
+
+.disabled {
+    background-color: var(--blue) !important;
+    color: #333333 !important;
+    border-left: 1px solid black !important;
+}
+
+@media (max-width: 480px) {
+    .divtablespnhapkho {
+        max-height: 200px;
+        overflow-y: auto;
+        overflow-x: auto;
+    }
+}

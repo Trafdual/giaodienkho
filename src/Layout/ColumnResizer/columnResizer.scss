@@ -1,0 +1,30 @@
+.tablenhap {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.tablenhap thead th {
+    position: relative;
+    min-width: 70px;
+    overflow: hidden;
+  }
+  
+
+.theadnhap .tdnhap {
+    font-weight: bold;
+    resize: horizontal; 
+
+}
+
+.tablenhap td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #ddd;
+    overflow: hidden;  
+    min-width: 70px; 
+  }
+  .tablenhap tbody tr:hover {
+    background-color: #f2f2f2; /* Màu nền khi hover */
+    cursor: pointer; /* Con trỏ chuột sẽ là kiểu pointer */
+  }

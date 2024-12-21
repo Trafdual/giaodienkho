@@ -1,0 +1,1 @@
+export{default as ThietLapLayout} from './ThietLapLayout'

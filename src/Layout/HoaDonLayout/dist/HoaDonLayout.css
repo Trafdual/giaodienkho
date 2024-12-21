@@ -1,0 +1,67 @@
+.hoa-don-layout {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  margin-top: 50px;
+}
+.hoa-don-layout h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+.hoa-don-layout .table-hoa-don {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+.hoa-don-layout .table-hoa-don th,
+.hoa-don-layout .table-hoa-don td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+.hoa-don-layout .table-hoa-don th {
+  background-color: #f9f9f9;
+  font-weight: bold;
+}
+.hoa-don-layout .table-hoa-don tbody tr:nth-child(even) {
+  background-color: #f3f3f3;
+}
+.hoa-don-layout .table-hoa-don .btn-view,
+.hoa-don-layout .table-hoa-don .btn-print {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 5px;
+}
+.hoa-don-layout .table-hoa-don .btn-view {
+  background-color: #007bff;
+  color: white;
+}
+.hoa-don-layout .table-hoa-don .btn-view:hover {
+  background-color: #0056b3;
+}
+.hoa-don-layout .table-hoa-don .btn-print {
+  background-color: #28a745;
+  color: white;
+}
+.hoa-don-layout .table-hoa-don .btn-print:hover {
+  background-color: #218838;
+}
+.hoa-don-layout .pagination {
+  text-align: center;
+  margin-top: 20px;
+}
+.hoa-don-layout .pagination button {
+  margin: 0 5px;
+  padding: 8px 16px;
+  border: 1px solid #ddd;
+  background-color: white;
+  cursor: pointer;
+}
+.hoa-don-layout .pagination button.active {
+  background-color: #007bff;
+  color: white;
+}
+.hoa-don-layout .pagination button:hover {
+  background-color: #f1f1f1;
+}

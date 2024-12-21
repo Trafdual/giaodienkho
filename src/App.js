@@ -1,18 +1,21 @@
-import React,{Fragment} from 'react'
+import React, { Fragment } from 'react'
 import { Route, Routes, BrowserRouter as Router } from 'react-router-dom'
 import { publicRoutes } from './router'
 import { DefaultLayout } from './Layout/DeafaultLayout'
+import ToastProvider from './components/GlobalStyles/ToastContext'
 
-function App () {
+function App() {
+
   return (
-    <Router>
+    <ToastProvider>
+      <Router>
       <div className='App'>
         <Routes>
           {publicRoutes.map((route, index) => {
             let Layout = DefaultLayout
             const Page = route.component
-            if(route.layout===null){
-              Layout=Fragment
+            if (route.layout === null) {
+              Layout = Fragment
             }
             return (
               <Route
@@ -29,6 +32,7 @@ function App () {
         </Routes>
       </div>
     </Router>
+    </ToastProvider>
   )
 }
 

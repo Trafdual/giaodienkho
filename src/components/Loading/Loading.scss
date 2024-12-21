@@ -1,0 +1,38 @@
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5); /* Nền đen với độ mờ 0.5 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999; /* Đảm bảo overlay nằm trên các thành phần khác */
+}
+.h3loading{
+    font-size: 15px !important;
+}
+.loading-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 15%;
+    width: 15%;
+    align-items: center;
+}
+
+.spinner {
+    border: 8px solid #57d8ff;
+    border-top: 8px solid #0064a7;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}

@@ -1,0 +1,59 @@
+.divModalOnClose{
+    padding: 10px;
+}
+
+.divModalBodyOnClose {
+    display: flex;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    align-items: center;
+}
+
+.iconBodyOnclose {
+    font-size: 50px;
+    margin-right: 10px;
+    color: var(--blue);
+}
+
+.divModalFooterOnClose {
+    float: right;
+    display: flex;
+    padding: 10px;
+}
+
+.btnsaveClose,
+.btndontsaveClose,
+.btncancelClose {
+    padding: 10px;
+    display: flex;
+    margin-right: 5px;
+    border: none;
+    border-radius: 5px;
+    align-items: center;
+    cursor: pointer;
+}
+
+.iconSaveOnclose,
+.iconDontSaveOnclose,
+.iconCancelOnclose {
+    font-size: 20px;
+    width: 20px;
+    margin-right: 10px;
+}
+
+.btnsaveClose{
+    background-color: var(--blue);
+    color: white;
+}
+.btndontsaveClose{
+    background-color: white;
+    color: var(--blue);
+    border: 1px solid var(--blue);
+}
+.btncancelClose{
+    background-color: rgb(245, 245, 245);
+    color: var(--blue);
+}

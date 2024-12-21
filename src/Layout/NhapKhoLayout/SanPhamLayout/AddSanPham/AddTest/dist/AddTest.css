@@ -1,0 +1,143 @@
+@charset "UTF-8";
+.divAddLoHang {
+  padding: 10px;
+}
+
+.supplier-table-container {
+  margin-top: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.supplier-info-table {
+  width: 100%;
+  border-collapse: collapse;
+  color: black;
+}
+
+.supplier-info-table th,
+.supplier-info-table td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.supplier-info-table .trdulieu:hover {
+  background-color: var(--blue);
+  color: white;
+  cursor: pointer;
+  /* Đổi màu khi hover */
+}
+
+.divinputncc {
+  width: 100%;
+  text-align: center;
+  margin-top: 30px;
+  display: flex;
+  align-items: center;
+}
+
+.divChonncc {
+  padding-top: 10px;
+  padding-left: 10px;
+  padding-bottom: 10px;
+  margin-left: 10px;
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.iconNcc {
+  border-left: 2px solid gray;
+  margin-left: 10px;
+  width: 30px;
+}
+
+.tippy-tooltip {
+  background: white;
+  border: 1px solid gray;
+}
+
+.divngaygio {
+  display: flex;
+}
+
+.divhour {
+  width: 100%;
+  text-align: center;
+  position: relative;
+  margin-top: 30px;
+  margin-left: 10px;
+}
+
+.divdate {
+  width: 100%;
+  text-align: center;
+  position: relative;
+  margin-top: 30px;
+}
+
+.timepicker {
+  color: black;
+}
+
+.react-time-picker__inputGroup__input {
+  min-width: 1.2em;
+}
+
+.divphuongthuc {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  flex-wrap: wrap;
+  max-width: 100%;
+  gap: 10px;
+  overflow: hidden;
+}
+
+.divghino {
+  display: flex;
+  align-items: center;
+}
+
+.divthanhtoanngay {
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+}
+
+.tippy-tooltip {
+  bottom: -10px !important;
+}
+
+.icon {
+  width: 40px;
+}
+
+.btnadd {
+  height: 40px;
+  margin-left: 10px;
+  border-radius: 5px;
+  border: 1px solid black;
+  cursor: pointer;
+}
+
+.divttntong {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+@media (max-width: 480px) {
+  .divAddLoHang {
+    width: 100%;
+    max-height: 100%;
+    overflow-y: auto;
+  }
+
+  .divthanhtoanngay {
+    margin-left: 0px;
+  }
+}
