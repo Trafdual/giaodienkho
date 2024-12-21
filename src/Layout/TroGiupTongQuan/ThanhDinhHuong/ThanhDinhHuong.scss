@@ -2,8 +2,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 20px;
     background-color: #a8d4ff;
+    padding-top: 5%;
   }
   
   .breadcrumbs {
@@ -11,6 +11,8 @@
     align-items: center;
     font-size: 14px;
     color: #005fc4;
+    padding-bottom: 15px;
+    padding-left: 15px;
   }
   
   .breadcrumb-link {
