@@ -43,7 +43,7 @@ function Header({
   const [isLoading, setIsLoading] = useState(false) // Trạng thái loading
   const previousKhoID = useRef(khoID)
   const [showNotifications, setShowNotifications] = useState(false);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false)
   useEffect(() => {
     // Mở modal nếu chưa chọn kho

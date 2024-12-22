@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './BaoCaoKhoLayout.scss';
 import { enableColumnResizing } from '../ColumnResizer/columnResizer';
-import {Loading} from '~/components/Loading'; // Import component Loading
+import {Loading} from '~/components/Loading';
 
 function BaoCaoKhoLayout() {
   const today = new Date().toISOString().split('T')[0];
@@ -10,7 +10,7 @@ function BaoCaoKhoLayout() {
   const [endDate, setEndDate] = useState(today); // Quản lý ngày kết thúc
   const [data, setData] = useState([]);
   const [khoID, setKhoID] = useState(localStorage.getItem('khoID') || '');
-  const [loading, setLoading] = useState(false); // Trạng thái loading
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -32,11 +32,10 @@ function BaoCaoKhoLayout() {
       );
       const data = await response.json();
       setData(data);
-      console.log('Dữ liệu báo cáo kho:', data);
     } catch (error) {
       console.error('Lỗi khi lấy dữ liệu báo cáo kho:', error);
     } finally {
-      setLoading(false); // Tắt loading khi hoàn tất
+      setLoading(false); 
     }
   };
 
@@ -46,7 +45,7 @@ function BaoCaoKhoLayout() {
 
   return (
     <div className='baocaokho-container'>
-      {loading && <Loading />} {/* Hiển thị loading khi đang tải */}
+      {loading && <Loading />} 
       <div className='date-filter'>
         <label>Từ ngày:</label>
         <input

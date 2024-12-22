@@ -11,6 +11,7 @@ import 'tippy.js/dist/tippy.css'
 import './HeaderBanHang.scss'
 import axios from 'axios'
 import NotificationsList from "~/components/Notifications/Notification";
+import {useNavigate } from 'react-router-dom'
 
 function HeaderBanHang ({ userId }) {
   const [khoList, setKhoList] = useState([])
@@ -19,6 +20,7 @@ function HeaderBanHang ({ userId }) {
   const [selectedKho, setSelectedKho] = useState(null)
   const dropdownRef = useRef(null)
   const [showNotifications, setShowNotifications] = useState(false);
+  const navigate = useNavigate();
 
 
   useEffect(() => {
@@ -124,10 +126,10 @@ function HeaderBanHang ({ userId }) {
           {showNotifications && <NotificationsList />}
 
           <Tippy content='Trợ giúp' placement='bottom'>
-            <button className='btn-icon'>
+            <button className='btn-icon' onClick={()=> navigate('/trogiuptongquan')}>
               <FontAwesomeIcon className='icon-help' icon={faQuestion} />
             </button>
-          </Tippy>
+          </Tippy> 
         </div>
       </div>
 
