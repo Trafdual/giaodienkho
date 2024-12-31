@@ -22,7 +22,8 @@ import {
   faMoneyCheck,
   faReceipt,
   faWallet,
-  faCartShopping
+  faCartShopping,
+  faMoneyBillTrendUp
 } from '@fortawesome/free-solid-svg-icons'
 import { publicRoutes } from '../../../router'
 import { Link, useLocation } from 'react-router-dom'
@@ -163,7 +164,7 @@ function Sidebar ({ isActive, setIsActive }) {
                 <Link to={'/doanhthu'}>
                   <a>
                     <span className='icon'>
-                      <FontAwesomeIcon className='fonticon' icon={faWrench} />
+                      <FontAwesomeIcon className='fonticon' icon={faMoneyBillTrendUp} />
                     </span>
                     <span className='title'>Doanh Thu</span>
                   </a>
@@ -180,7 +181,7 @@ function Sidebar ({ isActive, setIsActive }) {
                     <span className='icon'>
                       <FontAwesomeIcon
                         className='fonticon'
-                        icon={faShieldHalved}
+                        icon={faLandmark}
                       />
                     </span>
                     <span className='title'>Kho</span>
@@ -202,6 +203,24 @@ function Sidebar ({ isActive, setIsActive }) {
                       />
                     </span>
                     <span className='title'>Bán hàng</span>
+                  </a>
+                </Link>
+              </li>
+              <li
+                className={`litong ${
+                  activeItem === '/baocaocongno' ? 'hovered' : ''
+                }`}
+                onClick={() => handleItemClick('/baocaocongno')}
+              >
+                <Link to={'/baocaocongno'}>
+                  <a>
+                    <span className='icon'>
+                      <FontAwesomeIcon
+                        className='fonticon'
+                        icon={faMoneyBill}
+                      />
+                    </span>
+                    <span className='title'>Công nợ</span>
                   </a>
                 </Link>
               </li>

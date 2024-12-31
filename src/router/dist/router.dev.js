@@ -47,6 +47,8 @@ var _QuyTienGuiLayout = require("~/Layout/QuyTienLayout/QuyTienGuiLayout");
 
 var _QuyTienMatLayout = require("~/Layout/QuyTienLayout/QuyTienMatLayout");
 
+var _BaoCaoCongNoLayout = require("~/Layout/BaoCaoCongNoLayout");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var publicRoutes = [{
@@ -105,6 +107,9 @@ var publicRoutes = [{
   component: _SearchProductLayout.SearchProductLayout
 }, // { path: '/test', component: Testbarceode,layout:null },
 {
+  path: '/baocaocongno',
+  component: _BaoCaoCongNoLayout.BaoCaoCongNo
+}, {
   path: '/baocaokho',
   component: _BaoCaoKhoLayout.BaoCaoKhoLayout
 }, {
