@@ -1,0 +1,83 @@
+.bao-cao-ban-hang-layout {
+  font-size: 14px;
+  color: #333;
+  background-color: #f8f9fa;
+  margin-top: 100px;
+}
+.bao-cao-ban-hang-layout .header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  background: #fff;
+  padding: 10px 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.bao-cao-ban-hang-layout .header .btn {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  padding: 5px 15px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.bao-cao-ban-hang-layout .header .btn:hover {
+  background-color: #0056b3;
+}
+.bao-cao-ban-hang-layout .header .filters {
+  display: flex;
+  gap: 10px;
+}
+.bao-cao-ban-hang-layout .header .filters select,
+.bao-cao-ban-hang-layout .header .filters input {
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+.bao-cao-ban-hang-layout .header .actions {
+  display: flex;
+  gap: 10px;
+}
+.bao-cao-ban-hang-layout .header .actions .btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  padding: 5px 10px;
+}
+.bao-cao-ban-hang-layout .table-container {
+  overflow-x: auto;
+  background: #fff;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.bao-cao-ban-hang-layout .table-container table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+.bao-cao-ban-hang-layout .table-container table thead {
+  background-color: #007bff;
+  color: #fff;
+}
+.bao-cao-ban-hang-layout .table-container table thead th {
+  padding: 10px;
+  text-align: center;
+  font-weight: bold;
+  border: 1px solid #ddd;
+}
+.bao-cao-ban-hang-layout .table-container table tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+.bao-cao-ban-hang-layout .table-container table tbody tr:hover {
+  background-color: #e9ecef;
+}
+.bao-cao-ban-hang-layout .table-container table tbody td {
+  padding: 10px;
+  text-align: center;
+  border: 1px solid #ddd;
+}

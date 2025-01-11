@@ -1,0 +1,101 @@
+.bao-cao-ban-hang-layout {
+    font-size: 14px;
+    color: #333;
+    background-color: #f8f9fa;
+    margin-top: 100px;
+
+    .header {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 20px;
+        background: #fff;
+        padding: 10px 20px;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+        .btn {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            padding: 5px 15px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+
+            &:hover {
+                background-color: #0056b3;
+            }
+        }
+
+        .filters {
+            display: flex;
+            gap: 10px;
+
+            select,
+            input {
+                padding: 5px;
+                border: 1px solid #ccc;
+                border-radius: 3px;
+            }
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+
+            .btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 14px;
+                padding: 5px 10px;
+            }
+        }
+    }
+
+    .table-container {
+        overflow-x: auto;
+        background: #fff;
+        padding: 10px;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+
+            thead {
+                background-color: #007bff;
+                color: #fff;
+
+                th {
+                    padding: 10px;
+                    text-align: center;
+                    font-weight: bold;
+                    border: 1px solid #ddd;
+                }
+            }
+
+            tbody {
+                tr {
+                    &:nth-child(even) {
+                        background-color: #f2f2f2;
+                    }
+
+                    &:hover {
+                        background-color: #e9ecef;
+                    }
+                }
+
+                td {
+                    padding: 10px;
+                    text-align: center;
+                    border: 1px solid #ddd;
+                }
+            }
+        }
+    }
+}
