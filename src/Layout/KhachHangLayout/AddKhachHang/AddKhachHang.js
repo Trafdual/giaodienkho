@@ -1,16 +1,20 @@
-import { useState, useCallback } from 'react'
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useState, useCallback, useEffect } from 'react'
 
-import { Modal } from '../../../components/Modal'
-import { useToast } from '../../../components/GlobalStyles/ToastContext'
+import { Modal } from '~/components/Modal'
+import { useToast } from '~/components/GlobalStyles/ToastContext'
 import './AddKhachHang.scss'
 
-function AddKhachHang ({ isOpen, onClose, khoID, fetchData }) {
+function AddKhachHang ({ isOpen, onClose, khoID, fetchData, userId }) {
+  const [nhomkhachhangs, setnhomkhachangs] = useState([])
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
   const [address, setAddress] = useState('')
   const [date, setDate] = useState('')
   const [cancuoc, setCancuoc] = useState('')
+  const [nhomkhachhangID, setNhomkhachhangID] = useState('')
+  const [nhomkhachangname, setnhomkhachangname] = useState('')
 
   const { showToast } = useToast()
   const [nameError, setNameError] = useState('')
@@ -73,6 +77,25 @@ function AddKhachHang ({ isOpen, onClose, khoID, fetchData }) {
     return valid
   }
 
+  const fetchnhomkhachang = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:8080/getnhomkhachhang/${userId}`
+      )
+      const data = await response.json()
+
+      if (response.ok) {
+        setnhomkhachangs(data)
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  useEffect(() => {
+    fetchnhomkhachang()
+  }, [userId])
+
   const handleAddKhachHang = async () => {
     if (validateInputs()) {
       try {
@@ -89,7 +112,8 @@ function AddKhachHang ({ isOpen, onClose, khoID, fetchData }) {
               email: email,
               address: address,
               cancuoc: cancuoc,
-              date: date
+              date: date,
+              nhomkhachhang: nhomkhachhangID
             })
           }
         )
@@ -132,6 +156,34 @@ function AddKhachHang ({ isOpen, onClose, khoID, fetchData }) {
     <Modal isOpen={isOpen} onClose={handleClose}>
       <div className='divAddKhachHang'>
         <h2>Thêm khách hàng</h2>
+        <div className='divnhomkhachhang'>
+          <label htmlFor='nhomkhachhang' className='labelnhomkhachHang'>
+            Chọn nhóm khách hàng
+          </label>
+          <select
+            id='nhomkhachhang'
+            className='select-nhomkhachhang'
+            value={nhomkhachangname}
+            onChange={e => {
+              const selectedname = e.target.value
+              const selectedGroup = nhomkhachhangs.find(
+                nhom => nhom.name === selectedname
+              )
+              setNhomkhachhangID(selectedGroup._id)
+              setnhomkhachangname(selectedname)
+            }}
+          >
+            <option value='' disabled>
+              -- Chọn nhóm khách hàng --
+            </option>
+            {nhomkhachhangs.map(nhom => (
+              <option key={nhom._id} value={nhom.name}>
+                {nhom.name}
+              </option>
+            ))}
+          </select>
+        </div>
+
         <div className='divtenkho'>
           <input
             type='text'
