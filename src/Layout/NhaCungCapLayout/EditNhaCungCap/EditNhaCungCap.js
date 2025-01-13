@@ -4,7 +4,7 @@ import { Modal } from '../../../components/Modal'
 import { useToast } from '../../../components/GlobalStyles/ToastContext'
 import { ModalOnClose } from '~/components/ModalOnClose'
 
-function EditNhaCungCap ({ isOpen, onClose, khoID, setnhacungcap }) {
+function EditNhaCungCap ({ isOpen, onClose, idncc, setnhacungcap }) {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
@@ -61,7 +61,7 @@ function EditNhaCungCap ({ isOpen, onClose, khoID, setnhacungcap }) {
     if (validateInputs()) {
       try {
         const response = await fetch(
-          `https://www.ansuataohanoi.com/postnhacungcap/${khoID}`,
+          `http://localhost:8080/editnhacungcap/${idncc}`,
           {
             method: 'POST',
             headers: {
@@ -80,14 +80,14 @@ function EditNhaCungCap ({ isOpen, onClose, khoID, setnhacungcap }) {
         if (response.ok) {
           setnhacungcap(prevNhacungcap => [...prevNhacungcap, data])
           handelsave()
-          showToast('Thêm nhà cung cấp thành công')
+          showToast('Cập nhật nhà cung cấp thành công')
         } else {
-          showToast('Thêm nhà cung cấp thất bại', 'error')
+          showToast('Cập nhật nhà cung cấp thất bại', 'error')
           onClose()
         }
       } catch (error) {
-        console.error('Lỗi khi gửi yêu cầu thêm nhà cung cấp:', error)
-        showToast('Thêm nhà cung cấp thất bại', 'error')
+        console.error('Lỗi khi gửi yêu cầu Cập nhật nhà cung cấp:', error)
+        showToast('Cập nhật nhà cung cấp thất bại', 'error')
         handleClose()
       }
     }
@@ -117,7 +117,7 @@ function EditNhaCungCap ({ isOpen, onClose, khoID, setnhacungcap }) {
   return (
     <Modal isOpen={isOpen} onClose={handleClose}>
       <div className='divAddNhaCungCap'>
-        <h2>Thêm nhà cung cấp</h2>
+        <h2>Cập nhật nhà cung cấp</h2>
         <div className='divtenkho'>
           <input
             type='text'
@@ -187,7 +187,7 @@ function EditNhaCungCap ({ isOpen, onClose, khoID, setnhacungcap }) {
         {addressError && <div className='error'>{addressError}</div>}
 
         <button onClick={handleEditNhaCungCap} className='btnAddNhaCungCap'>
-          Thêm nhà cung cấp
+          Cập nhật nhà cung cấp
         </button>
         <button onClick={handleClose} className='btnhuyAddNhaCungCap'>
           Hủy

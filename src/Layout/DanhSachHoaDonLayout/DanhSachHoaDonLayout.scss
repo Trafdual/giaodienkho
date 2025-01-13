@@ -1,0 +1,190 @@
+.danh-sach-hoa-don-layout {
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    max-height: 870px;
+    overflow-y: auto;
+
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 15px;
+        border-bottom: 1px solid #ddd;
+        background-color: #f8f9fa;
+
+        .filters {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            select,
+            input[type="date"] {
+                padding: 5px 10px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+            }
+
+            span {
+                margin: 0 5px;
+            }
+            .btnsearchhoadon{
+                padding: 10px;
+                background-color: var(--blue);
+                border: none;
+                color: white;
+                border-radius: 10px;
+                cursor: pointer;
+                &:hover{
+                    background-color: #0053a1;
+                }
+            }
+        }
+
+        .actions {
+            .settings-button {
+                padding: 5px 10px;
+                font-size: 16px;
+                background-color: #fff;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                cursor: pointer;
+
+                &:hover {
+                    background-color: #e9ecef;
+                }
+            }
+        }
+    }
+
+    .table-container {
+        margin: 15px;
+        flex: 1;
+        overflow-x: auto;
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+
+            thead {
+                background-color: #f1f3f5;
+
+                th {
+                    text-align: left;
+                    padding: 10px;
+                    border: 1px solid #ddd;
+                    font-weight: bold;
+                    text-align: center;
+                }
+            }
+
+            tbody {
+                tr {
+                    &:nth-child(odd) {
+                        background-color: #f9f9f9;
+                    }
+
+                    &:hover {
+                        background-color: #f1f1f1;
+                    }
+                }
+
+                td {
+                    padding: 10px;
+                    border: 1px solid #ddd;
+                    text-align: left;
+                    white-space: nowrap;
+                    text-align: center;
+                    cursor: pointer;
+
+                    .status {
+                        &.success {
+                            color: #50b83c;
+                            background: #dcf1d8;
+                            text-align: center;
+                            display: inline-block;
+                            width: 100%;
+                            font-size: 14px;
+                            font-weight: 700;
+                            padding: 4px 16px;
+                            border-radius: 10px;
+                            line-height: 20px;
+                        }
+
+                        &.pending {
+                            background-color: #fff3cd;
+                            color: #856404;
+                            padding: 3px 7px;
+                            border-radius: 4px;
+                            font-size: 12px;
+                            text-align: center;
+                            display: inline-block;
+                        }
+
+                        &.ghino {
+                            color: #f90;
+                            background: #ffebcc;
+                            text-align: center;
+                            display: inline-block;
+                            width: 100%;
+                            font-size: 14px;
+                            font-weight: 700;
+                            padding: 4px 16px;
+                            border-radius: 10px;
+                            line-height: 20px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .pagination {
+        position: fixed;
+        /* Cố định ở cuối màn hình */
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        /* Chiều rộng 100% */
+        background-color: #f8f9fa;
+        border-top: 1px solid #ddd;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 15px;
+        box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+        /* Tạo hiệu ứng bóng đổ */
+
+        button {
+            padding: 5px 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #fff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+
+            &:hover {
+                background-color: #e9ecef;
+            }
+
+            &:disabled {
+                cursor: not-allowed;
+                background-color: #f1f1f1;
+                color: #aaa;
+            }
+        }
+
+        select {
+            padding: 5px 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        span {
+            margin: 0 10px;
+            font-size: 14px;
+            color: #555;
+        }
+    }
+}
