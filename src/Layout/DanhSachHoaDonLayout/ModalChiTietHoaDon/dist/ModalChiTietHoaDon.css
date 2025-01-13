@@ -1,0 +1,123 @@
+/* Modal overlay */
+.modal-cthd-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+/* Modal container */
+.modal-cthd-container {
+  background: #ffffff;
+  border-radius: 10px;
+  width: 700px;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  font-family: Arial, sans-serif;
+}
+
+/* Header */
+.modal-cthd-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+}
+
+.modal-cthd-title {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.modal-cthd-id {
+  font-size: 16px;
+  color: #666;
+  margin-left: 10px;
+}
+
+.modal-cthd-close-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #888;
+}
+
+/* Body */
+.modal-cthd-body {
+  margin: 20px 0;
+}
+
+.modal-cthd-info p {
+  font-size: 14px;
+  margin: 5px 0;
+}
+
+.modal-cthd-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.modal-cthd-table th {
+  background: #f9f9f9;
+  font-size: 14px;
+  text-align: left;
+  padding: 8px;
+  border-bottom: 1px solid #ddd;
+}
+
+.modal-cthd-table td {
+  padding: 8px;
+  border-bottom: 1px solid #ddd;
+}
+
+.modal-cthd-serial {
+  font-size: 12px;
+  color: #888;
+}
+
+/* Summary */
+.modal-cthd-summary p {
+  font-size: 14px;
+  margin: 10px 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.modal-cthd-summary p strong {
+  color: #444;
+}
+
+/* Footer */
+.modal-cthd-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.modal-cthd-print-btn,
+.modal-cthd-edit-btn,
+.modal-cthd-close-btn {
+  background: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.modal-cthd-print-btn:hover,
+.modal-cthd-edit-btn:hover,
+.modal-cthd-close-btn:hover {
+  background: #0056b3;
+}

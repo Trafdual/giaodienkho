@@ -19,15 +19,15 @@ const PaginationComponent = ({
     }, [currentPage]);
 
     const handleReload = async () => {
-      setIsLoading(true); // Bắt đầu trạng thái loading
+      setIsLoading(true);
     
       if (fetchData) {
           await fetchData();
-          setIsLoading(false); // Dừng trạng thái loading khi fetchData xong
+          setIsLoading(false);
       } else {
-          // Nếu không có fetchData, đặt thời gian dừng loading sau 2 giây
+         
           setTimeout(() => {
-              setIsLoading(false); // Dừng trạng thái loading sau 2 giây
+              setIsLoading(false); 
           }, 2000);
       }
   };

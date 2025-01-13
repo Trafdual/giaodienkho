@@ -51,6 +51,8 @@ var _BaoCaoCongNoLayout = require("~/Layout/BaoCaoCongNoLayout");
 
 var _BaoCaoBanHangLayout = require("~/Layout/BaoCaoBanHangLayout");
 
+var _DanhSachHoaDonLayout = require("~/Layout/DanhSachHoaDonLayout");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var publicRoutes = [{
@@ -128,6 +130,10 @@ var publicRoutes = [{
 }, {
   path: '/supportchat',
   component: _SupportChat["default"],
+  layout: null
+}, {
+  path: '/danhsachhoadon',
+  component: _DanhSachHoaDonLayout.DanhSachHoaDonLayout,
   layout: null
 }];
 exports.publicRoutes = publicRoutes;

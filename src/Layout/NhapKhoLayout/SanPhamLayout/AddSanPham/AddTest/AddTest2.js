@@ -336,7 +336,7 @@ function AddTest2 ({
                               {item}
                               <button
                                 onMouseDown={e => {
-                                  e.stopPropagation() // Ngăn sự kiện blur của input
+                                  e.stopPropagation()
                                   handleRemoveImel(index, imelIndex)
                                 }}
                                 className='remove-imel-btn'
@@ -404,7 +404,6 @@ function AddTest2 ({
                             return updated
                           })
 
-                          // Kiểm tra nếu có IMEI thì lấy độ dài IMEI
                           if (row.imel && row.imel.length > 0) {
                             setRows(prevRows =>
                               prevRows.map((r, i) =>
