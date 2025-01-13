@@ -1,6 +1,46 @@
 import './BaoCaoBanHangLayout.scss'
-
+import { useState, useEffect } from 'react'
 function BaoCaoBanHangLayout () {
+  
+  const formatDate = date => {
+  const d = new Date(date)
+  const year = d.getFullYear()
+  const month = String(d.getMonth() + 1).padStart(2, '0')
+  const day = String(d.getDate()).padStart(2, '0')
+  return `${year}-${month}-${day}`
+}
+
+  const [data, setdata] = useState([])
+  const [fromdate, setfromdate] = useState(formatDate(new Date()))
+  const [enddate, setenddate] = useState(formatDate(new Date()))
+  const [khoID, setKhoID] = useState(localStorage.getItem('khoID') || '')
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      const newKhoID = localStorage.getItem('khoID') || ''
+      if (newKhoID !== khoID) {
+        console.log('Interval detected change, updating khoID:', newKhoID)
+        setKhoID(newKhoID)
+      }
+    }, 1000) // Kiểm tra mỗi giây
+
+    return () => clearInterval(intervalId)
+  }, [khoID])
+
+  const fetchdata = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:8080/baocaobanhang/${khoID}?fromdate=${fromdate}&enddate=${enddate}`
+      )
+      if (response.ok) {
+        const data = await response.json()
+        setdata(data)
+      }
+    } catch (error) {
+      console.error('Error fetching:', error)
+    }
+  }
+
   return (
     <div className='bao-cao-ban-hang-layout'>
       <div className='header'>
@@ -8,11 +48,20 @@ function BaoCaoBanHangLayout () {
         <div className='filters'>
           <select>
             <option>Tháng này</option>
-            {/* Thêm các tùy chọn khác */}
           </select>
-          <input type='date' defaultValue='2025-01-01' />
-          <input type='date' defaultValue='2025-01-31' />
-          <button className='btn'>Lấy dữ liệu</button>
+          <input
+            type='date'
+            value={fromdate}
+            onChange={e => setfromdate(e.target.value)}
+          />
+          <input
+            type='date'
+            value={enddate}
+            onChange={e => setenddate(e.target.value)}
+          />
+          <button className='btn' onClick={fetchdata}>
+            Lấy dữ liệu
+          </button>
         </div>
         <div className='actions'>
           <button className='btn'>In</button>
@@ -73,19 +122,33 @@ function BaoCaoBanHangLayout () {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>01/01/2025</td>
-              <td>134.849.000</td>
-              <td>134.849.000</td>
-              <td>0</td>
-              <td>0</td>
-              <td>0</td>
-              <td>31.449.000</td>
-              <td>0</td>
-              <td>0</td>
-              <td>31.449.000</td>
-              <td>0</td>
-            </tr>
+            {data.length > 0 ? (
+              data.map((item, index) => (
+                <tr>
+                  <td>{item.date}</td>
+                  <td>{(item.tienmat + item.chuyenkhoan).toLocaleString()}</td>
+                  <td>{(item.tienmat + item.chuyenkhoan).toLocaleString()}</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>{item.tienmat.toLocaleString()}</td>
+                  <td>{item.chuyenkhoan.toLocaleString()}</td>
+                  <td>{item.congNo.toLocaleString()}</td>
+                  <td>0</td>
+                  <td>
+                    {(
+                      item.tienmat +
+                      item.chuyenkhoan -
+                      item.congNo
+                    ).toLocaleString()}
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan='11'>Không có dữ liệu</td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>

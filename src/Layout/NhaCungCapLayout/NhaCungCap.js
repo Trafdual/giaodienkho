@@ -3,7 +3,6 @@ import './NhaCungCap.scss'
 import { useState, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
-import { LoHangLayout } from './LoHangLayout'
 import '../ColumnResizer/columnResizer.scss'
 import { enableColumnResizing } from '../ColumnResizer/columnResizer'
 import { Loading } from '~/components/Loading'
@@ -13,7 +12,6 @@ function NhaCungCapLayout () {
   const [nhacungcap, setnhacungcap] = useState([])
   const [isOpen, setIsOpen] = useState(false)
   const [opendetail, setopendetail] = useState(true)
-  const [idncc, setidncc] = useState('')
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
   const [loading, setLoading] = useState(true)
 
@@ -21,10 +19,7 @@ function NhaCungCapLayout () {
   const handleCloseModal = () => {
     setIsOpen(false)
   }
-  const handleLohang = id => {
-    setidncc(id)
-    setopendetail(false)
-  }
+
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -140,12 +135,7 @@ function NhaCungCapLayout () {
                             </>
                           )}
                           <td className='tdchucnang'>
-                            <button
-                              className='btnchitietncc'
-                              onClick={() => handleLohang(ncc._id)}
-                            >
-                              <h3>Chi tiết</h3>
-                            </button>
+            
                             <button
                               className='btncnncc'
                               onClick={() => setIsOpen(true)}
@@ -171,11 +161,7 @@ function NhaCungCapLayout () {
               />
             </div>
           )}
-          <LoHangLayout
-            opendetail={opendetail}
-            setopendetail={setopendetail}
-            idncc={idncc}
-          />
+
         </>
       )}
     </>
