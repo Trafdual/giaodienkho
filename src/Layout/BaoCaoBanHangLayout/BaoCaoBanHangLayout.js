@@ -1,19 +1,20 @@
 import './BaoCaoBanHangLayout.scss'
 import { useState, useEffect } from 'react'
+import { Loading } from '~/components/Loading'
 function BaoCaoBanHangLayout () {
-  
   const formatDate = date => {
-  const d = new Date(date)
-  const year = d.getFullYear()
-  const month = String(d.getMonth() + 1).padStart(2, '0')
-  const day = String(d.getDate()).padStart(2, '0')
-  return `${year}-${month}-${day}`
-}
+    const d = new Date(date)
+    const year = d.getFullYear()
+    const month = String(d.getMonth() + 1).padStart(2, '0')
+    const day = String(d.getDate()).padStart(2, '0')
+    return `${year}-${month}-${day}`
+  }
 
   const [data, setdata] = useState([])
   const [fromdate, setfromdate] = useState(formatDate(new Date()))
   const [enddate, setenddate] = useState(formatDate(new Date()))
   const [khoID, setKhoID] = useState(localStorage.getItem('khoID') || '')
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -28,6 +29,7 @@ function BaoCaoBanHangLayout () {
   }, [khoID])
 
   const fetchdata = async () => {
+    setLoading(true)
     try {
       const response = await fetch(
         `http://localhost:8080/baocaobanhang/${khoID}?fromdate=${fromdate}&enddate=${enddate}`
@@ -38,11 +40,14 @@ function BaoCaoBanHangLayout () {
       }
     } catch (error) {
       console.error('Error fetching:', error)
+    } finally {
+      setLoading(false)
     }
   }
 
   return (
     <div className='bao-cao-ban-hang-layout'>
+      {loading && <Loading />}
       <div className='header'>
         <button className='btn'>Chọn báo cáo</button>
         <div className='filters'>

@@ -45,7 +45,6 @@ function DoanhThuLayout () {
   const handelphantram = (a, b) => {
     const phantram = (a / b) * 100 - 100
     return phantram.toFixed(1)
-
   }
 
   return (
@@ -144,7 +143,11 @@ function DoanhThuLayout () {
                 {data.doanhthutruoc ? data.doanhthutruoc.toLocaleString() : 0}
               </td>
               <td>{data.doanhthu ? data.doanhthu.toLocaleString() : 0}</td>
-              <td>{handelphantram(data.doanhthu, data.doanhthutruoc)}</td>
+              <td>
+                {isNaN(handelphantram(data.doanhthu, data.doanhthutruoc))
+                  ? 0
+                  : handelphantram(data.doanhthu, data.doanhthutruoc)}
+              </td>
               <td>
                 {parseFloat(data.doanhthu - data.doanhthutruoc)
                   ? parseFloat(
@@ -159,8 +162,11 @@ function DoanhThuLayout () {
                 {data.doanhthutruoc ? data.doanhthutruoc.toLocaleString() : 0}
               </td>
               <td>{data.doanhthu ? data.doanhthu.toLocaleString() : 0}</td>
-              <td>{handelphantram(data.doanhthu, data.doanhthutruoc)}</td>
-
+              <td>
+                {isNaN(handelphantram(data.doanhthu, data.doanhthutruoc))
+                  ? 0
+                  : handelphantram(data.doanhthu, data.doanhthutruoc)}
+              </td>
               <td>
                 {parseFloat(data.doanhthu - data.doanhthutruoc)
                   ? parseFloat(
@@ -188,10 +194,17 @@ function DoanhThuLayout () {
                   : 0}
               </td>
               <td>
-                {handelphantram(
-                  data.loaisanphamdoanhthu,
-                  data.loaisanphamdoanhthutruoc
-                )}
+                {isNaN(
+                  handelphantram(
+                    data.loaisanphamdoanhthu,
+                    data.loaisanphamdoanhthutruoc
+                  )
+                )
+                  ? 0
+                  : handelphantram(
+                      data.loaisanphamdoanhthu,
+                      data.loaisanphamdoanhthutruoc
+                    )}
               </td>
 
               <td>
@@ -215,9 +228,15 @@ function DoanhThuLayout () {
                 {data.thuchidoanhthu ? data.thuchidoanhthu.toLocaleString() : 0}
               </td>
               <td>
-                {handelphantram(data.thuchidoanhthu, data.thuchidoanhthutruoc)}
+                {isNaN(
+                  handelphantram(data.thuchidoanhthu, data.thuchidoanhthutruoc)
+                )
+                  ? 0
+                  : handelphantram(
+                      data.thuchidoanhthu,
+                      data.thuchidoanhthutruoc
+                    )}
               </td>
-
               <td>
                 {parseFloat(data.thuchidoanhthu - data.thuchidoanhthutruoc)
                   ? parseFloat(
@@ -244,8 +263,13 @@ function DoanhThuLayout () {
                 {data.doanhthutong ? data.doanhthutong.toLocaleString() : 0}
               </td>
               <td>
-                {handelphantram(data.doanhthutong, data.doanhthutongtruoc)}
+                {isNaN(
+                  handelphantram(data.doanhthutong, data.doanhthutongtruoc)
+                )
+                  ? 0
+                  : handelphantram(data.doanhthutong, data.doanhthutongtruoc)}
               </td>
+
               <td>
                 {parseFloat(data.doanhthutong - data.doanhthutongtruoc)
                   ? parseFloat(
