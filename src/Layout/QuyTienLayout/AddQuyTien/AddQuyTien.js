@@ -32,7 +32,7 @@ function AddQuyTien ({ isOpen, onClose, fetchquytien, loaitien, method }) {
   const [isModalHuy, setIsModalHuy] = useState(false)
   const [isOpenModalAddLct, setIsOpenModalAddLct] = useState(false)
 
-  const [suppliers, setSuppliers] = useState([])
+  const [suppliers, setSuppliers] = useState({ nhacungcap: [], khachhang: [] })
   const [loadingSuppliers, setLoadingSuppliers] = useState(true)
   const [khoID, setKhoID] = useState(localStorage.getItem('khoID') || '')
   const [userID, setuserID] = useState(getFromLocalStorage('userId') || '')
@@ -99,7 +99,7 @@ function AddQuyTien ({ isOpen, onClose, fetchquytien, loaitien, method }) {
   const fetchSuppliers = async () => {
     try {
       const response = await fetch(
-        `https://www.ansuataohanoi.com/getnhacungcap/${khoID}`
+        `http://localhost:8080/doituongthuchi/${khoID}`
       )
       const data = await response.json()
 
@@ -114,12 +114,14 @@ function AddQuyTien ({ isOpen, onClose, fetchquytien, loaitien, method }) {
     } finally {
       setLoadingSuppliers(false)
     }
+
   }
+  console.log(suppliers)
 
   const fetchLoaichungtu = async () => {
     try {
       const response = await fetch(
-        `https://www.ansuataohanoi.com/getloaichungtu/${userID}`
+        `http://www.ansuataohanoi.com/getloaichungtu/${userID}`
       )
       const data = await response.json()
 
@@ -307,7 +309,7 @@ function AddQuyTien ({ isOpen, onClose, fetchquytien, loaitien, method }) {
                       </tr>
                     </thead>
                     <tbody>
-                      {suppliers.map(supplier => (
+                      {suppliers?.nhacungcap.map(supplier => (
                         <tr
                           className='trdulieu'
                           key={supplier.id}
@@ -318,6 +320,20 @@ function AddQuyTien ({ isOpen, onClose, fetchquytien, loaitien, method }) {
                           }}
                         >
                           <td>{supplier.mancc}</td>
+                          <td>{supplier.name}</td>
+                        </tr>
+                      ))}
+                      {suppliers?.khachhang.map(supplier => (
+                        <tr
+                          className='trdulieu'
+                          key={supplier.id}
+                          onClick={() => {
+                            setmancc(supplier.makh)
+                            setIsTableVisible(false)
+                            setmanccError('')
+                          }}
+                        >
+                          <td>{supplier.makh}</td>
                           <td>{supplier.name}</td>
                         </tr>
                       ))}

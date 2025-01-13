@@ -67,14 +67,12 @@ function BanHangLayout () {
   // Hàm xử lý khi checkbox được tích hoặc bỏ tích
   const handleCheckboxChange = () => {
     setIsChecked(prevState => {
-      // Khi checkbox được tích, gán ghino thành true
       const newCheckedState = !prevState
-      setGhino(newCheckedState) // Cập nhật ghino thành true khi tích, false khi bỏ tích
+      setGhino(newCheckedState)
       return newCheckedState
     })
   }
 
-  //thời gian thực
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentTime(new Date())
@@ -306,7 +304,7 @@ function BanHangLayout () {
     try {
       if (validate()) {
         const response = await fetch(
-          `https://www.ansuataohanoi.com/postchonsanpham/${storedKhoID}`,
+          `http://localhost:8080/postchonsanpham/${storedKhoID}`,
           {
             method: 'POST',
             headers: {

@@ -47,6 +47,10 @@ var _QuyTienGuiLayout = require("~/Layout/QuyTienLayout/QuyTienGuiLayout");
 
 var _QuyTienMatLayout = require("~/Layout/QuyTienLayout/QuyTienMatLayout");
 
+var _BaoCaoCongNoLayout = require("~/Layout/BaoCaoCongNoLayout");
+
+var _BaoCaoBanHangLayout = require("~/Layout/BaoCaoBanHangLayout");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var publicRoutes = [{
@@ -103,8 +107,14 @@ var publicRoutes = [{
 }, {
   path: '/search-products',
   component: _SearchProductLayout.SearchProductLayout
+}, {
+  path: '/baocaobanhang',
+  component: _BaoCaoBanHangLayout.BaoCaoBanHangLayout
 }, // { path: '/test', component: Testbarceode,layout:null },
 {
+  path: '/baocaocongno',
+  component: _BaoCaoCongNoLayout.BaoCaoCongNo
+}, {
   path: '/baocaokho',
   component: _BaoCaoKhoLayout.BaoCaoKhoLayout
 }, {

@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { AddKhachHang } from './AddKhachHang'
 import { Loading } from '~/components/Loading'
+import { getFromLocalStorage } from '~/components/MaHoaLocalStorage/MaHoaLocalStorage'
 
 function KhachHangLayout () {
   const [isOpen, setIsOpen] = useState(false)
@@ -15,6 +16,8 @@ function KhachHangLayout () {
   const [currentPage, setCurrentPage] = useState(1)
   const [itemsPerPage, setItemsPerPage] = useState(9) // Mặc định là 9
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
+    const userId = getFromLocalStorage('userId') || ''
+  
 
   const handleCloseModal = () => {
     setIsOpen(false)
@@ -170,6 +173,7 @@ function KhachHangLayout () {
             khoID={khoID}
             setkhachhang={setkhachhang}
             fetchData={fetchData}
+            userId={userId}
           />
         </>
       )}

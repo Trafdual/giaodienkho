@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import './DoanhThuLayout.scss' // Import file CSS để style trang
-import {Loading} from '~/components/Loading';
+import { Loading } from '~/components/Loading'
 
 function DoanhThuLayout () {
   const formatDate = date => {
@@ -10,19 +10,18 @@ function DoanhThuLayout () {
     const day = String(d.getDate()).padStart(2, '0')
     return `${year}-${month}-${day}`
   }
-
   const [currentPeriod, setCurrentPeriod] = useState('Kỳ hiện tại')
   const [data, setdata] = useState({})
   const [startDate, setStartDate] = useState(formatDate(new Date()))
   const [endDate, setEndDate] = useState(formatDate(new Date()))
   const [startDatetruoc, setStartDatetruoc] = useState(formatDate(new Date()))
   const [endDatetruoc, setendDatetruoc] = useState(formatDate(new Date()))
-  const [loading, setLoading] = useState(false);
-  
+  const [loading, setLoading] = useState(false)
+
   const khoID = localStorage.getItem('khoID')
 
   const handleDoanhThu = async () => {
-    setLoading(true);
+    setLoading(true)
     try {
       const response = await fetch(
         `https://www.ansuataohanoi.com/getdoanhthu/${khoID}?fromDate=${startDate}&endDate=${endDate}&fromDatetruoc=${startDatetruoc}&endDatetruoc=${endDatetruoc}`,
@@ -39,16 +38,20 @@ function DoanhThuLayout () {
       }
     } catch (error) {
       console.error('Error fetching data:', error)
-    }finally {
-      setLoading(false); 
+    } finally {
+      setLoading(false)
     }
+  }
+  const handelphantram = (a, b) => {
+    const phantram = (a / b) * 100 - 100
+    return phantram.toFixed(1)
+
   }
 
   return (
     <div className='doanh-thu-layout'>
-      {loading && <Loading />} 
+      {loading && <Loading />}
       <div className='filter-section'>
-        {/* Phần chọn kỳ và ngày */}
         <div className='filter-group'>
           <label>Kỳ:</label>
           <select
@@ -74,7 +77,6 @@ function DoanhThuLayout () {
         </div>
       </div>
       <div className='filter-section'>
-        {/* Phần chọn kỳ và ngày */}
         <div className='filter-group'>
           <label>Kỳ:</label>
           <select
@@ -107,9 +109,27 @@ function DoanhThuLayout () {
           <thead>
             <tr>
               <th>Khoản mục</th>
-              <th>Kỳ trước</th>
-              <th>Kỳ hiện tại</th>
-              <th>Thay đổi (Số tiền)</th>
+              <th>
+                Kỳ trước
+                <br />
+                (8)
+              </th>
+              <th>
+                Kỳ hiện tại
+                <br />
+                (9)
+              </th>
+              <th>
+                Thay đổi (%)
+                <br />
+                (10)=[(9)/(8)*100]-100
+              </th>
+
+              <th>
+                Thay đổi (Số tiền)
+                <br />
+                (11) = (9) - (8)
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -124,6 +144,7 @@ function DoanhThuLayout () {
                 {data.doanhthutruoc ? data.doanhthutruoc.toLocaleString() : 0}
               </td>
               <td>{data.doanhthu ? data.doanhthu.toLocaleString() : 0}</td>
+              <td>{handelphantram(data.doanhthu, data.doanhthutruoc)}</td>
               <td>
                 {parseFloat(data.doanhthu - data.doanhthutruoc)
                   ? parseFloat(
@@ -138,6 +159,8 @@ function DoanhThuLayout () {
                 {data.doanhthutruoc ? data.doanhthutruoc.toLocaleString() : 0}
               </td>
               <td>{data.doanhthu ? data.doanhthu.toLocaleString() : 0}</td>
+              <td>{handelphantram(data.doanhthu, data.doanhthutruoc)}</td>
+
               <td>
                 {parseFloat(data.doanhthu - data.doanhthutruoc)
                   ? parseFloat(
@@ -165,6 +188,13 @@ function DoanhThuLayout () {
                   : 0}
               </td>
               <td>
+                {handelphantram(
+                  data.loaisanphamdoanhthu,
+                  data.loaisanphamdoanhthutruoc
+                )}
+              </td>
+
+              <td>
                 {parseFloat(
                   data.loaisanphamdoanhthu - data.loaisanphamdoanhthutruoc
                 )
@@ -184,6 +214,10 @@ function DoanhThuLayout () {
               <td>
                 {data.thuchidoanhthu ? data.thuchidoanhthu.toLocaleString() : 0}
               </td>
+              <td>
+                {handelphantram(data.thuchidoanhthu, data.thuchidoanhthutruoc)}
+              </td>
+
               <td>
                 {parseFloat(data.thuchidoanhthu - data.thuchidoanhthutruoc)
                   ? parseFloat(
@@ -208,6 +242,9 @@ function DoanhThuLayout () {
               </td>
               <td>
                 {data.doanhthutong ? data.doanhthutong.toLocaleString() : 0}
+              </td>
+              <td>
+                {handelphantram(data.doanhthutong, data.doanhthutongtruoc)}
               </td>
               <td>
                 {parseFloat(data.doanhthutong - data.doanhthutongtruoc)
