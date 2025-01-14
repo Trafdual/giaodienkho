@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Header from "./Header/HeaderTroGiupTQ";
-import QuillHtmlContent from "./Quill/QuillHtml";
 import BlogList from "./AllTroGiup/BlogList";
 import BlogDetail from "./AllTroGiup/DetailTroGiup";
 import ThanhDinhHuong from "./ThanhDinhHuong/ThanhDinhHuong";
@@ -10,7 +9,6 @@ import Footer from './Footer/Footer'
 function TroGiupTongQuan() {
   const [selectedBlogId, setSelectedBlogId] = useState(null);
   const name = getFromLocalStorage('name')
-
 
   const breadcrumbs = [
     { label: "Trang Chủ", link: "/" },
@@ -33,7 +31,6 @@ function TroGiupTongQuan() {
           ) : (
             <BlogDetail id={selectedBlogId} onBack={() => setSelectedBlogId(null)} />
           )}
-          {/* <QuillHtmlContent /> */}
         </div>
 
        
