@@ -29,7 +29,7 @@ function ModalTraHang ({ isOpen, onClose, fetchData, imellist }) {
   const [suppliers, setSuppliers] = useState([])
   const [loadingSuppliers, setLoadingSuppliers] = useState(true)
   const [khoID, setKhoID] = useState(localStorage.getItem('khoID') || '')
-  const [userID, setuserID] = useState( getFromLocalStorage('userId') || '')
+  const [userID, setuserID] = useState(getFromLocalStorage('userId') || '')
 
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false)
   const [isTimePickerOpen, setIsTimePickerOpen] = useState(false)
@@ -50,7 +50,7 @@ function ModalTraHang ({ isOpen, onClose, fetchData, imellist }) {
 
   useEffect(() => {
     const intervalId = setInterval(() => {
-      const newuserID =  getFromLocalStorage('userId') || ''
+      const newuserID = getFromLocalStorage('userId') || ''
       if (newuserID !== userID) {
         console.log('Interval detected change, updating khoID:', newuserID)
         setuserID(newuserID)
@@ -58,7 +58,7 @@ function ModalTraHang ({ isOpen, onClose, fetchData, imellist }) {
     }, 1000) // Kiểm tra mỗi giây
 
     return () => clearInterval(intervalId)
-  }, [ getFromLocalStorage('userId')])
+  }, [getFromLocalStorage('userId')])
 
   useEffect(() => {
     const fetchSuppliers = async () => {
@@ -398,10 +398,10 @@ function ModalTraHang ({ isOpen, onClose, fetchData, imellist }) {
             </div>
           </Tooltip>
         </div>
-        <button onClick={handleModalTraHang} className='btnAddLoHang'>
+        <button onClick={handleModalTraHang} className='btnAddNhaCungCap'>
           Trả lại hàng
         </button>
-        <button onClick={handleClose} className='btnhuyAddLoHang'>
+        <button onClick={handleClose} className='btnhuyAddNhaCungCap'>
           Hủy
         </button>
       </div>

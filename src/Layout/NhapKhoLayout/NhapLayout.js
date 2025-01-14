@@ -32,7 +32,6 @@ function NhapKhoLayout () {
   const [currentPage, setCurrentPage] = useState(1)
   const [itemsPerPage, setItemsPerPage] = useState(10)
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
-  const [idloaisanpham, setIdloaisanpham] = useState(null)
 
   //xử lý kéo
   const [height, setHeight] = useState(400)
@@ -141,9 +140,16 @@ function NhapKhoLayout () {
   const handleCloseEdit = () => {
     setIsOpenEdit(false)
   }
-  const handleEditClick = id => {
-    setIdloaisanpham(id) // Lưu ID của sản phẩm cần cập nhật
-    setIsOpenEdit(true) // Mở modal
+  const handleEditClick = () => {
+    if (selectedItems.length === 1) {
+      setIsOpenEdit(true)
+    }
+    if (selectedItems.length === 0) {
+      showToast('Vui lòng chọn 1 lô hàng để cập nhật', 'warning')
+    }
+    if (selectedItems.length > 1) {
+      showToast(' Bạn chỉ được chọn 1 lô hàng để cập nhật', 'warning')
+    }
   }
 
   const handleLohang = useCallback(id => {
@@ -243,6 +249,7 @@ function NhapKhoLayout () {
                   disabled={
                     selectedItems.length > 1 || selectedItems.length === 0
                   }
+                  onClick={() => handleEditClick()}
                 >
                   <FontAwesomeIcon icon={faPen} className='iconMenuSanPham' />
                   Sửa
@@ -274,85 +281,78 @@ function NhapKhoLayout () {
                   Xóa
                 </button>
               </div>
+              <div className='divtablenhapkho'>
+                <table className='tablenhap'>
+                  <thead className='theadnhap'>
+                    <tr>
+                      <td className='tdnhap'>
+                        <input
+                          type='checkbox'
+                          checked={selectAll}
+                          onChange={handleSelectAll}
+                        />
+                      </td>
+                      <td className='tdnhap'>Mã lô hàng</td>
+                      <td className='tdnhap'>Tên lô hàng</td>
+                      <td className='tdnhap'>Ngày nhập</td>
 
-              <table className='tablenhap'>
-                <thead className='theadnhap'>
-                  <tr>
-                    <td className='tdnhap'>
-                      <input
-                        type='checkbox'
-                        checked={selectAll}
-                        onChange={handleSelectAll}
-                      />
-                    </td>
-                    <td className='tdnhap'>Mã lô hàng</td>
-                    <td className='tdnhap'>Tên lô hàng</td>
-                    {!isMobile && (
-                      <>
-                        <td className='tdnhap'>Ngày nhập</td>
-                        <td className='tdnhap'>Tổng tiền</td>
-                        <td className='tdnhap'>Còn lại máy</td>
-                      </>
-                    )}
-                    <td className='tdnhap'>Chức năng</td>
-                  </tr>
-                </thead>
-                <tbody className='tbodynhap'>
-                  {currentItems.length > 0 ? (
-                    currentItems.map(ncc => (
-                      <>
-                        <tr
-                          key={ncc._id}
-                          className={
-                            selectedRow === ncc._id ? 'selectedrow' : ''
-                          }
-                          onClick={() => {
-                            if (selectedRow !== ncc._id) {
-                              handleLohang(ncc._id)
-                              setLoadingsp(true)
+                      <td className='tdnhap'>Tổng tiền</td>
+                      <td className='tdnhap'>Còn lại máy</td>
+                    </tr>
+                  </thead>
+                  <tbody className='tbodynhap'>
+                    {currentItems.length > 0 ? (
+                      currentItems.map(ncc => (
+                        <>
+                          <tr
+                            key={ncc._id}
+                            className={
+                              selectedRow === ncc._id ? 'selectedrow' : ''
                             }
-                          }}
-                          style={{ cursor: 'pointer' }}
-                        >
-                          <td className='tdnhap'>
-                            <input
-                              type='checkbox'
-                              checked={selectedItems.includes(ncc._id)}
-                              onChange={() => handleSelectItem(ncc._id)}
-                            />
-                          </td>
-                          <td>{ncc.malsp}</td>
-                          <td>{ncc.name}</td>
-                          {!isMobile && (
-                            <>
-                              <td>{ncc.date}</td>
-                              <td>
-                                {ncc.tongtien
-                                  ? ncc.tongtien.toLocaleString()
-                                  : 0}
-                                VNĐ
-                              </td>
-                              <td>{ncc.conlai}</td>
-                            </>
-                          )}
-                          <td className='tdchucnang'>
+                            onClick={() => {
+                              if (selectedRow !== ncc._id) {
+                                handleLohang(ncc._id)
+                                setLoadingsp(true)
+                              }
+                            }}
+                            style={{ cursor: 'pointer' }}
+                          >
+                            <td className='tdnhap'>
+                              <input
+                                type='checkbox'
+                                checked={selectedItems.includes(ncc._id)}
+                                onChange={() => handleSelectItem(ncc._id)}
+                              />
+                            </td>
+                            <td>{ncc.malsp}</td>
+                            <td>{ncc.name}</td>
+                            <td>{ncc.date}</td>
+
+                            <td>
+                              {ncc.tongtien ? ncc.tongtien.toLocaleString() : 0}
+                              VNĐ
+                            </td>
+                            <td>{ncc.conlai}</td>
+
+                            {/* <td className='tdchucnang'>
                             <button
                               className='btncnncc'
                               onClick={() => handleEditClick(ncc._id)}
                             >
                               Cập nhật
                             </button>
-                          </td>
-                        </tr>
-                      </>
-                    ))
-                  ) : (
-                    <tr>
-                      <td colSpan='8'>Không có lô hàng nào</td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
+                          </td> */}
+                          </tr>
+                        </>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan='8'>Không có lô hàng nào</td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
             </div>
             <table className='tablenhap table-tong-cong'>
               <tbody>
@@ -399,7 +399,7 @@ function NhapKhoLayout () {
               fetclohang={fetchData}
             />
             <EditLoHang
-              idloaisanpham={idloaisanpham}
+              idloaisanpham={selectedItems[0]}
               isOpen={isOpenEdit}
               onClose={handleCloseEdit}
               fetchlohang={fetchData}

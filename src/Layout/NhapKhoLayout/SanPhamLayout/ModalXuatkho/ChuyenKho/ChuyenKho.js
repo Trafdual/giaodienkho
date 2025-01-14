@@ -7,15 +7,12 @@ function ChuyenKho ({ isOpen, onClose, fetchData, idsanpham }) {
   const { showToast } = useToast()
   const [datakho, setdatakho] = useState([])
   const [tenkho, setTenkho] = useState('')
-  const [userID, setuserID] = useState(
-   getFromLocalStorage('userId')
-
-  )
+  const [userID, setuserID] = useState(getFromLocalStorage('userId'))
   const [loadingSuppliers, setLoadingSuppliers] = useState(true) // Trạng thái tải dữ liệu
 
   useEffect(() => {
     const intervalId = setInterval(() => {
-      const newuserID =  getFromLocalStorage('userId') || ''
+      const newuserID = getFromLocalStorage('userId') || ''
       if (newuserID !== userID) {
         console.log('Interval detected change, updating khoID:', newuserID)
         setuserID(newuserID)
@@ -23,7 +20,7 @@ function ChuyenKho ({ isOpen, onClose, fetchData, idsanpham }) {
     }, 1000) // Kiểm tra mỗi giây
 
     return () => clearInterval(intervalId)
-  }, [ getFromLocalStorage('userId')])
+  }, [getFromLocalStorage('userId')])
 
   const handleGetKho = async () => {
     try {
@@ -107,14 +104,13 @@ function ChuyenKho ({ isOpen, onClose, fetchData, idsanpham }) {
         <label htmlFor='' className='label'>
           Kho chứa
         </label>
-        <button onClick={postchuyenkho} className='btnAddLoHang'>
-        Chuyển kho
-      </button>
-      <button onClick={onClose} className='btnhuyAddLoHang'>
-        Hủy
-      </button>
+        <button onClick={postchuyenkho} className='btnhuyAddNhaCungCap'>
+          Chuyển kho
+        </button>
+        <button onClick={onClose} className='btnhuyAddNhaCungCap'>
+          Hủy
+        </button>
       </div>
-    
     </Modal>
   )
 }

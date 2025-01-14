@@ -37,6 +37,17 @@
   border: 1px solid #ccc;
   border-radius: 3px;
 }
+.bao-cao-ban-hang-layout .header .filters .divdatetong {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.bao-cao-ban-hang-layout .header .filters .divdatetong .divtungay,
+.bao-cao-ban-hang-layout .header .filters .divdatetong .divdenngay {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 .bao-cao-ban-hang-layout .header .actions {
   display: flex;
   gap: 10px;
@@ -60,10 +71,6 @@
   border-collapse: collapse;
   margin-bottom: 20px;
 }
-.bao-cao-ban-hang-layout .table-container table thead {
-  background-color: #007bff;
-  color: #fff;
-}
 .bao-cao-ban-hang-layout .table-container table thead th {
   padding: 10px;
   text-align: center;
@@ -80,4 +87,41 @@
   padding: 10px;
   text-align: center;
   border: 1px solid #ddd;
+}
+
+@media (max-width: 480px) {
+  .bao-cao-ban-hang-layout {
+    margin-top: 70px;
+  }
+
+  .header {
+    width: 100%;
+  }
+  .header .btn {
+    width: 100%;
+  }
+
+  .filters {
+    flex-direction: column;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    width: 100%;
+  }
+
+  .divdatetong {
+    width: 100%;
+  }
+  .divdatetong .divtungay,
+.divdatetong .divdenngay {
+    flex-direction: column;
+    flex: 1;
+    align-items: start !important;
+  }
+
+  .actions {
+    width: 100%;
+  }
+  .actions .btn {
+    flex: 1;
+  }
 }

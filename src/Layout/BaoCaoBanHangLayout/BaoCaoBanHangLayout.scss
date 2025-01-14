@@ -39,6 +39,20 @@
                 border: 1px solid #ccc;
                 border-radius: 3px;
             }
+
+            .divdatetong {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+
+                .divtungay,
+                .divdenngay {
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+
+                }
+            }
         }
 
         .actions {
@@ -68,8 +82,6 @@
             margin-bottom: 20px;
 
             thead {
-                background-color: #007bff;
-                color: #fff;
 
                 th {
                     padding: 10px;
@@ -96,6 +108,47 @@
                     border: 1px solid #ddd;
                 }
             }
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    .bao-cao-ban-hang-layout {
+        margin-top: 70px;
+    }
+
+    .header {
+        width: 100%;
+
+        .btn {
+            width: 100%;
+        }
+    }
+
+    .filters {
+        flex-direction: column;
+        margin-bottom: 10px;
+        margin-top: 10px;
+        width: 100%;
+    }
+
+    .divdatetong {
+        width: 100%;
+
+        .divtungay,
+        .divdenngay {
+            flex-direction: column;
+            flex: 1;
+            align-items: start !important;
+
+        }
+    }
+
+    .actions {
+        width: 100%;
+
+        .btn {
+            flex: 1;
         }
     }
 }

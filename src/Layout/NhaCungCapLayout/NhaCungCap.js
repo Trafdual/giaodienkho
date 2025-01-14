@@ -8,18 +8,18 @@ import { enableColumnResizing } from '../ColumnResizer/columnResizer'
 import { Loading } from '~/components/Loading'
 
 import { AddNhaCungCap } from './AddNhaCungCap'
+import { EditNhaCungCap } from './EditNhaCungCap'
 function NhaCungCapLayout () {
   const [nhacungcap, setnhacungcap] = useState([])
   const [isOpen, setIsOpen] = useState(false)
-  const [opendetail, setopendetail] = useState(true)
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
+  const [isOpenEdit, setIsOpenEdit] = useState(false)
+  const [idncc, setidncc] = useState('')
   const [loading, setLoading] = useState(true)
 
   const [khoID, setKhoID] = useState(localStorage.getItem('khoID') || '')
   const handleCloseModal = () => {
     setIsOpen(false)
   }
-
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -33,62 +33,37 @@ function NhaCungCapLayout () {
     return () => clearInterval(intervalId)
   }, [localStorage.getItem('khoID')])
 
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth <= 768) {
-        setIsMobile(window.innerWidth <= 768)
+  const fetchData = async () => {
+    try {
+      const response = await fetch(
+        `https://www.ansuataohanoi.com/getnhacungcap/${khoID}`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+      )
+
+      if (response.ok) {
+        const data = await response.json()
+        setnhacungcap(data)
+        setLoading(false)
+      } else {
+        console.error('Failed to fetch data')
       }
+    } catch (error) {
+      console.error('Error fetching data:', error)
     }
-
-    // Gọi hàm khi trang được tải
-    handleResize()
-
-    // Thay đổi itemsPerPage khi kích thước cửa sổ thay đổi
-    window.addEventListener('resize', handleResize)
-
-    return () => {
-      window.removeEventListener('resize', handleResize)
-    }
-  }, [])
+  }
 
   useEffect(() => {
     console.log(localStorage.getItem('khoID'))
-    let isMounted = true
-
-    const fetchData = async () => {
-      if (!khoID) return
-
-      try {
-        const response = await fetch(
-          `https://www.ansuataohanoi.com/getnhacungcap/${khoID}`,
-          {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json'
-            }
-          }
-        )
-
-        if (response.ok && isMounted) {
-          const data = await response.json()
-          setnhacungcap(data)
-          setLoading(false)
-        } else {
-          console.error('Failed to fetch data')
-        }
-      } catch (error) {
-        if (isMounted) {
-          console.error('Error fetching data:', error)
-        }
-      }
-    }
-
-    fetchData()
-
-    return () => {
-      isMounted = false
+    if (khoID) {
+      fetchData()
     }
   }, [khoID])
+
   useEffect(() => {
     enableColumnResizing('.tablenhap')
   }, [])
@@ -98,7 +73,7 @@ function NhaCungCapLayout () {
         <Loading />
       ) : (
         <>
-          {opendetail && (
+          {
             <div className='detailsnhap'>
               <div className='recentOrdersnhap'>
                 <div className='headernhap'>
@@ -108,50 +83,47 @@ function NhaCungCapLayout () {
                     <h3>Thêm nhà cung cấp</h3>
                   </button>
                 </div>
-                <table className='tablenhap'>
-                  <thead className='theadnhap'>
-                    <tr>
-                      <td className='tdnhap'>Mã nhà cung cấp</td>
-                      <td className='tdnhap'>Tên nhà cung cấp</td>
-                      {!isMobile && (
-                        <>
-                          <td className='tdnhap'>Số điện thoại</td>
-                          <td className='tdnhap'>Địa chỉ</td>
-                        </>
-                      )}
-                      <td className='tdnhap'>Chức năng</td>
-                    </tr>
-                  </thead>
-                  <tbody className='tbodynhap'>
-                    {nhacungcap.length > 0 ? (
-                      nhacungcap.map(ncc => (
-                        <tr key={ncc._id}>
-                          <td>{ncc.mancc}</td>
-                          <td>{ncc.name}</td>
-                          {!isMobile && (
-                            <>
-                              <td>{ncc.phone}</td>
-                              <td>{ncc.address}</td>
-                            </>
-                          )}
-                          <td className='tdchucnang'>
-            
-                            <button
-                              className='btncnncc'
-                              onClick={() => setIsOpen(true)}
-                            >
-                              <h3>Cập nhật</h3>
-                            </button>
-                          </td>
-                        </tr>
-                      ))
-                    ) : (
+                <div className='table-container'>
+                  <table className='tablenhap'>
+                    <thead className='theadnhap'>
                       <tr>
-                        <td colSpan='5'>Không có nhà cung cấp nào</td>
+                        <td className='tdnhap'>Mã nhà cung cấp</td>
+                        <td className='tdnhap'>Tên nhà cung cấp</td>
+                        <td className='tdnhap'>Số điện thoại</td>
+                        <td className='tdnhap'>Địa chỉ</td>
+                        <td className='tdnhap'>Chức năng</td>
                       </tr>
-                    )}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody className='tbodynhap'>
+                      {nhacungcap.length > 0 ? (
+                        nhacungcap.map(ncc => (
+                          <tr key={ncc._id}>
+                            <td>{ncc.mancc}</td>
+                            <td>{ncc.name}</td>
+                            <td>{ncc.phone}</td>
+                            <td>{ncc.address}</td>
+
+                            <td className='tdchucnang'>
+                              <button
+                                className='btncnncc'
+                                onClick={() => {
+                                  setIsOpenEdit(true)
+                                  setidncc(ncc._id)
+                                }}
+                              >
+                                <h3>Cập nhật</h3>
+                              </button>
+                            </td>
+                          </tr>
+                        ))
+                      ) : (
+                        <tr>
+                          <td colSpan='5'>Không có nhà cung cấp nào</td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </table>
+                </div>
               </div>
               <AddNhaCungCap
                 isOpen={isOpen}
@@ -159,9 +131,15 @@ function NhaCungCapLayout () {
                 khoID={khoID}
                 setnhacungcap={setnhacungcap}
               />
+              <EditNhaCungCap
+                isOpen={isOpenEdit}
+                onClose={() => setIsOpenEdit(false)}
+                idncc={idncc}
+                fetchdata={fetchData}
+                setidncc={setidncc}
+              />
             </div>
-          )}
-
+          }
         </>
       )}
     </>

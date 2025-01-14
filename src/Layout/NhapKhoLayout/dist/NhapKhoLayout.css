@@ -63,3 +63,13 @@
   /* Màu nền khác để đánh dấu */
   transition: background-color 0.3s ease;
 }
+
+.divtablenhapkho {
+  overflow-x: auto;
+}
+.divtablenhapkho table thead {
+  position: sticky;
+  top: 0;
+  background-color: white;
+  z-index: 10;
+}

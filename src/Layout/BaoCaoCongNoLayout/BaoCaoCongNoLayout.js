@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { enableColumnResizing } from '../ColumnResizer/columnResizer'
 import { Loading } from '~/components/Loading'
 import { useToast } from '~/components/GlobalStyles/ToastContext'
+import './BaoCaoCongNo.scss'
 
 function BaoCaoCongNo () {
   const today = new Date().toISOString().split('T')[0]
@@ -51,94 +52,109 @@ function BaoCaoCongNo () {
   return (
     <div className='baocaokho-container'>
       {loading && <Loading />}
-      <div className='date-filter'>
-        <label>Từ ngày:</label>
-        <input
-          type='date'
-          value={startDate}
-          onChange={e => setStartDate(e.target.value)}
-        />
-        <label>Đến ngày:</label>
-        <input
-          type='date'
-          value={endDate}
-          onChange={e => setEndDate(e.target.value)}
-        />
-        <button className='btn-get-data' onClick={HandleGetBaoCao}>
-          Lấy dữ liệu
-        </button>
+      <div className='divdatetongcn'>
+        <div className='date-filter'>
+          <div className='divtungay'>
+            <label>Từ ngày:</label>
+            <input
+              type='date'
+              value={startDate}
+              onChange={e => setStartDate(e.target.value)}
+            />
+          </div>
+
+          <div className='divdenngay'>
+            <label>Đến ngày:</label>
+            <input
+              type='date'
+              value={endDate}
+              onChange={e => setEndDate(e.target.value)}
+            />
+          </div>
+        </div>
+
+        <div className='btnlaydl'>
+          <button className='btn-get-data' onClick={HandleGetBaoCao}>
+            Lấy dữ liệu
+          </button>
+        </div>
       </div>
-
-      <table
-        style={{ width: '100%', borderCollapse: 'collapse' }}
-        className='tablebaocaokho'
-      >
-        <thead>
-          <tr>
-            <th rowSpan='2' className='trbaocaokho'>
-              Mã Khách Hàng
-            </th>
-            <th rowSpan='2' className='trbaocaokho'>
-              Tên Khách Hàng
-            </th>
-            <th rowSpan='2' className='trbaocaokho'>
-              Nhóm Khách Hàng
-            </th>
-            <th rowSpan='2' className='trbaocaokho'>
-              Số điện thoại
-            </th>
-            <th rowSpan='2' className='trbaocaokho'>
-              Nợ Đầu Kỳ
-            </th>
-            <th rowSpan='2' className='trbaocaokho'>
-              Tăng Trong Kỳ
-            </th>
-            <th rowSpan='2' className='trbaocaokho'>
-              Giảm Trong Kỳ
-            </th>
-            <th rowSpan='2' className='trbaocaokho'>
-              Nợ Cuối Kỳ
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.length > 0 ? (
-            data.map((baocao, index) => (
-              <>
-                <tr key={index}>
-                  <td className='trbaocaokho'>{baocao.makh}</td>
-                  <td className='trbaocaokho'>{baocao.namekhach}</td>
-                  <td className='trbaocaokho'>{baocao.nhomkhachhang}</td>
-                  <td className='trbaocaokho'>{baocao.phone}</td>
-                  <td className='trbaocaokho'>
-                    {baocao.nodauky.toLocaleString()}
-                  </td>
-                  <td className='trbaocaokho'>
-                    {baocao.tangtrongky.toLocaleString()}
-                  </td>
-
-                  <td className='trbaocaokho'>
-                    {baocao.giamtrongky.toLocaleString()}
-                  </td>
-                  <td className='trbaocaokho'>
-                    {(
-                      baocao.nodauky +
-                      baocao.tangtrongky -
-                      baocao.giamtrongky
-                    ).toLocaleString()}
-                  </td>
-                </tr>
-              </>
-            ))
-          ) : (
+      <div className='table-container'>
+        <table
+          style={{ width: '100%', borderCollapse: 'collapse' }}
+          className='tablebaocaokho'
+        >
+          <thead>
             <tr>
-              <td colSpan='8' style={{ textAlign: 'center' }} className = 'trbaocaokho'>
-                Không có dữ liệu
-              </td>
+              <th rowSpan='2' className='trbaocaokho'>
+                Mã Khách Hàng
+              </th>
+              <th rowSpan='2' className='trbaocaokho'>
+                Tên Khách Hàng
+              </th>
+              <th rowSpan='2' className='trbaocaokho'>
+                Nhóm Khách Hàng
+              </th>
+              <th rowSpan='2' className='trbaocaokho'>
+                Số điện thoại
+              </th>
+              <th rowSpan='2' className='trbaocaokho'>
+                Nợ Đầu Kỳ
+              </th>
+              <th rowSpan='2' className='trbaocaokho'>
+                Tăng Trong Kỳ
+              </th>
+              <th rowSpan='2' className='trbaocaokho'>
+                Giảm Trong Kỳ
+              </th>
+              <th rowSpan='2' className='trbaocaokho'>
+                Nợ Cuối Kỳ
+              </th>
             </tr>
-          )}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {data.length > 0 ? (
+              data.map((baocao, index) => (
+                <>
+                  <tr key={index}>
+                    <td className='trbaocaokho'>{baocao.makh}</td>
+                    <td className='trbaocaokho'>{baocao.namekhach}</td>
+                    <td className='trbaocaokho'>{baocao.nhomkhachhang}</td>
+                    <td className='trbaocaokho'>{baocao.phone}</td>
+                    <td className='trbaocaokho'>
+                      {baocao.nodauky.toLocaleString()}
+                    </td>
+                    <td className='trbaocaokho'>
+                      {baocao.tangtrongky.toLocaleString()}
+                    </td>
+
+                    <td className='trbaocaokho'>
+                      {baocao.giamtrongky.toLocaleString()}
+                    </td>
+                    <td className='trbaocaokho'>
+                      {(
+                        baocao.nodauky +
+                        baocao.tangtrongky -
+                        baocao.giamtrongky
+                      ).toLocaleString()}
+                    </td>
+                  </tr>
+                </>
+              ))
+            ) : (
+              <tr>
+                <td
+                  colSpan='8'
+                  style={{ textAlign: 'center' }}
+                  className='trbaocaokho'
+                >
+                  Không có dữ liệu
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
     </div>
   )
 }

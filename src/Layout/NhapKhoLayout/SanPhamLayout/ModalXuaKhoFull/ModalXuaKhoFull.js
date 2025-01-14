@@ -53,10 +53,14 @@ function ModalXuaKhoFull ({
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <h4>Bạn có chắc chắn muốn xuất kho ?</h4>
-      <button onClick={XuatKhoHangLoat} className='btnAddLoHang'>
+      <button
+        onClick={XuatKhoHangLoat}
+        className='btnAddNhaCungCap
+'
+      >
         Xuất kho
       </button>
-      <button onClick={onClose} className='btnhuyAddLoHang'>
+      <button onClick={onClose} className='btnhuyAddNhaCungCap'>
         Hủy
       </button>
     </Modal>

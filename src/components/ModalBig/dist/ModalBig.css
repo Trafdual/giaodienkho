@@ -42,5 +42,6 @@
     max-width: 46.1875em;
     position: absolute;
     overflow: hidden;
+    overflow-y: auto;
   }
 }

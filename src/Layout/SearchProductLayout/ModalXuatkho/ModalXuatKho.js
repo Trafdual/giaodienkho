@@ -55,14 +55,14 @@ function ModalXuatKho ({
         <div className='divAddSanPham'>
           <button
             onClick={() => postxuatkho(idsanpham)}
-            className='btnAddLoHang'
+            className='btnAddNhaCungCap'
           >
             Xuất kho
           </button>
           <div className='separator'>
             <span>Hoặc</span>
           </div>
-          <button onClick={OpenFormChuyenKho} className='btnhuyAddLoHang'>
+          <button onClick={OpenFormChuyenKho} className='btnhuyAddNhaCungCap'>
             Chuyển kho
           </button>
         </div>

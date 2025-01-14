@@ -5,7 +5,7 @@ import { FormAddTay } from './FormAddTay'
 import { FormAddImel } from './FormAddImel'
 import { AddTest } from './AddTest'
 
-function AddSanPham ({ isOpen, onClose, loaispid, fetchData,fetchlohang }) {
+function AddSanPham ({ isOpen, onClose, loaispid, fetchData, fetchlohang }) {
   const [isOpenForm, setIsOpenForm] = useState(false)
   const [isOpenFormImel, setIsOpenFormImel] = useState(false)
 
@@ -23,13 +23,13 @@ function AddSanPham ({ isOpen, onClose, loaispid, fetchData,fetchlohang }) {
       <Modal isOpen={isOpen} onClose={onClose}>
         <div className='divAddSanPham'>
           <h2>Thêm sản phẩm</h2>
-          <button onClick={OpenFormAddTay} className='btnAddLoHang'>
+          <button onClick={OpenFormAddTay} className='btnAddNhaCungCap'>
             Nhập dữ liệu
           </button>
           <div className='separator'>
             <span>Hoặc</span>
           </div>
-          <button onClick={OpenFormAddImel} className='btnhuyAddLoHang'>
+          <button onClick={OpenFormAddImel} className='btnhuyAddNhaCungCap'>
             Quét Mã Imel
           </button>
         </div>

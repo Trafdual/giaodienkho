@@ -61,18 +61,22 @@ function DoanhThuLayout () {
           </select>
         </div>
         <div className='date-filter'>
-          <label>Từ ngày:</label>
-          <input
-            type='date'
-            value={startDatetruoc}
-            onChange={e => setStartDatetruoc(e.target.value)}
-          />
-          <label>Đến ngày:</label>
-          <input
-            type='date'
-            value={endDatetruoc}
-            onChange={e => setendDatetruoc(e.target.value)}
-          />
+          <div className='divtungay'>
+            <label>Từ ngày:</label>
+            <input
+              type='date'
+              value={startDatetruoc}
+              onChange={e => setStartDatetruoc(e.target.value)}
+            />
+          </div>
+          <div className='divdenngay'>
+            <label>Đến ngày:</label>
+            <input
+              type='date'
+              value={endDatetruoc}
+              onChange={e => setendDatetruoc(e.target.value)}
+            />
+          </div>
         </div>
       </div>
       <div className='filter-section'>
@@ -86,22 +90,26 @@ function DoanhThuLayout () {
           </select>
         </div>
         <div className='date-filter'>
-          <label>Từ ngày:</label>
-          <input
-            type='date'
-            value={startDate}
-            onChange={e => setStartDate(e.target.value)}
-          />
-          <label>Đến ngày:</label>
-          <input
-            type='date'
-            value={endDate}
-            onChange={e => setEndDate(e.target.value)}
-          />
-          <button className='btn-get-data' onClick={handleDoanhThu}>
-            Lấy dữ liệu
-          </button>
+          <div className='divtungay'>
+            <label>Từ ngày:</label>
+            <input
+              type='date'
+              value={startDate}
+              onChange={e => setStartDate(e.target.value)}
+            />
+          </div>
+          <div className='divdenngay'>
+            <label>Đến ngày:</label>
+            <input
+              type='date'
+              value={endDate}
+              onChange={e => setEndDate(e.target.value)}
+            />
+          </div>
         </div>
+        <button className='btn-get-data' onClick={handleDoanhThu}>
+          Lấy dữ liệu
+        </button>
       </div>
       <div className='table-section'>
         <table>
