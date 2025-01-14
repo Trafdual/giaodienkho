@@ -132,10 +132,10 @@ function ModalXuatKhoFull ({
         <label htmlFor='' className='label'>
           Kho chứa
         </label>
-        <button onClick={postchuyenkho} className='btnAddLoHang'>
+        <button onClick={postchuyenkho} className='btnAddNhaCungCap'>
           Chuyển kho
         </button>
-        <button onClick={onClose} className='btnhuyAddLoHang'>
+        <button onClick={onClose} className='btnhuyAddNhaCungCap'>
           Hủy
         </button>
       </div>

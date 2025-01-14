@@ -49,8 +49,8 @@
 
 @media screen and (max-width: 46.1875em) {
   .modal-content {
-    overflow-y: auto;
     max-height: 100%;
+    margin: 20px;
   }
 
   .modal-close {

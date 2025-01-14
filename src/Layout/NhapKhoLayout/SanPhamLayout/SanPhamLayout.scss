@@ -117,6 +117,12 @@
     .btninimel {
         font-size: 15px;
         margin-top: 5px;
+        height: unset !important;
+    }
+
+    .action-menu .btn-xoa,
+    .action-menu .btn-xuat {
+        height: unset !important;
     }
 }
 
@@ -153,10 +159,23 @@
     border-left: 1px solid black !important;
 }
 
+
 @media (max-width: 480px) {
     .divtablespnhapkho {
         max-height: 200px;
         overflow-y: auto;
         overflow-x: auto;
+
+        table {
+            thead {
+                position: sticky;
+                top: 0;
+                background-color: white;
+                z-index: 10;
+            }
+        }
+    }
+    .recentOrdersnhapkho{
+        height: 400px !important;
     }
 }

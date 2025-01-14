@@ -61,7 +61,7 @@ function EditLoHang ({ isOpen, onClose, idloaisanpham, fetchlohang }) {
 
   useEffect(() => {
     const intervalId = setInterval(() => {
-      const newuserID =  getFromLocalStorage('userId') || ''
+      const newuserID = getFromLocalStorage('userId') || ''
       if (newuserID !== userID) {
         console.log('Interval detected change, updating khoID:', newuserID)
         setuserID(newuserID)
@@ -69,7 +69,7 @@ function EditLoHang ({ isOpen, onClose, idloaisanpham, fetchlohang }) {
     }, 1000) // Kiểm tra mỗi giây
 
     return () => clearInterval(intervalId)
-  }, [ getFromLocalStorage('userId')])
+  }, [getFromLocalStorage('userId')])
 
   useEffect(() => {
     const fetchSuppliers = async () => {
@@ -590,10 +590,10 @@ function EditLoHang ({ isOpen, onClose, idloaisanpham, fetchlohang }) {
             </div>
           </Tooltip>
         </div>
-        <button className='btnAddLoHang' onClick={handleCapNhatLoHang}>
+        <button className='btnAddNhaCungCap' onClick={handleCapNhatLoHang}>
           Cập nhật lô hàng
         </button>
-        <button onClick={handleClose} className='btnhuyAddLoHang'>
+        <button onClick={handleClose} className='btnhuyAddNhaCungCap'>
           Hủy
         </button>
       </div>

@@ -104,7 +104,8 @@ h1 {
 
 @media (max-width: 480px) {
   .filter-section {
-    display: block;
+    display: flex;
+    flex-direction: column;
   }
 
   .doanh-thu-layout {
@@ -112,5 +113,13 @@ h1 {
     padding-top: 20px;
     padding-left: 10px;
     padding-right: 10px;
+  }
+
+  .filter-section .date-filter input {
+    font-size: 16px;
+  }
+
+  .btn-get-data {
+    width: 100%;
   }
 }

@@ -18,6 +18,10 @@
   margin-top: 30px;
 }
 
+.table-tong-cong {
+  background-color: #ffffff;
+}
+
 .detailsnhapkho {
   width: 100%;
   padding: 10px;
@@ -58,4 +62,14 @@
   background-color: #e7e7e7;
   /* Màu nền khác để đánh dấu */
   transition: background-color 0.3s ease;
+}
+
+.divtablenhapkho {
+  overflow-x: auto;
+}
+.divtablenhapkho table thead {
+  position: sticky;
+  top: 0;
+  background-color: white;
+  z-index: 10;
 }

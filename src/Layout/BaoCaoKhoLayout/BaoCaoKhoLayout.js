@@ -46,133 +46,142 @@ function BaoCaoKhoLayout () {
   return (
     <div className='baocaokho-container'>
       {loading && <Loading />}
-      <div className='date-filter'>
-        <label>Từ ngày:</label>
-        <input
-          type='date'
-          value={startDate}
-          onChange={e => setStartDate(e.target.value)}
-        />
-        <label>Đến ngày:</label>
-        <input
-          type='date'
-          value={endDate}
-          onChange={e => setEndDate(e.target.value)}
-        />
-        <button className='btn-get-data' onClick={HandleGetBaoCao}>
-          Lấy dữ liệu
-        </button>
+      <div className='divdatetongcn'>
+        <div className='date-filter'>
+          <div className='divtungay'>
+            <label>Từ ngày:</label>
+            <input
+              type='date'
+              value={startDate}
+              onChange={e => setStartDate(e.target.value)}
+            />
+          </div>
+          <div className='divdenngay'>
+            <label>Đến ngày:</label>
+            <input
+              type='date'
+              value={endDate}
+              onChange={e => setEndDate(e.target.value)}
+            />
+          </div>
+        </div>
+        <div className='btnlaydl'>
+          <button className='btn-get-data' onClick={HandleGetBaoCao}>
+            Lấy dữ liệu
+          </button>
+        </div>
       </div>
-
-      <table
-        style={{ width: '100%', borderCollapse: 'collapse' }}
-        className='tablebaocaokho'
-      >
-        <thead>
-          <tr>
-            <th rowSpan='2' className='trbaocaokho'>
-              Mã SKU
-            </th>
-            <th rowSpan='2' className='trbaocaokho'>
-              Tên hàng hóa
-            </th>
-            <th colSpan='2' className='trbaocaokho'>
-              Tồn đầu kỳ
-            </th>
-            <th colSpan='2' className='trbaocaokho'>
-              Nhập trong kỳ
-            </th>
-            <th colSpan='2' className='trbaocaokho'>
-              Xuất trong kỳ
-            </th>
-            <th colSpan='2' className='trbaocaokho'>
-              Tồn cuối kỳ
-            </th>
-          </tr>
-          <tr>
-            <th className='thbaocaokho'>Số lượng</th>
-            <th className='thbaocaokho'>Giá trị</th>
-            <th className='thbaocaokho'>Số lượng</th>
-            <th className='thbaocaokho'>Giá trị</th>
-            <th className='thbaocaokho'>Số lượng</th>
-            <th className='thbaocaokho'>Giá trị</th>
-            <th className='thbaocaokho'>Số lượng</th>
-            <th className='thbaocaokho'>Giá trị</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.length ? (
-            data.map((baocao, index) => (
-              <>
-                <tr key={index}>
-                  <td className='trbaocaokho'>{baocao.masku}</td>
-                  <td className='trbaocaokho'>{baocao.namesku}</td>
-                  <td className='trbaocaokho'>{baocao.tongtondau.soluong}</td>
-                  <td className='trbaocaokho'>
-                    {baocao.tongtondau.price.toLocaleString()}
-                  </td>
-                  <td className='trbaocaokho'>
-                    {baocao.tongnhaptrong.soluong}
-                  </td>
-                  <td className='trbaocaokho'>
-                    {baocao.tongnhaptrong.price.toLocaleString()}
-                  </td>
-                  <td className='trbaocaokho'>
-                    {baocao.tongxuattrong.soluong}
-                  </td>
-                  <td className='trbaocaokho'>
-                    {baocao.tongxuattrong.price.toLocaleString()}
-                  </td>
-                  <td className='trbaocaokho'>
-                    {baocao.tongtoncuoiky.soluong}
-                  </td>
-                  <td className='trbaocaokho'>
-                    {baocao.tongtoncuoiky.price.toLocaleString()}
-                  </td>
-                </tr>
-                {baocao.sanpham.map((sanpham, row) => (
-                  <tr key={row}>
-                    <td className='trbaocaosanphamkho'>
-                      {sanpham.madungluongsku}
+      <div className='table-container'>
+        <table
+          style={{ width: '100%', borderCollapse: 'collapse' }}
+          className='tablebaocaokho'
+        >
+          <thead>
+            <tr>
+              <th rowSpan='2' className='trbaocaokho'>
+                Mã SKU
+              </th>
+              <th rowSpan='2' className='trbaocaokho'>
+                Tên hàng hóa
+              </th>
+              <th colSpan='2' className='trbaocaokho'>
+                Tồn đầu kỳ
+              </th>
+              <th colSpan='2' className='trbaocaokho'>
+                Nhập trong kỳ
+              </th>
+              <th colSpan='2' className='trbaocaokho'>
+                Xuất trong kỳ
+              </th>
+              <th colSpan='2' className='trbaocaokho'>
+                Tồn cuối kỳ
+              </th>
+            </tr>
+            <tr>
+              <th className='thbaocaokho'>Số lượng</th>
+              <th className='thbaocaokho'>Giá trị</th>
+              <th className='thbaocaokho'>Số lượng</th>
+              <th className='thbaocaokho'>Giá trị</th>
+              <th className='thbaocaokho'>Số lượng</th>
+              <th className='thbaocaokho'>Giá trị</th>
+              <th className='thbaocaokho'>Số lượng</th>
+              <th className='thbaocaokho'>Giá trị</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.length ? (
+              data.map((baocao, index) => (
+                <>
+                  <tr key={index}>
+                    <td className='trbaocaokho'>{baocao.masku}</td>
+                    <td className='trbaocaokho'>{baocao.namesku}</td>
+                    <td className='trbaocaokho'>{baocao.tongtondau.soluong}</td>
+                    <td className='trbaocaokho'>
+                      {baocao.tongtondau.price.toLocaleString()}
                     </td>
-                    <td className='trbaocaosanphamkho'>{sanpham.name}</td>
-                    <td className='trbaocaosanphamkho'>
-                      {sanpham.tondauky.soluong}
+                    <td className='trbaocaokho'>
+                      {baocao.tongnhaptrong.soluong}
                     </td>
-                    <td className='trbaocaosanphamkho'>
-                      {sanpham.tondauky.price.toLocaleString()}
+                    <td className='trbaocaokho'>
+                      {baocao.tongnhaptrong.price.toLocaleString()}
                     </td>
-                    <td className='trbaocaosanphamkho'>
-                      {sanpham.nhaptrongky.soluong}
+                    <td className='trbaocaokho'>
+                      {baocao.tongxuattrong.soluong}
                     </td>
-                    <td className='trbaocaosanphamkho'>
-                      {sanpham.nhaptrongky.price.toLocaleString()}
+                    <td className='trbaocaokho'>
+                      {baocao.tongxuattrong.price.toLocaleString()}
                     </td>
-                    <td className='trbaocaosanphamkho'>
-                      {sanpham.xuattrongky.soluong}
+                    <td className='trbaocaokho'>
+                      {baocao.tongtoncuoiky.soluong}
                     </td>
-                    <td className='trbaocaosanphamkho'>
-                      {sanpham.xuattrongky.price.toLocaleString()}
-                    </td>
-                    <td className='trbaocaosanphamkho'>
-                      {sanpham.toncuoiky.soluong}
-                    </td>
-                    <td className='trbaocaosanphamkho'>
-                      {sanpham.toncuoiky.price.toLocaleString()}
+                    <td className='trbaocaokho'>
+                      {baocao.tongtoncuoiky.price.toLocaleString()}
                     </td>
                   </tr>
-                ))}
-              </>
-            ))
-          ) : (
-            <tr>
-              <td className='trbaocaosanphamkho' colSpan='10'>
-                Không có dữ liệu
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+                  {baocao.sanpham.map((sanpham, row) => (
+                    <tr key={row}>
+                      <td className='trbaocaosanphamkho'>
+                        {sanpham.madungluongsku}
+                      </td>
+                      <td className='trbaocaosanphamkho'>{sanpham.name}</td>
+                      <td className='trbaocaosanphamkho'>
+                        {sanpham.tondauky.soluong}
+                      </td>
+                      <td className='trbaocaosanphamkho'>
+                        {sanpham.tondauky.price.toLocaleString()}
+                      </td>
+                      <td className='trbaocaosanphamkho'>
+                        {sanpham.nhaptrongky.soluong}
+                      </td>
+                      <td className='trbaocaosanphamkho'>
+                        {sanpham.nhaptrongky.price.toLocaleString()}
+                      </td>
+                      <td className='trbaocaosanphamkho'>
+                        {sanpham.xuattrongky.soluong}
+                      </td>
+                      <td className='trbaocaosanphamkho'>
+                        {sanpham.xuattrongky.price.toLocaleString()}
+                      </td>
+                      <td className='trbaocaosanphamkho'>
+                        {sanpham.toncuoiky.soluong}
+                      </td>
+                      <td className='trbaocaosanphamkho'>
+                        {sanpham.toncuoiky.price.toLocaleString()}
+                      </td>
+                    </tr>
+                  ))}
+                </>
+              ))
+            ) : (
+              <tr>
+                <td className='trbaocaosanphamkho' colSpan='10'>
+                  Không có dữ liệu
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
     </div>
   )
 }

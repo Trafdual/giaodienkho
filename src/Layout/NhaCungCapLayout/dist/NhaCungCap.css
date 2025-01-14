@@ -11,7 +11,6 @@
   min-height: 850px;
   background: var(--white);
   padding: 20px;
-  box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
   border-radius: 20px;
   margin-top: 30px;
 }
@@ -99,6 +98,44 @@
   align-items: center;
 }
 
+.btnAddNhaCungCap {
+  background-color: var(--blue);
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+  color: #fffefe;
+  cursor: pointer;
+  font-family: var(--font-family);
+  font-size: 16px;
+  font-weight: 700;
+  height: 50px;
+  margin-top: 20px;
+  transition: border-color 0.3s ease;
+  width: 100%;
+}
+.btnAddNhaCungCap:hover {
+  background-color: #0063c0;
+}
+
+.btnhuyAddNhaCungCap {
+  background-color: #ff4747;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+  color: #fffefe;
+  cursor: pointer;
+  font-family: var(--font-family);
+  font-size: 16px;
+  font-weight: 700;
+  height: 50px;
+  margin-top: 20px;
+  transition: border-color 0.3s ease;
+  width: 100%;
+}
+.btnhuyAddNhaCungCap:hover {
+  background-color: #c20202;
+}
+
 @media screen and (max-width: 46.1875em) {
   .tdchucnang {
     display: block;
@@ -110,7 +147,7 @@
 
   .btncnncc {
     font-size: 12px;
-    margin-top: 5px;
-    height: 40px;
+    height: unset !important;
+    padding: 5px;
   }
 }

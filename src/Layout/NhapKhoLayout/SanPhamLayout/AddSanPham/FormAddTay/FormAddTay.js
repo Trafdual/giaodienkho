@@ -15,7 +15,7 @@ function FormAddTay ({ isOpen, onClose, loaispid, fetchData, fetchlohang }) {
   const [mangimel, setmangimel] = useState([])
   const [skudata, setskudata] = useState([])
   const [masku, setmasku] = useState('')
-  const [userID, setuserID] = useState( getFromLocalStorage('userId') || '')
+  const [userID, setuserID] = useState(getFromLocalStorage('userId') || '')
   const [loadingSuppliers, setLoadingSuppliers] = useState(true)
   const [isTableVisible, setIsTableVisible] = useState(false)
   const { showToast } = useToast()
@@ -26,7 +26,7 @@ function FormAddTay ({ isOpen, onClose, loaispid, fetchData, fetchlohang }) {
 
   useEffect(() => {
     const intervalId = setInterval(() => {
-      const newuserID =  getFromLocalStorage('userId') || ''
+      const newuserID = getFromLocalStorage('userId') || ''
       if (newuserID !== userID) {
         console.log('Interval detected change, updating khoID:', newuserID)
         setuserID(newuserID)
@@ -34,7 +34,7 @@ function FormAddTay ({ isOpen, onClose, loaispid, fetchData, fetchlohang }) {
     }, 1000) // Kiểm tra mỗi giây
 
     return () => clearInterval(intervalId)
-  }, [ getFromLocalStorage('userId')])
+  }, [getFromLocalStorage('userId')])
 
   const valicolorInputs = () => {
     let valid = true
@@ -293,10 +293,10 @@ function FormAddTay ({ isOpen, onClose, loaispid, fetchData, fetchlohang }) {
           </label>
         </div>
         {priceError && <div className='error'>{priceError}</div>}
-        <button onClick={handleAddSanPham} className='btnAddLoHang'>
+        <button onClick={handleAddSanPham} className='btnAddNhaCungCap'>
           Thêm sản phẩm
         </button>
-        <button onClick={handleClose} className='btnhuyAddLoHang'>
+        <button onClick={handleClose} className='btnhuyAddNhaCungCap'>
           Hủy
         </button>
       </div>
