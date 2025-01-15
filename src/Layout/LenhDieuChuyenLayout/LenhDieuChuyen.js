@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useToast } from '../../components/GlobalStyles/ToastContext'
@@ -100,16 +101,22 @@ function LenhDieuChuyen () {
             <option value='Đã xác nhận'>Đã xác nhận</option>
           </select>
         </div>
+        <div className='divdate1'>
+          <div className='date-picker'>
+            <label htmlFor='beginDate'>Từ ngày</label>
+            <Datepicker
+              selectedDate1={beginDate || new Date().toISOString()}
+              onDateChange={setBeginDate}
+            />
+          </div>
 
-        <div className='date-picker'>
-          <label htmlFor='beginDate'>Từ ngày</label>
-          <Datepicker selectedDate1={beginDate || new Date().toISOString()} onDateChange={setBeginDate} />
-
-        </div>
-
-        <div className='date-picker'>
-          <label htmlFor='endDate'>Đến ngày</label>
-          <Datepicker selectedDate1={endDate || new Date().toISOString()} onDateChange={setEndDate} />
+          <div className='date-picker'>
+            <label htmlFor='endDate'>Đến ngày</label>
+            <Datepicker
+              selectedDate1={endDate || new Date().toISOString()}
+              onDateChange={setEndDate}
+            />
+          </div>
         </div>
 
         <button className='search-btn' onClick={handleSearch}>

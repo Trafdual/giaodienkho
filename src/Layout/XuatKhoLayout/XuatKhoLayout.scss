@@ -161,6 +161,7 @@
         grid-template-columns: 1fr;
         height: auto;
     }
+
     .cardBox {
         grid-template-columns: repeat(2, 1fr);
     }
@@ -170,11 +171,34 @@
     .details {
         grid-template-columns: repeat(1, 1fr);
     }
+
     .recentOrders {
         overflow-x: auto;
     }
+
     .status.inprogress {
         white-space: nowrap;
+    }
+
+    .divtablexuakho {
+        width: 100%;
+        overflow-x: auto;
+        height: 700px;
+
+        table {
+            width: 100%;
+
+            thead {
+                position: sticky;
+                top: 0;
+                z-index: 100;
+                background-color: white;
+            }
+        }
+    }
+
+    .detailsnhap .recentOrdersnhap {
+        padding: 5px !important;
     }
 }
 
@@ -182,7 +206,9 @@
     .cardBox {
         grid-template-columns: repeat(1, 1fr);
     }
+
     .cardHeader h2 {
         font-size: 20px;
     }
+
 }

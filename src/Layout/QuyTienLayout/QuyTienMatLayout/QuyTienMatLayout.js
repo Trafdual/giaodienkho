@@ -24,7 +24,6 @@ function QuyTienMatLayout () {
   // Trạng thái phân trang
   const [currentPage, setCurrentPage] = useState(1)
   const [itemsPerPage, setItemsPerPage] = useState(10)
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
   //   const [idloaisanpham, setIdloaisanpham] = useState(null)
 
   //xử lý kéo
@@ -105,28 +104,6 @@ function QuyTienMatLayout () {
       }
     }
   }
-
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth <= 768) {
-        // Giả sử 768px là kích thước cắt của điện thoại
-        setItemsPerPage(5)
-        setIsMobile(window.innerWidth <= 768)
-      } else {
-        setItemsPerPage(5)
-      }
-    }
-
-    // Gọi hàm khi trang được tải
-    handleResize()
-
-    // Thay đổi itemsPerPage khi kích thước cửa sổ thay đổi
-    window.addEventListener('resize', handleResize)
-
-    return () => {
-      window.removeEventListener('resize', handleResize)
-    }
-  }, [])
 
   const handleCloseModal = () => {
     setIsOpenAdd(false)
@@ -226,78 +203,67 @@ function QuyTienMatLayout () {
                   </div>
                 )}
               </div>
-
-              <table className='tablenhap'>
-                <thead className='theadnhap'>
-                  <tr>
-                    <td className='tdnhap'>Ngày</td>
-                    <td className='tdnhap'>Số chứng từ</td>
-
-                    {!isMobile && (
-                      <>
-                        <td className='tdnhap'>Loại chứng từ</td>
-                        <td className='tdnhap'>Tổng tiền</td>
-                        <td className='tdnhap'>Đối tượng</td>
-                        <td className='tdnhap'>Lý do</td>
-                      </>
-                    )}
-                  </tr>
-                </thead>
-                <tbody className='tbodynhap'>
-                  {currentItems.length > 0 ? (
-                    currentItems.map(ncc => (
-                      <>
-                        <tr
-                          key={ncc._id}
-                          className={
-                            selectedRow === ncc._id ? 'selectedrow' : ''
-                          }
-                          onClick={() => {
-                            if (selectedRow !== ncc._id) {
-                              handlequytien(ncc._id)
-                              setLoadingsp(true)
-                            }
-                          }}
-                          style={{ cursor: 'pointer' }}
-                        >
-                          <td>{ncc.date}</td>
-                          <td>{ncc.mathuchi}</td>
-
-                          {!isMobile && (
-                            <>
-                              <td>{ncc.loaichungtu}</td>
-                              <td>
-                                {ncc.tongtien
-                                  ? ncc.tongtien.toLocaleString()
-                                  : 0}
-                                VNĐ
-                              </td>
-                              <td>{ncc.doituong}</td>
-                              <td>{ncc.lydo}</td>
-                            </>
-                          )}
-                        </tr>
-                      </>
-                    ))
-                  ) : (
+              <div className='divtablequytien'>
+                <table className='tablenhap'>
+                  <thead className='theadnhap'>
                     <tr>
-                      <td colSpan='8'>Không có quỹ tiền nào</td>
+                      <td className='tdnhap'>Ngày</td>
+                      <td className='tdnhap'>Số chứng từ</td>
+
+                      <td className='tdnhap'>Loại chứng từ</td>
+                      <td className='tdnhap'>Tổng tiền</td>
+                      <td className='tdnhap'>Đối tượng</td>
+                      <td className='tdnhap'>Lý do</td>
                     </tr>
-                  )}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody className='tbodynhap'>
+                    {currentItems.length > 0 ? (
+                      currentItems.map(ncc => (
+                        <>
+                          <tr
+                            key={ncc._id}
+                            className={
+                              selectedRow === ncc._id ? 'selectedrow' : ''
+                            }
+                            onClick={() => {
+                              if (selectedRow !== ncc._id) {
+                                handlequytien(ncc._id)
+                                setLoadingsp(true)
+                              }
+                            }}
+                            style={{ cursor: 'pointer' }}
+                          >
+                            <td>{ncc.date}</td>
+                            <td>{ncc.mathuchi}</td>
+
+                            <td>{ncc.loaichungtu}</td>
+                            <td>
+                              {ncc.tongtien ? ncc.tongtien.toLocaleString() : 0}
+                              VNĐ
+                            </td>
+                            <td>{ncc.doituong}</td>
+                            <td>{ncc.lydo}</td>
+                          </tr>
+                        </>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan='8'>Không có quỹ tiền nào</td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
             </div>
             <table className='tablenhap table-tong-cong'>
               <tbody>
                 <tr>
-                  <td colSpan={isMobile ? 3 : 6} className='tdnhap'>
+                  <td colSpan={6} className='tdnhap'>
                     <strong>Tổng cộng</strong>
                   </td>
                   <td className='tdnhap'>
                     <strong>{totalAmount.toLocaleString()} VNĐ</strong>
                   </td>
-
-                  {!isMobile && <td className='tdnhap'></td>}
                 </tr>
               </tbody>
             </table>
