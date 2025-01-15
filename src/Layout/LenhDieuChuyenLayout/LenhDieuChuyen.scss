@@ -1,5 +1,6 @@
 .transfer-orders {
     padding: 20px;
+
     h2 {
         margin-bottom: 20px;
     }
@@ -8,7 +9,8 @@
         width: 100%;
         border-collapse: collapse;
 
-        th, td {
+        th,
+        td {
             border: 1px solid #ddd;
             padding: 10px;
             text-align: left;
@@ -36,6 +38,7 @@
         }
     }
 }
+
 .filter-container {
     display: flex;
     gap: 1rem;
@@ -58,6 +61,7 @@
 .search-btn:hover {
     background-color: #0056b3;
 }
+
 .filter-container {
     display: flex;
     align-items: center;
@@ -89,8 +93,8 @@ input[type="date"] {
 .search-btn {
     background-color: #007bff;
     color: white;
-    padding: 7px 15px;
-    font-size: 14px;
+    padding: 10px;
+    font-size: 16px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
@@ -99,4 +103,43 @@ input[type="date"] {
 
 .search-btn:hover {
     background-color: #0056b3;
+}
+
+.divdate1 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+@media screen and (max-width: 46.1875em) {
+    .filter-container {
+        flex-direction: column;
+        align-items: start;
+    }
+
+    .divdate1 {
+        align-items: start;
+        width: 100%;
+    }
+
+    .date-picker {
+        flex-direction: column;
+        align-items: start;
+        gap: 5px;
+        flex: 1;
+    }
+
+    .search-btn {
+        width: 100%;
+    }
+
+    .transfer-orders {
+        margin-top: 80px;
+    }
+
+    .orders-section {
+        width: 100%;
+        overflow-x: auto;
+        height: 600px;
+    }
 }

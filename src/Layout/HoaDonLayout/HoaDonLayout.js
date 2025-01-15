@@ -170,46 +170,47 @@ function HoaDonLayout () {
       <div ref={componentRef}>
         {selectedInvoice && <Invoice hd={selectedInvoice} />}
       </div>
-
-      <table className='tablenhap'>
-        <thead className='theadnhap'>
-          <tr>
-            <td className='tdnhap'>Mã hóa đơn</td>
-            <td className='tdnhap'>Mã khách hàng</td>
-            <td className='tdnhap'>Ngày xuất</td>
-            <td className='tdnhap'>Tổng tiền</td>
-            <td className='tdnhap'>Chức năng</td>
-          </tr>
-        </thead>
-        <tbody>
-          {currentItems.length > 0 ? (
-            currentItems.map(hd => (
-              <tr key={hd._id}>
-                <td>{hd.mahd}</td>
-                <td>{hd.makh}</td>
-                <td>{hd.date}</td>
-                <td>{hd.tongtien ? hd.tongtien.toLocaleString() : 0} VNĐ</td>
-                <td>
-                  <button className='btn-view'>chi tiết</button>
-                  <button
-                    className='btn-print'
-                    onClick={() => {
-                      // setSelectedInvoice(hd) // Đặt hóa đơn được chọn
-                      handlePrint(hd) // Gọi hàm in
-                    }}
-                  >
-                    In
-                  </button>
-                </td>
-              </tr>
-            ))
-          ) : (
+      <div className='divtablehoadon'>
+        <table className='tablenhap'>
+          <thead className='theadnhap'>
             <tr>
-              <td colSpan='5'>Không có hóa đơn nào</td>
+              <td className='tdnhap'>Mã hóa đơn</td>
+              <td className='tdnhap'>Mã khách hàng</td>
+              <td className='tdnhap'>Ngày xuất</td>
+              <td className='tdnhap'>Tổng tiền</td>
+              <td className='tdnhap'>Chức năng</td>
             </tr>
-          )}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {currentItems.length > 0 ? (
+              currentItems.map(hd => (
+                <tr key={hd._id}>
+                  <td>{hd.mahd}</td>
+                  <td>{hd.makh}</td>
+                  <td>{hd.date}</td>
+                  <td>{hd.tongtien ? hd.tongtien.toLocaleString() : 0} VNĐ</td>
+                  <td>
+                    <button className='btn-view'>chi tiết</button>
+                    <button
+                      className='btn-print'
+                      onClick={() => {
+                        // setSelectedInvoice(hd) // Đặt hóa đơn được chọn
+                        handlePrint(hd) // Gọi hàm in
+                      }}
+                    >
+                      In
+                    </button>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan='5'>Không có hóa đơn nào</td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
 
       <div className='pagination'>
         {Array.from({ length: totalPages }, (_, index) => (

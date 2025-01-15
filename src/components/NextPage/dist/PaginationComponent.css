@@ -54,3 +54,9 @@
   color: #666;
   font-size: 13px;
 }
+
+@media screen and (max-width: 46.1875em) {
+  .pagination-container {
+    padding: 5px !important;
+  }
+}

@@ -238,6 +238,9 @@ body {
   padding-right: 10px;
   padding-left: 5px;
   padding-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .checkout-header {
@@ -345,6 +348,7 @@ body {
   display: flex;
   justify-content: space-between;
   margin-bottom: 20px;
+  gap: 5px;
 }
 
 .cash-suggestions button {
@@ -353,27 +357,41 @@ body {
   border-radius: 5px;
   border: none;
   cursor: pointer;
+  flex: 1;
 }
 
 .checkout-actions {
   display: flex;
   justify-content: space-between;
+  gap: 5px;
 }
 
 .pay-btn,
 .save-btn {
-  background-color: #007bff;
+  
   color: white;
-  padding: 10px 20px;
+  padding: 10px;
   border: none;
-  border-radius: 5px;
-  font-size: 1rem;
+  border-radius: 10px;
+  font-size: 16px;
   cursor: pointer;
+  height: 68px;
 }
 
-.pay-btn:hover,
-.save-btn:hover {
+.pay-btn {
+  background-color: #007bff;
+  flex: 1;
+}
+.save-btn{
+  background-color: #ff4f4c;
+}
+
+.pay-btn:hover{
   background-color: #0056b3;
+}
+
+.save-btn:hover {
+  background-color: #b61d1b;
 }
 
 .selected-products-container {
@@ -493,8 +511,6 @@ body {
 .divInhoadon {
   display: flex;
   align-items: center;
-  margin-top: 10px;
-  margin-bottom: 10px;
   gap: 10px;
 }
 
@@ -503,6 +519,7 @@ body {
   color: var(--blue);
   width: 40px;
   transition: all 0.3s ease;
+  height: 50px;
 }
 
 .iconInhoadon.on {
@@ -549,11 +566,32 @@ body {
   height: 15px;
   border: 5px solid #ADD8E6;
   cursor: pointer;
-   transition: box-shadow 0.3s ease,
-   transform 0.3s ease;
+  transition: box-shadow 0.3s ease,
+    transform 0.3s ease;
+
   &:hover {
     box-shadow: 0 0 0 10px #e6e6e6;
     /* Thêm hiệu ứng vòng ngoài */
     transform: scale(1);
+  }
+}
+
+.divgoiytienmat {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+
+  div {
+    font-weight: 700;
+  }
+
+  hr {
+    border: 0;
+    flex: 1;
+    height: 1px;
+    background: rgba(0, 0, 0, 0.12);
+    transition: background .3s,
+      opacity .3s;
   }
 }

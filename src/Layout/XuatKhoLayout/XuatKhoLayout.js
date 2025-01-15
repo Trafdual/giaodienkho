@@ -37,28 +37,19 @@ function XuatKhoLayout () {
     setSelectAll(updatedSelectedItems.length === lohang.length)
   }
 
-  // Trạng thái phân trang
   const [currentPage, setCurrentPage] = useState(1)
-  const [itemsPerPage, setItemsPerPage] = useState(9) // Mặc định là 9
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
+  const [itemsPerPage, setItemsPerPage] = useState(9)
 
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth <= 768) {
-        // Giả sử 768px là kích thước cắt của điện thoại
-        setItemsPerPage(5)
-        setIsMobile(window.innerWidth <= 768)
+        setItemsPerPage(9)
       } else {
         setItemsPerPage(9)
       }
     }
-
-    // Gọi hàm khi trang được tải
     handleResize()
-
-    // Thay đổi itemsPerPage khi kích thước cửa sổ thay đổi
     window.addEventListener('resize', handleResize)
-
     return () => {
       window.removeEventListener('resize', handleResize)
     }
@@ -71,8 +62,7 @@ function XuatKhoLayout () {
         console.log('Interval detected change, updating khoID:', newKhoID)
         setKhoID(newKhoID)
       }
-    }, 1000) // Kiểm tra mỗi giây
-
+    }, 1000)
     return () => clearInterval(intervalId)
   }, [khoID])
 
@@ -166,61 +156,55 @@ function XuatKhoLayout () {
                   </button>
                 </div>
               )}
-
-              <table className='tablenhap'>
-                <thead className='theadnhap'>
-                  <tr>
-                    <td className='tdnhap'>
-                      <input
-                        type='checkbox'
-                        checked={selectAll}
-                        onChange={handleSelectAll}
-                      />
-                    </td>
-
-                    <td className='tdnhap'>Mã Lô Hàng</td>
-                    <td className='tdnhap'>Mã Sản Phẩm</td>
-                    <td className='tdnhap'>Imel</td>
-                    <td className='tdnhap'>Tên Sản Phẩm</td>
-                    {!isMobile && (
-                      <>
-                        <td className='tdnhap'>Ngày nhập</td>
-                        <td className='tdnhap'>Ngày Xuất</td>
-                      </>
-                    )}
-                  </tr>
-                </thead>
-                <tbody className='tbodynhap'>
-                  {currentItems.length > 0 ? (
-                    currentItems.map(ncc => (
-                      <tr key={ncc._id}>
-                        <td>
-                          <input
-                            type='checkbox'
-                            checked={selectedItems.includes(ncc._id)}
-                            onChange={() => handleSelectItem(ncc._id)}
-                          />
-                        </td>
-
-                        <td>{ncc.malohang}</td>
-                        <td>{ncc.masp}</td>
-                        <td>{ncc.imel}</td>
-                        <td>{ncc.tenmay}</td>
-                        {!isMobile && (
-                          <>
-                            <td>{ncc.ngaynhap}</td>
-                            <td>{ncc.ngayxuat}</td>
-                          </>
-                        )}
-                      </tr>
-                    ))
-                  ) : (
+              <div className='divtablexuakho'>
+                <table className='tablenhap'>
+                  <thead className='theadnhap'>
                     <tr>
-                      <td colSpan='7'>Không có sản phẩm nào</td>
+                      <td className='tdnhap'>
+                        <input
+                          type='checkbox'
+                          checked={selectAll}
+                          onChange={handleSelectAll}
+                        />
+                      </td>
+
+                      <td className='tdnhap'>Mã Lô Hàng</td>
+                      <td className='tdnhap'>Mã Sản Phẩm</td>
+                      <td className='tdnhap'>Imel</td>
+                      <td className='tdnhap'>Tên Sản Phẩm</td>
+                      <td className='tdnhap'>Ngày nhập</td>
+                      <td className='tdnhap'>Ngày Xuất</td>
                     </tr>
-                  )}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody className='tbodynhap'>
+                    {currentItems.length > 0 ? (
+                      currentItems.map(ncc => (
+                        <tr key={ncc._id}>
+                          <td>
+                            <input
+                              type='checkbox'
+                              checked={selectedItems.includes(ncc._id)}
+                              onChange={() => handleSelectItem(ncc._id)}
+                            />
+                          </td>
+
+                          <td>{ncc.malohang}</td>
+                          <td>{ncc.masp}</td>
+                          <td>{ncc.imel}</td>
+                          <td>{ncc.tenmay}</td>
+                          <td>{ncc.ngaynhap}</td>
+                          <td>{ncc.ngayxuat}</td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan='7'>Không có sản phẩm nào</td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+
               <div className='pagination'>
                 {Array.from({ length: totalPages }, (_, index) => (
                   <button

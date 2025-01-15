@@ -1,0 +1,13 @@
+@media (max-width: 480px) {
+  .divtablekhachhang {
+    width: 100%;
+    overflow-x: auto;
+    height: 700px;
+  }
+  .divtablekhachhang table thead {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background-color: white;
+  }
+}

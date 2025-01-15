@@ -316,7 +316,7 @@ function BanHangLayout () {
               method: method,
               idnganhang: nganhang,
               makh: makh,
-              ghino:ghino,
+              ghino: ghino,
               products: products
             })
           }
@@ -340,8 +340,6 @@ function BanHangLayout () {
 
   return (
     <div className='app-container'>
-      <HeaderBanHang userId={userId} />
-
       <div className='row'>
         <div className='column left-column'>
           <div className='head'>
@@ -512,155 +510,23 @@ function BanHangLayout () {
         </div>
 
         <div className='checkout-section'>
-          <div className='checkout-header'>
-            <span>{formatDate(currentTime)}</span>
-            <button className='store-btn'>Tại cửa hàng</button>
-          </div>
-
-          <div className='customer-info'>
-            <div className='customer-input-section'>
-              <MdSearch className='iconbanhang' />
-
-              <Tooltip
-                trigger='click'
-                interactive
-                arrow
-                position='bottom'
-                open={isTableKhachHang}
-                onRequestClose={() => setisTableKhachHang(false)}
-                html={
-                  <div
-                    className='supplier-table-container'
-                    //  ref={tooltipRefMethod}
-                  >
-                    <table className='supplier-info-table'>
-                      <thead>
-                        <tr>
-                          <th>Khách hàng</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {datakhachang.map((khachhang, index) => (
-                          <tr className='trdulieu' key={index}>
-                            <td
-                              onClick={() => {
-                                setmakh(khachhang.makh)
-                                settextkh(
-                                  `${khachhang.name} - ${khachhang.phone}`
-                                )
-                                setisTableKhachHang(!isTableKhachHang)
-                              }}
-                            >
-                              {khachhang.name} - {khachhang.phone}
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                }
-              >
-                <input
-                  type='text'
-                  placeholder='(F4) SĐT, tên khách hàng'
-                  className='customer-input'
-                  onClick={() => handleKhacHang()}
-                  value={textkh}
-                />
-              </Tooltip>
-
-              <FontAwesomeIcon
-                icon={faPlus}
-                className='iconaddkhachhang'
-                onClick={() => setIsModalOpenKh(true)}
-              />
-              <FaShoppingCart className='iconbanhang' />
-            </div>
-          </div>
-
-          <div className='checkout-summary'>
-            <div className='summary-item'>
-              <span>Tổng tiền</span>
-              <span>{totalAmount.toLocaleString()}</span>
-            </div>
-            <div className='summary-item'>
-              <span>Đặt cọc</span>
-              <input
-                type='text'
-                value={datcoc}
-                onChange={e => setdatcoc(e.target.value)}
-                className='inputBanHang'
-              />
-            </div>
-            <div className='summary-item'>
-              <span>Còn phải thu</span>
-              <span>{(totalAmount - datcoc).toLocaleString()}</span>
+          <div className='divtinhtien'>
+            <div className='checkout-header'>
+              <span>{formatDate(currentTime)}</span>
+              <button className='store-btn'>Tại cửa hàng</button>
             </div>
 
-            <div className='payment-method'>
-              <Tooltip
-                trigger='click'
-                interactive
-                arrow
-                position='bottom'
-                open={isTableMethod}
-                onRequestClose={() => setisTableMethod(false)}
-                html={
-                  <div
-                    className='supplier-table-container'
-                    //  ref={tooltipRefMethod}
-                  >
-                    <table className='supplier-info-table'>
-                      <thead>
-                        <tr>
-                          <th>Phương thức</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {methods.map((method, index) => (
-                          <tr className='trdulieu' key={index}>
-                            <td
-                              onClick={() => {
-                                setmethod(method)
-                                setisTableMethod(!isTableMethod)
-                              }}
-                            >
-                              {method}
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                }
-              >
-                <span onClick={() => setisTableMethod(!isTableMethod)}>
-                  {method}
-                </span>
-              </Tooltip>
-              <input
-                onClick={() => setIsFocused(true)} // Khi focus
-                onBlur={() => setIsFocused(false)} // Khi mất focus
-                className={isFocused ? 'border-bottom' : 'inputBanHang'}
-                value={
-                  inputValue
-                    ? inputValue.toLocaleString()
-                    : totalAmount.toLocaleString()
-                }
-                onChange={e => setInputValue(e.target.value)}
-              />
-            </div>
-            {method === 'Chuyển khoản' && (
-              <div className='TaiKhoanThu'>
-                <h4>Tài khoản thu</h4>
+            <div className='customer-info'>
+              <div className='customer-input-section'>
+                <MdSearch className='iconbanhang' />
 
                 <Tooltip
                   trigger='click'
                   interactive
                   arrow
                   position='bottom'
-                  open={isTableNganHang}
-                  onRequestClose={() => setisTableNganHang(false)}
+                  open={isTableKhachHang}
+                  onRequestClose={() => setisTableKhachHang(false)}
                   html={
                     <div
                       className='supplier-table-container'
@@ -669,22 +535,22 @@ function BanHangLayout () {
                       <table className='supplier-info-table'>
                         <thead>
                           <tr>
-                            <th>Ngân Hàng</th>
+                            <th>Khách hàng</th>
                           </tr>
                         </thead>
                         <tbody>
-                          {nganhangs.map((nganhang, index) => (
+                          {datakhachang.map((khachhang, index) => (
                             <tr className='trdulieu' key={index}>
                               <td
                                 onClick={() => {
-                                  setTextnganhang(
-                                    `${nganhang.sotaikhoan} - ${nganhang.name}`
+                                  setmakh(khachhang.makh)
+                                  settextkh(
+                                    `${khachhang.name} - ${khachhang.phone}`
                                   )
-                                  setnganhang(nganhang.manganhangkho)
-                                  setisTableNganHang(!isTableNganHang)
+                                  setisTableKhachHang(!isTableKhachHang)
                                 }}
                               >
-                                {nganhang.sotaikhoan} - {nganhang.name}
+                                {khachhang.name} - {khachhang.phone}
                               </td>
                             </tr>
                           ))}
@@ -693,62 +559,201 @@ function BanHangLayout () {
                     </div>
                   }
                 >
-                  <button onClick={() => setisTableNganHang(!isTableNganHang)}>
-                    {textnganhang ? textnganhang : 'Chọn ngân hàng'}
-                    <FontAwesomeIcon icon={faChevronDown} />
-                  </button>
+                  <input
+                    type='text'
+                    placeholder='(F4) SĐT, tên khách hàng'
+                    className='customer-input'
+                    onClick={() => handleKhacHang()}
+                    value={textkh}
+                  />
                 </Tooltip>
-              </div>
-            )}
 
-            <div className='summary-item'>
-              <span>Trả lại khách</span>
-              <span>
-                {inputValue
-                  ? Number(inputValue - totalAmount).toLocaleString()
-                  : Number(totalAmount - totalAmount).toLocaleString()}
-              </span>
+                <FontAwesomeIcon
+                  icon={faPlus}
+                  className='iconaddkhachhang'
+                  onClick={() => setIsModalOpenKh(true)}
+                />
+                <FaShoppingCart className='iconbanhang' />
+              </div>
+            </div>
+
+            <div className='checkout-summary'>
+              <div className='summary-item'>
+                <span>Tổng tiền</span>
+                <span>{totalAmount.toLocaleString()}</span>
+              </div>
+              <div className='summary-item'>
+                <span>Đặt cọc</span>
+                <input
+                  type='text'
+                  value={datcoc}
+                  onChange={e => setdatcoc(e.target.value)}
+                  className='inputBanHang'
+                />
+              </div>
+              <div className='summary-item'>
+                <span>Còn phải thu</span>
+                <span>{(totalAmount - datcoc).toLocaleString()}</span>
+              </div>
+
+              <div className='payment-method'>
+                <Tooltip
+                  trigger='click'
+                  interactive
+                  arrow
+                  position='bottom'
+                  open={isTableMethod}
+                  onRequestClose={() => setisTableMethod(false)}
+                  html={
+                    <div
+                      className='supplier-table-container'
+                      //  ref={tooltipRefMethod}
+                    >
+                      <table className='supplier-info-table'>
+                        <thead>
+                          <tr>
+                            <th>Phương thức</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {methods.map((method, index) => (
+                            <tr className='trdulieu' key={index}>
+                              <td
+                                onClick={() => {
+                                  setmethod(method)
+                                  setisTableMethod(!isTableMethod)
+                                }}
+                              >
+                                {method}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  }
+                >
+                  <span onClick={() => setisTableMethod(!isTableMethod)}>
+                    {method}
+                  </span>
+                </Tooltip>
+                <input
+                  onClick={() => setIsFocused(true)} // Khi focus
+                  onBlur={() => setIsFocused(false)} // Khi mất focus
+                  className={isFocused ? 'border-bottom' : 'inputBanHang'}
+                  value={
+                    inputValue
+                      ? inputValue.toLocaleString()
+                      : totalAmount.toLocaleString()
+                  }
+                  onChange={e => setInputValue(e.target.value)}
+                />
+              </div>
+              {method === 'Chuyển khoản' && (
+                <div className='TaiKhoanThu'>
+                  <h4>Tài khoản thu</h4>
+
+                  <Tooltip
+                    trigger='click'
+                    interactive
+                    arrow
+                    position='bottom'
+                    open={isTableNganHang}
+                    onRequestClose={() => setisTableNganHang(false)}
+                    html={
+                      <div
+                        className='supplier-table-container'
+                        //  ref={tooltipRefMethod}
+                      >
+                        <table className='supplier-info-table'>
+                          <thead>
+                            <tr>
+                              <th>Ngân Hàng</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {nganhangs.map((nganhang, index) => (
+                              <tr className='trdulieu' key={index}>
+                                <td
+                                  onClick={() => {
+                                    setTextnganhang(
+                                      `${nganhang.sotaikhoan} - ${nganhang.name}`
+                                    )
+                                    setnganhang(nganhang.manganhangkho)
+                                    setisTableNganHang(!isTableNganHang)
+                                  }}
+                                >
+                                  {nganhang.sotaikhoan} - {nganhang.name}
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    }
+                  >
+                    <button
+                      onClick={() => setisTableNganHang(!isTableNganHang)}
+                    >
+                      {textnganhang ? textnganhang : 'Chọn ngân hàng'}
+                      <FontAwesomeIcon icon={faChevronDown} />
+                    </button>
+                  </Tooltip>
+                </div>
+              )}
+
+              <div className='summary-item'>
+                <span>Trả lại khách</span>
+                <span>
+                  {inputValue
+                    ? Number(inputValue - totalAmount).toLocaleString()
+                    : Number(totalAmount - totalAmount).toLocaleString()}
+                </span>
+              </div>
+            </div>
+
+            <div className='additional-options'>
+              <label>
+                <input
+                  type='checkbox'
+                  checked={isChecked}
+                  onChange={handleCheckboxChange}
+                />
+                Tính vào công nợ
+              </label>
+              <input
+                type='text'
+                placeholder='Ghi chú ...'
+                className='notes-input'
+              />
             </div>
           </div>
-
-          <div className='additional-options'>
-            <label>
-              <input
-                type='checkbox'
-                checked={isChecked}
-                onChange={handleCheckboxChange}
+          <div className='divbtncnthanhtoan'>
+            <div className='divInhoadon'>
+              <FontAwesomeIcon
+                icon={inhoadon ? faToggleOn : faToggleOff}
+                onClick={() => setinhoadon(!inhoadon)}
+                className={`iconInhoadon ${inhoadon ? 'on' : 'off'}`}
               />
-              Tính vào công nợ
-            </label>
-            <input
-              type='text'
-              placeholder='Ghi chú ...'
-              className='notes-input'
-            />
-          </div>
+              <p>In hóa đơn</p>
+            </div>
+            <div className='divgoiytienmat'>
+              <div>Gợi ý tiền mặt</div>
+              <hr />
+            </div>
 
-          <div className='cash-suggestions'>
-            <button>500.000</button>
-            <button>200.000</button>
-            <button>100.000</button>
-          </div>
-          <div className='divInhoadon'>
-            <FontAwesomeIcon
-              icon={inhoadon ? faToggleOn : faToggleOff}
-              onClick={() => setinhoadon(!inhoadon)}
-              className={`iconInhoadon ${inhoadon ? 'on' : 'off'}`}
-            />
-            <p>In hóa đơn</p>
-          </div>
+            <div className='cash-suggestions'>
+              <button>500.000</button>
+              <button>200.000</button>
+              <button>100.000</button>
+            </div>
 
-          <div className='checkout-actions'>
-            <button className='save-btn'>Lưu tạm (F10)</button>
-            <button className='pay-btn' onClick={handleThanhToan}>
-              Thu tiền (F9)
-            </button>
-            <button className='pay-btn' onClick={() => setIsOpenModalQR(true)}>
-              Test Qr Thanh Toán
-            </button>
+            <div className='checkout-actions'>
+              <button className='save-btn'>Lưu tạm (F10)</button>
+              <button className='pay-btn' onClick={handleThanhToan}>
+                Thu tiền (F9)
+              </button>
+            </div>
           </div>
         </div>
       </div>

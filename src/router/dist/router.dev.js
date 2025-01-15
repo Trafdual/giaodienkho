@@ -89,7 +89,7 @@ var publicRoutes = [{
 }, {
   path: '/banhang',
   component: _BanHangLayout.BanHangLayout,
-  layout: null
+  layout: 'banhang'
 }, {
   path: '/trogiup',
   component: _TroGiupLayout.TroGiupLayout
@@ -134,7 +134,7 @@ var publicRoutes = [{
 }, {
   path: '/danhsachhoadon',
   component: _DanhSachHoaDonLayout.DanhSachHoaDonLayout,
-  layout: null
+  layout: 'banhang'
 }];
 exports.publicRoutes = publicRoutes;
 var privateRoutes = [];
