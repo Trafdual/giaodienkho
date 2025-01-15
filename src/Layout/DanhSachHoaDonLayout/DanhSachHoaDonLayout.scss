@@ -28,14 +28,16 @@
             span {
                 margin: 0 5px;
             }
-            .btnsearchhoadon{
+
+            .btnsearchhoadon {
                 padding: 10px;
                 background-color: var(--blue);
                 border: none;
                 color: white;
                 border-radius: 10px;
                 cursor: pointer;
-                &:hover{
+
+                &:hover {
                     background-color: #0053a1;
                 }
             }
@@ -59,8 +61,8 @@
 
     .table-container {
         margin: 15px;
-        flex: 1;
         overflow-x: auto;
+        height: 700px;
 
         table {
             width: 100%;
@@ -69,7 +71,8 @@
 
             thead {
                 background-color: #f1f3f5;
-
+                position: sticky;
+                top: 0;
                 th {
                     text-align: left;
                     padding: 10px;

@@ -1,3 +1,4 @@
+@charset "UTF-8";
 .topbar1 {
   display: flex;
   align-items: center;
@@ -33,12 +34,13 @@
   cursor: pointer;
   color: #333;
 }
-.topbar1 .dropdown {
+.topbar1 .dropdown1 {
   border: none;
   position: relative;
   width: 20%;
+  flex: 1;
 }
-.topbar1 .dropdown .dropdown-button {
+.topbar1 .dropdown1 .dropdown-button {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -48,58 +50,75 @@
   background-color: #fff;
   cursor: pointer;
   font-size: 14px;
-  width: 100%;
+  width: 200px;
 }
-.topbar1 .dropdown .dropdown-list {
+.topbar1 .dropdown1 .dropdown-list {
   position: absolute;
   top: 100%;
   left: 0;
   width: 100%;
   background: #fff;
   border: 1px solid #ddd;
-  border-radius: 4px;
+  border-radius: 8px;
   z-index: 10;
   max-height: 200px;
   overflow-y: auto;
 }
-.topbar1 .dropdown .dropdown-list li {
+.topbar1 .dropdown1 .dropdown-list li {
   padding: 8px 12px;
   cursor: pointer;
+  border-bottom: 1px solid #e2e2e2;
 }
-.topbar1 .dropdown .dropdown-list li:hover {
+.topbar1 .dropdown1 .dropdown-list li:hover {
   background-color: #f2f2f2;
 }
-.topbar1 .user {
+.topbar1 .user1 {
+  display: flex;
+  align-items: center;
+  height: 40px;
+  gap: 20px;
+}
+.topbar1 .user1 .imgmenu {
+  width: 40px;
+  height: 100%;
+  cursor: pointer;
+}
+.topbar1 .user1 .user-info {
   display: flex;
   align-items: center;
 }
-.topbar1 .user .user-info {
-  display: flex;
-  align-items: center;
-}
-.topbar1 .user .user-info img {
+.topbar1 .user1 .user-info img {
   height: 40px;
   width: 40px;
   border-radius: 50%;
   margin-right: 10px;
 }
-.topbar1 .user .user-info h4 {
+.topbar1 .user1 .user-info h4 {
   font-size: 14px;
   margin: 0;
 }
-.topbar1 .user .help {
+.topbar1 .user1 .help {
   display: flex;
   align-items: center;
+  font-size: 20px;
+  border: 1px solid #ccc;
+  height: 100%;
+  margin-left: 5px;
+  border-radius: 5px;
 }
-.topbar1 .user .help .btn-icon {
+.topbar1 .user1 .help .btn-icon {
   margin-left: 10px;
-  background: none;
+  background: #fffdfd;
   border: none;
   cursor: pointer;
+  height: 100%;
 }
-.topbar1 .user .help .btn-icon .icon-help {
-  font-size: 18px;
-  color: #333;
+.topbar1 .user1 .help .btn-icon .icon-help {
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+  font-size: 20px;
+  color: #002453;
+  cursor: pointer;
 }
 .topbar1 .loading-overlay {
   position: fixed;
@@ -113,4 +132,141 @@
   justify-content: center;
   font-size: 18px;
   color: #333;
+}
+
+.menu-container {
+  position: absolute;
+  top: 60px;
+  /* Điều chỉnh vị trí so với ảnh imgmenu */
+  right: 20px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  width: auto;
+  /* Độ rộng của menu */
+  z-index: 100;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  padding: 20px;
+  overflow: hidden;
+}
+
+.menu1 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  /* 3 cột */
+  gap: 30px;
+}
+
+.menu-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border-radius: 10px;
+  width: 100px;
+  height: 100px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.menu-item:hover {
+  background-color: #93edfd;
+  /* Hiệu ứng khi hover */
+}
+
+.menu-item i {
+  width: 42px;
+  height: 42px;
+}
+
+.ibanhang {
+  background-image: url("../../../../public/iconbanhang.png");
+  background-repeat: no-repeat;
+  background-position-x: 0px;
+  background-position-y: -672px;
+  background-size: 378px auto;
+}
+
+.idonhang {
+  background-image: url("../../../../public/iconbanhang.png");
+  background-repeat: no-repeat;
+  background-position-x: -42px;
+  background-position-y: -630px;
+  background-size: 378px auto;
+}
+
+.ihoadon {
+  width: 44px !important;
+  height: 44px !important;
+  background-image: url("../../../../public/iconbanhang.png");
+  background-repeat: no-repeat;
+  display: inline-block;
+  background-position-x: -88px;
+  background-position-y: -660px;
+  background-size: 396px auto;
+}
+
+.ihuongdan {
+  width: 44px !important;
+  height: 44px !important;
+  background-image: url("../../../../public/iconbanhang.png");
+  background-repeat: no-repeat;
+  background-position-x: -176px;
+  background-position-y: -660px;
+  background-size: 396px auto;
+}
+
+.igopy {
+  width: 44px !important;
+  height: 44px !important;
+  background-image: url("../../../../public/iconbanhang.png");
+  background-repeat: no-repeat;
+  display: inline-block;
+  background-position-x: -176px;
+  background-position-y: -704px;
+  background-size: 396px auto;
+}
+
+.igioithieu {
+  width: 44px !important;
+  height: 44px !important;
+  background-image: url("../../../../public/iconbanhang.png");
+  background-repeat: no-repeat;
+  display: inline-block;
+  background-position-x: -352px;
+  background-position-y: -924px;
+  background-size: 396px auto;
+}
+
+.ithuchi {
+  background-image: url("../../../../public/iconthuchi.png");
+  display: inline-block;
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
+
+.ithietlap {
+  background-image: url("../../../../public/iconbanhang.png");
+  background-repeat: no-repeat;
+  display: inline-block;
+  background-position-x: -126px;
+  background-position-y: -630px;
+  background-size: 378px auto;
+}
+
+.itrangquanly {
+  background-image: url("../../../../public/LOGO.png");
+  display: inline-block;
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
+
+.menu-item span {
+  margin-top: 8px;
+  font-size: 12px;
+  color: #333;
+  font-weight: 500;
 }

@@ -35,7 +35,7 @@ const publicRoutes = [
   { path: '/quytiengui', component: QuyTienGuiLayout },
   { path: '/quytienmat', component: QuyTienMatLayout },
   { path: '/lenhdieuchuyen', component: LenhDieuChuyenLayout },
-  { path: '/banhang', component: BanHangLayout, layout: null },
+  { path: '/banhang', component: BanHangLayout, layout: 'banhang' },
   { path: '/trogiup', component: TroGiupLayout },
   { path: '/testlungtung', component: TestLungTung, layout: null },
   { path: '/doanhthu', component: DoanhThuLayout },
@@ -49,9 +49,7 @@ const publicRoutes = [
   { path: '/register', component: Register, layout: null },
   { path: '/trogiuptongquan', component: TroGiupTongQuan, layout: null },
   { path: '/supportchat', component: SupportChat, layout: null },
-    { path: '/danhsachhoadon', component: DanhSachHoaDonLayout, layout: null },
-
-
+  { path: '/danhsachhoadon', component: DanhSachHoaDonLayout, layout: 'banhang' }
 ]
 const privateRoutes = []
 export { publicRoutes, privateRoutes }
