@@ -23,6 +23,7 @@ import { QuyTienMatLayout } from '~/Layout/QuyTienLayout/QuyTienMatLayout'
 import { BaoCaoCongNo } from '~/Layout/BaoCaoCongNoLayout'
 import { BaoCaoBanHangLayout } from '~/Layout/BaoCaoBanHangLayout'
 import { DanhSachHoaDonLayout } from '~/Layout/DanhSachHoaDonLayout'
+import { ThuNoLayout } from '~/Layout/ThuNoLayout'
 
 const publicRoutes = [
   { path: '/', component: Login, layout: null },
@@ -49,7 +50,12 @@ const publicRoutes = [
   { path: '/register', component: Register, layout: null },
   { path: '/trogiuptongquan', component: TroGiupTongQuan, layout: null },
   { path: '/supportchat', component: SupportChat, layout: null },
-  { path: '/danhsachhoadon', component: DanhSachHoaDonLayout, layout: 'banhang' }
+  {
+    path: '/danhsachhoadon',
+    component: DanhSachHoaDonLayout,
+    layout: 'banhang'
+  },
+  { path: '/thuno', component: ThuNoLayout, layout: 'banhang' }
 ]
 const privateRoutes = []
 export { publicRoutes, privateRoutes }

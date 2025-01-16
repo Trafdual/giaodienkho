@@ -53,6 +53,8 @@ var _BaoCaoBanHangLayout = require("~/Layout/BaoCaoBanHangLayout");
 
 var _DanhSachHoaDonLayout = require("~/Layout/DanhSachHoaDonLayout");
 
+var _ThuNoLayout = require("~/Layout/ThuNoLayout");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var publicRoutes = [{
@@ -134,6 +136,10 @@ var publicRoutes = [{
 }, {
   path: '/danhsachhoadon',
   component: _DanhSachHoaDonLayout.DanhSachHoaDonLayout,
+  layout: 'banhang'
+}, {
+  path: '/thuno',
+  component: _ThuNoLayout.ThuNoLayout,
   layout: 'banhang'
 }];
 exports.publicRoutes = publicRoutes;
