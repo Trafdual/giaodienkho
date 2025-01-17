@@ -26,7 +26,7 @@ function ChiTietQuyTienMat ({
 
     try {
       const response = await fetch(
-        `https://www.ansuataohanoi.com/getchitietthuchi/${idquytien}`,
+        `https://ansuataohanoi.com/getchitietthuchi/${idquytien}`,
         {
           method: 'GET',
           headers: {
@@ -52,7 +52,7 @@ function ChiTietQuyTienMat ({
   }, [idquytien])
 
   // useEffect(() => {
-  //   const eventSource = new EventSource('https://www.ansuataohanoi.com/events')
+  //   const eventSource = new EventSource('https://ansuataohanoi.com/events')
 
   //   eventSource.onmessage = event => {
   //     const newMessage = JSON.parse(event.data)

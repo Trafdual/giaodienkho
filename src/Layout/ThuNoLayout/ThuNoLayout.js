@@ -136,7 +136,7 @@ function ThuNoLayout () {
       </div>
 
       <div className='tab-content-container'>{renderTabContent()}</div>
-      <div className='pagination'>
+      <div className='pagination1'>
         <PaginationComponent
           totalPages={totalPages}
           currentPage={currentPage}

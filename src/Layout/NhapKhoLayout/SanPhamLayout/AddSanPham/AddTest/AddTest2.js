@@ -89,7 +89,7 @@ function AddTest2 ({
   const fetchSku = async () => {
     try {
       const response = await fetch(
-        `https://www.ansuataohanoi.com/getdungluongsku/${userID}`
+        `https://ansuataohanoi.com/getdungluongsku/${userID}`
       )
       const data = await response.json()
 
@@ -263,7 +263,7 @@ function AddTest2 ({
       setIsClickButton(true)
       try {
         const response = await fetch(
-          `https://www.ansuataohanoi.com/postloaisanpham4`,
+          `https://ansuataohanoi.com/postloaisanpham4`,
           {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -290,7 +290,7 @@ function AddTest2 ({
   }
 
   // useEffect(() => {
-  //   const eventSource = new EventSource('https://www.ansuataohanoi.com/events')
+  //   const eventSource = new EventSource('https://ansuataohanoi.com/events')
 
   //   eventSource.onmessage = event => {
   //     const newMessage = JSON.parse(event.data)

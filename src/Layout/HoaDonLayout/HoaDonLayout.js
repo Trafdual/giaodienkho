@@ -4,16 +4,18 @@ import './HoaDonLayout.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { AddHoaDon } from './AddHoaDon'
+import { PaginationComponent } from '~/components/NextPage'
 import Invoice from './Invoice'
 
 function HoaDonLayout () {
   const [isOpen, setIsOpen] = useState(false)
   const [hoadon, setHoaDon] = useState([])
-  const [currentPage, setCurrentPage] = useState(1)
-  const itemsPerPage = 10
+
   const [khoID, setKhoID] = useState(localStorage.getItem('khoID') || '')
   const componentRef = useRef() // Tạo ref để in
   const [selectedInvoice, setSelectedInvoice] = useState(null)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [itemsPerPage, setItemsPerPage] = useState(9) // Mặc định là 9
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -29,9 +31,7 @@ function HoaDonLayout () {
 
   const fetchHoaDon = async () => {
     try {
-      const response = await fetch(
-        `https://www.ansuataohanoi.com/hoadon/${khoID}`
-      )
+      const response = await fetch(`https://ansuataohanoi.com/hoadon/${khoID}`)
       const data = await response.json()
       setHoaDon(data)
     } catch (error) {
@@ -48,6 +48,7 @@ function HoaDonLayout () {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage
   const currentItems = hoadon.slice(indexOfFirstItem, indexOfLastItem)
   const totalPages = Math.ceil(hoadon.length / itemsPerPage)
+  const totalResults = hoadon.length
 
   // Chuyển trang
   const handlePageChange = pageNumber => {
@@ -212,23 +213,23 @@ function HoaDonLayout () {
         </table>
       </div>
 
-      <div className='pagination'>
-        {Array.from({ length: totalPages }, (_, index) => (
-          <button
-            key={index + 1}
-            onClick={() => handlePageChange(index + 1)}
-            className={index + 1 === currentPage ? 'active' : ''}
-          >
-            {index + 1}
-          </button>
-        ))}
-      </div>
       <AddHoaDon
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         khoID={khoID}
         fetchData={fetchHoaDon}
       />
+      <div className='pagination1'>
+        <PaginationComponent
+          totalPages={totalPages}
+          currentPage={currentPage}
+          handlePageChange={handlePageChange}
+          itemsPerPage={itemsPerPage}
+          setItemsPerPage={setItemsPerPage}
+          totalResults={totalResults}
+          fetchData={fetchHoaDon}
+        />
+      </div>
     </div>
   )
 }

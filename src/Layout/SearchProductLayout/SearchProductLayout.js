@@ -188,7 +188,7 @@ function SearchProductLayout () {
   const XuatKhoHangLoat = async () => {
     try {
       const response = await fetch(
-        `https://www.ansuataohanoi.com/xuatkho1/${khoID}`,
+        `https://ansuataohanoi.com/xuatkho1/${khoID}`,
         {
           method: 'POST',
           headers: {
@@ -297,7 +297,6 @@ function SearchProductLayout () {
               <FontAwesomeIcon icon={faTruckFast} className='iconMenuSanPham' />
               Trả lại hàng mua
             </button>
-
           </div>
 
           <table className='tablenhap'>

@@ -150,4 +150,8 @@
     height: unset !important;
     padding: 5px;
   }
+
+  .divnhacungcap .pagination1 {
+    padding: 0 !important;
+  }
 }

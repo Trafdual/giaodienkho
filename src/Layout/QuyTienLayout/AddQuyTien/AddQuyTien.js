@@ -114,14 +114,13 @@ function AddQuyTien ({ isOpen, onClose, fetchquytien, loaitien, method }) {
     } finally {
       setLoadingSuppliers(false)
     }
-
   }
   console.log(suppliers)
 
   const fetchLoaichungtu = async () => {
     try {
       const response = await fetch(
-        `http://www.ansuataohanoi.com/getloaichungtu/${userID}`
+        `http://ansuataohanoi.com/getloaichungtu/${userID}`
       )
       const data = await response.json()
 

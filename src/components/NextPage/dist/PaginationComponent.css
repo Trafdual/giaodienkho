@@ -58,5 +58,10 @@
 @media screen and (max-width: 46.1875em) {
   .pagination-container {
     padding: 5px !important;
+    gap: 4px !important;
+  }
+
+  .pagination-container .results-info {
+    margin-top: 10px;
   }
 }

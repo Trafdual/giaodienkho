@@ -16,9 +16,9 @@ import { AddKho } from './AddKho'
 import { useToast } from '../../../components/GlobalStyles/ToastContext'
 import { Link, useNavigate } from 'react-router-dom'
 import { Loading } from '~/components/Loading'
-import NotificationsList from "~/components/Notifications/Notification";
+import NotificationsList from '~/components/Notifications/Notification'
 import { Modal } from '~/components/Modal'
-function Header({
+function Header ({
   toggleMenu,
   userId,
   name,
@@ -42,8 +42,8 @@ function Header({
   const [khoID, setKhoID] = useState(localStorage.getItem('khoID') || '')
   const [isLoading, setIsLoading] = useState(false) // Trạng thái loading
   const previousKhoID = useRef(khoID)
-  const [showNotifications, setShowNotifications] = useState(false);
-  const navigate = useNavigate();
+  const [showNotifications, setShowNotifications] = useState(false)
+  const navigate = useNavigate()
   const [isModalOpen, setIsModalOpen] = useState(false)
   useEffect(() => {
     // Mở modal nếu chưa chọn kho
@@ -51,7 +51,7 @@ function Header({
       setIsModalOpen(true)
     }
   }, [selectedKho])
-  const handleKhoChange = (kho) => {
+  const handleKhoChange = kho => {
     setSelectedKho(kho)
     localStorage.setItem('khoID', kho._id)
     setIsModalOpen(false)
@@ -74,7 +74,7 @@ function Header({
     setIsOpen(false)
   }
   const handleCloseModalKho = () => {
-    showToast('Vui lòng chọn kho trước khi sử dụng!', 'warning');
+    showToast('Vui lòng chọn kho trước khi sử dụng!', 'warning')
   }
 
   const toggleDropdown = () => {
@@ -124,13 +124,13 @@ function Header({
 
   const searchProduct = async () => {
     if (!selectedKho) {
-      showToast('Vui lòng chọn kho trước khi tìm kiếm!', 'warning');
-      return;
+      showToast('Vui lòng chọn kho trước khi tìm kiếm!', 'warning')
+      return
     }
-    setIsLoading(true);
+    setIsLoading(true)
     try {
       const response = await fetch(
-        `https://www.ansuataohanoi.com/searchsanpham/${khoID}`,
+        `https://ansuataohanoi.com/searchsanpham/${khoID}`,
         {
           method: 'POST',
           headers: {
@@ -236,15 +236,21 @@ function Header({
           </Tippy>
 
           <Tippy content='Thông báo' placement='bottom'>
-            <button className='btnicon' onClick={() => setShowNotifications(!showNotifications)}>
+            <button
+              className='btnicon'
+              onClick={() => setShowNotifications(!showNotifications)}
+            >
               <FontAwesomeIcon className='iconhelp' icon={faBell} />
             </button>
           </Tippy>
           {showNotifications && <NotificationsList />}
           <Tippy content='Trợ giúp' placement='bottom'>
-            <button className='btnicon' onClick={() => {
-              navigate('/trogiuptongquan');
-            }}>
+            <button
+              className='btnicon'
+              onClick={() => {
+                navigate('/trogiuptongquan')
+              }}
+            >
               <FontAwesomeIcon className='iconhelp' icon={faCircleQuestion} />
             </button>
           </Tippy>
@@ -257,9 +263,16 @@ function Header({
         setdatakho={setdatakho}
       />
       {isModalOpen && (
-        <Modal isOpen={isModalOpen} title="Vui lòng chọn kho" onClose={handleCloseModalKho}>
+        <Modal
+          isOpen={isModalOpen}
+          title='Vui lòng chọn kho'
+          onClose={handleCloseModalKho}
+        >
           <p>Trước khi sử dụng các chức năng, bạn cần chọn một kho:</p>
-          <div className='landauvaoapp' style={{ display: 'flex',alignItems:'center', margin: '20px 0'}}>
+          <div
+            className='landauvaoapp'
+            style={{ display: 'flex', alignItems: 'center', margin: '20px 0' }}
+          >
             <ListKho
               datakho={datakho}
               setdatakho={setdatakho}
@@ -267,7 +280,10 @@ function Header({
               selectedKho={selectedKho}
               setSelectedKho={setSelectedKho}
             />
-            <div className='divthemkho' style={{width:'50px',height:'50px', paddingLeft:'10px'}}>
+            <div
+              className='divthemkho'
+              style={{ width: '50px', height: '50px', paddingLeft: '10px' }}
+            >
               <Tippy content='Thêm kho' placement='bottom'>
                 <button className='btnicon' onClick={() => setIsOpen(true)}>
                   Thêm kho
@@ -277,7 +293,6 @@ function Header({
           </div>
         </Modal>
       )}
-
 
       {isLoading && <Loading />}
     </div>

@@ -13,9 +13,7 @@ import { getFromLocalStorage } from '~/components/MaHoaLocalStorage/MaHoaLocalSt
 function DefaultLayout ({ children }) {
   const [isActive, setIsActive] = useState(false)
   const [loading, setloading] = useState(true)
-  const [userID, setuserID] = useState(
-    getFromLocalStorage('userId')
-  )
+  const [userID, setuserID] = useState(getFromLocalStorage('userId'))
   const [datakho, setdatakho] = useState([])
 
   const [selectedKho, setSelectedKho] = useState(null)
@@ -23,20 +21,20 @@ function DefaultLayout ({ children }) {
 
   useEffect(() => {
     const intervalId = setInterval(() => {
-      const newuserID =  getFromLocalStorage('userId') || ''
+      const newuserID = getFromLocalStorage('userId') || ''
       if (newuserID !== userID) {
         console.log('Interval detected change, updating khoID:', newuserID)
         setuserID(newuserID)
       }
-    }, 1000) 
+    }, 1000)
 
     return () => clearInterval(intervalId)
-  }, [ getFromLocalStorage('userId')])
+  }, [getFromLocalStorage('userId')])
 
   const handleGetKho = async () => {
     try {
       const response = await fetch(
-        `https://www.ansuataohanoi.com/getdepot/${userID}`,
+        `https://ansuataohanoi.com/getdepot/${userID}`,
         {
           method: 'GET',
           headers: {

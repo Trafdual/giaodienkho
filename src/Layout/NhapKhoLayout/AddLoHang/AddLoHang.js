@@ -78,7 +78,7 @@ function AddLoHang ({ isOpen, onClose, setlohang }) {
     const fetchSuppliers = async () => {
       try {
         const response = await fetch(
-          `https://www.ansuataohanoi.com/getnhacungcap/${khoID}`
+          `https://ansuataohanoi.com/getnhacungcap/${khoID}`
         )
         const data = await response.json()
 
@@ -100,7 +100,7 @@ function AddLoHang ({ isOpen, onClose, setlohang }) {
   const fetchnganhang = async () => {
     try {
       const response = await fetch(
-        `https://www.ansuataohanoi.com/getnganhang/${userID}`
+        `https://ansuataohanoi.com/getnganhang/${userID}`
       )
       const data = await response.json()
 
@@ -175,7 +175,7 @@ function AddLoHang ({ isOpen, onClose, setlohang }) {
     if (validateInputs()) {
       try {
         const response = await fetch(
-          `https://www.ansuataohanoi.com/postloaisanpham2`,
+          `https://ansuataohanoi.com/postloaisanpham2`,
           {
             method: 'POST',
             headers: {

@@ -52,9 +52,8 @@ function NhapKhoLayout () {
     if (isDragging) {
       const newHeight = height + (e.clientY - startY)
       if (newHeight > 100 && newHeight <= 554) {
-        // Đảm bảo chiều cao không nhỏ hơn 100px
         setHeight(newHeight)
-        setResizerPosition(newHeight) // Cập nhật vị trí của resizer khi di chuyển
+        setResizerPosition(newHeight)
         setRemainingHeight(window.innerHeight - newHeight - 100)
       }
       setStartY(e.clientY)
@@ -89,7 +88,7 @@ function NhapKhoLayout () {
 
     try {
       const response = await fetch(
-        `https://www.ansuataohanoi.com/getloaisanpham2/${khoID}`,
+        `https://ansuataohanoi.com/getloaisanpham2/${khoID}`,
         {
           method: 'GET',
           headers: {
@@ -211,6 +210,20 @@ function NhapKhoLayout () {
     (sum, ncc) => sum + (ncc.tongtien || 0),
     0
   )
+
+  useEffect(() => {
+    const eventSource = new EventSource('https://ansuataohanoi.com/events')
+
+    eventSource.onmessage = event => {
+      const newMessage = JSON.parse(event.data)
+      showToast(newMessage.message)
+      fetchData()
+    }
+
+    return () => {
+      eventSource.close()
+    }
+  }, [])
 
   return (
     <>

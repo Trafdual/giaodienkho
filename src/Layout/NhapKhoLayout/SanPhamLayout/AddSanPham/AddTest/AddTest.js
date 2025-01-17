@@ -130,7 +130,7 @@ function AddTest ({ isOpen, onClose, fetclohang }) {
   const fetchSuppliers = async () => {
     try {
       const response = await fetch(
-        `https://www.ansuataohanoi.com/getnhacungcap/${khoID}`
+        `https://ansuataohanoi.com/getnhacungcap/${khoID}`
       )
       const data = await response.json()
 
@@ -153,7 +153,7 @@ function AddTest ({ isOpen, onClose, fetclohang }) {
   const fetchnganhang = async () => {
     try {
       const response = await fetch(
-        `https://www.ansuataohanoi.com/getnganhang/${userID}`
+        `https://ansuataohanoi.com/getnganhang/${userID}`
       )
       const data = await response.json()
 

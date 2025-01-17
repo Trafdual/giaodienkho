@@ -18,7 +18,7 @@ function ModalXuaKhoFull ({
     if (selectedItems.length > 0) {
       try {
         const response = await fetch(
-          `https://www.ansuataohanoi.com/xuatkho1/${idloaisp}/${khoID}`,
+          `https://ansuataohanoi.com/xuatkho1/${idloaisp}/${khoID}`,
           {
             method: 'POST',
             headers: {

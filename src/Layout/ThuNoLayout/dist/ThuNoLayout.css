@@ -152,7 +152,7 @@ tr:nth-child(2n) {
   font-weight: bold;
 }
 
-.pagination {
+.pagination1 {
   position: fixed;
   /* Cố định ở cuối màn hình */
   bottom: 0;
@@ -168,7 +168,7 @@ tr:nth-child(2n) {
   box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
   /* Tạo hiệu ứng bóng đổ */
 }
-.pagination button {
+.pagination1 button {
   padding: 5px 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -176,20 +176,20 @@ tr:nth-child(2n) {
   cursor: pointer;
   transition: all 0.3s ease;
 }
-.pagination button:hover {
+.pagination1 button:hover {
   background-color: #e9ecef;
 }
-.pagination button:disabled {
+.pagination1 button:disabled {
   cursor: not-allowed;
   background-color: #f1f1f1;
   color: #aaa;
 }
-.pagination select {
+.pagination1 select {
   padding: 5px 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
 }
-.pagination span {
+.pagination1 span {
   margin: 0 10px;
   font-size: 14px;
   color: #555;
