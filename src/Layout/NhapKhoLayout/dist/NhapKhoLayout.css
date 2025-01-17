@@ -72,6 +72,9 @@
   overscroll-behavior: contain;
   max-width: 100%;
 }
+.divtablenhapkho table {
+  width: 100%;
+}
 .divtablenhapkho table thead {
   position: sticky;
   top: 0;
