@@ -292,12 +292,20 @@ function NhapKhoLayout () {
                           onChange={handleSelectAll}
                         />
                       </td>
-                      <td className='tdnhap'>Mã lô hàng</td>
-                      <td className='tdnhap'>Tên lô hàng</td>
-                      <td className='tdnhap'>Ngày nhập</td>
+                      <td className='tdnhap'>
+                        {isMobile ? 'Mã' : 'Mã lô hàng'}
+                      </td>
+                      <td className='tdnhap'>
+                        {isMobile ? 'Tên' : 'Tên lô hàng'}
+                      </td>
+                      <td className='tdnhap'>
+                        {isMobile ? 'Ngày' : 'Ngày nhập'}
+                      </td>
 
                       <td className='tdnhap'>Tổng tiền</td>
-                      <td className='tdnhap'>Còn lại máy</td>
+                      <td className='tdnhap'>
+                        {isMobile ? 'Tồn' : 'Còn lại máy'}
+                      </td>
                     </tr>
                   </thead>
                   <tbody className='tbodynhap'>
@@ -326,14 +334,38 @@ function NhapKhoLayout () {
                             </td>
                             <td>{ncc.malsp}</td>
                             <td>{ncc.name}</td>
-                            <td>{ncc.date}</td>
-
                             <td>
-                              {ncc.tongtien ? ncc.tongtien.toLocaleString() : 0}
+                              {isMobile
+                                ? ncc.date
+                                  ? new Date(
+                                      typeof ncc.date === 'string' &&
+                                      ncc.date.includes('/')
+                                        ? ncc.date
+                                            .split('/')
+                                            .reverse()
+                                            .join('-') // Chuyển từ DD/MM/YYYY -> YYYY-MM-DD
+                                        : ncc.date
+                                    ).toLocaleDateString('vi-VN', {
+                                      day: '2-digit',
+                                      month: '2-digit',
+                                      year: '2-digit'
+                                    })
+                                  : ''
+                                : ncc.date
+                                ? ncc.date
+                                : ''}
+                            </td>
+                            <td>
+                              {isMobile
+                                ? ncc.tongtien
+                                  ? `${(ncc.tongtien / 1000).toLocaleString()}k`
+                                  : 0
+                                : ncc.tongtien
+                                ? ncc.tongtien.toLocaleString()
+                                : 0}
                               VNĐ
                             </td>
                             <td>{ncc.conlai}</td>
-
                             {/* <td className='tdchucnang'>
                             <button
                               className='btncnncc'
