@@ -66,10 +66,14 @@
 
 .divtablenhapkho {
   overflow-x: auto;
+  position: relative;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 .divtablenhapkho table thead {
   position: sticky;
   top: 0;
   background-color: white;
   z-index: 10;
+  will-change: transform;
 }
