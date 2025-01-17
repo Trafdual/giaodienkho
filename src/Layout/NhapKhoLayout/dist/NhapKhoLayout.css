@@ -70,6 +70,10 @@
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 }
+.divtablenhapkho table {
+  min-width: 580px;
+  table-layout: fixed;
+}
 .divtablenhapkho table thead {
   position: sticky;
   top: 0;
