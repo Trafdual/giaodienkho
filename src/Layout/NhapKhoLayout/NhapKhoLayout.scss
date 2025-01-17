@@ -76,11 +76,11 @@
     position: relative;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    max-width: 100%;
 
     table {
-        min-width: 580px;
-        table-layout: fixed;
-
+        width: 100%;
         thead {
             position: sticky;
             top: 0;
