@@ -82,7 +82,7 @@ function QuyTienGuiLayout () {
 
     try {
       const response = await fetch(
-        `http://localhost:3015/getthuchichuyenkhoan/${khoID}`,
+        `https://ansuataohanoi.com/getthuchichuyenkhoan/${khoID}`,
         {
           method: 'GET',
           headers: {

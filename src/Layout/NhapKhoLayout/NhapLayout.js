@@ -217,7 +217,7 @@ function NhapKhoLayout () {
   const handlePostlohang = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3015/postloaisanpham5/${khoID}`,
+        `https://ansuataohanoi.com/postloaisanpham5/${khoID}`,
         {
           method: 'POST',
           headers: {
