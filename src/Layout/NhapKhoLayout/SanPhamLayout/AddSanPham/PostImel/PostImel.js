@@ -1,44 +1,38 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useToast } from '../../../../../components/GlobalStyles/ToastContext'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
-  faBarcode,
   faChevronDown,
   faPlus,
-  faTrashCan
+  faTrashCan,
+  faBarcode
 } from '@fortawesome/free-solid-svg-icons'
 import { Tooltip } from 'react-tippy'
 import 'react-tippy/dist/tippy.css'
-import './AddTest2.scss'
+import 'react-datepicker/dist/react-datepicker.css'
+import 'react-time-picker/dist/TimePicker.css'
+import 'react-clock/dist/Clock.css'
+import { ModalBig } from '~/components/ModalBig'
+
+import { getFromLocalStorage } from '~/components/MaHoaLocalStorage/MaHoaLocalStorage'
+import 'react-tippy/dist/tippy.css'
 import { ModalOnClose } from '~/components/ModalOnClose'
-import { ModalAddSku } from './ModalAddSku'
+import { ModalAddSku } from '../AddTest/ModalAddSku'
 import { FormAddImel } from '../FormAddImel'
 import '~/components/Loadingnut/loadingnut.scss'
-import { getFromLocalStorage } from '~/components/MaHoaLocalStorage/MaHoaLocalStorage'
 
-function AddTest2 ({
-  fetchlohang,
-  mancc,
-  name,
-  date,
-  ghino,
-  method,
-  hour,
-  manganhangkho,
-  loaihanghoa,
-  onClose,
-  iscloseHuy,
-  setIsCloseHuy,
-  validateInputs,
-  resetForm,
-  malohang
-}) {
+function PostImel ({ isOpen, onClose }) {
+  const { showToast } = useToast()
+
+  const [isModalHuy, setIsModalHuy] = useState(false)
+  const [malohang, setmalohang] = useState('')
+  const [malohangError, setmalohangError] = useState('')
+  const [khoID, setKhoID] = useState(localStorage.getItem('khoID') || '')
+  const [userID, setuserID] = useState(getFromLocalStorage('userId') || '')
   const [skudata, setSkudata] = useState([])
-  const [userID, setUserID] = useState(getFromLocalStorage('userId') || '')
   const [loadingSuppliers, setLoadingSuppliers] = useState(true)
   const [isTableVisible, setIsTableVisible] = useState(false)
-  const { showToast } = useToast()
   const [rows, setRows] = useState([])
   const [imel, setImel] = useState('')
   const [isEditingIMEI, setIsEditingIMEI] = useState([])
@@ -51,6 +45,30 @@ function AddTest2 ({
   const [isOpenModalBarCode, setIsOpenModalBarCode] = useState(false)
   const [indexImel, setindex] = useState(null)
   const [isClickButton, setIsClickButton] = useState(false)
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      const newKhoID = localStorage.getItem('khoID') || ''
+      if (newKhoID !== khoID) {
+        console.log('Interval detected change, updating khoID:', newKhoID)
+        setKhoID(newKhoID)
+      }
+    }, 1000)
+
+    return () => clearInterval(intervalId)
+  }, [localStorage.getItem('khoID')])
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      const newuserID = getFromLocalStorage('userId') || ''
+      if (newuserID !== userID) {
+        console.log('Interval detected change, updating khoID:', newuserID)
+        setuserID(newuserID)
+      }
+    }, 1000) // Kiểm tra mỗi giây
+
+    return () => clearInterval(intervalId)
+  }, [getFromLocalStorage('userId')])
 
   const imeiInputRef = useRef(null)
 
@@ -76,16 +94,6 @@ function AddTest2 ({
       return updated
     })
   }
-
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      const newuserID = getFromLocalStorage('userId') || ''
-      if (newuserID !== userID) {
-        setUserID(newuserID)
-      }
-    }, 1000)
-    return () => clearInterval(intervalId)
-  }, [userID])
 
   const fetchSku = async () => {
     try {
@@ -113,8 +121,7 @@ function AddTest2 ({
 
   const handleClose = () => {
     setRows([])
-    resetForm()
-    setIsCloseHuy(false)
+    setIsModalHuy(true)
     onClose()
   }
 
@@ -227,6 +234,10 @@ function AddTest2 ({
       showToast('Bạn chưa thêm chi tiết', 'error')
       return false
     }
+    if (!malohang) {
+      setmalohangError('Mã lô hàng không được để trống')
+      return false
+    }
     for (const row of rows) {
       if (!row.soluong) {
         showToast(`Số lượng không được để trống`, 'error')
@@ -250,32 +261,21 @@ function AddTest2 ({
     }))
 
     const payload = {
-      products,
-      mancc,
-      name,
-      date,
-      ghino,
-      method,
-      hour,
-      manganhangkho,
-      loaihanghoa
+      malohang,
+      products
     }
-    if (validateInputs() && validateInputs2()) {
+    if (validateInputs2()) {
       setIsClickButton(true)
       try {
-        const response = await fetch(
-          `https://ansuataohanoi.com/postloaisanpham4`,
-          {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-          }
-        )
+        const response = await fetch(`http://localhost:3015/postimel`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        })
 
         if (response.ok) {
           showToast('Thêm lô hàng thành công!', 'success')
           handleClose()
-          fetchlohang()
           setIsClickButton(false)
         } else {
           showToast('Lỗi khi thêm lô hàng', 'error')
@@ -286,73 +286,41 @@ function AddTest2 ({
       }
     }
   }
+
   const deleteRow = index => {
     setRows(prevRows => prevRows.filter((_, rowIndex) => rowIndex !== index))
   }
 
-
-  const handleDelete = async () => {
-    try {
-      const response = await fetch(`http://localhost:3015/deletelohang`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ malohang })
-      })
-      if (response.ok) {
-        setIsCloseHuy(false)
-        fetchlohang()
-      }
-    } catch (error) {
-      console.error('Lỗi khi xóa lô hàng:', error)
-    }
-  }
-
-  const fetchimel = async () => {
-    try {
-      const response = await fetch(
-        `http://localhost:3015/getfullchitietlo/${malohang}`
-      )
-      if (response.ok) {
-        const data = await response.json()
-        setRows(data)
-      }
-    } catch (error) {
-      console.error('Lỗi khi lấy dữ liệu imel:', error)
-    }
-  }
-  console.log(rows)
-
-  useEffect(() => {
-    if (malohang) {
-      fetchimel()
-    }
-  }, [malohang])
-
-  useEffect(() => {
-    const eventSource = new EventSource('http://localhost:3015/events')
-
-    eventSource.onmessage = event => {
-      const newMessage = JSON.parse(event.data)
-      showToast(newMessage.message)
-      fetchimel()
-    }
-
-    return () => {
-      eventSource.close()
-    }
-  }, [])
-
   return (
-    <>
+    <ModalBig isOpen={isOpen} onClose={handleClose}>
       <div>
         <h3 style={{ marginBottom: '10px' }}>Chi tiết</h3>
+
+        <div className='divtenkho'>
+          <input
+            type='text'
+            className={`tenkho ${malohangError ? 'input-error' : ''}`}
+            placeholder=''
+            value={malohang}
+            onChange={e => {
+              setmalohang(e.target.value)
+              if (e.target.value) {
+                setmalohangError('')
+              }
+            }}
+          />
+          <label htmlFor='' className='label'>
+            Mã lô hàng
+          </label>
+        </div>
+
         <div className='divTableSP'>
           <table className='modal-table-test'>
             <thead>
               <tr>
                 <th>Mã SKU</th>
                 <th>Tên máy</th>
-                {loaihanghoa === 'Điện thoại' && <th>Imel</th>}
+                <th>Imel</th>
                 <th>Số lượng</th>
                 <th>Đơn giá</th>
                 <th>Tổng tiền</th>
@@ -364,54 +332,54 @@ function AddTest2 ({
                 <tr key={index}>
                   <td>{row.masku}</td>
                   <td>{row.name}</td>
-                  {loaihanghoa === 'Điện thoại' && (
-                    <td
-                      onClick={() => toggleIMEIEdit(index)}
-                      style={{ cursor: 'pointer' }}
-                    >
-                      {isEditingIMEI[index] ? (
-                        <div className='imel-input-container'>
-                          {row.imel.map((item, imelIndex) => (
-                            <span key={imelIndex} className='imel-tag'>
-                              {item}
-                              <button
-                                onMouseDown={e => {
-                                  e.stopPropagation()
-                                  handleRemoveImel(index, imelIndex)
-                                }}
-                                className='remove-imel-btn'
-                              >
-                                &times;
-                              </button>
-                            </span>
-                          ))}
-                          <div className='divnhapImel'>
-                            <input
-                              ref={imeiInputRef}
-                              type='text'
-                              value={imel}
-                              placeholder='Nhập IMEI'
-                              onKeyPress={event => handleKeyPress(index, event)}
-                              onChange={e => setImel(e.target.value)}
-                              className='imel-input'
-                              autoFocus
-                            />
+
+                  <td
+                    onClick={() => toggleIMEIEdit(index)}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    {isEditingIMEI[index] ? (
+                      <div className='imel-input-container'>
+                        {row.imel.map((item, imelIndex) => (
+                          <span key={imelIndex} className='imel-tag'>
+                            {item}
                             <button
-                              className='btnnhapImel'
-                              onClick={() => {
-                                setIsOpenModalBarCode(true)
-                                setindex(index)
+                              onMouseDown={e => {
+                                e.stopPropagation()
+                                handleRemoveImel(index, imelIndex)
                               }}
+                              className='remove-imel-btn'
                             >
-                              <FontAwesomeIcon icon={faBarcode} />
+                              &times;
                             </button>
-                          </div>
+                          </span>
+                        ))}
+                        <div className='divnhapImel'>
+                          <input
+                            ref={imeiInputRef}
+                            type='text'
+                            value={imel}
+                            placeholder='Nhập IMEI'
+                            onKeyPress={event => handleKeyPress(index, event)}
+                            onChange={e => setImel(e.target.value)}
+                            className='imel-input'
+                            autoFocus
+                          />
+                          <button
+                            className='btnnhapImel'
+                            onClick={() => {
+                              setIsOpenModalBarCode(true)
+                              setindex(index)
+                            }}
+                          >
+                            <FontAwesomeIcon icon={faBarcode} />
+                          </button>
                         </div>
-                      ) : (
-                        row.imel.join(', ') || 'Nhập IMEI'
-                      )}
-                    </td>
-                  )}
+                      </div>
+                    ) : (
+                      row.imel.join(', ') || 'Nhập IMEI'
+                    )}
+                  </td>
+
                   <FormAddImel
                     isOpen={isOpenModalBarCode}
                     onClose={() => setIsOpenModalBarCode(false)}
@@ -594,10 +562,10 @@ function AddTest2 ({
         </div>
       </div>
       <ModalOnClose
-        isOpen={iscloseHuy}
+        isOpen={isModalHuy}
         Save={submitProducts}
         DontSave={handleClose}
-        Cancel={() => handleDelete()}
+        Cancel={() => handleClose()}
       />
 
       <button
@@ -609,8 +577,8 @@ function AddTest2 ({
       >
         {isClickButton ? '...Đang tải dữ liệu' : 'Thêm sản phẩm'}
       </button>
-    </>
+    </ModalBig>
   )
 }
 
-export default AddTest2
+export default PostImel

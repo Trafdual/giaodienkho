@@ -16,7 +16,7 @@ import { ModalAddNganHang } from '~/Layout/NhapKhoLayout/AddLoHang/ModalAddNganH
 import { ModalAddNhaCungCap } from '~/Layout/NhapKhoLayout/ModalAddNhaCungCap'
 import { getFromLocalStorage } from '~/components/MaHoaLocalStorage/MaHoaLocalStorage'
 
-function AddTest ({ isOpen, onClose, fetclohang }) {
+function AddTest ({ isOpen, onClose, fetclohang, malohang }) {
   const [name, setName] = useState('')
   const [date, setdate] = useState('')
   const [time, settime] = useState(new Date())
@@ -249,6 +249,10 @@ function AddTest ({ isOpen, onClose, fetclohang }) {
     <ModalBig isOpen={isOpen} onClose={handleClose}>
       <div className='divAddLoHang'>
         <h2>Thêm lô hàng</h2>
+        <div>
+          <h4>Mã lô hàng:</h4>
+          <p>{malohang}</p>
+        </div>
         <div className='divphuongthuc'>
           <div className='divghino'>
             <input
@@ -622,6 +626,7 @@ function AddTest ({ isOpen, onClose, fetclohang }) {
             setIsCloseHuy={setIsModalHuy}
             validateInputs={validateInputs}
             resetForm={resetForm}
+            malohang={malohang}
           />
         </div>
       </div>

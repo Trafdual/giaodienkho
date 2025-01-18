@@ -36,7 +36,7 @@ function ThuNoLayout () {
 
   const fetchhoadon = async () => {
     try {
-      const response = await fetch(`http://localhost:8080/gettrano/${khoID}`)
+      const response = await fetch(`http://localhost:3015/gettrano/${khoID}`)
       if (response.ok) {
         const data = await response.json()
         setdata(data)
@@ -54,7 +54,7 @@ function ThuNoLayout () {
 
   const handleThuNo = async () => {
     try {
-      const response = await fetch('http://localhost:8080/thuno', {
+      const response = await fetch('http://localhost:3015/thuno', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

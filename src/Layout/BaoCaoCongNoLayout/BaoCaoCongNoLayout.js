@@ -33,7 +33,7 @@ function BaoCaoCongNo () {
       setLoading(true)
       try {
         const response = await fetch(
-          `http://localhost:8080/getcongno3/${khoID}?fromdate=${startDate}&enddate=${endDate}`
+          `http://localhost:3015/getcongno3/${khoID}?fromdate=${startDate}&enddate=${endDate}`
         )
         const data = await response.json()
         setData(data)

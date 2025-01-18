@@ -12,12 +12,14 @@ import { SanPhamLayout } from './SanPhamLayout'
 import { EditLoHang } from './EditLoHang'
 import { Loading } from '~/components/Loading'
 import { AddTest } from './SanPhamLayout/AddSanPham/AddTest'
+import { PostImel } from './SanPhamLayout/AddSanPham/PostImel'
 import PaginationComponent from '../../components/NextPage/PaginationComponent'
 import { useToast } from '~/components/GlobalStyles/ToastContext'
 
 function NhapKhoLayout () {
   const [lohang, setlohang] = useState([])
   const [isOpen, setIsOpen] = useState(false)
+  const [isOpenPostimel, setIsOpenPostImel] = useState(false)
   const [khoID, setKhoID] = useState(localStorage.getItem('khoID') || '')
   const [idlohang, setidlohang] = useState('')
   const [loading, setLoading] = useState(true)
@@ -26,6 +28,7 @@ function NhapKhoLayout () {
   const [loadingsp, setLoadingsp] = useState(false)
   const [selectedItems, setSelectedItems] = useState([])
   const [selectAll, setSelectAll] = useState(false)
+  const [malohang, setmalohang] = useState('')
   const { showToast } = useToast()
 
   // Trạng thái phân trang
@@ -211,6 +214,27 @@ function NhapKhoLayout () {
     0
   )
 
+  const handlePostlohang = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:3015/postloaisanpham5/${khoID}`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+      )
+      const data = await response.json()
+      if (response.ok) {
+        setmalohang(data.malsp)
+        setIsOpen(true)
+      }
+    } catch (error) {
+      console.error('Error fetching:', error)
+    }
+  }
+
   useEffect(() => {
     const eventSource = new EventSource('https://ansuataohanoi.com/events')
 
@@ -245,14 +269,31 @@ function NhapKhoLayout () {
                 style={{ position: 'sticky', top: '0px' }}
               >
                 <h4>{selectedItems.length} lô hàng được chọn</h4>
-                <button
-                  className={`btn-xoa `}
-                  onClick={() => setIsOpen(true)}
-                  // disabled={!idloaisp}
-                >
-                  <FontAwesomeIcon icon={faPlus} className='iconMenuSanPham' />
-                  Thêm lô hàng
-                </button>
+                {isMobile ? (
+                  <button
+                    className={`btn-xoa `}
+                    onClick={() => setIsOpenPostImel(true)}
+                    // disabled={!idloaisp}
+                  >
+                    <FontAwesomeIcon
+                      icon={faPlus}
+                      className='iconMenuSanPham'
+                    />
+                    Thêm lô hàng
+                  </button>
+                ) : (
+                  <button
+                    className={`btn-xoa `}
+                    onClick={() => handlePostlohang()}
+                    // disabled={!idloaisp}
+                  >
+                    <FontAwesomeIcon
+                      icon={faPlus}
+                      className='iconMenuSanPham'
+                    />
+                    Thêm lô hàng
+                  </button>
+                )}
                 <button
                   className={`btn-xoa ${
                     selectedItems.length > 1 || selectedItems.length === 0
@@ -442,6 +483,7 @@ function NhapKhoLayout () {
               isOpen={isOpen}
               onClose={handleCloseModal}
               fetclohang={fetchData}
+              malohang={malohang}
             />
             <EditLoHang
               idloaisanpham={selectedItems[0]}
@@ -456,6 +498,10 @@ function NhapKhoLayout () {
             fetchlohang={fetchData}
             loading={loadingsp}
             setLoading={setLoadingsp}
+          />
+          <PostImel
+            isOpen={isOpenPostimel}
+            onClose={() => setIsOpenPostImel(false)}
           />
         </>
       )}
