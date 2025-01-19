@@ -51,7 +51,7 @@ function HeaderBanHang ({ userId, username }) {
       setIsLoading(true)
       try {
         const response = await axios.get(
-          `https://www.ansuataohanoi.com/getdepot/${userId}`
+          `https://ansuataohanoi.com/getdepot/${userId}`
         )
         if (Array.isArray(response.data)) {
           setKhoList(response.data)
@@ -195,7 +195,7 @@ function HeaderBanHang ({ userId, username }) {
                 <i className='ithuchi'></i>
                 <span>Thu chi</span>
               </div>
-              <div className='menu-item' onClick={()=>handelchuyenman('/')}>
+              <div className='menu-item' onClick={() => handelchuyenman('/')}>
                 <i className='itrangquanly'></i>
                 <span>Trang quản lý</span>
               </div>

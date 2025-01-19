@@ -5,6 +5,7 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { AddKhachHang } from './AddKhachHang'
 import { Loading } from '~/components/Loading'
 import { getFromLocalStorage } from '~/components/MaHoaLocalStorage/MaHoaLocalStorage'
+import { PaginationComponent } from '~/components/NextPage'
 import './KhacHangLayout.scss'
 
 function KhachHangLayout () {
@@ -57,7 +58,7 @@ function KhachHangLayout () {
 
     try {
       const response = await fetch(
-        `https://www.ansuataohanoi.com/getkhachhang/${khoID}`,
+        `https://ansuataohanoi.com/getkhachhang/${khoID}`,
         {
           method: 'GET',
           headers: {
@@ -88,6 +89,7 @@ function KhachHangLayout () {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage
   const currentItems = khachhang.slice(indexOfFirstItem, indexOfLastItem)
   const totalPages = Math.ceil(khachhang.length / itemsPerPage)
+  const totalResults = khachhang.length
 
   // Chuyển trang
   const handlePageChange = pageNumber => {
@@ -99,7 +101,7 @@ function KhachHangLayout () {
       {loading ? (
         <Loading />
       ) : (
-        <>
+        <div className='divkhachhang'>
           <div className='detailsnhap'>
             <div className='recentOrdersnhap'>
               <div className='headernhap'>
@@ -145,18 +147,6 @@ function KhachHangLayout () {
                   </tbody>
                 </table>
               </div>
-
-              <div className='pagination'>
-                {Array.from({ length: totalPages }, (_, index) => (
-                  <button
-                    key={index + 1}
-                    onClick={() => handlePageChange(index + 1)}
-                    className={index + 1 === currentPage ? 'active' : ''}
-                  >
-                    {index + 1}
-                  </button>
-                ))}
-              </div>
             </div>
           </div>
           <AddKhachHang
@@ -167,7 +157,18 @@ function KhachHangLayout () {
             fetchData={fetchData}
             userId={userId}
           />
-        </>
+          <div className='pagination1'>
+            <PaginationComponent
+              totalPages={totalPages}
+              currentPage={currentPage}
+              handlePageChange={handlePageChange}
+              itemsPerPage={itemsPerPage}
+              setItemsPerPage={setItemsPerPage}
+              totalResults={totalResults}
+              fetchData={fetchData}
+            />
+          </div>
+        </div>
       )}
     </>
   )

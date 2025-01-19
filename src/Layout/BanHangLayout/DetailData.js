@@ -45,7 +45,7 @@ function ModalDataScreen ({
     if (isOpen) {
       axios
         .get(
-          `https://www.ansuataohanoi.com/banhang/${product._id}/${khoId1}/${userId}`
+          `https://ansuataohanoi.com/banhang/${product._id}/${khoId1}/${userId}`
         )
         .then(response => {
           setData(response.data)

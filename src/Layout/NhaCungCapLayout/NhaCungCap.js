@@ -9,6 +9,7 @@ import { Loading } from '~/components/Loading'
 
 import { AddNhaCungCap } from './AddNhaCungCap'
 import { EditNhaCungCap } from './EditNhaCungCap'
+import { PaginationComponent } from '~/components/NextPage'
 function NhaCungCapLayout () {
   const [nhacungcap, setnhacungcap] = useState([])
   const [isOpen, setIsOpen] = useState(false)
@@ -17,6 +18,9 @@ function NhaCungCapLayout () {
   const [loading, setLoading] = useState(true)
 
   const [khoID, setKhoID] = useState(localStorage.getItem('khoID') || '')
+  const [currentPage, setCurrentPage] = useState(1)
+  const [itemsPerPage, setItemsPerPage] = useState(9) // Mặc định là 9
+
   const handleCloseModal = () => {
     setIsOpen(false)
   }
@@ -36,7 +40,7 @@ function NhaCungCapLayout () {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        `https://www.ansuataohanoi.com/getnhacungcap/${khoID}`,
+        `https://ansuataohanoi.com/getnhacungcap/${khoID}`,
         {
           method: 'GET',
           headers: {
@@ -67,80 +71,98 @@ function NhaCungCapLayout () {
   useEffect(() => {
     enableColumnResizing('.tablenhap')
   }, [])
+
+  const totalPages = Math.ceil(nhacungcap.length / itemsPerPage)
+  const totalResults = nhacungcap.length
+
+  // Chuyển trang
+  const handlePageChange = pageNumber => {
+    setCurrentPage(pageNumber)
+  }
+
   return (
     <>
       {loading ? (
         <Loading />
       ) : (
-        <>
-          {
-            <div className='detailsnhap'>
-              <div className='recentOrdersnhap'>
-                <div className='headernhap'>
-                  <h2 className='divncc'>Nhà cung cấp</h2>
-                  <button className='btnthemlo' onClick={() => setIsOpen(true)}>
-                    <FontAwesomeIcon className='iconncc' icon={faPlus} />
-                    <h3>Thêm nhà cung cấp</h3>
-                  </button>
-                </div>
-                <div className='table-container'>
-                  <table className='tablenhap'>
-                    <thead className='theadnhap'>
-                      <tr>
-                        <td className='tdnhap'>Mã nhà cung cấp</td>
-                        <td className='tdnhap'>Tên nhà cung cấp</td>
-                        <td className='tdnhap'>Số điện thoại</td>
-                        <td className='tdnhap'>Địa chỉ</td>
-                        <td className='tdnhap'>Chức năng</td>
-                      </tr>
-                    </thead>
-                    <tbody className='tbodynhap'>
-                      {nhacungcap.length > 0 ? (
-                        nhacungcap.map(ncc => (
-                          <tr key={ncc._id}>
-                            <td>{ncc.mancc}</td>
-                            <td>{ncc.name}</td>
-                            <td>{ncc.phone}</td>
-                            <td>{ncc.address}</td>
-
-                            <td className='tdchucnang'>
-                              <button
-                                className='btncnncc'
-                                onClick={() => {
-                                  setIsOpenEdit(true)
-                                  setidncc(ncc._id)
-                                }}
-                              >
-                                <h3>Cập nhật</h3>
-                              </button>
-                            </td>
-                          </tr>
-                        ))
-                      ) : (
-                        <tr>
-                          <td colSpan='5'>Không có nhà cung cấp nào</td>
-                        </tr>
-                      )}
-                    </tbody>
-                  </table>
-                </div>
+        <div className='divnhacungcap'>
+          <div className='detailsnhap'>
+            <div className='recentOrdersnhap'>
+              <div className='headernhap'>
+                <h2 className='divncc'>Nhà cung cấp</h2>
+                <button className='btnthemlo' onClick={() => setIsOpen(true)}>
+                  <FontAwesomeIcon className='iconncc' icon={faPlus} />
+                  <h3>Thêm nhà cung cấp</h3>
+                </button>
               </div>
-              <AddNhaCungCap
-                isOpen={isOpen}
-                onClose={handleCloseModal}
-                khoID={khoID}
-                setnhacungcap={setnhacungcap}
-              />
-              <EditNhaCungCap
-                isOpen={isOpenEdit}
-                onClose={() => setIsOpenEdit(false)}
-                idncc={idncc}
-                fetchdata={fetchData}
-                setidncc={setidncc}
-              />
+              <div className='table-container'>
+                <table className='tablenhap'>
+                  <thead className='theadnhap'>
+                    <tr>
+                      <td className='tdnhap'>Mã nhà cung cấp</td>
+                      <td className='tdnhap'>Tên nhà cung cấp</td>
+                      <td className='tdnhap'>Số điện thoại</td>
+                      <td className='tdnhap'>Địa chỉ</td>
+                      <td className='tdnhap'>Chức năng</td>
+                    </tr>
+                  </thead>
+                  <tbody className='tbodynhap'>
+                    {nhacungcap.length > 0 ? (
+                      nhacungcap.map(ncc => (
+                        <tr key={ncc._id}>
+                          <td>{ncc.mancc}</td>
+                          <td>{ncc.name}</td>
+                          <td>{ncc.phone}</td>
+                          <td>{ncc.address}</td>
+
+                          <td className='tdchucnang'>
+                            <button
+                              className='btncnncc'
+                              onClick={() => {
+                                setIsOpenEdit(true)
+                                setidncc(ncc._id)
+                              }}
+                            >
+                              <h3>Cập nhật</h3>
+                            </button>
+                          </td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan='5'>Không có nhà cung cấp nào</td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
             </div>
-          }
-        </>
+            <AddNhaCungCap
+              isOpen={isOpen}
+              onClose={handleCloseModal}
+              khoID={khoID}
+              setnhacungcap={setnhacungcap}
+            />
+            <EditNhaCungCap
+              isOpen={isOpenEdit}
+              onClose={() => setIsOpenEdit(false)}
+              idncc={idncc}
+              fetchdata={fetchData}
+              setidncc={setidncc}
+            />
+          </div>
+          <div className='pagination1'>
+            <PaginationComponent
+              totalPages={totalPages}
+              currentPage={currentPage}
+              handlePageChange={handlePageChange}
+              itemsPerPage={itemsPerPage}
+              setItemsPerPage={setItemsPerPage}
+              totalResults={totalResults}
+              fetchData={fetchData}
+            />
+          </div>
+        </div>
       )}
     </>
   )

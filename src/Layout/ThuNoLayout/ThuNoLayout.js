@@ -36,7 +36,9 @@ function ThuNoLayout () {
 
   const fetchhoadon = async () => {
     try {
-      const response = await fetch(`http://localhost:8080/gettrano/${khoID}`)
+      const response = await fetch(
+        `https://ansuataohanoi.com/gettrano/${khoID}`
+      )
       if (response.ok) {
         const data = await response.json()
         setdata(data)
@@ -54,7 +56,7 @@ function ThuNoLayout () {
 
   const handleThuNo = async () => {
     try {
-      const response = await fetch('http://localhost:8080/thuno', {
+      const response = await fetch('https://ansuataohanoi.com/thuno', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -136,7 +138,7 @@ function ThuNoLayout () {
       </div>
 
       <div className='tab-content-container'>{renderTabContent()}</div>
-      <div className='pagination'>
+      <div className='pagination1'>
         <PaginationComponent
           totalPages={totalPages}
           currentPage={currentPage}

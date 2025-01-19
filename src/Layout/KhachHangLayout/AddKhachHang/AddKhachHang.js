@@ -80,7 +80,7 @@ function AddKhachHang ({ isOpen, onClose, khoID, fetchData, userId }) {
   const fetchnhomkhachang = async () => {
     try {
       const response = await fetch(
-        `http://localhost:8080/getnhomkhachhang/${userId}`
+        `https://ansuataohanoi.com/getnhomkhachhang/${userId}`
       )
       const data = await response.json()
 
@@ -100,7 +100,7 @@ function AddKhachHang ({ isOpen, onClose, khoID, fetchData, userId }) {
     if (validateInputs()) {
       try {
         const response = await fetch(
-          `https://www.ansuataohanoi.com/postkhachhang/${khoID}`,
+          `https://ansuataohanoi.com/postkhachhang/${khoID}`,
           {
             method: 'POST',
             headers: {

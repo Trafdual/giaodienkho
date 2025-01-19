@@ -33,7 +33,7 @@ function ModalChuyenKhoFull ({
   const handleGetKho = async () => {
     try {
       const response = await fetch(
-        `https://www.ansuataohanoi.com/getdepot/${userID}`,
+        `https://ansuataohanoi.com/getdepot/${userID}`,
         {
           method: 'GET',
           headers: {
@@ -61,7 +61,7 @@ function ModalChuyenKhoFull ({
 
   const postchuyenkho = async () => {
     try {
-      const response = await fetch(`https://www.ansuataohanoi.com/chuyenkho1`, {
+      const response = await fetch(`https://ansuataohanoi.com/chuyenkho1`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

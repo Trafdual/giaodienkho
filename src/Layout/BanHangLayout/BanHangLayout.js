@@ -107,7 +107,7 @@ function BanHangLayout () {
   const handleOpenModal = async idSku => {
     try {
       const response = await axios.get(
-        `https://www.ansuataohanoi.com/getsanphamchon/${idkho1}/${idSku}`
+        `https://ansuataohanoi.com/getsanphamchon/${idkho1}/${idSku}`
       )
       const data = response.data
       console.log('Dữ liệu IMEI từ API:', data)
@@ -180,7 +180,7 @@ function BanHangLayout () {
       if (!userId) return
       try {
         const response = await axios.get(
-          `https://www.ansuataohanoi.com/getspbanhang/${userId}`
+          `https://ansuataohanoi.com/getspbanhang/${userId}`
         )
         setProducts(response.data)
       } catch (error) {
@@ -235,7 +235,7 @@ function BanHangLayout () {
   const handleKhacHang = async () => {
     try {
       const response = await fetch(
-        `https://www.ansuataohanoi.com/getkhachhang/${storedKhoID}`,
+        `https://ansuataohanoi.com/getkhachhang/${storedKhoID}`,
         {
           method: 'GET',
           headers: {
@@ -257,7 +257,7 @@ function BanHangLayout () {
   const fetchnganhang = async () => {
     try {
       const response = await fetch(
-        `https://www.ansuataohanoi.com/getnganhang/${userId}`
+        `https://ansuataohanoi.com/getnganhang/${userId}`
       )
       const data = await response.json()
 
@@ -304,7 +304,7 @@ function BanHangLayout () {
     try {
       if (validate()) {
         const response = await fetch(
-          `http://localhost:8080/postchonsanpham/${storedKhoID}`,
+          `https://ansuataohanoi.com/postchonsanpham/${storedKhoID}`,
           {
             method: 'POST',
             headers: {

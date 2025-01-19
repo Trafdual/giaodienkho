@@ -78,4 +78,8 @@
     z-index: 100;
     background-color: white;
   }
+
+  .hoa-don-layout .pagination1 {
+    padding: 0 !important;
+  }
 }
