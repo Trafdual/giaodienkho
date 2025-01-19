@@ -116,6 +116,7 @@ function AddTest2 ({
     resetForm()
     setIsCloseHuy(false)
     onClose()
+    handleDelete()
   }
 
   const addRow = selectedSKU => {
@@ -470,7 +471,7 @@ function AddTest2 ({
                             : ''
                         }
                         onChange={e => {
-                          const rawValue = e.target.value.replace(/\./g, '')
+                          const rawValue = e.target.value
                           const numericValue = parseFloat(rawValue)
 
                           // Chỉ cập nhật nếu giá trị là hợp lệ
@@ -485,9 +486,7 @@ function AddTest2 ({
                         onBlur={() => setIsEditingPrice(false)}
                       />
                     ) : row.price ? (
-                      new Intl.NumberFormat().format(
-                        row.price.replace(/\./g, '')
-                      )
+                      new Intl.NumberFormat().format(row.price)
                     ) : (
                       'Nhập đơn giá'
                     )}
