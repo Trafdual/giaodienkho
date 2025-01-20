@@ -24,12 +24,15 @@ function ChuyenKho ({ isOpen, onClose, fetchData, idsanpham }) {
 
   const handleGetKho = async () => {
     try {
-      const response = await fetch(`http://localhost:3015/getdepot/${userID}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'
+      const response = await fetch(
+        `https://ansuataohanoi.com/getdepot/${userID}`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          }
         }
-      })
+      )
 
       if (response.ok) {
         const data = await response.json()
@@ -51,7 +54,7 @@ function ChuyenKho ({ isOpen, onClose, fetchData, idsanpham }) {
   const postchuyenkho = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3015/chuyenkho/${idsanpham}`,
+        `https://ansuataohanoi.com/chuyenkho/${idsanpham}`,
         {
           method: 'POST',
           headers: {

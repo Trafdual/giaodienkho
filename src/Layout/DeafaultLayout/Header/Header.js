@@ -130,7 +130,7 @@ function Header ({
     setIsLoading(true)
     try {
       const response = await fetch(
-        `http://localhost:3015/searchsanpham/${khoID}`,
+        `https://ansuataohanoi.com/searchsanpham/${khoID}`,
         {
           method: 'POST',
           headers: {

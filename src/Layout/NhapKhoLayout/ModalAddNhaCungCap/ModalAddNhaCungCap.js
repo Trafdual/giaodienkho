@@ -70,7 +70,7 @@ function ModalAddNhaCungCap ({ isOpen, onClose, khoID, fetchnhacungcap }) {
       setIsClickButton(true)
       try {
         const response = await fetch(
-          `http://localhost:3015/postnhacungcap/${khoID}`,
+          `https://ansuataohanoi.com/postnhacungcap/${khoID}`,
           {
             method: 'POST',
             headers: {

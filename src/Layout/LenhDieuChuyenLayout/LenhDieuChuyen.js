@@ -22,8 +22,8 @@ function LenhDieuChuyen () {
     try {
       const url =
         beginDate && endDate
-          ? `http://localhost:3015/getlenhdctheongay/${khoID}?begintime=${beginDate}&endtime=${endDate}`
-          : `http://localhost:3015/getlenhdieuchuyen/${khoID}`
+          ? `https://ansuataohanoi.com/getlenhdctheongay/${khoID}?begintime=${beginDate}&endtime=${endDate}`
+          : `https://ansuataohanoi.com/getlenhdieuchuyen/${khoID}`
 
       const response = await axios.get(url)
       setOrders(response.data)
@@ -64,7 +64,7 @@ function LenhDieuChuyen () {
   const handleConfirm = async orderId => {
     try {
       const response = await axios.post(
-        `http://localhost:3015/duyetdieuchuyen/${orderId}`
+        `https://ansuataohanoi.com/duyetdieuchuyen/${orderId}`
       )
       if (response.status === 200) {
         showToast('Duyệt lệnh điều chuyển thành công!', 'success')
