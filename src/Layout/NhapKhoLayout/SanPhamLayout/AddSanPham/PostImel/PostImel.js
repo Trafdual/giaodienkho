@@ -36,7 +36,6 @@ function PostImel ({ isOpen, onClose }) {
   const [rows, setRows] = useState([])
   const [imel, setImel] = useState('')
   const [isEditingIMEI, setIsEditingIMEI] = useState([])
-  const [isEditingPrice, setIsEditingPrice] = useState([])
   const [isEditingSoluong, setIsEditingSoluong] = useState([])
 
   const [isRemoving, setIsRemoving] = useState(true)
@@ -80,13 +79,6 @@ function PostImel ({ isOpen, onClose }) {
     })
   }
 
-  const togglePriceEdit = index => {
-    setIsEditingPrice(prev => {
-      const updated = Array.isArray(prev) ? [...prev] : [] // Đảm bảo prev là mảng
-      updated[index] = !updated[index]
-      return updated
-    })
-  }
   const toggleSoluongEdit = index => {
     setIsEditingSoluong(prev => {
       const updated = Array.isArray(prev) ? [...prev] : []
@@ -98,7 +90,7 @@ function PostImel ({ isOpen, onClose }) {
   const fetchSku = async () => {
     try {
       const response = await fetch(
-        `https://ansuataohanoi.com/getdungluongsku/${userID}`
+        `http://localhost:3015/getdungluongsku/${userID}`
       )
       const data = await response.json()
 
@@ -136,9 +128,7 @@ function PostImel ({ isOpen, onClose }) {
         masku: selectedSKU.madungluong,
         name: selectedSKU.name,
         imel: [],
-        soluong: 0,
-        price: '',
-        tongtien: ''
+        soluong: 0
       }
     ])
 
@@ -247,10 +237,6 @@ function PostImel ({ isOpen, onClose }) {
         showToast(`Số lượng không được để trống`, 'error')
         return false
       }
-      if (!row.price) {
-        showToast(`đơn giá không được để trống`, 'error')
-        return false
-      }
     }
     return true
   }
@@ -259,8 +245,7 @@ function PostImel ({ isOpen, onClose }) {
     const products = rows.map(row => ({
       madungluongsku: row.masku,
       imelList: row.imel,
-      name: row.name, // Tên từng sản phẩm
-      price: row.price || 0, // Giá từng sản phẩm
+      name: row.name,
       soluong: row.soluong
     }))
 
@@ -271,7 +256,7 @@ function PostImel ({ isOpen, onClose }) {
     if (validateInputs2()) {
       setIsClickButton(true)
       try {
-        const response = await fetch(`https://ansuataohanoi.com/postimel`, {
+        const response = await fetch(`http://localhost:3015/postimel`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
@@ -326,8 +311,6 @@ function PostImel ({ isOpen, onClose }) {
                 <th>Tên máy</th>
                 <th>Imel</th>
                 <th>Số lượng</th>
-                <th>Đơn giá</th>
-                <th>Tổng tiền</th>
                 <td></td>
               </tr>
             </thead>
@@ -431,41 +414,6 @@ function PostImel ({ isOpen, onClose }) {
                       row.soluong || 'Nhập số lượng'
                     )}
                   </td>
-                  <td onClick={() => togglePriceEdit(index)}>
-                    {isEditingPrice[index] ? (
-                      <input
-                        type='text'
-                        placeholder='Đơn giá'
-                        className='imel-input'
-                        value={
-                          row.price
-                            ? new Intl.NumberFormat().format(row.price)
-                            : ''
-                        }
-                        onChange={e => {
-                          const rawValue = e.target.value.replace(/\./g, '')
-                          const numericValue = parseFloat(rawValue)
-
-                          // Chỉ cập nhật nếu giá trị là hợp lệ
-                          if (
-                            (!isNaN(numericValue) && numericValue > 0) ||
-                            rawValue === ''
-                          ) {
-                            handleInputChange(index, 'price', rawValue) // Cập nhật giá trị
-                          }
-                        }}
-                        autoFocus
-                        onBlur={() => setIsEditingPrice(false)}
-                      />
-                    ) : row.price ? (
-                      new Intl.NumberFormat().format(
-                        row.price.replace(/\./g, '')
-                      )
-                    ) : (
-                      'Nhập đơn giá'
-                    )}
-                  </td>
-                  <td>{new Intl.NumberFormat().format(row.tongtien)}</td>
                   <td>
                     <button
                       className='btnDeleterow'

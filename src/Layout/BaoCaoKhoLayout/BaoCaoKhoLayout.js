@@ -28,7 +28,7 @@ function BaoCaoKhoLayout () {
     setLoading(true) // Hiển thị loading khi bắt đầu tải
     try {
       const response = await fetch(
-        `https://ansuataohanoi.com/getsptest/${khoID}?fromDate=${startDate}&endDate=${endDate}`
+        `http://localhost:3015/getsptest/${khoID}?fromDate=${startDate}&endDate=${endDate}`
       )
       const data = await response.json()
       setData(data)

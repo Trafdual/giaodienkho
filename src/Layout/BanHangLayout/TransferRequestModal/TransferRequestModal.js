@@ -27,7 +27,7 @@ function TransferRequestModal ({ isOpen, onClose, store, productName, masku }) {
       }
 
       const response = await axios.post(
-        `https://ansuataohanoi.com/postyeucaudc/${idkho1}`,
+        `http://localhost:3015/postyeucaudc/${idkho1}`,
         payload
       )
 

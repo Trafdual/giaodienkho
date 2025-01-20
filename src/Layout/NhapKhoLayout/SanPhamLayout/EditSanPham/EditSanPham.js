@@ -38,7 +38,7 @@ function EditSanPham ({
     setIsDulieu(true)
     try {
       const response = await fetch(
-        `https://ansuataohanoi.com/getsanphambySKU/${sku}/${idloaisp}`
+        `http://localhost:3015/getsanphambySKU/${sku}/${idloaisp}`
       )
       const data = await response.json()
       if (response.ok) {
@@ -81,7 +81,7 @@ function EditSanPham ({
     }))
     setIsClickButton(true)
     try {
-      const response = await fetch('https://ansuataohanoi.com/putsomeproduct', {
+      const response = await fetch('http://localhost:3015/putsomeproduct', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
