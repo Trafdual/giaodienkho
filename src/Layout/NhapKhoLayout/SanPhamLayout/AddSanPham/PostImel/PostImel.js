@@ -122,6 +122,10 @@ function PostImel ({ isOpen, onClose }) {
   const handleClose = () => {
     setRows([])
     setIsModalHuy(true)
+  }
+  const handleclosemodalhuy = () => {
+    setRows([])
+    setIsModalHuy(false)
     onClose()
   }
 
@@ -275,7 +279,7 @@ function PostImel ({ isOpen, onClose }) {
 
         if (response.ok) {
           showToast('Thêm lô hàng thành công!', 'success')
-          handleClose()
+          onClose()
           setIsClickButton(false)
         } else {
           showToast('Lỗi khi thêm lô hàng', 'error')
@@ -564,8 +568,8 @@ function PostImel ({ isOpen, onClose }) {
       <ModalOnClose
         isOpen={isModalHuy}
         Save={submitProducts}
-        DontSave={handleClose}
-        Cancel={() => handleClose()}
+        DontSave={handleclosemodalhuy}
+        Cancel={() => handleclosemodalhuy()}
       />
 
       <button
