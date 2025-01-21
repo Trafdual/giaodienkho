@@ -6,7 +6,7 @@ const BlogDetail = ({ id }) => {
   const [blog, setBlog] = useState(null)
 
   useEffect(() => {
-    fetch(`http://localhost:3015/gettrogiup/${id}`)
+    fetch(`https://ansuataohanoi.com/gettrogiup/${id}`)
       .then(response => response.json())
       .then(data => setBlog(data))
       .catch(error => console.error('Error fetching blog details:', error))

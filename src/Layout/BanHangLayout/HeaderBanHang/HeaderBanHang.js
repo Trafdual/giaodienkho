@@ -51,7 +51,7 @@ function HeaderBanHang ({ userId, username }) {
       setIsLoading(true)
       try {
         const response = await axios.get(
-          `http://localhost:3015/getdepot/${userId}`
+          `https://ansuataohanoi.com/getdepot/${userId}`
         )
         if (Array.isArray(response.data)) {
           setKhoList(response.data)

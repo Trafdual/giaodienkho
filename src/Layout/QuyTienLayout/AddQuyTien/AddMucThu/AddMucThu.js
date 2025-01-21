@@ -27,7 +27,7 @@ function AddMucThu ({ isOpen, onClose, userId, fetchdata, loaitien }) {
     if (validateInputs()) {
       try {
         const response = await fetch(
-          `http://localhost:3015/postmucthuchi/${userId}`,
+          `https://ansuataohanoi.com/postmucthuchi/${userId}`,
           {
             method: 'POST',
             headers: {

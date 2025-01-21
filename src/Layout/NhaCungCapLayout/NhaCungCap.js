@@ -40,7 +40,7 @@ function NhaCungCapLayout () {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3015/getnhacungcap/${khoID}`,
+        `https://ansuataohanoi.com/getnhacungcap/${khoID}`,
         {
           method: 'GET',
           headers: {
