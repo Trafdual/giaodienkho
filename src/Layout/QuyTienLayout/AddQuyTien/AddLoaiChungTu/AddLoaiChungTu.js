@@ -39,7 +39,7 @@ function AddLoaiChungTu ({ isOpen, onClose, userID, fetchdata }) {
     if (validateInputs()) {
       try {
         const response = await fetch(
-          `https://ansuataohanoi.com/postloaichungtu/${userID}`,
+          `http://localhost:3015/postloaichungtu/${userID}`,
           {
             method: 'POST',
             headers: {

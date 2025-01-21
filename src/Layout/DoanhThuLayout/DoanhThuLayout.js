@@ -24,7 +24,7 @@ function DoanhThuLayout () {
     setLoading(true)
     try {
       const response = await fetch(
-        `https://ansuataohanoi.com/getdoanhthu/${khoID}?fromDate=${startDate}&endDate=${endDate}&fromDatetruoc=${startDatetruoc}&endDatetruoc=${endDatetruoc}`,
+        `http://localhost:3015/getdoanhthu/${khoID}?fromDate=${startDate}&endDate=${endDate}&fromDatetruoc=${startDatetruoc}&endDatetruoc=${endDatetruoc}`,
         {
           method: 'POST',
           headers: {
