@@ -37,6 +37,7 @@ function PostImel ({ isOpen, onClose }) {
   const [imel, setImel] = useState('')
   const [isEditingIMEI, setIsEditingIMEI] = useState([])
   const [isEditingSoluong, setIsEditingSoluong] = useState([])
+const [rowimel, setRowimel] = useState({})
 
   const [isRemoving, setIsRemoving] = useState(true)
   const [selectedSKUs, setSelectedSKUs] = useState([])
@@ -356,6 +357,7 @@ function PostImel ({ isOpen, onClose }) {
                             onClick={() => {
                               setIsOpenModalBarCode(true)
                               setindex(index)
+                              setRowimel(row)
                             }}
                           >
                             <FontAwesomeIcon icon={faBarcode} />
@@ -372,6 +374,7 @@ function PostImel ({ isOpen, onClose }) {
                     onClose={() => setIsOpenModalBarCode(false)}
                     index={indexImel}
                     handleAddImel={handleAddImel}
+                    row={rowimel}
                   />
                   <td onClick={() => toggleSoluongEdit(index)}>
                     {isEditingSoluong[index] ? (
