@@ -40,6 +40,8 @@ function AddTest2 ({
   const [isTableVisible, setIsTableVisible] = useState(false)
   const { showToast } = useToast()
   const [rows, setRows] = useState([])
+  const [rowimel, setRowimel] = useState({})
+
   const [imel, setImel] = useState('')
   const [isEditingIMEI, setIsEditingIMEI] = useState([])
   const [isEditingPrice, setIsEditingPrice] = useState([])
@@ -402,6 +404,7 @@ function AddTest2 ({
                               onClick={() => {
                                 setIsOpenModalBarCode(true)
                                 setindex(index)
+                                setRowimel(row)
                               }}
                             >
                               <FontAwesomeIcon icon={faBarcode} />
@@ -418,6 +421,7 @@ function AddTest2 ({
                     onClose={() => setIsOpenModalBarCode(false)}
                     index={indexImel}
                     handleAddImel={handleAddImel}
+                    row={rowimel}
                   />
                   <td onClick={() => toggleSoluongEdit(index)}>
                     {isEditingSoluong[index] ? (

@@ -34,7 +34,6 @@ function TestBarcodeOCR ({
             aspectRatio: 1.7777778
           },
           decodedText => {
-            // Khi quét thành công
             setScanResult(decodedText)
             handleAddImel(index, decodedText)
             setData(decodedText)
