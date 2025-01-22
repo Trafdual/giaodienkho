@@ -16,7 +16,7 @@ const FormAddImel = ({ isOpen, onClose, handleAddImel, index }) => {
   }
 
   return isOpen ? (
-    <Modal isOpen={isOpen} onClose={handleclose}>
+    <Modal isOpen={isOpen} onClose={() => handleclose()}>
       <h2>Thêm IMEI</h2>
       <div className='divvideo'>
         {scanning && (
@@ -42,10 +42,7 @@ const FormAddImel = ({ isOpen, onClose, handleAddImel, index }) => {
         >
           bắt đầu quét
         </button>
-        <button
-          onClick={handleclose}
-          className='btnHuyImelist'
-        >
+        <button onClick={handleclose} className='btnHuyImelist'>
           Đóng
         </button>
       </div>
