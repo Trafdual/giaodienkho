@@ -38,10 +38,6 @@
         overflow: hidden
     }
 
-    video {
-        width: 353px !important;
-    }
-
     .video.thanhcong {
         border: 2px solid rgb(0, 180, 0);
     }
@@ -76,9 +72,9 @@
         cursor: pointer;
     }
 
-    #qr-shaded-region{
-        border-width: 49.5px 26.5px !important;
-    }
+    // #qr-shaded-region{
+    //     border-width: 49.5px 26.5px !important;
+    // }
 
 
     @media screen and (max-width: 46.1875em) {
