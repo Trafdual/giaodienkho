@@ -18,16 +18,18 @@ const FormAddImel = ({ isOpen, onClose, handleAddImel, index }) => {
   return isOpen ? (
     <Modal isOpen={isOpen} onClose={() => handleclose()}>
       <h2>Thêm IMEI</h2>
-      <div className='divvideo'>
-        {scanning && (
-          <Testbarceode
-            setData={setResult}
-            handleAddImel={handleAddImel}
-            index={index}
-            scanning={scanning}
-            setScanning={setScanning}
-          />
-        )}
+      <div className='wrapper1'>
+        <div className='divvideo'>
+          {scanning && (
+            <Testbarceode
+              setData={setResult}
+              handleAddImel={handleAddImel}
+              index={index}
+              scanning={scanning}
+              setScanning={setScanning}
+            />
+          )}
+        </div>
       </div>
 
       <div className='results'>
