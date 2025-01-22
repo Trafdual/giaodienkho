@@ -16,7 +16,7 @@ const FormAddImel = ({ isOpen, onClose, handleAddImel, index }) => {
   }
 
   return isOpen ? (
-    <Modal isOpen={isOpen} onClose={onClose}>
+    <Modal isOpen={isOpen} onClose={handleclose}>
       <h2>Thêm IMEI</h2>
       <div className='divvideo'>
         {scanning && (
