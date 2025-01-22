@@ -27,18 +27,16 @@
 }
 .divvideo {
   position: relative;
-  width: 100%;
-  flex-direction: column;
-  display: flex;
-  justify-content: center;
+  display: inline-block;
   clip-path: inset(30% 8% 30% 8%);
   width: 100%;
-  height: auto;
+  height: 100%;
+  box-sizing: content-box;
 }
 
 video {
   width: 100% !important;
-  height: auto;
+  height: 100%;
   object-fit: cover;
   /* Phóng to vừa khung */
 }
@@ -75,6 +73,10 @@ video {
   border-radius: 5px;
   box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2);
   cursor: pointer;
+}
+
+#qr-reader {
+  display: inline-block;
 }
 
 @media screen and (max-width: 46.1875em) {

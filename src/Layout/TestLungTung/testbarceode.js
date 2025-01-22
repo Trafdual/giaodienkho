@@ -69,7 +69,7 @@ function TestBarcodeOCR ({
   }, [scanning])
 
   return (
-    <div className='Barcode'>
+    <>
       <div
         id='qr-reader'
         style={{ display: scanning ? 'block' : 'none' }}
@@ -92,7 +92,7 @@ function TestBarcodeOCR ({
           <p>{!scanning && 'Scanning stopped.'}</p>
         )}
       </div>
-    </div>
+    </>
   )
 }
 
