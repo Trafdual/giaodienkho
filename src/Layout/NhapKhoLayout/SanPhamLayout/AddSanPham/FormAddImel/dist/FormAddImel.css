@@ -12,6 +12,10 @@
   /* Thời gian và kiểu quét */
 }
 
+#qr-reader {
+  height: 100px;
+}
+
 @keyframes scan {
   0% {
     top: 0;
