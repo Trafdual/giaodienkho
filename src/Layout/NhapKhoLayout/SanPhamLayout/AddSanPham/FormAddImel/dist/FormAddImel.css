@@ -32,9 +32,9 @@
   overflow: hidden;
 }
 
-video {
-  width: 370px;
-  height: 200px;
+.video {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   border: 2px solid red;
 }
