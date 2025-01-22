@@ -11,9 +11,14 @@
         /* Thời gian và kiểu quét */
     }
     .wrapper1 {
-        position: relative;
-        width: 100%;
-        overflow: hidden;
+       display: flex;
+       position: relative;
+       width: 100%;
+       height: 120px;
+       overflow: hidden;
+       justify-content: center;
+       justify-items: center;
+       align-items: center;
     }
 
     @keyframes scan {
@@ -35,8 +40,8 @@
     .divvideo {
         position: relative;
         display: inline-block;
-        // clip-path: inset(30% 8% 30% 8%);
         width: 375px;
+        height: 200px;
         box-sizing: content-box;
     }
 
