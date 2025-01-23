@@ -124,19 +124,17 @@
                     display: flex;
                 }
 
-                th {
+                th,td {
                     padding: 10px;
                     text-align: center;
                     border: 1px solid #ccc;
                     flex: 1;
+                    width: 30%;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    overflow: hidden;
                 }
 
-                td {
-                    padding: 10px;
-                    text-align: center;
-                    border: 1px solid #ccc;
-                    flex: 1;
-                }
             }
         }
 
