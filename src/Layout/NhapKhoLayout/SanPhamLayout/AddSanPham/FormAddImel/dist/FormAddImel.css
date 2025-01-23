@@ -42,9 +42,7 @@
   left: 50%;
   transform: translate(-50%, -50%);
   clip-path: inset(40% 25% 40% 25%);
-  /* Chỉ giữ lại box giữa */
   object-fit: cover;
-  /* Phóng to vừa khung */
 }
 
 .video.thanhcong {
