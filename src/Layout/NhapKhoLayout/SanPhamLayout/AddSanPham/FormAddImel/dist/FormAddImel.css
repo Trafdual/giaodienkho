@@ -88,6 +88,24 @@ video {
 }
 
 @media screen and (max-width: 46.1875em) {
+  .widthphantu {
+    width: 100px !important;
+    white-space: normal !important;
+    padding: 5px !important;
+    overflow: hidden;
+  }
+
+  .widthphantu1 {
+    max-width: 30px;
+    overflow: hidden;
+  }
+  .widthphantu1 .divDeleterow {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
   .results {
     text-align: center;
     display: flex;
@@ -117,7 +135,8 @@ video {
   .results table tr {
     display: flex;
   }
-  .results table th, .results table td {
+  .results table th,
+.results table td {
     padding: 10px;
     text-align: center;
     border: 1px solid #ccc;

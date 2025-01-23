@@ -36,7 +36,6 @@ function PostImel ({ isOpen, onClose }) {
   const [rows, setRows] = useState([])
   const [imel, setImel] = useState('')
   const [isEditingIMEI, setIsEditingIMEI] = useState([])
-  const [isEditingSoluong, setIsEditingSoluong] = useState([])
   const [rowimel, setRowimel] = useState([])
 
   const [isRemoving, setIsRemoving] = useState(true)
@@ -75,14 +74,6 @@ function PostImel ({ isOpen, onClose }) {
   const toggleIMEIEdit = index => {
     setIsEditingIMEI(prev => {
       const updated = Array.isArray(prev) ? [...prev] : [] // Đảm bảo prev là mảng
-      updated[index] = !updated[index]
-      return updated
-    })
-  }
-
-  const toggleSoluongEdit = index => {
-    setIsEditingSoluong(prev => {
-      const updated = Array.isArray(prev) ? [...prev] : []
       updated[index] = !updated[index]
       return updated
     })
@@ -188,24 +179,6 @@ function PostImel ({ isOpen, onClose }) {
     }
   }
 
-  const handleInputChange = (index, field, value) => {
-    setRows(prevRows =>
-      prevRows.map((row, rowIndex) => {
-        if (rowIndex !== index) return row
-
-        const updatedRow = { ...row, [field]: value }
-
-        if (field === 'price' || field === 'soluong') {
-          const price = parseFloat(updatedRow.price.replace(/\./g, '')) || 0
-          const quantity = updatedRow.soluong || 0
-          updatedRow.tongtien = price * quantity
-        }
-
-        return updatedRow
-      })
-    )
-  }
-
   const handleRemoveImel = (index, imelIndex) => {
     setRows(prevRows =>
       prevRows.map((row, rowIndex) =>
@@ -309,22 +282,22 @@ function PostImel ({ isOpen, onClose }) {
           <table className='modal-table-test'>
             <thead>
               <tr>
-                <th>Mã SKU</th>
-                <th>Tên máy</th>
-                <th>Imel</th>
-                <th>Số lượng</th>
-                <td></td>
+                <th className='widthphantu'>Mã SKU</th>
+                <th className='widthphantu'>Tên máy</th>
+                <th className='widthphantu'>Imel</th>
+                <th className='widthphantu'></th>
               </tr>
             </thead>
             <tbody>
               {rows.map((row, index) => (
                 <tr key={index}>
-                  <td>{row.masku}</td>
-                  <td>{row.name}</td>
+                  <td className='widthphantu'>{row.masku}</td>
+                  <td className='widthphantu'>{row.name}</td>
 
                   <td
                     onClick={() => toggleIMEIEdit(index)}
                     style={{ cursor: 'pointer' }}
+                    className='widthphantu'
                   >
                     {isEditingIMEI[index] ? (
                       <div className='imel-input-container'>
@@ -380,54 +353,16 @@ function PostImel ({ isOpen, onClose }) {
                     rowindex={indexImel}
                     handelremoveimel={handleRemoveImel}
                   />
-                  <td onClick={() => toggleSoluongEdit(index)}>
-                    {isEditingSoluong[index] ? (
-                      <input
-                        type='text'
-                        placeholder='Nhập số lượng'
-                        className='imel-input'
-                        value={row.soluong || ''}
-                        onChange={e => {
-                          const inputValue = e.target.value
-                          if (inputValue === '' || inputValue === '0') {
-                            handleInputChange(index, 'soluong', null)
-                          } else {
-                            const value = parseInt(inputValue, 10)
-                            if (!isNaN(value)) {
-                              handleInputChange(index, 'soluong', value)
-                            }
-                          }
-                        }}
-                        autoFocus
-                        onBlur={() => {
-                          setIsEditingSoluong(prev => {
-                            const updated = [...prev]
-                            updated[index] = false
-                            return updated
-                          })
 
-                          if (row.imel && row.imel.length > 0) {
-                            setRows(prevRows =>
-                              prevRows.map((r, i) =>
-                                i === index
-                                  ? { ...r, soluong: r.imel.length }
-                                  : r
-                              )
-                            )
-                          }
-                        }}
-                      />
-                    ) : (
-                      row.soluong || 'Nhập số lượng'
-                    )}
-                  </td>
-                  <td>
-                    <button
-                      className='btnDeleterow'
-                      onClick={() => deleteRow(index)}
-                    >
-                      <FontAwesomeIcon icon={faTrashCan} />
-                    </button>
+                  <td className='widthphantu1'>
+                    <div className='divDeleterow'>
+                      <button
+                        className='btnDeleterow'
+                        onClick={() => deleteRow(index)}
+                      >
+                        <FontAwesomeIcon icon={faTrashCan} />
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}
