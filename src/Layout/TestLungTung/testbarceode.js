@@ -36,7 +36,13 @@ function TestBarcodeOCR ({
           decodedText => {
             setScanResult(decodedText)
             handleAddImel(index, decodedText)
-            setrowimel(prev => [...prev, decodedText])
+            setrowimel(prev => {
+              if (prev.includes(decodedText)) {
+                return prev
+              }
+              return [...prev, decodedText]
+            })
+
             stopCamera() // Dừng camera sau khi quét
           }
         )
