@@ -5,11 +5,11 @@ import { Html5Qrcode } from 'html5-qrcode'
 import './test.scss'
 
 function TestBarcodeOCR ({
-  setData,
   handleAddImel,
   index,
   scanning,
-  setScanning
+  setScanning,
+  setrowimel
 }) {
   const [scanResult, setScanResult] = useState(null)
   const html5QrcodeRef = useRef(null)
@@ -34,10 +34,9 @@ function TestBarcodeOCR ({
             aspectRatio: 1.7777778
           },
           decodedText => {
-            // Khi quét thành công
             setScanResult(decodedText)
             handleAddImel(index, decodedText)
-            setData(decodedText)
+            setrowimel(prev => [...prev, decodedText])
             stopCamera() // Dừng camera sau khi quét
           }
         )
@@ -49,9 +48,8 @@ function TestBarcodeOCR ({
 
     if (scanning) {
       startCamera()
-    }
-    else{
-      stopCamera();
+    } else {
+      stopCamera()
     }
 
     const stopCamera = async () => {
@@ -69,7 +67,7 @@ function TestBarcodeOCR ({
   }, [scanning])
 
   return (
-    <div className='Barcode'>
+    <>
       <div
         id='qr-reader'
         style={{ display: scanning ? 'block' : 'none' }}
@@ -92,7 +90,7 @@ function TestBarcodeOCR ({
           <p>{!scanning && 'Scanning stopped.'}</p>
         )}
       </div>
-    </div>
+    </>
   )
 }
 

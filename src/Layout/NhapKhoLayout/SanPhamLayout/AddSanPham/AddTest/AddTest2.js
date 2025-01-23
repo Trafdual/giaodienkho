@@ -40,6 +40,7 @@ function AddTest2 ({
   const [isTableVisible, setIsTableVisible] = useState(false)
   const { showToast } = useToast()
   const [rows, setRows] = useState([])
+
   const [imel, setImel] = useState('')
   const [isEditingIMEI, setIsEditingIMEI] = useState([])
   const [isEditingPrice, setIsEditingPrice] = useState([])
@@ -343,6 +344,7 @@ function AddTest2 ({
     }
   }, [])
 
+
   return (
     <>
       <div>
@@ -402,7 +404,7 @@ function AddTest2 ({
                               onClick={() => {
                                 setIsOpenModalBarCode(true)
                                 setindex(index)
-                              }}
+                                                              }}
                             >
                               <FontAwesomeIcon icon={faBarcode} />
                             </button>

@@ -37,6 +37,7 @@ function PostImel ({ isOpen, onClose }) {
   const [imel, setImel] = useState('')
   const [isEditingIMEI, setIsEditingIMEI] = useState([])
   const [isEditingSoluong, setIsEditingSoluong] = useState([])
+  const [rowimel, setRowimel] = useState([])
 
   const [isRemoving, setIsRemoving] = useState(true)
   const [selectedSKUs, setSelectedSKUs] = useState([])
@@ -261,13 +262,14 @@ function PostImel ({ isOpen, onClose }) {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
         })
-
-        if (response.ok) {
+        const data = await response.json()
+        if (data.message) {
+          showToast(`${data.message}`, 'error')
+          setIsClickButton(false)
+        } else {
           showToast('Thêm lô hàng thành công!', 'success')
           onClose()
           setIsClickButton(false)
-        } else {
-          showToast('Lỗi khi thêm lô hàng', 'error')
         }
       } catch (error) {
         console.error('Lỗi khi gửi dữ liệu lô hàng:', error)
@@ -356,6 +358,7 @@ function PostImel ({ isOpen, onClose }) {
                             onClick={() => {
                               setIsOpenModalBarCode(true)
                               setindex(index)
+                              setRowimel(row.imel)
                             }}
                           >
                             <FontAwesomeIcon icon={faBarcode} />
@@ -372,6 +375,8 @@ function PostImel ({ isOpen, onClose }) {
                     onClose={() => setIsOpenModalBarCode(false)}
                     index={indexImel}
                     handleAddImel={handleAddImel}
+                    row={rowimel}
+                    setrowimel={setRowimel}
                   />
                   <td onClick={() => toggleSoluongEdit(index)}>
                     {isEditingSoluong[index] ? (
