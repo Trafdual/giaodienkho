@@ -92,8 +92,52 @@
     @media screen and (max-width: 46.1875em) {
 
         .results {
-            margin-top: 10px;
             text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100px;
+            overflow-y: auto;
+            box-sizing: border-box;
+
+            table {
+                display: block;
+                width: 100%;
+                border-collapse: collapse;
+                border-radius: 5px;
+                height: 100%;
+
+                thead {
+                    display: table;
+                    width: 100%;
+                    background-color: white;
+
+                }
+
+                tbody {
+                    display: table;
+                    width: 100%;
+                }
+
+                tr {
+                    display: flex;
+                }
+
+                th {
+                    padding: 10px;
+                    text-align: center;
+                    border: 1px solid #ccc;
+                    flex: 1;
+                }
+
+                td {
+                    padding: 10px;
+                    text-align: center;
+                    border: 1px solid #ccc;
+                    flex: 1;
+                }
+            }
         }
 
     }

@@ -377,6 +377,8 @@ function PostImel ({ isOpen, onClose }) {
                     handleAddImel={handleAddImel}
                     row={rowimel}
                     setrowimel={setRowimel}
+                    rowindex={indexImel}
+                    handelremoveimel={handleRemoveImel}
                   />
                   <td onClick={() => toggleSoluongEdit(index)}>
                     {isEditingSoluong[index] ? (

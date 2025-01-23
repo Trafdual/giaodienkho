@@ -3,6 +3,8 @@ import React, { useState } from 'react'
 import './FormAddImel.scss'
 import { Modal } from '~/components/Modal'
 import Testbarceode from '~/Layout/TestLungTung/testbarceode'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTrashCan } from '@fortawesome/free-solid-svg-icons'
 
 const FormAddImel = ({
   isOpen,
@@ -10,10 +12,11 @@ const FormAddImel = ({
   handleAddImel,
   index,
   row,
-  setrowimel
+  setrowimel,
+  handelremoveimel,
+  rowindex
 }) => {
   const [scanning, setScanning] = useState(false)
-
 
   const handleclose = () => {
     onClose()
@@ -44,6 +47,7 @@ const FormAddImel = ({
             <tr>
               <th>STT</th>
               <th>Imel</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -52,6 +56,17 @@ const FormAddImel = ({
                 <tr key={index}>
                   <td>{index + 1}</td>
                   <td>{item}</td>
+                  <td>
+                    <button
+                      className='btnDeleterow'
+                      onClick={() => {
+                        handelremoveimel(rowindex, index)
+                        setrowimel(row.filter((_, i) => i !== index))
+                      }}
+                    >
+                      <FontAwesomeIcon icon={faTrashCan} />
+                    </button>
+                  </td>
                 </tr>
               ))
             ) : (

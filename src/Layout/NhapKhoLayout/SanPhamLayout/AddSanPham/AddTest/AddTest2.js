@@ -344,7 +344,6 @@ function AddTest2 ({
     }
   }, [])
 
-
   return (
     <>
       <div>
@@ -404,7 +403,7 @@ function AddTest2 ({
                               onClick={() => {
                                 setIsOpenModalBarCode(true)
                                 setindex(index)
-                                                              }}
+                              }}
                             >
                               <FontAwesomeIcon icon={faBarcode} />
                             </button>
@@ -420,6 +419,8 @@ function AddTest2 ({
                     onClose={() => setIsOpenModalBarCode(false)}
                     index={indexImel}
                     handleAddImel={handleAddImel}
+                    rowindex={indexImel}
+                    handelremoveimel={handleRemoveImel}
                   />
                   <td onClick={() => toggleSoluongEdit(index)}>
                     {isEditingSoluong[index] ? (
