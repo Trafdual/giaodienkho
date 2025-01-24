@@ -34,7 +34,7 @@ function BaoCaoCongNo () {
       try {
         const response = await fetch(
 <<<<<<< HEAD
-          `https:/ansuataohanoi.com/getcongno3/${khoID}?fromdate=${startDate}&enddate=${endDate}`
+          `https://ansuataohanoi.com/getcongno3/${khoID}?fromdate=${startDate}&enddate=${endDate}`
 =======
           `https://ansuataohanoi.com/getcongno3/${khoID}?fromdate=${startDate}&enddate=${endDate}`
 >>>>>>> 988350495b3608450c314b52aa09b669a0ce0a24

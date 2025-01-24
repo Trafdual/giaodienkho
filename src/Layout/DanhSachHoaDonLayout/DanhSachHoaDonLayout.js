@@ -50,7 +50,7 @@ function DanhSachHoaDonLayout () {
     setLoading(true)
     try {
       const response = await fetch(
-        `https:/ansuataohanoi.com/gethoadonstore/${khoID}?fromdate=${fromdate}&enddate=${enddate}`
+        `https://ansuataohanoi.com/gethoadonstore/${khoID}?fromdate=${fromdate}&enddate=${enddate}`
       )
       if (response.ok) {
         const data = await response.json()

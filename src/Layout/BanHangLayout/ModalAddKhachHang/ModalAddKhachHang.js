@@ -80,7 +80,7 @@ function ModalAddKhachHang ({ isOpen, onClose, khoID, fetchData, userId }) {
   const fetchnhomkhachang = async () => {
     try {
       const response = await fetch(
-        `https:/ansuataohanoi.com/getnhomkhachhang/${userId}`
+        `https://ansuataohanoi.com/getnhomkhachhang/${userId}`
       )
       const data = await response.json()
 

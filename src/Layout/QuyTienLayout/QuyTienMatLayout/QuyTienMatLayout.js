@@ -83,7 +83,7 @@ function QuyTienMatLayout () {
     try {
       const response = await fetch(
 <<<<<<< HEAD
-        `https:/ansuataohanoi.com/getthuchitienmat/${khoID}`,
+        `https://ansuataohanoi.com/getthuchitienmat/${khoID}`,
 =======
         `https://ansuataohanoi.com/getthuchitienmat/${khoID}`,
 >>>>>>> 988350495b3608450c314b52aa09b669a0ce0a24
