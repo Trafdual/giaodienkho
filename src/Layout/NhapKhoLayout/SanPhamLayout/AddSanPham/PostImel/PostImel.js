@@ -246,8 +246,6 @@ function PostImel ({ isOpen, onClose }) {
           setScanning(false)
           onClose()
           setIsClickButton(false)
-          setRowimel([])
-          setRows([])
         }
       } catch (error) {
         console.error('Lỗi khi gửi dữ liệu lô hàng:', error)
