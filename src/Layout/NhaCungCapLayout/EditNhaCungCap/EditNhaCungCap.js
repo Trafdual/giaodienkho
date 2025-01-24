@@ -61,7 +61,7 @@ function EditNhaCungCap ({ isOpen, onClose, idncc, setnhacungcap }) {
     if (validateInputs()) {
       try {
         const response = await fetch(
-          `http://localhost:8080/editnhacungcap/${idncc}`,
+          `https://www.ansuataohanoi.com/editnhacungcap/${idncc}`,
           {
             method: 'POST',
             headers: {

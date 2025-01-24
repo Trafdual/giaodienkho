@@ -99,7 +99,7 @@ function AddQuyTien ({ isOpen, onClose, fetchquytien, loaitien, method }) {
   const fetchSuppliers = async () => {
     try {
       const response = await fetch(
-        `http://localhost:8080/doituongthuchi/${khoID}`
+        `https://www.ansuataohanoi.com/doituongthuchi/${khoID}`
       )
       const data = await response.json()
 

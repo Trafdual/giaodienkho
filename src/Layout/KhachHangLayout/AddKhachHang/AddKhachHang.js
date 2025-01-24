@@ -80,7 +80,7 @@ function AddKhachHang ({ isOpen, onClose, khoID, fetchData, userId }) {
   const fetchnhomkhachang = async () => {
     try {
       const response = await fetch(
-        `http://localhost:8080/getnhomkhachhang/${userId}`
+        `https://www.ansuataohanoi.com/getnhomkhachhang/${userId}`
       )
       const data = await response.json()
 

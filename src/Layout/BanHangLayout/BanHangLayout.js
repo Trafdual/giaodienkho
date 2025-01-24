@@ -304,7 +304,7 @@ function BanHangLayout () {
     try {
       if (validate()) {
         const response = await fetch(
-          `http://localhost:8080/postchonsanpham/${storedKhoID}`,
+          `https://www.ansuataohanoi.com/postchonsanpham/${storedKhoID}`,
           {
             method: 'POST',
             headers: {
