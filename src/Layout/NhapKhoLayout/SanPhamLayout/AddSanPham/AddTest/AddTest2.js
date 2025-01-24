@@ -300,7 +300,10 @@ function AddTest2 ({
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ malohang })
       })
-      if (response.ok) {
+      const data = await response.json()
+      if (data.message) {
+        showToast(`${data.message}`, 'error')
+      } else {
         setIsCloseHuy(false)
         fetchlohang()
       }
@@ -335,7 +338,7 @@ function AddTest2 ({
 
     eventSource.onmessage = event => {
       const newMessage = JSON.parse(event.data)
-      showToast(newMessage.message)
+      console.log(newMessage.message)
       fetchimel()
     }
 

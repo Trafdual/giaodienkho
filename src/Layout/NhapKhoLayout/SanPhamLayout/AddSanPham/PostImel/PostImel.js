@@ -204,7 +204,7 @@ function PostImel ({ isOpen, onClose }) {
       return false
     }
     if (!malohang) {
-      showToast('Mã lô hàng không được để trống','error')
+      showToast('Mã lô hàng không được để trống', 'error')
       return false
     }
     for (const row of rows) {
@@ -244,6 +244,8 @@ function PostImel ({ isOpen, onClose }) {
           showToast('Thêm imel thành công!', 'success')
           setIsOpenModalBarCode(false)
           setScanning(false)
+          setRowimel([])
+          setRows([])
           onClose()
           setIsClickButton(false)
         }
@@ -335,7 +337,7 @@ function PostImel ({ isOpen, onClose }) {
                               setIsOpenModalBarCode(true)
                               setindex(index)
                               setRowimel(row.imel)
-                              setScanning(true)
+                              // setScanning(true)
                             }}
                           >
                             <FontAwesomeIcon icon={faBarcode} />

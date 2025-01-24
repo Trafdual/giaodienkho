@@ -1,6 +1,6 @@
 /* eslint-disable no-use-before-define */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { Html5Qrcode } from 'html5-qrcode'
 import './test.scss'
 import { useToast } from '~/components/GlobalStyles/ToastContext'
@@ -12,7 +12,6 @@ function TestBarcodeOCR ({
   setScanning,
   setrowimel
 }) {
-  const [scanResult, setScanResult] = useState(null)
   const html5QrcodeRef = useRef(null)
   const { showToast } = useToast()
 
@@ -36,7 +35,6 @@ function TestBarcodeOCR ({
             aspectRatio: 1.7777778
           },
           decodedText => {
-            setScanResult(decodedText)
             handleAddImel(index, decodedText)
             setrowimel(prev => {
               if (prev.includes(decodedText)) {
@@ -44,7 +42,6 @@ function TestBarcodeOCR ({
               }
               return [...prev, decodedText]
             })
-            showToast('Imel đã được thêm vào danh sách')
           }
         )
       } catch (err) {
@@ -91,11 +88,7 @@ function TestBarcodeOCR ({
           color: 'white'
         }}
       >
-        {scanResult ? (
-          <p>Code scanned: {scanResult}</p>
-        ) : (
-          <p>{!scanning && 'Scanning stopped.'}</p>
-        )}
+
       </div>
     </>
   )
