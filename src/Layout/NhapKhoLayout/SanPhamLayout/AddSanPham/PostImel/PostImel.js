@@ -240,7 +240,6 @@ function PostImel ({ isOpen, onClose }) {
           showToast(`${data.message}`, 'error')
           setIsClickButton(false)
         } else {
-          showToast('Thêm imel thành công!', 'success')
           setIsOpenModalBarCode(false)
           setScanning(false)
           onClose()
