@@ -3,6 +3,7 @@
 import React, { useEffect, useRef } from 'react'
 import { Html5Qrcode } from 'html5-qrcode'
 import './test.scss'
+import { useToast } from '~/components/GlobalStyles/ToastContext'
 
 function TestBarcodeOCR ({
   handleAddImel,
@@ -12,6 +13,7 @@ function TestBarcodeOCR ({
   setrowimel
 }) {
   const html5QrcodeRef = useRef(null)
+  const { showToast } = useToast()
 
   useEffect(() => {
     const startCamera = async () => {
@@ -33,11 +35,12 @@ function TestBarcodeOCR ({
             aspectRatio: 1.7777778
           },
           decodedText => {
-            handleAddImel(index, decodedText)
             setrowimel(prev => {
               if (prev.includes(decodedText)) {
+                showToast('Imel đã tồn tại trong danh sách', 'error')
                 return prev
               }
+              handleAddImel(index, decodedText)
               return [...prev, decodedText]
             })
           }
@@ -85,9 +88,7 @@ function TestBarcodeOCR ({
           fontSize: '1.5rem',
           color: 'white'
         }}
-      >
-
-      </div>
+      ></div>
     </>
   )
 }
