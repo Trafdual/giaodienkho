@@ -244,10 +244,10 @@ function PostImel ({ isOpen, onClose }) {
           showToast('Thêm imel thành công!', 'success')
           setIsOpenModalBarCode(false)
           setScanning(false)
-          setRowimel([])
-          setRows([])
           onClose()
           setIsClickButton(false)
+          setRowimel([])
+          setRows([])
         }
       } catch (error) {
         console.error('Lỗi khi gửi dữ liệu lô hàng:', error)
