@@ -100,7 +100,7 @@ function AddQuyTien ({ isOpen, onClose, fetchquytien, loaitien, method }) {
     try {
       const response = await fetch(
 <<<<<<< HEAD
-        `https://www.ansuataohanoi.com/doituongthuchi/${khoID}`
+        `https:/ansuataohanoi.com/doituongthuchi/${khoID}`
 =======
         `https://ansuataohanoi.com/doituongthuchi/${khoID}`
 >>>>>>> 988350495b3608450c314b52aa09b669a0ce0a24

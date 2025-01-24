@@ -32,7 +32,7 @@ function BaoCaoBanHangLayout () {
     setLoading(true)
     try {
       const response = await fetch(
-        `https://www.ansuataohanoi.com/baocaobanhang/${khoID}?fromdate=${fromdate}&enddate=${enddate}`
+        `https:/ansuataohanoi.com/baocaobanhang/${khoID}?fromdate=${fromdate}&enddate=${enddate}`
       )
       if (response.ok) {
         const data = await response.json()

@@ -84,7 +84,7 @@ function EditNhaCungCap ({ isOpen, onClose, idncc, fetchdata, setidncc }) {
       try {
         const response = await fetch(
 <<<<<<< HEAD
-          `https://www.ansuataohanoi.com/editnhacungcap/${idncc}`,
+          `https:/ansuataohanoi.com/editnhacungcap/${idncc}`,
 =======
           `https://ansuataohanoi.com/editnhacungcap/${idncc}`,
 >>>>>>> 988350495b3608450c314b52aa09b669a0ce0a24
