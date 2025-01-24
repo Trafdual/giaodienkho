@@ -14,10 +14,11 @@ const FormAddImel = ({
   row,
   setrowimel,
   handelremoveimel,
-  rowindex
+  rowindex,
+  setScanning,
+  scanning,
+  submitProducts
 }) => {
-  const [scanning, setScanning] = useState(false)
-
   const handleclose = () => {
     onClose()
     setScanning(false)
@@ -45,18 +46,18 @@ const FormAddImel = ({
         <table>
           <thead>
             <tr>
-              <th>STT</th>
+              <th className='widthrieng'>STT</th>
               <th>Imel</th>
-              <th></th>
+              <th className = 'widthrieng'></th>
             </tr>
           </thead>
           <tbody>
             {row.length > 0 ? (
               row.map((item, index) => (
                 <tr key={index}>
-                  <td>{index + 1}</td>
+                  <td className='widthrieng'>{index + 1}</td>
                   <td>{item}</td>
-                  <td>
+                  <td className = 'widthrieng'>
                     <button
                       className='btnDeleterow'
                       onClick={() => {
@@ -80,11 +81,11 @@ const FormAddImel = ({
       <div className='divButtonImel'>
         <button
           onClick={() => {
-            setScanning(true)
+            submitProducts()
           }}
           className='btnAddImelist'
         >
-          bắt đầu quét
+          Thêm sản phẩm
         </button>
         <button onClick={handleclose} className='btnHuyImelist'>
           Đóng

@@ -3,6 +3,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Html5Qrcode } from 'html5-qrcode'
 import './test.scss'
+import { useToast } from '~/components/GlobalStyles/ToastContext'
 
 function TestBarcodeOCR ({
   handleAddImel,
@@ -13,6 +14,7 @@ function TestBarcodeOCR ({
 }) {
   const [scanResult, setScanResult] = useState(null)
   const html5QrcodeRef = useRef(null)
+  const { showToast } = useToast()
 
   useEffect(() => {
     const startCamera = async () => {
@@ -42,8 +44,7 @@ function TestBarcodeOCR ({
               }
               return [...prev, decodedText]
             })
-
-            stopCamera() // Dừng camera sau khi quét
+            showToast('Imel đã được thêm vào danh sách')
           }
         )
       } catch (err) {

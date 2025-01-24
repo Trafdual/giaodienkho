@@ -44,6 +44,7 @@ function PostImel ({ isOpen, onClose }) {
   const [isOpenModalBarCode, setIsOpenModalBarCode] = useState(false)
   const [indexImel, setindex] = useState(null)
   const [isClickButton, setIsClickButton] = useState(false)
+  const [scanning, setScanning] = useState(false)
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -203,12 +204,12 @@ function PostImel ({ isOpen, onClose }) {
       return false
     }
     if (!malohang) {
-      setmalohangError('Mã lô hàng không được để trống')
+      showToast('Mã lô hàng không được để trống','error')
       return false
     }
     for (const row of rows) {
       if (!row.soluong) {
-        showToast(`Số lượng không được để trống`, 'error')
+        showToast(`Bạn chưa nhập imel`, 'error')
         return false
       }
     }
@@ -240,7 +241,9 @@ function PostImel ({ isOpen, onClose }) {
           showToast(`${data.message}`, 'error')
           setIsClickButton(false)
         } else {
-          showToast('Thêm lô hàng thành công!', 'success')
+          showToast('Thêm imel thành công!', 'success')
+          setIsOpenModalBarCode(false)
+          setScanning(false)
           onClose()
           setIsClickButton(false)
         }
@@ -332,6 +335,7 @@ function PostImel ({ isOpen, onClose }) {
                               setIsOpenModalBarCode(true)
                               setindex(index)
                               setRowimel(row.imel)
+                              // setScanning(true)
                             }}
                           >
                             <FontAwesomeIcon icon={faBarcode} />
@@ -352,6 +356,9 @@ function PostImel ({ isOpen, onClose }) {
                     setrowimel={setRowimel}
                     rowindex={indexImel}
                     handelremoveimel={handleRemoveImel}
+                    scanning={scanning}
+                    setScanning={setScanning}
+                    submitProducts={submitProducts}
                   />
 
                   <td className='widthphantu1'>
