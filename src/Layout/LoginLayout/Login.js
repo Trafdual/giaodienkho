@@ -61,7 +61,7 @@ function Login () {
     if (validateInputs()) {
       setIsLoading(true)
       try {
-        const response = await fetch('https://www.ansuataohanoi.com/login', {
+        const response = await fetch('https://ansuataohanoi.com/login', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'

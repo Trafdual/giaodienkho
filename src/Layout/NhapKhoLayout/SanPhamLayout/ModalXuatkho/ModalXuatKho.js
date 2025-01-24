@@ -26,7 +26,7 @@ function ModalXuatKho ({
 
     try {
       const response = await fetch(
-        `https://www.ansuataohanoi.com/xuatkho/${idsp}/${idloaisp}/${khoID}`,
+        `https://ansuataohanoi.com/xuatkho/${idsp}/${idloaisp}/${khoID}`,
         {
           method: 'POST',
           headers: {
@@ -56,14 +56,14 @@ function ModalXuatKho ({
         <div className='divAddSanPham'>
           <button
             onClick={() => postxuatkho(idsanpham)}
-            className='btnAddLoHang'
+            className='btnAddNhaCungCap'
           >
             Xuất kho
           </button>
           <div className='separator'>
             <span>Hoặc</span>
           </div>
-          <button onClick={OpenFormChuyenKho} className='btnhuyAddLoHang'>
+          <button onClick={OpenFormChuyenKho} className='btnhuyAddNhaCungCap'>
             Chuyển kho
           </button>
         </div>

@@ -93,7 +93,7 @@ function SanPhamLayout (_ref) {
               _context.next = 5
               return regeneratorRuntime.awrap(
                 fetch(
-                  'https://www.ansuataohanoi.com/getsanpham/'.concat(idloaisp),
+                  'https://ansuataohanoi.com/getsanpham/'.concat(idloaisp),
                   {
                     method: 'GET',
                     headers: {
@@ -170,7 +170,7 @@ function SanPhamLayout (_ref) {
               _context2.next = 5
               return regeneratorRuntime.awrap(
                 fetch(
-                  'https://www.ansuataohanoi.com/xuatkho/'
+                  'https://ansuataohanoi.com/xuatkho/'
                     .concat(idsp, '/')
                     .concat(idloaisp, '/')
                     .concat(khoID),

@@ -39,7 +39,7 @@ function AddLoaiChungTu ({ isOpen, onClose, userID, fetchdata }) {
     if (validateInputs()) {
       try {
         const response = await fetch(
-          `https://www.ansuataohanoi.com/postloaichungtu/${userID}`,
+          `https://ansuataohanoi.com/postloaichungtu/${userID}`,
           {
             method: 'POST',
             headers: {
@@ -150,6 +150,5 @@ function AddLoaiChungTu ({ isOpen, onClose, userID, fetchdata }) {
     </Modal>
   )
 }
-
 
 export default AddLoaiChungTu

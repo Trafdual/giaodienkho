@@ -58,7 +58,7 @@ function SanPhamLayout ({
 
     try {
       const response = await fetch(
-        `https://www.ansuataohanoi.com/getsanpham/${idloaisp}`,
+        `https://ansuataohanoi.com/getsanpham/${idloaisp}`,
         {
           method: 'GET',
           headers: {
@@ -86,7 +86,7 @@ function SanPhamLayout ({
   }, [idloaisp])
 
   // useEffect(() => {
-  //   const eventSource = new EventSource('https://www.ansuataohanoi.com/events')
+  //   const eventSource = new EventSource('https://ansuataohanoi.com/events')
 
   //   eventSource.onmessage = event => {
   //     const newMessage = JSON.parse(event.data)
@@ -155,12 +155,12 @@ function SanPhamLayout ({
                     </td> */}
                       <td className='tdnhap'>Mã sku</td>
                       <td className='tdnhap'>Imel</td>
-                        <>
-                          <td className='tdnhap'>Tên máy/Linh kiện</td>
-                          <td className='tdnhap'>Số lượng</td>
-                          <td className='tdnhap'> Đơn giá</td>
-                          <td className='tdnhap'>Thành tiền</td>
-                        </>
+                      <>
+                        <td className='tdnhap'>Tên máy/Linh kiện</td>
+                        <td className='tdnhap'>Số lượng</td>
+                        <td className='tdnhap'> Đơn giá</td>
+                        <td className='tdnhap'>Thành tiền</td>
+                      </>
 
                       <td className='tdnhap'>Chức năng</td>
                     </tr>
@@ -179,12 +179,12 @@ function SanPhamLayout ({
                           </td> */}
                             <td>{ncc.masku}</td>
                             <td className='imei-cell'>{ncc.imel}</td>
-                              <>
-                                <td className='imei-cell'>{ncc.name}</td>
-                                <td>{ncc.quantity}</td>
-                                <td>{ncc.price.toLocaleString()} VNĐ</td>
-                                <td>{ncc.total.toLocaleString()} VNĐ</td>
-                              </>
+                            <>
+                              <td className='imei-cell'>{ncc.name}</td>
+                              <td>{ncc.quantity}</td>
+                              <td>{ncc.price.toLocaleString()} VNĐ</td>
+                              <td>{ncc.total.toLocaleString()} VNĐ</td>
+                            </>
                             <td className='tdchucnang'>
                               <button
                                 className='btninimel'
@@ -228,9 +228,7 @@ function SanPhamLayout ({
                       ))
                     ) : (
                       <tr>
-                        <td colSpan='8'>
-                          Không có sản phẩm nào
-                        </td>
+                        <td colSpan='8'>Không có sản phẩm nào</td>
                       </tr>
                     )}
                   </tbody>

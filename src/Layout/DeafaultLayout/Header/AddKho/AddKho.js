@@ -4,7 +4,7 @@ import { useToast } from '../../../../components/GlobalStyles/ToastContext'
 import { Loading } from '../../../../components/Loading' // Giả sử bạn có component Loading
 import './AddKho.scss'
 
-function AddKho({ isOpen, onClose, userId, setdatakho }) {
+function AddKho ({ isOpen, onClose, userId, setdatakho }) {
   const [tenkho, setTenkho] = useState('')
   const [diachi, setDiachi] = useState('')
   const { showToast } = useToast()
@@ -33,13 +33,12 @@ function AddKho({ isOpen, onClose, userId, setdatakho }) {
   }
 
   const handleAddKho = async () => {
-
     if (validateInputs()) {
       onClose()
       setLoading(true)
       try {
         const response = await fetch(
-          `https://www.ansuataohanoi.com/postdepot/${userId}`,
+          `https://ansuataohanoi.com/postdepot/${userId}`,
           {
             method: 'POST',
             headers: {
@@ -111,8 +110,7 @@ function AddKho({ isOpen, onClose, userId, setdatakho }) {
           <button onClick={handleAddKho} className='btnaddkho'>
             Thêm Kho
           </button>
-          <button onClick={() => onClose()
-          } className='btnhuyaddkho'>
+          <button onClick={() => onClose()} className='btnhuyaddkho'>
             Hủy
           </button>
         </div>

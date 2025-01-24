@@ -2,27 +2,33 @@
     padding: 20px;
     font-family: Arial, sans-serif;
     margin-top: 50px;
+
     h1 {
         text-align: center;
         margin-bottom: 20px;
     }
+
     .table-hoa-don {
         width: 100%;
         border-collapse: collapse;
         margin-bottom: 20px;
+
         th,
         td {
             padding: 10px;
             border: 1px solid #ddd;
             text-align: center;
         }
+
         th {
             background-color: #f9f9f9;
             font-weight: bold;
         }
+
         tbody tr:nth-child(even) {
             background-color: #f3f3f3;
         }
+
         .btn-view,
         .btn-print {
             padding: 5px 10px;
@@ -31,24 +37,30 @@
             cursor: pointer;
             margin-right: 5px;
         }
+
         .btn-view {
             background-color: #007bff;
             color: white;
         }
+
         .btn-view:hover {
             background-color: #0056b3;
         }
+
         .btn-print {
             background-color: #28a745;
             color: white;
         }
+
         .btn-print:hover {
             background-color: #218838;
         }
     }
+
     .pagination {
         text-align: center;
         margin-top: 20px;
+
         button {
             margin: 0 5px;
             padding: 8px 16px;
@@ -56,12 +68,39 @@
             background-color: white;
             cursor: pointer;
         }
+
         button.active {
             background-color: #007bff;
             color: white;
         }
+
         button:hover {
             background-color: #f1f1f1;
+        }
+    }
+}
+
+@media screen and (max-width: 46.1875em) {
+    .divtablehoadon {
+        width: 100%;
+        overflow-x: auto;
+        height: 700px;
+
+        table {
+            thead {
+                position: sticky;
+                top: 0;
+                z-index: 100;
+                background-color: white;
+            }
+
+        }
+    }
+
+    .hoa-don-layout {
+        .pagination1 {
+
+            padding: 0 !important;
         }
     }
 }

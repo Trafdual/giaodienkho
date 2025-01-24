@@ -1,0 +1,52 @@
+.divdatetongcn {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.date-filter {
+  margin-bottom: 0;
+}
+.date-filter .divtungay,
+.date-filter .divdenngay {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+@media (max-width: 480px) {
+  .divdatetongcn {
+    flex-direction: column;
+  }
+
+  .date-filter {
+    width: 100%;
+  }
+  .date-filter .divtungay,
+.date-filter .divdenngay {
+    flex-direction: column;
+    flex: 1;
+    align-items: start !important;
+  }
+
+  .table-container {
+    width: 100%;
+    overflow-x: auto;
+    height: 700px;
+  }
+  .table-container table thead {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background-color: white;
+  }
+
+  .btnlaydl {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  .btnlaydl .btn-get-data {
+    width: 100%;
+  }
+}

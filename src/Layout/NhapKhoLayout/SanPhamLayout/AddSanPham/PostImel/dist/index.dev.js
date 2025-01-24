@@ -3,13 +3,13 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-Object.defineProperty(exports, "FormAddImel", {
+Object.defineProperty(exports, "PostImel", {
   enumerable: true,
   get: function get() {
-    return _FormAddImel["default"];
+    return _PostImel["default"];
   }
 });
 
-var _FormAddImel = _interopRequireDefault(require("./FormAddImel"));
+var _PostImel = _interopRequireDefault(require("./PostImel"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }

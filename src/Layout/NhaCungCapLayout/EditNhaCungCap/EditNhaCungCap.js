@@ -1,10 +1,11 @@
-import { useState, useCallback } from 'react'
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useState, useCallback, useEffect } from 'react'
 
 import { Modal } from '../../../components/Modal'
 import { useToast } from '../../../components/GlobalStyles/ToastContext'
 import { ModalOnClose } from '~/components/ModalOnClose'
 
-function EditNhaCungCap ({ isOpen, onClose, idncc, setnhacungcap }) {
+function EditNhaCungCap ({ isOpen, onClose, idncc, fetchdata, setidncc }) {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
@@ -56,12 +57,37 @@ function EditNhaCungCap ({ isOpen, onClose, idncc, setnhacungcap }) {
 
     return valid
   }
+  const fetchchitiet = async () => {
+    try {
+      const response = await fetch(
+        `https://ansuataohanoi.com/getchitietncc/${idncc}`
+      )
+      const data = await response.json()
+      if (response.ok) {
+        setName(data.name)
+        setEmail(data.email)
+        setPhone(data.phone)
+        setAddress(data.address)
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
+  useEffect(() => {
+    if (idncc) {
+      fetchchitiet()
+    }
+  }, [idncc])
 
   const handleEditNhaCungCap = async () => {
     if (validateInputs()) {
       try {
         const response = await fetch(
+<<<<<<< HEAD
           `https://www.ansuataohanoi.com/editnhacungcap/${idncc}`,
+=======
+          `https://ansuataohanoi.com/editnhacungcap/${idncc}`,
+>>>>>>> 988350495b3608450c314b52aa09b669a0ce0a24
           {
             method: 'POST',
             headers: {
@@ -75,10 +101,9 @@ function EditNhaCungCap ({ isOpen, onClose, idncc, setnhacungcap }) {
             })
           }
         )
-        const data = await response.json()
 
         if (response.ok) {
-          setnhacungcap(prevNhacungcap => [...prevNhacungcap, data])
+          fetchdata()
           handelsave()
           showToast('Cập nhật nhà cung cấp thành công')
         } else {
@@ -108,6 +133,7 @@ function EditNhaCungCap ({ isOpen, onClose, idncc, setnhacungcap }) {
     resetForm()
     onClose()
     setIsModalHuy(false)
+    setidncc('')
   }
 
   const handleClose = () => {

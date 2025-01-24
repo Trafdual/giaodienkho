@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useToast } from '../../components/GlobalStyles/ToastContext'
@@ -21,8 +22,8 @@ function LenhDieuChuyen () {
     try {
       const url =
         beginDate && endDate
-          ? `https://www.ansuataohanoi.com/getlenhdctheongay/${khoID}?begintime=${beginDate}&endtime=${endDate}`
-          : `https://www.ansuataohanoi.com/getlenhdieuchuyen/${khoID}`
+          ? `https://ansuataohanoi.com/getlenhdctheongay/${khoID}?begintime=${beginDate}&endtime=${endDate}`
+          : `https://ansuataohanoi.com/getlenhdieuchuyen/${khoID}`
 
       const response = await axios.get(url)
       setOrders(response.data)
@@ -63,7 +64,7 @@ function LenhDieuChuyen () {
   const handleConfirm = async orderId => {
     try {
       const response = await axios.post(
-        `https://www.ansuataohanoi.com/duyetdieuchuyen/${orderId}`
+        `https://ansuataohanoi.com/duyetdieuchuyen/${orderId}`
       )
       if (response.status === 200) {
         showToast('Duyệt lệnh điều chuyển thành công!', 'success')
@@ -100,16 +101,22 @@ function LenhDieuChuyen () {
             <option value='Đã xác nhận'>Đã xác nhận</option>
           </select>
         </div>
+        <div className='divdate1'>
+          <div className='date-picker'>
+            <label htmlFor='beginDate'>Từ ngày</label>
+            <Datepicker
+              selectedDate1={beginDate || new Date().toISOString()}
+              onDateChange={setBeginDate}
+            />
+          </div>
 
-        <div className='date-picker'>
-          <label htmlFor='beginDate'>Từ ngày</label>
-          <Datepicker selectedDate1={beginDate || new Date().toISOString()} onDateChange={setBeginDate} />
-
-        </div>
-
-        <div className='date-picker'>
-          <label htmlFor='endDate'>Đến ngày</label>
-          <Datepicker selectedDate1={endDate || new Date().toISOString()} onDateChange={setEndDate} />
+          <div className='date-picker'>
+            <label htmlFor='endDate'>Đến ngày</label>
+            <Datepicker
+              selectedDate1={endDate || new Date().toISOString()}
+              onDateChange={setEndDate}
+            />
+          </div>
         </div>
 
         <button className='search-btn' onClick={handleSearch}>

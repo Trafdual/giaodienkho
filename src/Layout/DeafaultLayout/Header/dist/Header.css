@@ -133,6 +133,7 @@
 .divthemkho .btnicon {
   background: var(--blue);
   height: 100%;
+  color: #fff;
   border-radius: 5px;
   border: 1px solid var(--blue);
   width: 50px;
@@ -143,6 +144,7 @@
 .divthemkho .btnicon:hover {
   background: #023768;
   border-color: #023768;
+  color: #fff;
 }
 .divthemkho .btnicon .iconhelp {
   font-size: 20px;
@@ -167,7 +169,7 @@
   }
 
   .topbar {
-    width: calc(100% - 5px);
+    width: 100%;
   }
 }
 .filter-dropdown {

@@ -31,7 +31,8 @@ function AddTest2 ({
   iscloseHuy,
   setIsCloseHuy,
   validateInputs,
-  resetForm
+  resetForm,
+  malohang
 }) {
   const [skudata, setSkudata] = useState([])
   const [userID, setUserID] = useState(getFromLocalStorage('userId') || '')
@@ -39,6 +40,7 @@ function AddTest2 ({
   const [isTableVisible, setIsTableVisible] = useState(false)
   const { showToast } = useToast()
   const [rows, setRows] = useState([])
+
   const [imel, setImel] = useState('')
   const [isEditingIMEI, setIsEditingIMEI] = useState([])
   const [isEditingPrice, setIsEditingPrice] = useState([])
@@ -89,7 +91,7 @@ function AddTest2 ({
   const fetchSku = async () => {
     try {
       const response = await fetch(
-        `https://www.ansuataohanoi.com/getdungluongsku/${userID}`
+        `https://ansuataohanoi.com/getdungluongsku/${userID}`
       )
       const data = await response.json()
 
@@ -115,6 +117,7 @@ function AddTest2 ({
     resetForm()
     setIsCloseHuy(false)
     onClose()
+    handleDelete()
   }
 
   const addRow = selectedSKU => {
@@ -239,6 +242,7 @@ function AddTest2 ({
     return true
   }
 
+
   const submitProducts = async () => {
     const products = rows.map(row => ({
       madungluongsku: row.masku,
@@ -257,13 +261,14 @@ function AddTest2 ({
       method,
       hour,
       manganhangkho,
-      loaihanghoa
+      loaihanghoa,
+      malo: malohang
     }
     if (validateInputs() && validateInputs2()) {
       setIsClickButton(true)
       try {
         const response = await fetch(
-          `https://www.ansuataohanoi.com/postloaisanpham4`,
+          `https://ansuataohanoi.com/updateloaisanpham4`,
           {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -273,7 +278,9 @@ function AddTest2 ({
 
         if (response.ok) {
           showToast('Thêm lô hàng thành công!', 'success')
-          handleClose()
+          resetForm()
+          setRows([])
+          onClose()
           fetchlohang()
           setIsClickButton(false)
         } else {
@@ -289,18 +296,59 @@ function AddTest2 ({
     setRows(prevRows => prevRows.filter((_, rowIndex) => rowIndex !== index))
   }
 
-  // useEffect(() => {
-  //   const eventSource = new EventSource('https://www.ansuataohanoi.com/events')
+  const handleDelete = async () => {
+    try {
+      const response = await fetch(`https://ansuataohanoi.com/deletelohang`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ malohang })
+      })
+      const data = await response.json()
+      if (data.message) {
+        showToast(`${data.message}`, 'error')
+      } else {
+        setIsCloseHuy(false)
+        fetchlohang()
+      }
+    } catch (error) {
+      console.error('Lỗi khi xóa lô hàng:', error)
+    }
+  }
 
-  //   eventSource.onmessage = event => {
-  //     const newMessage = JSON.parse(event.data)
-  //     showToast(newMessage.message)
-  //     fetchlohang()
-  //   }
-  //   return () => {
-  //     eventSource.close()
-  //   }
-  // }, [])
+  const fetchimel = async () => {
+    try {
+      const response = await fetch(
+        `https://ansuataohanoi.com/getfullchitietlo/${malohang}`
+      )
+      if (response.ok) {
+        const data = await response.json()
+        setRows(data)
+      }
+    } catch (error) {
+      console.error('Lỗi khi lấy dữ liệu imel:', error)
+    }
+  }
+  console.log(rows)
+
+  useEffect(() => {
+    if (malohang) {
+      fetchimel()
+    }
+  }, [malohang])
+
+  useEffect(() => {
+    const eventSource = new EventSource('https://ansuataohanoi.com/events')
+
+    eventSource.onmessage = event => {
+      const newMessage = JSON.parse(event.data)
+      console.log(newMessage.message)
+      fetchimel()
+    }
+
+    return () => {
+      eventSource.close()
+    }
+  }, [])
 
   return (
     <>
@@ -377,6 +425,9 @@ function AddTest2 ({
                     onClose={() => setIsOpenModalBarCode(false)}
                     index={indexImel}
                     handleAddImel={handleAddImel}
+                    rowindex={indexImel}
+                    handelremoveimel={handleRemoveImel}
+                    submitProducts={submitProducts}
                   />
                   <td onClick={() => toggleSoluongEdit(index)}>
                     {isEditingSoluong[index] ? (
@@ -557,7 +608,7 @@ function AddTest2 ({
         isOpen={iscloseHuy}
         Save={submitProducts}
         DontSave={handleClose}
-        Cancel={() => setIsCloseHuy(false)}
+        Cancel={() => handleDelete()}
       />
 
       <button

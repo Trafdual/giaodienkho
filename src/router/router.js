@@ -9,7 +9,6 @@ import { LenhDieuChuyenLayout } from '~/Layout/LenhDieuChuyenLayout'
 import { BanHangLayout } from '~/Layout/BanHangLayout'
 import { TroGiupLayout } from '~/Layout/TroGiupLayout'
 import { TestLungTung } from '~/Layout/TestLungTung'
-import { KhachHangLayout } from '~/Layout/KhachHangLayout'
 import { DoanhThuLayout } from '~/Layout/DoanhThuLayout'
 import { HoaDonLayout } from '~/Layout/HoaDonLayout'
 import { ThietLapLayout } from '~/Layout/ThietLapLayout'
@@ -23,6 +22,7 @@ import { QuyTienMatLayout } from '~/Layout/QuyTienLayout/QuyTienMatLayout'
 import { BaoCaoCongNo } from '~/Layout/BaoCaoCongNoLayout'
 import { BaoCaoBanHangLayout } from '~/Layout/BaoCaoBanHangLayout'
 import { DanhSachHoaDonLayout } from '~/Layout/DanhSachHoaDonLayout'
+import { ThuNoLayout } from '~/Layout/ThuNoLayout'
 
 const publicRoutes = [
   { path: '/', component: Login, layout: null },
@@ -30,12 +30,11 @@ const publicRoutes = [
   { path: '/xuatkho', component: XuatKhoLayout },
   { path: '/nhapkho', component: NhapKhoLayout },
   { path: '/nhacungcap', component: NhaCungCap },
-  { path: '/khachhang', component: KhachHangLayout },
   { path: '/dieuchuyen', component: DieuChuyenLayout },
   { path: '/quytiengui', component: QuyTienGuiLayout },
   { path: '/quytienmat', component: QuyTienMatLayout },
   { path: '/lenhdieuchuyen', component: LenhDieuChuyenLayout },
-  { path: '/banhang', component: BanHangLayout, layout: null },
+  { path: '/banhang', component: BanHangLayout, layout: 'banhang' },
   { path: '/trogiup', component: TroGiupLayout },
   { path: '/testlungtung', component: TestLungTung, layout: null },
   { path: '/doanhthu', component: DoanhThuLayout },
@@ -49,9 +48,12 @@ const publicRoutes = [
   { path: '/register', component: Register, layout: null },
   { path: '/trogiuptongquan', component: TroGiupTongQuan, layout: null },
   { path: '/supportchat', component: SupportChat, layout: null },
-    { path: '/danhsachhoadon', component: DanhSachHoaDonLayout, layout: null },
-
-
+  {
+    path: '/danhsachhoadon',
+    component: DanhSachHoaDonLayout,
+    layout: 'banhang'
+  },
+  { path: '/thuno', component: ThuNoLayout, layout: 'banhang' }
 ]
 const privateRoutes = []
 export { publicRoutes, privateRoutes }

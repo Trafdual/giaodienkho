@@ -4,16 +4,18 @@ import './HoaDonLayout.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { AddHoaDon } from './AddHoaDon'
+import { PaginationComponent } from '~/components/NextPage'
 import Invoice from './Invoice'
 
 function HoaDonLayout () {
   const [isOpen, setIsOpen] = useState(false)
   const [hoadon, setHoaDon] = useState([])
-  const [currentPage, setCurrentPage] = useState(1)
-  const itemsPerPage = 10
+
   const [khoID, setKhoID] = useState(localStorage.getItem('khoID') || '')
   const componentRef = useRef() // Tạo ref để in
   const [selectedInvoice, setSelectedInvoice] = useState(null)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [itemsPerPage, setItemsPerPage] = useState(9) // Mặc định là 9
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -29,9 +31,7 @@ function HoaDonLayout () {
 
   const fetchHoaDon = async () => {
     try {
-      const response = await fetch(
-        `https://www.ansuataohanoi.com/hoadon/${khoID}`
-      )
+      const response = await fetch(`https://ansuataohanoi.com/hoadon/${khoID}`)
       const data = await response.json()
       setHoaDon(data)
     } catch (error) {
@@ -48,6 +48,7 @@ function HoaDonLayout () {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage
   const currentItems = hoadon.slice(indexOfFirstItem, indexOfLastItem)
   const totalPages = Math.ceil(hoadon.length / itemsPerPage)
+  const totalResults = hoadon.length
 
   // Chuyển trang
   const handlePageChange = pageNumber => {
@@ -170,64 +171,65 @@ function HoaDonLayout () {
       <div ref={componentRef}>
         {selectedInvoice && <Invoice hd={selectedInvoice} />}
       </div>
-
-      <table className='tablenhap'>
-        <thead className='theadnhap'>
-          <tr>
-            <td className='tdnhap'>Mã hóa đơn</td>
-            <td className='tdnhap'>Mã khách hàng</td>
-            <td className='tdnhap'>Ngày xuất</td>
-            <td className='tdnhap'>Tổng tiền</td>
-            <td className='tdnhap'>Chức năng</td>
-          </tr>
-        </thead>
-        <tbody>
-          {currentItems.length > 0 ? (
-            currentItems.map(hd => (
-              <tr key={hd._id}>
-                <td>{hd.mahd}</td>
-                <td>{hd.makh}</td>
-                <td>{hd.date}</td>
-                <td>{hd.tongtien ? hd.tongtien.toLocaleString() : 0} VNĐ</td>
-                <td>
-                  <button className='btn-view'>chi tiết</button>
-                  <button
-                    className='btn-print'
-                    onClick={() => {
-                      // setSelectedInvoice(hd) // Đặt hóa đơn được chọn
-                      handlePrint(hd) // Gọi hàm in
-                    }}
-                  >
-                    In
-                  </button>
-                </td>
-              </tr>
-            ))
-          ) : (
+      <div className='divtablehoadon'>
+        <table className='tablenhap'>
+          <thead className='theadnhap'>
             <tr>
-              <td colSpan='5'>Không có hóa đơn nào</td>
+              <td className='tdnhap'>Mã hóa đơn</td>
+              <td className='tdnhap'>Mã khách hàng</td>
+              <td className='tdnhap'>Ngày xuất</td>
+              <td className='tdnhap'>Tổng tiền</td>
+              <td className='tdnhap'>Chức năng</td>
             </tr>
-          )}
-        </tbody>
-      </table>
-
-      <div className='pagination'>
-        {Array.from({ length: totalPages }, (_, index) => (
-          <button
-            key={index + 1}
-            onClick={() => handlePageChange(index + 1)}
-            className={index + 1 === currentPage ? 'active' : ''}
-          >
-            {index + 1}
-          </button>
-        ))}
+          </thead>
+          <tbody>
+            {currentItems.length > 0 ? (
+              currentItems.map(hd => (
+                <tr key={hd._id}>
+                  <td>{hd.mahd}</td>
+                  <td>{hd.makh}</td>
+                  <td>{hd.date}</td>
+                  <td>{hd.tongtien ? hd.tongtien.toLocaleString() : 0} VNĐ</td>
+                  <td>
+                    <button className='btn-view'>chi tiết</button>
+                    <button
+                      className='btn-print'
+                      onClick={() => {
+                        // setSelectedInvoice(hd) // Đặt hóa đơn được chọn
+                        handlePrint(hd) // Gọi hàm in
+                      }}
+                    >
+                      In
+                    </button>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan='5'>Không có hóa đơn nào</td>
+              </tr>
+            )}
+          </tbody>
+        </table>
       </div>
+
       <AddHoaDon
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         khoID={khoID}
         fetchData={fetchHoaDon}
       />
+      <div className='pagination1'>
+        <PaginationComponent
+          totalPages={totalPages}
+          currentPage={currentPage}
+          handlePageChange={handlePageChange}
+          itemsPerPage={itemsPerPage}
+          setItemsPerPage={setItemsPerPage}
+          totalResults={totalResults}
+          fetchData={fetchHoaDon}
+        />
+      </div>
     </div>
   )
 }

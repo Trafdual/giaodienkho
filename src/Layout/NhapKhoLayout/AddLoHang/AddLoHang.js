@@ -64,7 +64,7 @@ function AddLoHang ({ isOpen, onClose, setlohang }) {
 
   useEffect(() => {
     const intervalId = setInterval(() => {
-      const newuserID =  getFromLocalStorage('userId') || ''
+      const newuserID = getFromLocalStorage('userId') || ''
       if (newuserID !== userID) {
         console.log('Interval detected change, updating khoID:', newuserID)
         setuserID(newuserID)
@@ -72,13 +72,13 @@ function AddLoHang ({ isOpen, onClose, setlohang }) {
     }, 1000) // Kiểm tra mỗi giây
 
     return () => clearInterval(intervalId)
-  }, [ getFromLocalStorage('userId')])
+  }, [getFromLocalStorage('userId')])
 
   useEffect(() => {
     const fetchSuppliers = async () => {
       try {
         const response = await fetch(
-          `https://www.ansuataohanoi.com/getnhacungcap/${khoID}`
+          `https://ansuataohanoi.com/getnhacungcap/${khoID}`
         )
         const data = await response.json()
 
@@ -100,7 +100,7 @@ function AddLoHang ({ isOpen, onClose, setlohang }) {
   const fetchnganhang = async () => {
     try {
       const response = await fetch(
-        `https://www.ansuataohanoi.com/getnganhang/${userID}`
+        `https://ansuataohanoi.com/getnganhang/${userID}`
       )
       const data = await response.json()
 
@@ -175,7 +175,7 @@ function AddLoHang ({ isOpen, onClose, setlohang }) {
     if (validateInputs()) {
       try {
         const response = await fetch(
-          `https://www.ansuataohanoi.com/postloaisanpham2`,
+          `https://ansuataohanoi.com/postloaisanpham2`,
           {
             method: 'POST',
             headers: {
@@ -229,12 +229,11 @@ function AddLoHang ({ isOpen, onClose, setlohang }) {
     onClose()
   }
 
-  const handleDateChange = (selectedDate) => {
-    console.log("Ngày đã chọn:", selectedDate);
-    setdate(selectedDate);
-    setIsDatePickerOpen(false); // Đóng Tooltip khi chọn ngày
-  };
-  
+  const handleDateChange = selectedDate => {
+    console.log('Ngày đã chọn:', selectedDate)
+    setdate(selectedDate)
+    setIsDatePickerOpen(false) // Đóng Tooltip khi chọn ngày
+  }
 
   const handleTimeChange = newTime => {
     // Chỉ đóng tooltip nếu có thay đổi giá trị
@@ -531,34 +530,34 @@ function AddLoHang ({ isOpen, onClose, setlohang }) {
         <div className='divngaygio'>
           {/* Input cho ngày */}
           <Tooltip
-  trigger='click'
-  interactive
-  arrow
-  open={isDatePickerOpen}
-  onRequestClose={() => setIsDatePickerOpen(false)}
-  html={
-    <DatePicker
-      selected={date}
-      onChange={handleDateChange}
-      dateFormat='dd/mm/yyyy'
-      inline // Hiển thị lịch bên trong Tooltip
-    />
-  }
->
-  <div className='divdate'>
-    <input
-      type='text'
-      className={`diachi1`}
-      placeholder='dd/mm/yyyy'
-      value={date ? date.toLocaleDateString('vi-VN') : ''}
-      onClick={() => setIsDatePickerOpen(!isDatePickerOpen)}
-      readOnly // Để ngăn người dùng tự sửa input mà chỉ dùng DatePicker
-    />
-    <label htmlFor='' className='label'>
-      Ngày nhập
-    </label>
-  </div>
-</Tooltip>
+            trigger='click'
+            interactive
+            arrow
+            open={isDatePickerOpen}
+            onRequestClose={() => setIsDatePickerOpen(false)}
+            html={
+              <DatePicker
+                selected={date}
+                onChange={handleDateChange}
+                dateFormat='dd/mm/yyyy'
+                inline // Hiển thị lịch bên trong Tooltip
+              />
+            }
+          >
+            <div className='divdate'>
+              <input
+                type='text'
+                className={`diachi1`}
+                placeholder='dd/mm/yyyy'
+                value={date ? date.toLocaleDateString('vi-VN') : ''}
+                onClick={() => setIsDatePickerOpen(!isDatePickerOpen)}
+                readOnly // Để ngăn người dùng tự sửa input mà chỉ dùng DatePicker
+              />
+              <label htmlFor='' className='label'>
+                Ngày nhập
+              </label>
+            </div>
+          </Tooltip>
 
           <Tooltip
             trigger='click'
@@ -598,10 +597,10 @@ function AddLoHang ({ isOpen, onClose, setlohang }) {
             </div>
           </Tooltip>
         </div>
-        <button onClick={handleAddLoHang} className='btnAddLoHang'>
+        <button onClick={handleAddLoHang} className='btnAddNhaCungCap'>
           Thêm lô hàng
         </button>
-        <button onClick={handleClose} className='btnhuyAddLoHang'>
+        <button onClick={handleClose} className='btnhuyAddNhaCungCap'>
           Hủy
         </button>
       </div>

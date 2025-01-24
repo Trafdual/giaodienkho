@@ -48,7 +48,7 @@ function ModalXuatKhoFull ({
   const handleGetKho = async () => {
     try {
       const response = await fetch(
-        `https://www.ansuataohanoi.com/getdepot/${userID}`,
+        `https://ansuataohanoi.com/getdepot/${userID}`,
         {
           method: 'GET',
           headers: {
@@ -78,7 +78,7 @@ function ModalXuatKhoFull ({
     const idsanpham1 = selectedItems.map(item => item._id)
     try {
       const response = await fetch(
-        `https://www.ansuataohanoi.com/chuyenkho2/${khoID}`,
+        `https://ansuataohanoi.com/chuyenkho2/${khoID}`,
         {
           method: 'POST',
           headers: {
@@ -132,10 +132,10 @@ function ModalXuatKhoFull ({
         <label htmlFor='' className='label'>
           Kho chứa
         </label>
-        <button onClick={postchuyenkho} className='btnAddLoHang'>
+        <button onClick={postchuyenkho} className='btnAddNhaCungCap'>
           Chuyển kho
         </button>
-        <button onClick={onClose} className='btnhuyAddLoHang'>
+        <button onClick={onClose} className='btnhuyAddNhaCungCap'>
           Hủy
         </button>
       </div>

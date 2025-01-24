@@ -5,6 +5,8 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { AddKhachHang } from './AddKhachHang'
 import { Loading } from '~/components/Loading'
 import { getFromLocalStorage } from '~/components/MaHoaLocalStorage/MaHoaLocalStorage'
+import { PaginationComponent } from '~/components/NextPage'
+import './KhacHangLayout.scss'
 
 function KhachHangLayout () {
   const [isOpen, setIsOpen] = useState(false)
@@ -15,9 +17,7 @@ function KhachHangLayout () {
   // Trạng thái phân trang
   const [currentPage, setCurrentPage] = useState(1)
   const [itemsPerPage, setItemsPerPage] = useState(9) // Mặc định là 9
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
-    const userId = getFromLocalStorage('userId') || ''
-  
+  const userId = getFromLocalStorage('userId') || ''
 
   const handleCloseModal = () => {
     setIsOpen(false)
@@ -26,18 +26,14 @@ function KhachHangLayout () {
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth <= 768) {
-        // Giả sử 768px là kích thước cắt của điện thoại
         setItemsPerPage(5)
-        setIsMobile(window.innerWidth <= 768)
       } else {
         setItemsPerPage(9)
       }
     }
 
-    // Gọi hàm khi trang được tải
     handleResize()
 
-    // Thay đổi itemsPerPage khi kích thước cửa sổ thay đổi
     window.addEventListener('resize', handleResize)
 
     return () => {
@@ -62,7 +58,7 @@ function KhachHangLayout () {
 
     try {
       const response = await fetch(
-        `https://www.ansuataohanoi.com/getkhachhang/${khoID}`,
+        `https://ansuataohanoi.com/getkhachhang/${khoID}`,
         {
           method: 'GET',
           headers: {
@@ -93,6 +89,7 @@ function KhachHangLayout () {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage
   const currentItems = khachhang.slice(indexOfFirstItem, indexOfLastItem)
   const totalPages = Math.ceil(khachhang.length / itemsPerPage)
+  const totalResults = khachhang.length
 
   // Chuyển trang
   const handlePageChange = pageNumber => {
@@ -104,7 +101,7 @@ function KhachHangLayout () {
       {loading ? (
         <Loading />
       ) : (
-        <>
+        <div className='divkhachhang'>
           <div className='detailsnhap'>
             <div className='recentOrdersnhap'>
               <div className='headernhap'>
@@ -114,56 +111,41 @@ function KhachHangLayout () {
                   <h3>Thêm khách hàng</h3>
                 </button>
               </div>
-              <table className='tablenhap'>
-                <thead className='theadnhap'>
-                  <tr>
-                    <td className='tdnhap'>Mã Khách Hàng</td>
-                    <td className='tdnhap'>Tên Khách Hàng</td>
-                    <td className='tdnhap'>Số Điện Thoại</td>
-                    {!isMobile && (
-                      <>
-                        <td className='tdnhap'>CCCD</td>
-                        <td className='tdnhap'>Email</td>
-                        <td className='tdnhap'>Ngày Sinh</td>
-                        <td className='tdnhap'>Địa Chỉ</td>
-                      </>
-                    )}
-                  </tr>
-                </thead>
-                <tbody className='tbodynhap'>
-                  {currentItems.length > 0 ? (
-                    currentItems.map(ncc => (
-                      <tr key={ncc._id}>
-                        <td>{ncc.makh}</td>
-                        <td>{ncc.name}</td>
-                        <td>{ncc.phone}</td>
-                        {!isMobile && (
-                          <>
-                            <td>{ncc.cancuoc}</td>
-                            <td>{ncc.email}</td>
-                            <td>{ncc.date}</td>
-                            <td>{ncc.address}</td>
-                          </>
-                        )}
-                      </tr>
-                    ))
-                  ) : (
+              <div className='divtablekhachhang'>
+                <table className='tablenhap'>
+                  <thead className='theadnhap'>
                     <tr>
-                      <td colSpan='7'>Không có khách hàng nào</td>
+                      <td className='tdnhap'>Mã Khách Hàng</td>
+                      <td className='tdnhap'>Tên Khách Hàng</td>
+                      <td className='tdnhap'>Số Điện Thoại</td>
+
+                      <td className='tdnhap'>CCCD</td>
+                      <td className='tdnhap'>Email</td>
+                      <td className='tdnhap'>Ngày Sinh</td>
+                      <td className='tdnhap'>Địa Chỉ</td>
                     </tr>
-                  )}
-                </tbody>
-              </table>
-              <div className='pagination'>
-                {Array.from({ length: totalPages }, (_, index) => (
-                  <button
-                    key={index + 1}
-                    onClick={() => handlePageChange(index + 1)}
-                    className={index + 1 === currentPage ? 'active' : ''}
-                  >
-                    {index + 1}
-                  </button>
-                ))}
+                  </thead>
+                  <tbody className='tbodynhap'>
+                    {currentItems.length > 0 ? (
+                      currentItems.map(ncc => (
+                        <tr key={ncc._id}>
+                          <td>{ncc.makh}</td>
+                          <td>{ncc.name}</td>
+                          <td>{ncc.phone}</td>
+
+                          <td>{ncc.cancuoc}</td>
+                          <td>{ncc.email}</td>
+                          <td>{ncc.date}</td>
+                          <td>{ncc.address}</td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan='7'>Không có khách hàng nào</td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>
@@ -175,7 +157,18 @@ function KhachHangLayout () {
             fetchData={fetchData}
             userId={userId}
           />
-        </>
+          <div className='pagination1'>
+            <PaginationComponent
+              totalPages={totalPages}
+              currentPage={currentPage}
+              handlePageChange={handlePageChange}
+              itemsPerPage={itemsPerPage}
+              setItemsPerPage={setItemsPerPage}
+              totalResults={totalResults}
+              fetchData={fetchData}
+            />
+          </div>
+        </div>
       )}
     </>
   )

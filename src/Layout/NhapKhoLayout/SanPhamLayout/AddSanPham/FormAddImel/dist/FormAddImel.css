@@ -12,6 +12,15 @@
   /* Thời gian và kiểu quét */
 }
 
+.wrapper1 {
+  display: flex;
+  position: relative;
+  width: 100%;
+  height: 120px;
+  overflow: hidden;
+  align-items: center;
+}
+
 @keyframes scan {
   0% {
     top: 0;
@@ -27,16 +36,17 @@
 }
 .divvideo {
   position: relative;
-  width: 100%;
-  height: auto;
-  overflow: hidden;
+  display: inline-block;
+  width: 375px;
+  height: 200px;
+  box-sizing: content-box;
 }
 
-.video {
-  width: 100%;
+video {
+  width: 100% !important;
   height: 100%;
   object-fit: cover;
-  border: 2px solid red;
+  /* Phóng to vừa khung */
 }
 
 .video.thanhcong {
@@ -54,7 +64,7 @@
 .btnAddImelist {
   padding: 10px;
   border: none;
-  width: 100px;
+  width: 150px;
   background-color: var(--blue);
   color: var(--white);
   border-radius: 5px;
@@ -73,15 +83,74 @@
   cursor: pointer;
 }
 
+#qr-reader {
+  display: inline-block;
+}
+
 @media screen and (max-width: 46.1875em) {
-  .divvideo {
-    position: relative;
-    width: 100%;
+  .widthphantu {
+    width: 100px !important;
+    white-space: normal !important;
+    padding: 5px !important;
     overflow: hidden;
   }
 
+  .widthphantu1 {
+    max-width: 30px;
+    overflow: hidden;
+  }
+  .widthphantu1 .divDeleterow {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .widthrieng {
+    max-width: 70px !important;
+  }
+  .widthrieng .btnDeleterow {
+    width: 100%;
+  }
+
   .results {
-    margin-top: 10px;
     text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 300px;
+    overflow-y: auto;
+    box-sizing: border-box;
+  }
+  .results table {
+    display: block;
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 5px;
+    height: 100%;
+  }
+  .results table thead {
+    display: table;
+    width: 100%;
+    background-color: white;
+  }
+  .results table tbody {
+    display: table;
+    width: 100%;
+  }
+  .results table tr {
+    display: flex;
+  }
+  .results table th,
+.results table td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #ccc;
+    flex: 1;
+    width: 30%;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
   }
 }

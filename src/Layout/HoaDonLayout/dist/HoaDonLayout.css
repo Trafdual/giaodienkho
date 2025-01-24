@@ -65,3 +65,21 @@
 .hoa-don-layout .pagination button:hover {
   background-color: #f1f1f1;
 }
+
+@media screen and (max-width: 46.1875em) {
+  .divtablehoadon {
+    width: 100%;
+    overflow-x: auto;
+    height: 700px;
+  }
+  .divtablehoadon table thead {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background-color: white;
+  }
+
+  .hoa-don-layout .pagination1 {
+    padding: 0 !important;
+  }
+}

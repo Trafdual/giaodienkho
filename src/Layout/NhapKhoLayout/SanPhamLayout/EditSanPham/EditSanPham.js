@@ -38,7 +38,7 @@ function EditSanPham ({
     setIsDulieu(true)
     try {
       const response = await fetch(
-        `https://www.ansuataohanoi.com/getsanphambySKU/${sku}/${idloaisp}`
+        `https://ansuataohanoi.com/getsanphambySKU/${sku}/${idloaisp}`
       )
       const data = await response.json()
       if (response.ok) {
@@ -81,16 +81,13 @@ function EditSanPham ({
     }))
     setIsClickButton(true)
     try {
-      const response = await fetch(
-        'https://www.ansuataohanoi.com/putsomeproduct',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ products: productsToUpdate })
-        }
-      )
+      const response = await fetch('https://ansuataohanoi.com/putsomeproduct', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ products: productsToUpdate })
+      })
 
       if (response.ok) {
         fetchsanpham()
@@ -218,15 +215,15 @@ function EditSanPham ({
         DontSave={handleDontSave}
         Cancel={() => setIsModalHuy(false)}
       />
-      <button onClick={hadleEditSanPham} className={
-            isClickButton
-              ? 'btnAddNhaCungCap btnadddisabled'
-              : 'btnAddNhaCungCap'
-          }
-          disabled={isClickButton}
-        >
-          {isClickButton ? '...Đang tải dữ liệu' : 'Cập nhật'}
-        </button>
+      <button
+        onClick={hadleEditSanPham}
+        className={
+          isClickButton ? 'btnAddNhaCungCap btnadddisabled' : 'btnAddNhaCungCap'
+        }
+        disabled={isClickButton}
+      >
+        {isClickButton ? '...Đang tải dữ liệu' : 'Cập nhật'}
+      </button>
     </ModalBig>
   )
 }

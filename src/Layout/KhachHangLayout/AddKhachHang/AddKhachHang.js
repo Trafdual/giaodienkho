@@ -100,7 +100,7 @@ function AddKhachHang ({ isOpen, onClose, khoID, fetchData, userId }) {
     if (validateInputs()) {
       try {
         const response = await fetch(
-          `https://www.ansuataohanoi.com/postkhachhang/${khoID}`,
+          `https://ansuataohanoi.com/postkhachhang/${khoID}`,
           {
             method: 'POST',
             headers: {

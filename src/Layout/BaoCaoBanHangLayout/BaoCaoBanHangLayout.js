@@ -54,16 +54,25 @@ function BaoCaoBanHangLayout () {
           <select>
             <option>Tháng này</option>
           </select>
-          <input
-            type='date'
-            value={fromdate}
-            onChange={e => setfromdate(e.target.value)}
-          />
-          <input
-            type='date'
-            value={enddate}
-            onChange={e => setenddate(e.target.value)}
-          />
+          <div className='divdatetong'>
+            <div className='divtungay'>
+              <label htmlFor=''>Từ ngày:</label>
+              <input
+                type='date'
+                value={fromdate}
+                onChange={e => setfromdate(e.target.value)}
+              />
+            </div>
+            <div className='divdenngay'>
+              <label htmlFor=''>Đến ngày:</label>
+              <input
+                type='date'
+                value={enddate}
+                onChange={e => setenddate(e.target.value)}
+              />
+            </div>
+          </div>
+
           <button className='btn' onClick={fetchdata}>
             Lấy dữ liệu
           </button>
