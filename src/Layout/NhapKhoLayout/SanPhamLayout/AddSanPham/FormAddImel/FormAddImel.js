@@ -1,5 +1,4 @@
-import React, { useState } from 'react'
-
+import React from 'react'
 import './FormAddImel.scss'
 import { Modal } from '~/components/Modal'
 import Testbarceode from '~/Layout/TestLungTung/testbarceode'
@@ -17,7 +16,8 @@ const FormAddImel = ({
   rowindex,
   setScanning,
   scanning,
-  submitProducts
+  submitProducts,
+  
 }) => {
   const handleclose = () => {
     onClose()

@@ -9,7 +9,6 @@ import { LenhDieuChuyenLayout } from '~/Layout/LenhDieuChuyenLayout'
 import { BanHangLayout } from '~/Layout/BanHangLayout'
 import { TroGiupLayout } from '~/Layout/TroGiupLayout'
 import { TestLungTung } from '~/Layout/TestLungTung'
-import { KhachHangLayout } from '~/Layout/KhachHangLayout'
 import { DoanhThuLayout } from '~/Layout/DoanhThuLayout'
 import { HoaDonLayout } from '~/Layout/HoaDonLayout'
 import { ThietLapLayout } from '~/Layout/ThietLapLayout'
@@ -31,7 +30,6 @@ const publicRoutes = [
   { path: '/xuatkho', component: XuatKhoLayout },
   { path: '/nhapkho', component: NhapKhoLayout },
   { path: '/nhacungcap', component: NhaCungCap },
-  { path: '/khachhang', component: KhachHangLayout },
   { path: '/dieuchuyen', component: DieuChuyenLayout },
   { path: '/quytiengui', component: QuyTienGuiLayout },
   { path: '/quytienmat', component: QuyTienMatLayout },

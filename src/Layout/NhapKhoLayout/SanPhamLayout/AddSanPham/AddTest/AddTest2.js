@@ -242,6 +242,7 @@ function AddTest2 ({
     return true
   }
 
+
   const submitProducts = async () => {
     const products = rows.map(row => ({
       madungluongsku: row.masku,
@@ -277,6 +278,8 @@ function AddTest2 ({
 
         if (response.ok) {
           showToast('Thêm lô hàng thành công!', 'success')
+          resetForm()
+          setRows([])
           onClose()
           fetchlohang()
           setIsClickButton(false)
@@ -424,6 +427,7 @@ function AddTest2 ({
                     handleAddImel={handleAddImel}
                     rowindex={indexImel}
                     handelremoveimel={handleRemoveImel}
+                    submitProducts={submitProducts}
                   />
                   <td onClick={() => toggleSoluongEdit(index)}>
                     {isEditingSoluong[index] ? (

@@ -157,7 +157,7 @@ tr:nth-child(2n) {
 }
 
 .pagination1 {
-    position: fixed;
+    position: sticky;
     /* Cố định ở cuối màn hình */
     bottom: 0;
     left: 0;

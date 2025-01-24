@@ -1,7 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable jsx-a11y/alt-text */
-import React from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import React, { useEffect, useState } from 'react'
 import { PolarArea, Bar } from 'react-chartjs-2'
 import {
   Chart as ChartJS,
@@ -17,12 +17,6 @@ import {
 
 import images from '../../assets/images'
 import './DashboardLayout.scss'
-import {
-  faCartShopping,
-  faComments,
-  faEye,
-  faMoneyBills
-} from '@fortawesome/free-solid-svg-icons'
 
 ChartJS.register(
   Title,
@@ -34,62 +28,6 @@ ChartJS.register(
   BarElement,
   RadialLinearScale
 )
-
-const polarData = {
-  labels: ['Iphone 13 pro max', 'Iphone 14 pro max', 'Iphone 15 pro max'],
-  datasets: [
-    {
-      label: 'Số lượng máy',
-      data: [3300, 1500, 2205],
-      backgroundColor: [
-        'rgba(255, 99, 132, 1)',
-        'rgba(54, 162, 235, 1)',
-        'rgba(255, 206, 86, 1)'
-      ]
-    }
-  ]
-}
-
-const barData = {
-  labels: [
-    'Tháng 1',
-    'Tháng 2',
-    'Tháng 3',
-    'Tháng 4',
-    'Tháng 5',
-    'Tháng 6',
-    'Tháng 7',
-    'Tháng 8',
-    'Tháng 9',
-    'Tháng 10',
-    'Tháng 11',
-    'Tháng 12'
-  ],
-  datasets: [
-    {
-      label: 'Doanh Thu',
-      data: [
-        10000000000, 9000000000, 12000000000, 8000000000, 13000000000,
-        5000000000, 9000000000, 10000000000, 7000000000, 6000000000, 5000000000,
-        1122000000000
-      ],
-      backgroundColor: [
-        'rgba(255, 99, 132, 1)',
-        'rgba(54, 162, 235, 1)',
-        'rgba(255, 206, 86, 1)',
-        'rgba(75, 192, 192, 1)',
-        'rgba(153, 102, 255, 1)',
-        'rgba(255, 159, 64, 1)',
-        'rgba(255, 99, 132, 1)',
-        'rgba(54, 162, 235, 1)',
-        'rgba(255, 206, 86, 1)',
-        'rgba(75, 192, 192, 1)',
-        'rgba(153, 102, 255, 1)',
-        'rgba(255, 159, 64, 1)'
-      ]
-    }
-  ]
-}
 
 const barOptions = {
   scales: {
@@ -114,47 +52,91 @@ const barOptions = {
 }
 
 function TestDasboard () {
+  const [khoID, setKhoID] = useState(localStorage.getItem('khoID') || '')
+  const [polarData, setpolarData] = useState({
+    labels: [],
+    datasets: [
+      {
+        label: 'Số lượng máy',
+        data: [],
+        backgroundColor: []
+      }
+    ]
+  })
+  const [barData, setbarData] = useState({
+    labels: [],
+    datasets: [
+      {
+        label: 'Doanh Thu',
+        data: [],
+        backgroundColor: []
+      }
+    ]
+  })
+  const [topkhachhang, settopkhachhang] = useState([])
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      const newKhoID = localStorage.getItem('khoID') || ''
+      if (newKhoID !== khoID) {
+        console.log('Interval detected change, updating khoID:', newKhoID)
+        setKhoID(newKhoID)
+      }
+    }, 1000) // Kiểm tra mỗi giây
+
+    return () => clearInterval(intervalId)
+  }, [localStorage.getItem('khoID')])
+
+  const fetchtopkhachhang = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:3015/topkhachhang/${khoID}`
+      )
+      const data = await response.json()
+      if (response.ok) {
+        settopkhachhang(data)
+      }
+    } catch (error) {
+      console.error('Error fetching:', error)
+    }
+  }
+
+  const fetchpolarData = async () => {
+    try {
+      const response = await fetch(`http://localhost:3015/sanphamban/${khoID}`)
+      const data = await response.json()
+      if (response.ok) {
+        setpolarData(data)
+      }
+    } catch (error) {
+      console.error('Error fetching:', error)
+    }
+  }
+
+  const fetchbardata = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:3015/doanhthutheothang/${khoID}`
+      )
+      const data = await response.json()
+      if (response.ok) {
+        setbarData(data)
+      }
+    } catch (error) {
+      console.error('Error fetching:', error)
+    }
+  }
+
+  useEffect(() => {
+    if (khoID) {
+      fetchtopkhachhang()
+      fetchpolarData()
+      fetchbardata()
+    }
+  }, [khoID])
+
   return (
     <>
-      <div className='cardBox'>
-        <div className='card'>
-          <div>
-            <div className='numbers'>1,504</div>
-            <div className='cardName'>Daily Views</div>
-          </div>
-          <div className='iconBx'>
-            <FontAwesomeIcon icon={faEye} />
-          </div>
-        </div>
-        <div className='card'>
-          <div>
-            <div className='numbers'>80</div>
-            <div className='cardName'>Sales</div>
-          </div>
-          <div className='iconBx'>
-            <FontAwesomeIcon icon={faCartShopping} />
-          </div>
-        </div>
-        <div className='card'>
-          <div>
-            <div className='numbers'>284</div>
-            <div className='cardName'>Comments</div>
-          </div>
-          <div className='iconBx'>
-            <FontAwesomeIcon icon={faComments} />
-          </div>
-        </div>
-        <div className='card'>
-          <div>
-            <div className='numbers'>$7,842</div>
-            <div className='cardName'>Earning</div>
-          </div>
-          <div className='iconBx'>
-            <FontAwesomeIcon icon={faMoneyBills} />
-          </div>
-        </div>
-      </div>
-
       <div className='graphBox'>
         <div className='box'>
           <PolarArea data={polarData} options={{ responsive: true }} />
@@ -164,10 +146,10 @@ function TestDasboard () {
         </div>
       </div>
 
-      <div className='details'>
-        <div className='recentOrders'>
+      <div className='details1'>
+        <div className='recentOrders1'>
           <div className='cardHeader'>
-            <h2>Recent Orders</h2>
+            <h2>Top khách hàng mua hàng nhiều nhất</h2>
             <a href='#' className='btn'>
               View All
             </a>
@@ -175,101 +157,21 @@ function TestDasboard () {
           <table>
             <thead>
               <tr>
-                <td>Name</td>
-                <td>Price</td>
-                <td>Payment</td>
-                <td>Status</td>
+                <td>Họ và tên</td>
+                <td>Số điện thoại</td>
+                <td>Địa chỉ</td>
+                <td>Tổng tiền</td>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>Star Refrigerator</td>
-                <td>$1200</td>
-                <td>Paid</td>
-                <td>
-                  <span className='status delivered'>Delivered</span>
-                </td>
-              </tr>
-              <tr>
-                <td>Window Coolers</td>
-                <td>$110</td>
-                <td>Due</td>
-                <td>
-                  <span className='status pending'>Pending</span>
-                </td>
-              </tr>
-              <tr>
-                <td>Speakers</td>
-                <td>$620</td>
-                <td>Paid</td>
-                <td>
-                  <span className='status return'>Return</span>
-                </td>
-              </tr>
-              <tr>
-                <td>Hp Laptop</td>
-                <td>$110</td>
-                <td>Due</td>
-                <td>
-                  <span className='status inprogress'>In Progress</span>
-                </td>
-              </tr>
-              <tr>
-                <td>Apple Watch</td>
-                <td>$1200</td>
-                <td>Paid</td>
-                <td>
-                  <span className='status delivered'>Delivered</span>
-                </td>
-              </tr>
-              <tr>
-                <td>Wall Fan</td>
-                <td>$110</td>
-                <td>Paid</td>
-                <td>
-                  <span className='status pending'>Pending</span>
-                </td>
-              </tr>
-              <tr>
-                <td>Adidas Shoes</td>
-                <td>$620</td>
-                <td>Paid</td>
-                <td>
-                  <span className='status return'>Return</span>
-                </td>
-              </tr>
-              <tr>
-                <td>Denim Shirts</td>
-                <td>$110</td>
-                <td>Due</td>
-                <td>
-                  <span className='status inprogress'>In Progress</span>
-                </td>
-              </tr>
-              <tr>
-                <td>Casual Shoes</td>
-                <td>$575</td>
-                <td>Paid</td>
-                <td>
-                  <span className='status pending'>Pending</span>
-                </td>
-              </tr>
-              <tr>
-                <td>Wall Fan</td>
-                <td>$110</td>
-                <td>Paid</td>
-                <td>
-                  <span className='status pending'>Pending</span>
-                </td>
-              </tr>
-              <tr>
-                <td>Denim Shirts</td>
-                <td>$110</td>
-                <td>Due</td>
-                <td>
-                  <span className='status inprogress'>In Progress</span>
-                </td>
-              </tr>
+              {topkhachhang.map((item, index) => (
+                <tr key={index}>
+                  <td>{item.name}</td>
+                  <td>{item.phone}</td>
+                  <td>{item.address}</td>
+                  <td>{item.tongtien.toLocaleString()} VNĐ</td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>

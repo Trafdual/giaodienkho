@@ -128,19 +128,6 @@ function Sidebar ({ isActive, setIsActive }) {
             </a>
           </Link>
         </li>
-        <li
-          className={`litong ${activeItem === '/khachhang' ? 'hovered' : ''}`}
-          onClick={() => handleItemClick('/khachhang')}
-        >
-          <Link to={'/khachhang'}>
-            <a>
-              <span className='icon'>
-                <FontAwesomeIcon className='fonticon' icon={faUserGroup} />
-              </span>
-              <span className='title'>Khách hàng</span>
-            </a>
-          </Link>
-        </li>
 
         <li className={`litong1 ${activeItem === '/baocao' ? 'hovered' : ''}`}>
           <a onClick={toggleDropdownBapCao}>

@@ -27,8 +27,6 @@ var _TroGiupLayout = require("~/Layout/TroGiupLayout");
 
 var _TestLungTung = require("~/Layout/TestLungTung");
 
-var _KhachHangLayout = require("~/Layout/KhachHangLayout");
-
 var _DoanhThuLayout = require("~/Layout/DoanhThuLayout");
 
 var _HoaDonLayout = require("~/Layout/HoaDonLayout");
@@ -73,9 +71,6 @@ var publicRoutes = [{
 }, {
   path: '/nhacungcap',
   component: _NhaCungCapLayout.NhaCungCap
-}, {
-  path: '/khachhang',
-  component: _KhachHangLayout.KhachHangLayout
 }, {
   path: '/dieuchuyen',
   component: _DieuChuyenLayout.DieuChuyenLayout

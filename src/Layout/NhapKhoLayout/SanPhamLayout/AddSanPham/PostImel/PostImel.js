@@ -14,7 +14,6 @@ import 'react-datepicker/dist/react-datepicker.css'
 import 'react-time-picker/dist/TimePicker.css'
 import 'react-clock/dist/Clock.css'
 import { ModalBig } from '~/components/ModalBig'
-
 import { getFromLocalStorage } from '~/components/MaHoaLocalStorage/MaHoaLocalStorage'
 import 'react-tippy/dist/tippy.css'
 import { ModalOnClose } from '~/components/ModalOnClose'
@@ -246,6 +245,8 @@ function PostImel ({ isOpen, onClose }) {
           setScanning(false)
           onClose()
           setIsClickButton(false)
+          setRowimel([])
+          setRows([])
         }
       } catch (error) {
         console.error('Lỗi khi gửi dữ liệu lô hàng:', error)
