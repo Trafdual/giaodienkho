@@ -337,7 +337,7 @@ function PostImel ({ isOpen, onClose }) {
                               setIsOpenModalBarCode(true)
                               setindex(index)
                               setRowimel(row.imel)
-                              // setScanning(true)
+                              setScanning(true)
                             }}
                           >
                             <FontAwesomeIcon icon={faBarcode} />
