@@ -3,12 +3,14 @@ import React, { useState, useEffect } from 'react'
 import './ThuNoLayout.scss'
 import { PaginationComponent } from '~/components/NextPage'
 import { useToast } from '~/components/GlobalStyles/ToastContext'
+import { getFromLocalStorage } from '~/components/MaHoaLocalStorage/MaHoaLocalStorage'
 
 function ThuNoLayout () {
   const [activeTab, setActiveTab] = useState('Thu nợ KH')
   const { showToast } = useToast()
 
   const [data, setdata] = useState([])
+  const userId = getFromLocalStorage('userId') || ''
 
   const [itemsPerPage, setItemsPerPage] = useState(20)
   const [currentPage, setCurrentPage] = useState(1)
@@ -56,13 +58,16 @@ function ThuNoLayout () {
 
   const handleThuNo = async () => {
     try {
-      const response = await fetch('https://ansuataohanoi.com/thuno', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          body: JSON.stringify({ ids })
+      const response = await fetch(
+        `https://ansuataohanoi.com/thuno/${userId}/${khoID}`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            body: JSON.stringify({ ids })
+          }
         }
-      })
+      )
 
       if (response.ok) {
         showToast('Thu nợ thành công')
