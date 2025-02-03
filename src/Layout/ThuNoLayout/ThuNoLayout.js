@@ -4,6 +4,7 @@ import './ThuNoLayout.scss'
 import { PaginationComponent } from '~/components/NextPage'
 import { useToast } from '~/components/GlobalStyles/ToastContext'
 import { getFromLocalStorage } from '~/components/MaHoaLocalStorage/MaHoaLocalStorage'
+import { ModalThuNo } from './ModalThuNo'
 
 function ThuNoLayout () {
   const [activeTab, setActiveTab] = useState('Thu nợ KH')
@@ -16,6 +17,7 @@ function ThuNoLayout () {
   const [currentPage, setCurrentPage] = useState(1)
   const [khoID, setKhoID] = useState(localStorage.getItem('khoID') || '')
   const [ids, setids] = useState([])
+  const [isOpenThuNo, setIsOpenThuNo] = useState(false)
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -106,7 +108,10 @@ function ThuNoLayout () {
                   <td>
                     <button
                       className='thu-no-button'
-                      onClick={() => setids(item.ids)}
+                      onClick={() => {
+                        setids(item.ids)
+                        setIsOpenThuNo(true) //
+                      }}
                     >
                       Thu nợ
                     </button>
@@ -115,6 +120,11 @@ function ThuNoLayout () {
               ))}
             </tbody>
           </table>
+          <ModalThuNo
+            isOpen={isOpenThuNo}
+            onClose={() => setIsOpenThuNo(false)}
+            userId={userId}
+          />
         </div>
       )
     }
