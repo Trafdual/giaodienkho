@@ -4,7 +4,12 @@ import { useState, useEffect, useRef } from 'react'
 import { Tooltip } from 'react-tippy'
 import 'react-tippy/dist/tippy.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faChevronDown, faPlus } from '@fortawesome/free-solid-svg-icons'
+import {
+  faChevronDown,
+  faMoneyBill,
+  faPlus,
+  faXmark
+} from '@fortawesome/free-solid-svg-icons'
 import './ModalThuNo.scss'
 import { AddLoaiChungTu } from '~/Layout/QuyTienLayout/AddQuyTien/AddLoaiChungTu'
 import { useToast } from '~/components/GlobalStyles/ToastContext'
@@ -27,7 +32,7 @@ function ModalThuNo ({
   const [loaichungtu, setloaichungtu] = useState('')
   const [loaichungtuId, setloaichungtuId] = useState('')
   const [loaichungtuError, setloaichungtuError] = useState('')
-  const [methods, setmethods] = useState(['Tiền mặt', 'Tiền gửi'])
+  const methods = ['Tiền mặt', 'Tiền gửi']
   const [method, setmethod] = useState('Tiền mặt')
   const [methodError, setmethodError] = useState('')
 
@@ -288,9 +293,13 @@ function ModalThuNo ({
         </div>
         <div className='divModalThuNoOnClose'>
           <button className='btnsaveClose' onClick={handleThuNo}>
+            <FontAwesomeIcon icon={faMoneyBill} className='iconSaveOnclose' />
             Thu nợ
           </button>
-          <button className='btncancelClose'>Hủy bỏ</button>
+          <button className='btncancelClose'>
+            <FontAwesomeIcon icon={faXmark} className='iconCancelOnclose' />
+            Hủy bỏ
+          </button>
         </div>
       </div>
     </ModalBig>
