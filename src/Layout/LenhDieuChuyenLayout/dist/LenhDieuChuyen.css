@@ -1,5 +1,5 @@
 .transfer-orders {
-  padding: 20px;
+  padding: 10px;
 }
 .transfer-orders h2 {
   margin-bottom: 20px;
@@ -104,6 +104,10 @@ input[type=date] {
   gap: 10px;
 }
 
+.orders-section {
+  min-height: 850px;
+}
+
 @media screen and (max-width: 46.1875em) {
   .filter-container {
     flex-direction: column;
@@ -133,6 +137,6 @@ input[type=date] {
   .orders-section {
     width: 100%;
     overflow-x: auto;
-    height: 600px;
+    height: 600px !important;
   }
 }

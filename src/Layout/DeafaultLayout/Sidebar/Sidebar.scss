@@ -12,6 +12,20 @@
     overflow-y: auto;
 }
 
+.navigation::-webkit-scrollbar {
+    width: 5px;
+}
+
+.navigation::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.navigation::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #006cc5, #006cc5);
+    border-radius: 10px;
+}
+
+
 .navigation.active {
     width: 80px;
 }

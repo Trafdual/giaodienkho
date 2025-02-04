@@ -3,6 +3,7 @@ import './XuatKhoLayout.scss'
 import { useState, useEffect } from 'react'
 import { useToast } from '../../components/GlobalStyles/ToastContext'
 import { Loading } from '~/components/Loading'
+import { PaginationComponent } from '~/components/NextPage'
 
 function XuatKhoLayout () {
   const { showToast } = useToast()
@@ -101,6 +102,8 @@ function XuatKhoLayout () {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage
   const currentItems = lohang.slice(indexOfFirstItem, indexOfLastItem)
   const totalPages = Math.ceil(lohang.length / itemsPerPage)
+  const totalResults = lohang.length
+
 
   // Chuyển trang
   const handlePageChange = pageNumber => {
@@ -205,17 +208,17 @@ function XuatKhoLayout () {
                 </table>
               </div>
 
-              <div className='pagination'>
-                {Array.from({ length: totalPages }, (_, index) => (
-                  <button
-                    key={index + 1}
-                    onClick={() => handlePageChange(index + 1)}
-                    className={index + 1 === currentPage ? 'active' : ''}
-                  >
-                    {index + 1}
-                  </button>
-                ))}
-              </div>
+            </div>
+            <div className='pagination1'>
+              <PaginationComponent
+                totalPages={totalPages}
+                currentPage={currentPage}
+                handlePageChange={handlePageChange}
+                itemsPerPage={itemsPerPage}
+                setItemsPerPage={setItemsPerPage}
+                totalResults={totalResults}
+                fetchData={fetchData}
+              />
             </div>
           </div>
         </>

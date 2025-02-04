@@ -5,6 +5,7 @@ import { useToast } from '../../components/GlobalStyles/ToastContext'
 import { Loading } from '../../components/Loading' // Import component Loading
 import Datepicker from '../../components/Calendar/DatePicker' // Import Datepicker component
 import './LenhDieuChuyen.scss'
+import { PaginationComponent } from '~/components/NextPage'
 
 function LenhDieuChuyen () {
   const [orders, setOrders] = useState([])
@@ -16,6 +17,16 @@ function LenhDieuChuyen () {
 
   const [beginDate, setBeginDate] = useState('')
   const [endDate, setEndDate] = useState('')
+  const [currentPage, setCurrentPage] = useState(1)
+  const [itemsPerPage, setItemsPerPage] = useState(9)
+
+  const totalPages = Math.ceil(orders.length / itemsPerPage)
+  const totalResults = orders.length
+
+  // Chuyển trang
+  const handlePageChange = pageNumber => {
+    setCurrentPage(pageNumber)
+  }
 
   const fetchOrders = async () => {
     setIsLoading(true) // Bắt đầu tải
@@ -174,6 +185,17 @@ function LenhDieuChuyen () {
           </table>
         </div>
       )}
+      <div className='pagination1'>
+        <PaginationComponent
+          totalPages={totalPages}
+          currentPage={currentPage}
+          handlePageChange={handlePageChange}
+          itemsPerPage={itemsPerPage}
+          setItemsPerPage={setItemsPerPage}
+          totalResults={totalResults}
+          fetchData={fetchOrders}
+        />
+      </div>
     </div>
   )
 }

@@ -2,13 +2,11 @@
 import React, { useState, useEffect } from 'react'
 import './ThuNoLayout.scss'
 import { PaginationComponent } from '~/components/NextPage'
-import { useToast } from '~/components/GlobalStyles/ToastContext'
 import { getFromLocalStorage } from '~/components/MaHoaLocalStorage/MaHoaLocalStorage'
 import { ModalThuNo } from './ModalThuNo'
 
 function ThuNoLayout () {
   const [activeTab, setActiveTab] = useState('Thu nợ KH')
-  const { showToast } = useToast()
 
   const [data, setdata] = useState([])
   const userId = getFromLocalStorage('userId') || ''
@@ -16,8 +14,9 @@ function ThuNoLayout () {
   const [itemsPerPage, setItemsPerPage] = useState(20)
   const [currentPage, setCurrentPage] = useState(1)
   const [khoID, setKhoID] = useState(localStorage.getItem('khoID') || '')
-  const [ids, setids] = useState([])
+  const [hoadons, sethoadons] = useState([])
   const [isOpenThuNo, setIsOpenThuNo] = useState(false)
+  const [khachhangid, setkhachhangid] = useState('')
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -36,7 +35,6 @@ function ThuNoLayout () {
   const handlePageChange = page => {
     setCurrentPage(page)
   }
-  console.log(ids)
 
   const fetchhoadon = async () => {
     try {
@@ -57,28 +55,6 @@ function ThuNoLayout () {
       fetchhoadon()
     }
   }, [khoID])
-
-  const handleThuNo = async () => {
-    try {
-      const response = await fetch(
-        `https://ansuataohanoi.com/thuno/${userId}/${khoID}`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            body: JSON.stringify({ ids })
-          }
-        }
-      )
-
-      if (response.ok) {
-        showToast('Thu nợ thành công')
-        fetchhoadon()
-      }
-    } catch (error) {
-      console.error('Error fetching:', error)
-    }
-  }
 
   const renderTabContent = () => {
     if (activeTab === 'Thu nợ KH') {
@@ -109,8 +85,9 @@ function ThuNoLayout () {
                     <button
                       className='thu-no-button'
                       onClick={() => {
-                        setids(item.ids)
+                        sethoadons(item.ids)
                         setIsOpenThuNo(true) //
+                        setkhachhangid(item.khachhangid)
                       }}
                     >
                       Thu nợ
@@ -124,6 +101,10 @@ function ThuNoLayout () {
             isOpen={isOpenThuNo}
             onClose={() => setIsOpenThuNo(false)}
             userId={userId}
+            hoadons={hoadons}
+            khoID={khoID}
+            fetchhoadon={fetchhoadon}
+            khachhangid={khachhangid}
           />
         </div>
       )

@@ -6,6 +6,8 @@ import DefaultBanHangLayout from './Layout/BanHangLayout/DefaultBanHangLayout'
 import ToastProvider from './components/GlobalStyles/ToastContext'
 
 function App () {
+
+
   return (
     <ToastProvider>
       <Router>

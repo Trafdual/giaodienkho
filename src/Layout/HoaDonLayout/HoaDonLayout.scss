@@ -1,5 +1,5 @@
 .hoa-don-layout {
-    padding: 20px;
+    padding: 10px;
     font-family: Arial, sans-serif;
     margin-top: 50px;
 
@@ -80,11 +80,15 @@
     }
 }
 
+.divtablehoadon {
+    min-height: 850px;
+}
+
 @media screen and (max-width: 46.1875em) {
     .divtablehoadon {
         width: 100%;
         overflow-x: auto;
-        height: 700px;
+        height: 700px !important;
 
         table {
             thead {

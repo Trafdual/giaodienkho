@@ -70,7 +70,6 @@ function QuyTienMatLayout () {
       window.removeEventListener('mousemove', handleMouseMove)
       window.removeEventListener('mouseup', handleMouseUp)
     }
-
   }, [isDragging])
 
   //hết kéo
