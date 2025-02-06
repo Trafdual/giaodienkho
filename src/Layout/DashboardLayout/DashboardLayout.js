@@ -90,7 +90,7 @@ function TestDasboard () {
   const fetchtopkhachhang = async () => {
     try {
       const response = await fetch(
-        `https://ansuataohanoi.com/topkhachhang/${khoID}`
+        `http://localhost:3015/topkhachhang/${khoID}`
       )
       const data = await response.json()
       if (response.ok) {
@@ -103,9 +103,7 @@ function TestDasboard () {
 
   const fetchpolarData = async () => {
     try {
-      const response = await fetch(
-        `https://ansuataohanoi.com/sanphamban/${khoID}`
-      )
+      const response = await fetch(`http://localhost:3015/sanphamban/${khoID}`)
       const data = await response.json()
       if (response.ok) {
         setpolarData(data)
@@ -118,7 +116,7 @@ function TestDasboard () {
   const fetchbardata = async () => {
     try {
       const response = await fetch(
-        `https://ansuataohanoi.com/doanhthutheothang/${khoID}`
+        `http://localhost:3015/doanhthutheothang/${khoID}`
       )
       const data = await response.json()
       if (response.ok) {

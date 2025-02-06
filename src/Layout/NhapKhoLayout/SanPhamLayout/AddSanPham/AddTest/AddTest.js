@@ -130,7 +130,7 @@ function AddTest ({ isOpen, onClose, fetclohang, malohang }) {
   const fetchSuppliers = async () => {
     try {
       const response = await fetch(
-        `https://ansuataohanoi.com/getnhacungcap/${khoID}`
+        `http://localhost:3015/getnhacungcap/${khoID}`
       )
       const data = await response.json()
 
@@ -153,7 +153,7 @@ function AddTest ({ isOpen, onClose, fetclohang, malohang }) {
   const fetchnganhang = async () => {
     try {
       const response = await fetch(
-        `https://ansuataohanoi.com/getnganhang/${userID}`
+        `http://localhost:3015/getnganhang/${userID}`
       )
       const data = await response.json()
 

@@ -72,7 +72,7 @@ function XuatKhoLayout () {
 
     try {
       const response = await fetch(
-        `https://ansuataohanoi.com/getxuatkho/${khoID}`,
+        `http://localhost:3015/getxuatkho/${khoID}`,
         {
           method: 'GET',
           headers: {
@@ -104,7 +104,6 @@ function XuatKhoLayout () {
   const totalPages = Math.ceil(lohang.length / itemsPerPage)
   const totalResults = lohang.length
 
-
   // Chuyển trang
   const handlePageChange = pageNumber => {
     setCurrentPage(pageNumber)
@@ -113,7 +112,7 @@ function XuatKhoLayout () {
   const XoaHangLoat = async () => {
     try {
       const response = await fetch(
-        `https://ansuataohanoi.com/deletexuatkho/${khoID}`,
+        `http://localhost:3015/deletexuatkho/${khoID}`,
         {
           method: 'POST',
           headers: {
@@ -207,7 +206,6 @@ function XuatKhoLayout () {
                   </tbody>
                 </table>
               </div>
-
             </div>
             <div className='pagination1'>
               <PaginationComponent

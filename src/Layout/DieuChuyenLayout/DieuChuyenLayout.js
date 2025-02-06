@@ -80,7 +80,7 @@ function DieuChuyenLayout () {
 
     try {
       const response = await fetch(
-        `https://ansuataohanoi.com/getdieuchuyen/${khoID}`,
+        `http://localhost:3015/getdieuchuyen/${khoID}`,
         {
           method: 'GET',
           headers: {
@@ -112,7 +112,6 @@ function DieuChuyenLayout () {
   const totalPages = Math.ceil(lohang.length / itemsPerPage)
   const totalResults = lohang.length
 
-
   // Chuyển trang
   const handlePageChange = pageNumber => {
     setCurrentPage(pageNumber)
@@ -121,7 +120,7 @@ function DieuChuyenLayout () {
   const XoaHangLoat = async () => {
     try {
       const response = await fetch(
-        `https://ansuataohanoi.com/deletedieuchuyen/${khoID}`,
+        `http://localhost:3015/deletedieuchuyen/${khoID}`,
         {
           method: 'POST',
           headers: {

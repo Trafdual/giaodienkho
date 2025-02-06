@@ -91,7 +91,7 @@ function AddTest2 ({
   const fetchSku = async () => {
     try {
       const response = await fetch(
-        `https://ansuataohanoi.com/getdungluongsku/${userID}`
+        `http://localhost:3015/getdungluongsku/${userID}`
       )
       const data = await response.json()
 
@@ -242,7 +242,6 @@ function AddTest2 ({
     return true
   }
 
-
   const submitProducts = async () => {
     const products = rows.map(row => ({
       madungluongsku: row.masku,
@@ -268,7 +267,7 @@ function AddTest2 ({
       setIsClickButton(true)
       try {
         const response = await fetch(
-          `https://ansuataohanoi.com/updateloaisanpham4`,
+          `http://localhost:3015/updateloaisanpham4`,
           {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -298,7 +297,7 @@ function AddTest2 ({
 
   const handleDelete = async () => {
     try {
-      const response = await fetch(`https://ansuataohanoi.com/deletelohang`, {
+      const response = await fetch(`http://localhost:3015/deletelohang`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ malohang })
@@ -318,7 +317,7 @@ function AddTest2 ({
   const fetchimel = async () => {
     try {
       const response = await fetch(
-        `https://ansuataohanoi.com/getfullchitietlo/${malohang}`
+        `http://localhost:3015/getfullchitietlo/${malohang}`
       )
       if (response.ok) {
         const data = await response.json()
@@ -337,7 +336,7 @@ function AddTest2 ({
   }, [malohang])
 
   useEffect(() => {
-    const eventSource = new EventSource('https://ansuataohanoi.com/events')
+    const eventSource = new EventSource('http://localhost:3015/events')
 
     eventSource.onmessage = event => {
       const newMessage = JSON.parse(event.data)

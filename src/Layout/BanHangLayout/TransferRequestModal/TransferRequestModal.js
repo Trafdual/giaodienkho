@@ -27,7 +27,7 @@ function TransferRequestModal ({ isOpen, onClose, store, productName, masku }) {
       }
 
       const response = await axios.post(
-        `https://ansuataohanoi.com/postyeucaudc/${idkho1}`,
+        `http://localhost:3015/postyeucaudc/${idkho1}`,
         payload
       )
 
@@ -88,7 +88,7 @@ function TransferRequestModal ({ isOpen, onClose, store, productName, masku }) {
               <span className='status'>Chờ xác nhận</span>
             </div>
           </div>
-          <div className='details1'>
+          <div className='details12'>
             <h3>CHI TIẾT</h3>
             <table>
               <thead>

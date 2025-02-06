@@ -64,7 +64,7 @@ function ModalTraHang ({ isOpen, onClose, fetchData, imellist }) {
     const fetchSuppliers = async () => {
       try {
         const response = await fetch(
-          `https://ansuataohanoi.com/getnhacungcap/${khoID}`
+          `http://localhost:3015/getnhacungcap/${khoID}`
         )
         const data = await response.json()
 
@@ -127,7 +127,7 @@ function ModalTraHang ({ isOpen, onClose, fetchData, imellist }) {
     if (validateInputs()) {
       try {
         const response = await fetch(
-          `https://ansuataohanoi.com/posttrahang/${khoID}`,
+          `http://localhost:3015/posttrahang/${khoID}`,
           {
             method: 'POST',
             headers: {
