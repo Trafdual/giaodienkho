@@ -38,7 +38,9 @@ function ThuNoLayout () {
 
   const fetchhoadon = async () => {
     try {
-      const response = await fetch(`http://localhost:3015/gettrano/${khoID}`)
+      const response = await fetch(
+        `https://ansuataohanoi.com/gettrano/${khoID}`
+      )
       if (response.ok) {
         const data = await response.json()
         setdata(data)

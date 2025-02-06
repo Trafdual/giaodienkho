@@ -66,7 +66,7 @@ function FormAddTay ({ isOpen, onClose, loaispid, fetchData, fetchlohang }) {
     if (valicolorInputs()) {
       try {
         const response = await fetch(
-          `http://localhost:3015/postsp/${loaispid}`,
+          `https://ansuataohanoi.com/postsp/${loaispid}`,
           {
             method: 'POST',
             headers: {
@@ -113,7 +113,7 @@ function FormAddTay ({ isOpen, onClose, loaispid, fetchData, fetchlohang }) {
   }
 
   // useEffect(() => {
-  //   const eventSource = new EventSource('http://localhost:3015/events')
+  //   const eventSource = new EventSource('https://ansuataohanoi.com/events')
 
   //   eventSource.onmessage = event => {
   //     const newMessage = JSON.parse(event.data)
@@ -129,7 +129,7 @@ function FormAddTay ({ isOpen, onClose, loaispid, fetchData, fetchlohang }) {
   const fetchSku = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3015/getdungluongsku/${userID}`
+        `https://ansuataohanoi.com/getdungluongsku/${userID}`
       )
       const data = await response.json()
 

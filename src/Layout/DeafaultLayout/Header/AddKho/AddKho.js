@@ -38,7 +38,7 @@ function AddKho ({ isOpen, onClose, userId, setdatakho }) {
       setLoading(true)
       try {
         const response = await fetch(
-          `http://localhost:3015/postdepot/${userId}`,
+          `https://ansuataohanoi.com/postdepot/${userId}`,
           {
             method: 'POST',
             headers: {
