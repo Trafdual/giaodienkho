@@ -57,7 +57,7 @@ body {
   }
 
   .main.active {
-    left: 300px;
+    left: unset !important;
   }
 }
 @media (max-width: 768px) {
