@@ -191,7 +191,7 @@ function HeaderBanHang ({ userId, username }) {
                 <span>DS hóa đơn</span>
               </div>
               {/* dòng 2 */}
-              <div className='menu-item'>
+              <div className='menu-item' onClick={() => handelchuyenman('/thuno')}>
                 <i className='ithuchi'></i>
                 <span>Thu chi</span>
               </div>
@@ -213,7 +213,7 @@ function HeaderBanHang ({ userId, username }) {
               </div>
               <div className='menu-item'>
                 <i className='igopy'></i>
-                <span>Góp ý cả tiến</span>
+                <span>Góp ý cải tiến</span>
               </div>
               <div
                 className='menu-item'

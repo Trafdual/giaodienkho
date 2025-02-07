@@ -16,11 +16,8 @@ import {
   faWrench,
   faShieldHalved,
   faTruckFast,
-  faUserGroup,
-  faFileInvoiceDollar,
   faMoneyBill,
   faMoneyCheck,
-  faReceipt,
   faWallet,
   faCartShopping,
   faMoneyBillTrendUp
@@ -345,7 +342,7 @@ function Sidebar ({ isActive, setIsActive }) {
                   </a>
                 </Link>
               </li>
-              <li
+              {/* <li
                 className={`litong ${
                   activeItem === '/xuatkho' ? 'hovered' : ''
                 }`}
@@ -359,7 +356,7 @@ function Sidebar ({ isActive, setIsActive }) {
                     <span className='title'>Sổ chi tiết tiền mặt</span>
                   </a>
                 </Link>
-              </li>
+              </li> */}
               <li
                 className={`litong ${
                   activeItem === '/dieuchuyen' ? 'hovered' : ''
@@ -378,7 +375,7 @@ function Sidebar ({ isActive, setIsActive }) {
                   </a>
                 </Link>
               </li>
-              <li
+              {/* <li
                 className={`litong ${
                   activeItem === '/lenhdieuchuyen' ? 'hovered' : ''
                 }`}
@@ -392,12 +389,12 @@ function Sidebar ({ isActive, setIsActive }) {
                     <span className='title'>Sổ chi tiết tiền gửi</span>
                   </a>
                 </Link>
-              </li>
+              </li> */}
             </ul>
           )}
         </li>
 
-        <li
+        {/* <li
           className={`litong ${activeItem === '/hoadon' ? 'hovered' : ''}`}
           onClick={() => handleItemClick('/hoadon')}
         >
@@ -412,7 +409,7 @@ function Sidebar ({ isActive, setIsActive }) {
               <span className='title'>Hóa Đơn</span>
             </a>
           </Link>
-        </li>
+        </li> */}
         <li
           className={`litong ${activeItem === '/banhang' ? 'hovered' : ''}`}
           onClick={() => {
@@ -441,7 +438,7 @@ function Sidebar ({ isActive, setIsActive }) {
             </a>
           </Link>
         </li>
-        <li
+        {/* <li
           className={`litong ${
             activeItem === '/testlungtung' ? 'hovered' : ''
           }`}
@@ -455,7 +452,7 @@ function Sidebar ({ isActive, setIsActive }) {
               <span className='title'>Test Lung Tung</span>
             </a>
           </Link>
-        </li>
+        </li> */}
         <li
           className={`litong1 ${activeItem === '/thietlap' ? 'hovered' : ''}`}
         >
