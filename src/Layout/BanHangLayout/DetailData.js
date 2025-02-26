@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react'
-import ReactDOM from 'react-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faXmark } from '@fortawesome/free-solid-svg-icons'
 import './DetailData.scss'
@@ -24,9 +23,9 @@ function ModalDataScreen ({
   const [selectAll, setSelectAll] = useState(false)
   const { showToast } = useToast()
 
-  //đang sửa
   const [selectedProductName, setSelectedProductName] = useState({})
   const [selectedProductmaSKU, setSelectedProductmaSKU] = useState({})
+  const [selectedProductidsku, setSelectedProductidsku] = useState({})
 
   const [selectedProducts, setSelectedProducts] = useState([])
   const khoId1 = localStorage.getItem('khoIDBH') || ''
@@ -34,23 +33,21 @@ function ModalDataScreen ({
   const [isOtherStoreModalOpen, setOtherStoreModalOpen] = useState(false)
   const [selectedStores, setSelectedStores] = useState([])
 
-  const handleViewOtherStores = (stores, tensp, masku) => {
+  const handleViewOtherStores = (stores, tensp, masku, idsku) => {
     setSelectedStores(stores)
-    setSelectedProductName(tensp) // Lưu tên sản phẩm
+    setSelectedProductName(tensp) 
     setOtherStoreModalOpen(true)
     setSelectedProductmaSKU(masku)
+    setSelectedProductidsku(idsku)
   }
 
   useEffect(() => {
     if (isOpen) {
       axios
-        .get(
-          `https://ansuataohanoi.com/banhang/${product._id}/${khoId1}/${userId}`
-        )
+        .get(`http://localhost:3015/banhang/${product._id}/${khoId1}/${userId}`)
         .then(response => {
           setData(response.data)
 
-          // Khôi phục danh sách đã chọn cho sản phẩm mới (nếu có)
           setSelectedProducts(selectedProductsBySku[product._id] || [])
         })
         .catch(error => {
@@ -61,7 +58,6 @@ function ModalDataScreen ({
     return () => {
       setSelectedProductsBySku(prevState => {
         const currentSelection = prevState[product._id] || []
-        // Chỉ cập nhật nếu danh sách thực sự thay đổi
         if (
           selectedProducts.length !== currentSelection.length ||
           !selectedProducts.every(item => currentSelection.includes(item))
@@ -88,7 +84,7 @@ function ModalDataScreen ({
 
         setSelectedSizes(selectableSizes)
       } else {
-        setSelectedSizes([]) // Bỏ chọn tất cả
+        setSelectedSizes([])
       }
     } else {
       if (selectedSize.length > 0) {
@@ -99,8 +95,8 @@ function ModalDataScreen ({
       setSelectedSizes(
         prevSelected =>
           prevSelected.includes(size)
-            ? prevSelected.filter(s => s !== size) // Bỏ chọn
-            : [...prevSelected, size] // Chọn
+            ? prevSelected.filter(s => s !== size) 
+            : [...prevSelected, size] 
       )
     }
   }
@@ -120,10 +116,10 @@ function ModalDataScreen ({
     )
 
     setSelectedProductsBySku(prevState => {
-      const currentProductSkus = prevState[product._id] || [] // Lấy danh sách hiện tại của product._id
+      const currentProductSkus = prevState[product._id] || []
       const updatedSkus = currentProductSkus.includes(item.idsku)
-        ? currentProductSkus.filter(sku => sku !== item.idsku) // Nếu SKU đã chọn, loại bỏ
-        : [...currentProductSkus, item.idsku] // Nếu chưa chọn, thêm vào
+        ? currentProductSkus.filter(sku => sku !== item.idsku)
+        : [...currentProductSkus, item.idsku]
 
       return {
         ...prevState,
@@ -182,6 +178,7 @@ function ModalDataScreen ({
         stores={selectedStores}
         productName={selectedProductName}
         masku={selectedProductmaSKU}
+        idsku={selectedProductidsku}
       />
       <ModalBanhang isOpen={isOpen} onClose={onClose}>
         <div className='modal-header1'>
@@ -243,21 +240,21 @@ function ModalDataScreen ({
                         <input
                           type='checkbox'
                           checked={filteredItems
-                            .filter(item => item.tonkho > 0) // Chỉ kiểm tra sản phẩm có tồn kho > 0
+                            .filter(item => item.tonkho > 0) 
                             .every(item =>
                               selectedProducts.includes(item.idsku)
                             )}
                           onChange={() => {
                             const availableItems = filteredItems.filter(
                               item => item.tonkho > 0
-                            ) // Lọc sản phẩm có tồn kho > 0
+                            ) 
 
                             if (
                               availableItems.every(item =>
                                 selectedProducts.includes(item.idsku)
                               )
                             ) {
-                              // Nếu tất cả sản phẩm có tồn kho > 0 đã được chọn, bỏ chọn chúng
+                             
                               setSelectedProducts(prevState =>
                                 prevState.filter(
                                   id =>
@@ -267,13 +264,13 @@ function ModalDataScreen ({
                                 )
                               )
                             } else {
-                              // Nếu chưa, thêm tất cả sản phẩm có tồn kho > 0 vào danh sách chọn
+                             
                               setSelectedProducts(prevState => [
                                 ...prevState,
                                 ...availableItems
                                   .filter(
                                     item => !prevState.includes(item.idsku)
-                                  ) // Tránh thêm trùng lặp
+                                  ) 
                                   .map(item => item.idsku)
                               ])
                             }
@@ -323,7 +320,8 @@ function ModalDataScreen ({
                               handleViewOtherStores(
                                 item.cacKhoKhac,
                                 item.tensp,
-                                item.masku
+                                item.masku,
+                                item.idsku
                               )
                             }
                           >

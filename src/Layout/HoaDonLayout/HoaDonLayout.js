@@ -162,10 +162,6 @@ function HoaDonLayout () {
     <div className='hoa-don-layout' ref={componentRef}>
       <div className='headernhap'>
         <h2 className='divncc'>Hóa đơn</h2>
-        <button className='btnthemlo' onClick={() => setIsOpen(true)}>
-          <FontAwesomeIcon className='iconncc' icon={faPlus} />
-          <h3>Thêm Hóa Đơn</h3>
-        </button>
       </div>
 
       <div ref={componentRef}>
@@ -191,7 +187,6 @@ function HoaDonLayout () {
                   <td>{hd.date}</td>
                   <td>{hd.tongtien ? hd.tongtien.toLocaleString() : 0} VNĐ</td>
                   <td>
-                    <button className='btn-view'>chi tiết</button>
                     <button
                       className='btn-print'
                       onClick={() => {
@@ -199,7 +194,7 @@ function HoaDonLayout () {
                         handlePrint(hd) // Gọi hàm in
                       }}
                     >
-                      In
+                      In hóa đơn
                     </button>
                   </td>
                 </tr>

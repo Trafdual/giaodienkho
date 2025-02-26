@@ -2,38 +2,36 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import './TransferRequestModal.scss'
 import { useToast } from '../../../components/GlobalStyles/ToastContext'
-function TransferRequestModal ({ isOpen, onClose, store, productName, masku }) {
-  const [quantity, setQuantity] = useState(1) // Quản lý số lượng yêu cầu
-  const [reason, setReason] = useState('') // Lý do điều chuyển (mặc định "")
-  const [reference, setReference] = useState('') // Tham chiếu
+function TransferRequestModal ({ isOpen, onClose, store, productName, idsku,masku }) {
+  const [quantity, setQuantity] = useState(1) 
+  const [reason, setReason] = useState('') 
+  const [reference, setReference] = useState('') 
   const [currentDate, setCurrentDate] = useState('')
   const { showToast } = useToast()
   const idkho1 = localStorage.getItem('khoIDBH')
   useEffect(() => {
-    // Lấy ngày hiện tại ở định dạng YYYY-MM-DD
     const today = new Date().toISOString().split('T')[0]
     setCurrentDate(today)
   }, [])
   if (!isOpen) return null
-  // console.log(store.khoId)
 
   const handleSendRequest = async () => {
     try {
       const payload = {
-        masku,
+        idsku,
         soluong: quantity,
         tenkhochuyen: store.tenkho,
         lido: reason.trim()
       }
 
       const response = await axios.post(
-        `https://ansuataohanoi.com/postyeucaudc/${idkho1}`,
+        `http://localhost:3015/postyeucaudc/${idkho1}`,
         payload
       )
 
       if (response.status === 200) {
-        showToast('Gửi yêu cầu điều chuyển thành công!', 'success') // Hiển thị toast thành công
-        onClose() // Đóng modal sau khi gửi thành công
+        showToast('Gửi yêu cầu điều chuyển thành công!', 'success')
+        onClose()
       } else {
         showToast('Đã xảy ra lỗi, vui lòng thử lại.', 'error')
       }

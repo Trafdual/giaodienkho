@@ -4,7 +4,14 @@ import { useToast } from '../../../../components/GlobalStyles/ToastContext'
 import { Loading } from '../../../../components/Loading' // Giả sử bạn có component Loading
 import './AddKho.scss'
 
-function AddKho ({ isOpen, onClose, userId, setdatakho }) {
+function AddKho ({
+  isOpen,
+  onClose,
+  userId,
+  setdatakho,
+  setSelectedKho,
+  setIsModalOpen
+}) {
   const [tenkho, setTenkho] = useState('')
   const [diachi, setDiachi] = useState('')
   const { showToast } = useToast()
@@ -53,6 +60,9 @@ function AddKho ({ isOpen, onClose, userId, setdatakho }) {
         const data = await response.json()
         if (response.ok) {
           setdatakho(prevkho => [...prevkho, data])
+          setSelectedKho(data)
+          localStorage.setItem('khoID', data._id)
+          setIsModalOpen(false)
           onClose()
           showToast('Thêm kho thành công')
         } else {

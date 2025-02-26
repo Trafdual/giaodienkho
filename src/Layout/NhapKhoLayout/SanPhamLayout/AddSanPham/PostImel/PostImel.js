@@ -124,7 +124,6 @@ function PostImel ({ isOpen, onClose }) {
       }
     ])
 
-    // Cập nhật danh sách SKU đã chọn
     setSelectedSKUs(prevSelectedSKUs => [
       ...prevSelectedSKUs,
       selectedSKU.madungluong

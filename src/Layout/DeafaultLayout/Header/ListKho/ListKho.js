@@ -2,7 +2,7 @@
 import React, { useEffect, useState, useRef } from 'react'
 import './ListKho.scss'
 
-function ListKho ({ datakho, setdatakho, setloading,selectedKho,setSelectedKho
+function ListKho ({ datakho,selectedKho,setSelectedKho
 
  }) {
   const [isOpen, setIsOpen] = useState(false)

@@ -5,21 +5,21 @@ import TransferRequestModal from '../TransferRequestModal/TransferRequestModal'
 import { useToast } from '~/components/GlobalStyles/ToastContext'
 import './OtherStoreModal.scss'
 
-function OtherStoreModal ({ isOpen, onClose, stores, productName, masku }) {
-  const [selectedStore, setSelectedStore] = useState(null) // Lưu dữ liệu chuyển sang modal mới
-  const [isTransferModalOpen, setTransferModalOpen] = useState(false) // Trạng thái modal mới
+function OtherStoreModal ({ isOpen, onClose, stores, productName, masku, idsku }) {
+  const [selectedStore, setSelectedStore] = useState(null)
+  const [isTransferModalOpen, setTransferModalOpen] = useState(false)
   const { showToast } = useToast()
   const handleRequestTransfer = store => {
     if (store.soluong === 0) {
       showToast('Không có sản phẩm nào ở kho bạn chọn', 'warning')
     } else {
-      setSelectedStore(store) // Lưu thông tin sản phẩm/kho
-      setTransferModalOpen(true) // Mở modal mới
+      setSelectedStore(store)
+      setTransferModalOpen(true)
     }
   }
 
   const handleCloseTransferModal = () => {
-    setTransferModalOpen(false) // Đóng modal mới
+    setTransferModalOpen(false)
   }
 
   if (!isOpen) return null
@@ -69,6 +69,7 @@ function OtherStoreModal ({ isOpen, onClose, stores, productName, masku }) {
           onClose={handleCloseTransferModal}
           store={selectedStore}
           productName={productName}
+          idsku={idsku}
           masku={masku}
         />
       )}

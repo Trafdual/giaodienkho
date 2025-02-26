@@ -12,7 +12,7 @@ import { saveToLocalStorage } from '~/components/MaHoaLocalStorage/MaHoaLocalSto
 function Login () {
   const [showPassword, setShowPassword] = useState(false)
   const [isIconVisible, setIsIconVisible] = useState(false)
-  const [email, setEmail] = useState('')
+  const [emailOrPhone, setemailOrPhone] = useState('')
   const [password, setPassword] = useState('')
   const [emailError, setEmailError] = useState('')
   const [passwordError, setPasswordError] = useState('')
@@ -40,8 +40,8 @@ function Login () {
   const validateInputs = () => {
     let valid = true
 
-    if (!email) {
-      setEmailError('Vui lòng nhập email.')
+    if (!emailOrPhone) {
+      setEmailError('Vui lòng nhập email hoặc số điện thoại')
       valid = false
     } else {
       setEmailError('')
@@ -61,18 +61,19 @@ function Login () {
     if (validateInputs()) {
       setIsLoading(true)
       try {
-        const response = await fetch('https://ansuataohanoi.com/login', {
+        const response = await fetch('http://localhost:3015/login', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            email: email,
+            emailOrPhone: emailOrPhone,
             password: password
           })
         })
 
         const data = await response.json()
+        console.log(data)
 
         if (data.data) {
           const userId = data.data.user[0]._id
@@ -92,10 +93,8 @@ function Login () {
           showToast(data.message, 'error')
         }
       } catch (error) {
-        showToast(
-          'Đã xảy ra lỗi khi gửi yêu cầu đăng nhập. Vui lòng thử lại.',
-          'error'
-        )
+        console.log(
+          `Đã xảy ra lỗi khi gửi yêu cầu đăng nhập. Vui lòng thử lại. ${error}`)
       } finally {
         setIsLoading(false)
       }
@@ -114,10 +113,10 @@ function Login () {
               <input
                 className={`email ${emailError ? 'input-error' : ''}`}
                 placeholder=' '
-                value={email}
-                onChange={e => setEmail(e.target.value)}
+                value={emailOrPhone}
+                onChange={e => setemailOrPhone(e.target.value)}
               />
-              <label className='label'>Email</label>
+              <label className='label'>Email/Số điện thoại</label>
             </div>
             {emailError && <div className='error'>{emailError}</div>}
           </div>

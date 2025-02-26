@@ -5,6 +5,7 @@ import { useToast } from '~/components/GlobalStyles/ToastContext'
 import { ModalOnClose } from '~/components/ModalOnClose'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faXmark } from '@fortawesome/free-solid-svg-icons'
+import './ModalAddSku.scss'
 function ModalAddSku ({ isOpen, onClose, userID, fetchsku }) {
   const [name, setName] = useState('')
   const [dungluong, setdungluong] = useState('')
@@ -108,31 +109,32 @@ function ModalAddSku ({ isOpen, onClose, userID, fetchsku }) {
     <Modal isOpen={isOpen} onClose={handleClose}>
       <div className='divAddNhaCungCap'>
         <h2>Thêm Sku</h2>
-        <div className='divtenkho'>
-          <input
-            type='text'
-            className={`tenkho ${nameError ? 'input-error' : ''}`}
-            placeholder=''
-            value={name}
-            onChange={e => setName(e.target.value)}
-          />
-          <label htmlFor='' className='label'>
-            Nhập tên sản phẩm
-          </label>
+        <div className='div_name_masku'>
+          <label htmlFor=''>Nhập tên sản phẩm</label>
+          <div>
+            <input
+              type='text'
+              className={`tenkho ${nameError ? 'input-error' : ''}`}
+              placeholder='VD: 12 pro max'
+              value={name}
+              onChange={e => setName(e.target.value)}
+            />
+          </div>
         </div>
+
         {nameError && <div className='error'>{nameError}</div>}
-        <div className='divdiachikho'>
-          <input
-            type='number'
-            className={`diachi ${dungluongError ? 'input-error' : ''}`}
-            placeholder=''
-            value={dungluong}
-            onChange={e => setdungluong(e.target.value)}
-            onKeyPress={handleKeyPress}
-          />
-          <label htmlFor='' className='label'>
-            Nhập dung lượng
-          </label>
+        <div className='div_name_masku'>
+          <label htmlFor=''>Nhập dung lượng</label>
+          <div>
+            <input
+              type='number'
+              className={`diachi ${dungluongError ? 'input-error' : ''}`}
+              placeholder='VD: 64,128,....'
+              value={dungluong}
+              onChange={e => setdungluong(e.target.value)}
+              onKeyPress={handleKeyPress}
+            />
+          </div>
         </div>
         {dungluongError && <div className='error'>{dungluongError}</div>}
         {dungluongs.length > 0 && (

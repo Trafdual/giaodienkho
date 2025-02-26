@@ -48,7 +48,6 @@ function DefaultLayout ({ children }) {
         setdatakho(data)
         setloading(false)
 
-        // Kiểm tra khoID từ localStorage và cập nhật selectedKho nếu có
         const storedKhoID = localStorage.getItem('khoID')
         if (storedKhoID) {
           const storedKho = data.find(kho => kho._id === storedKhoID)

@@ -239,8 +239,6 @@ function NhapKhoLayout () {
     const eventSource = new EventSource('https://ansuataohanoi.com/events')
 
     eventSource.onmessage = event => {
-      const newMessage = JSON.parse(event.data)
-      showToast(newMessage.message)
       fetchData()
     }
 

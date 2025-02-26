@@ -213,8 +213,7 @@ function Header ({
         </div>
         <ListKho
           datakho={datakho}
-          setdatakho={setdatakho}
-          setloading={setloading}
+
           selectedKho={selectedKho}
           setSelectedKho={setSelectedKho}
         />
@@ -261,6 +260,9 @@ function Header ({
         isOpen={isOpen}
         userId={userId}
         setdatakho={setdatakho}
+        isModalOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
+        setSelectedKho={setSelectedKho}
       />
       {isModalOpen && (
         <Modal

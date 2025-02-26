@@ -124,6 +124,7 @@ function AddTest2 ({
     setRows(prevRows => [
       ...prevRows,
       {
+        _id: selectedSKU._id,
         masku: selectedSKU.madungluong,
         name: selectedSKU.name,
         imel: [],
@@ -244,10 +245,10 @@ function AddTest2 ({
 
   const submitProducts = async () => {
     const products = rows.map(row => ({
-      madungluongsku: row.masku,
+      iddungluongsku: row._id,
       imelList: row.imel,
-      name: row.name, // Tên từng sản phẩm
-      price: row.price || 0, // Giá từng sản phẩm
+      name: row.name,
+      price: row.price || 0,
       soluong: row.soluong
     }))
 
@@ -267,23 +268,24 @@ function AddTest2 ({
       setIsClickButton(true)
       try {
         const response = await fetch(
-          `https://ansuataohanoi.com/updateloaisanpham4`,
+          `http://localhost:3015/updateloaisanpham4`,
           {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
           }
         )
+        const data = await response.json()
 
-        if (response.ok) {
+        if (data.message) {
+          showToast(`${data.message}`, 'error')
+        } else {
           showToast('Thêm lô hàng thành công!', 'success')
           resetForm()
           setRows([])
           onClose()
           fetchlohang()
           setIsClickButton(false)
-        } else {
-          showToast('Lỗi khi thêm lô hàng', 'error')
         }
       } catch (error) {
         console.error('Lỗi khi gửi dữ liệu lô hàng:', error)
@@ -291,6 +293,7 @@ function AddTest2 ({
       }
     }
   }
+  console.log(rows)
   const deleteRow = index => {
     setRows(prevRows => prevRows.filter((_, rowIndex) => rowIndex !== index))
   }
@@ -304,6 +307,7 @@ function AddTest2 ({
       })
       const data = await response.json()
       if (data.message) {
+        setIsClickButton(false)
         showToast(`${data.message}`, 'error')
       } else {
         setIsCloseHuy(false)
@@ -313,6 +317,7 @@ function AddTest2 ({
       console.error('Lỗi khi xóa lô hàng:', error)
     }
   }
+  console.log(isClickButton)
 
   const fetchimel = async () => {
     try {
@@ -484,12 +489,11 @@ function AddTest2 ({
                           const rawValue = e.target.value.replace(/\./g, '')
                           const numericValue = parseFloat(rawValue)
 
-                          // Chỉ cập nhật nếu giá trị là hợp lệ
                           if (
                             (!isNaN(numericValue) && numericValue > 0) ||
                             rawValue === ''
                           ) {
-                            handleInputChange(index, 'price', rawValue) // Cập nhật giá trị
+                            handleInputChange(index, 'price', rawValue) 
                           }
                         }}
                         autoFocus

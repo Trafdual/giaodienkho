@@ -78,7 +78,12 @@
 .divtablenhapkho table thead {
   position: sticky;
   top: 0;
-  background-color: white;
   z-index: 10;
   will-change: transform;
+}
+
+@media screen and (max-width: 46.1875em) {
+  .divtablenhapkho table thead {
+    background-color: white;
+  }
 }

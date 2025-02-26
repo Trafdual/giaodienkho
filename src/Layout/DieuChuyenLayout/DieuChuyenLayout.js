@@ -105,7 +105,6 @@ function DieuChuyenLayout () {
     fetchData()
   }, [khoID])
 
-  // Tính toán mục để hiển thị cho trang hiện tại
   const indexOfLastItem = currentPage * itemsPerPage
   const indexOfFirstItem = indexOfLastItem - itemsPerPage
   const currentItems = lohang.slice(indexOfFirstItem, indexOfLastItem)

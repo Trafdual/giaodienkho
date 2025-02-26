@@ -49,7 +49,7 @@ function AddTest ({ isOpen, onClose, fetclohang, malohang }) {
   const [payment, setpayment] = useState('')
   const methods = ['Tiền mặt', 'Chuyển khoản']
   const loaihanghoas = ['Linh kiện', 'Điện thoại']
-  const [loaihanghoa, setloaihanghoa] = useState('')
+  const [loaihanghoa, setloaihanghoa] = useState('Điện thoại')
   const [method, setmethod] = useState('')
   const tooltipRefMethod = useRef(null)
   const tooltipRefHangHoa = useRef(null)
@@ -175,12 +175,11 @@ function AddTest ({ isOpen, onClose, fetclohang, malohang }) {
   }, [userID, showToast])
 
   useEffect(() => {
-    // Khi modal mở, thiết lập ngày và giờ hiện tại
     const currentDate = new Date()
 
     setdate(currentDate)
     setpayment('ghino')
-  }, []) // Chỉ thực thi khi modal được mở
+  }, [])
 
   const resetForm = useCallback(() => {
     setName('')
@@ -279,11 +278,11 @@ function AddTest ({ isOpen, onClose, fetclohang, malohang }) {
             </div>
             <div className='divinputmethod'>
               <Tooltip
+                key={isTableMethod ? 'open' : 'closed'}
                 trigger='click'
                 interactive
                 arrow
                 position='bottom'
-                open={isTableMethod}
                 onRequestClose={() => setIsTableMethod(false)}
                 html={
                   <div
@@ -316,7 +315,6 @@ function AddTest ({ isOpen, onClose, fetclohang, malohang }) {
               >
                 <button
                   className='divChonncc'
-                  onClick={() => setIsTableMethod(!isTableMethod)}
                   disabled={payment !== 'thanhtoanngay'}
                 >
                   {method ? `${method}` : 'Chọn phương thức'}
@@ -330,11 +328,11 @@ function AddTest ({ isOpen, onClose, fetclohang, malohang }) {
         <div className='divinputncc'>
           <h4>Loại hàng hóa</h4>
           <Tooltip
+            key={isTableHangHoa ? 'open' : 'closed'}
             trigger='click'
             interactive
             arrow
             position='bottom'
-            open={isTableHangHoa}
             onRequestClose={() => setIsTableHangHoa(false)}
             html={
               <div className='supplier-table-container' ref={tooltipRefHangHoa}>
@@ -363,28 +361,29 @@ function AddTest ({ isOpen, onClose, fetclohang, malohang }) {
               </div>
             }
           >
-            <button
-              className='divChonncc'
-              onClick={() => setIsTableHangHoa(!isTableHangHoa)}
-            >
+            <button className='divChonncc'>
               {loaihanghoa ? `${loaihanghoa}` : 'Chọn loại hàng hóa'}
               <FontAwesomeIcon icon={faChevronDown} className='iconNcc' />
             </button>
           </Tooltip>
         </div>
+
         {loaihanghoaError && <div className='error'>{loaihanghoaError}</div>}
 
         <div className='divinputncc'>
           <h4>Nhà cung cấp</h4>
           <Tooltip
+            key={isTableVisible ? 'open' : 'closed'}
             trigger='click'
             interactive
             arrow
             position='bottom'
-            open={isTableVisible}
             onRequestClose={() => setIsTableVisible(false)}
             html={
-              <div className='supplier-table-container' ref={tooltipRefNcc}>
+              <div
+                className='supplier-table-container'
+                ref={tooltipRefNcc}
+              >
                 {loadingSuppliers ? (
                   <p>Đang tải danh sách nhà cung cấp...</p>
                 ) : (
@@ -396,7 +395,7 @@ function AddTest ({ isOpen, onClose, fetclohang, malohang }) {
                       </tr>
                     </thead>
                     <tbody>
-                      {suppliers.map(supplier => (
+                      {suppliers.map>0?suppliers.map(supplier => (
                         <tr
                           className='trdulieu'
                           key={supplier.id}
@@ -409,17 +408,16 @@ function AddTest ({ isOpen, onClose, fetclohang, malohang }) {
                           <td>{supplier.mancc}</td>
                           <td>{supplier.name}</td>
                         </tr>
-                      ))}
+                      )): <tr>
+                        <td colSpan={2} style={{ textAlign: 'center' }}>Không có dữ liệu</td>
+                        </tr>}
                     </tbody>
                   </table>
                 )}
               </div>
             }
           >
-            <button
-              className='divChonncc'
-              onClick={() => setIsTableVisible(!isTableVisible)}
-            >
+            <button className='divChonncc'>
               {mancc ? `${mancc}` : 'Chọn nhà cung cấp'}
               <FontAwesomeIcon icon={faChevronDown} className='iconNcc' />
             </button>
@@ -438,11 +436,10 @@ function AddTest ({ isOpen, onClose, fetclohang, malohang }) {
           <div className='divinputncc'>
             <h4>Ngân hàng</h4>
             <Tooltip
+              key={isTableNganHang ? 'open' : 'closed'}
               trigger='click'
-              interactive
               arrow
               position='bottom'
-              open={isTableNganHang}
               onRequestClose={() => setIsTableNganHang(false)}
               html={
                 <div
@@ -491,10 +488,7 @@ function AddTest ({ isOpen, onClose, fetclohang, malohang }) {
                 </div>
               }
             >
-              <button
-                className='divChonncc'
-                onClick={() => setIsTableNganHang(!isTableNganHang)}
-              >
+              <button className='divChonncc'>
                 {manganhang ? `${manganhang}` : 'Chọn ngân hàng'}
                 <FontAwesomeIcon icon={faChevronDown} className='iconNcc' />
               </button>
@@ -536,10 +530,10 @@ function AddTest ({ isOpen, onClose, fetclohang, malohang }) {
 
         <div className='divngaygio'>
           <Tooltip
+            key={isDatePickerOpen ? 'open' : 'closed'}
             trigger='click'
             interactive
             arrow
-            open={isDatePickerOpen}
             onRequestClose={() => setIsDatePickerOpen(false)}
             html={
               <div ref={tooltipRefDate}>
@@ -562,7 +556,6 @@ function AddTest ({ isOpen, onClose, fetclohang, malohang }) {
                     ? date.toLocaleDateString('vi-VN')
                     : new Date(Date.now()).toLocaleDateString('vi-VN')
                 }
-                onClick={() => setIsDatePickerOpen(!isDatePickerOpen)}
                 readOnly
               />
               <label htmlFor='' className='label'>
@@ -571,10 +564,10 @@ function AddTest ({ isOpen, onClose, fetclohang, malohang }) {
             </div>
           </Tooltip>
           <Tooltip
+            key={isTimePickerOpen ? 'open' : 'closed'}
             trigger='click'
             interactive
             arrow
-            open={isTimePickerOpen}
             onRequestClose={() => setIsTimePickerOpen(false)}
             position='top'
             html={
@@ -601,7 +594,6 @@ function AddTest ({ isOpen, onClose, fetclohang, malohang }) {
                   hour: '2-digit',
                   minute: '2-digit'
                 })}
-                onClick={() => setIsTimePickerOpen(!isTimePickerOpen)}
                 readOnly
               />
               <label htmlFor='' className='label'>

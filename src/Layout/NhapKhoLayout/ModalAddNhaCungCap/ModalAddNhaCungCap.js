@@ -30,11 +30,7 @@ function ModalAddNhaCungCap ({ isOpen, onClose, khoID, fetchnhacungcap }) {
       setNameError('')
     }
 
-    if (!email) {
-      setEmailError('Vui lòng nhập email.')
-      valid = false
-      setIsModalHuy(false)
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       setEmailError('Email không hợp lệ.')
       valid = false
       setIsModalHuy(false)
@@ -54,14 +50,6 @@ function ModalAddNhaCungCap ({ isOpen, onClose, khoID, fetchnhacungcap }) {
       setPhoneError('')
     }
 
-    if (!address) {
-      setAddressError('Vui lòng nhập địa chỉ.')
-      valid = false
-      setIsModalHuy(false)
-    } else {
-      setAddressError('')
-    }
-
     return valid
   }
 
@@ -70,7 +58,7 @@ function ModalAddNhaCungCap ({ isOpen, onClose, khoID, fetchnhacungcap }) {
       setIsClickButton(true)
       try {
         const response = await fetch(
-          `https://ansuataohanoi.com/postnhacungcap/${khoID}`,
+          `http://localhost:3015/postnhacungcap/${khoID}`,
           {
             method: 'POST',
             headers: {
