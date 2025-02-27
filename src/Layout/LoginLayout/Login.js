@@ -76,25 +76,32 @@ function Login () {
         console.log(data)
 
         if (data.data) {
-          const userId = data.data.user[0]._id
-          const name = data.data.user[0].name
-          if (rememberMe) {
-            localStorage.setItem('token', data.token)
-            saveToLocalStorage('userId', userId)
-            saveToLocalStorage('name', name)
+          if (data.data.user[0].role === 'admin') {
+            navigate('/admin')
           } else {
-            sessionStorage.setItem('token', data.token)
-            saveToLocalStorage('userId', userId)
-            saveToLocalStorage('name', name)
+            const userId = data.data.user[0]._id
+            const name = data.data.user[0].name
+            if (rememberMe) {
+              localStorage.setItem('token', data.token)
+              saveToLocalStorage('userId', userId)
+              saveToLocalStorage('name', name)
+              saveToLocalStorage('data', data)
+            } else {
+              sessionStorage.setItem('token', data.token)
+              saveToLocalStorage('userId', userId)
+              saveToLocalStorage('name', name)
+              saveToLocalStorage('data', data)
+            }
+            showToast('Đăng nhập thành công!')
+            navigate(publicRoutes[1].path, { state: { userId: userId } })
           }
-          showToast('Đăng nhập thành công!')
-          navigate(publicRoutes[1].path, { state: { userId: userId } })
         } else {
           showToast(data.message, 'error')
         }
       } catch (error) {
         console.log(
-          `Đã xảy ra lỗi khi gửi yêu cầu đăng nhập. Vui lòng thử lại. ${error}`)
+          `Đã xảy ra lỗi khi gửi yêu cầu đăng nhập. Vui lòng thử lại. ${error}`
+        )
       } finally {
         setIsLoading(false)
       }

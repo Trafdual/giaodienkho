@@ -32,6 +32,8 @@
             padding: 5px 10px;
             cursor: pointer;
             border-radius: 4px;
+            box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2);
+
 
             &:hover {
                 background-color: #218838;
@@ -111,8 +113,25 @@ input[type="date"] {
     align-items: center;
     gap: 10px;
 }
+
 .orders-section {
     min-height: 850px;
+}
+
+.td_btn_ldc {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.cancel-btn_ldc {
+    background-color: #a5a5a5;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 4px;
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 @media screen and (max-width: 46.1875em) {

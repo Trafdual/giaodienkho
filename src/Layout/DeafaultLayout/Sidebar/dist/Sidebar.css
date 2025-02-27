@@ -60,6 +60,22 @@
   background-color: white !important;
   color: var(--blue) !important;
 }
+.navigation ul .litong.hovered .soluonglenh {
+  background-color: var(--blue) !important;
+  color: var(--white) !important;
+}
+
+.soluonglenh {
+  border-radius: 50%;
+  padding: 5px;
+  color: var(--blue);
+  background-color: white;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 .a {
   margin-top: 20px;
@@ -110,6 +126,10 @@
   color: var(--blue);
   border-top-left-radius: 30px;
   border-bottom-left-radius: 30px;
+}
+.navigation ul .litong1 a:hover .soluonglenh {
+  background-color: var(--blue) !important;
+  color: var(--white) !important;
 }
 
 .navigation ul .litong:hover a,

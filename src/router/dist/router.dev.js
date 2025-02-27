@@ -53,6 +53,8 @@ var _DanhSachHoaDonLayout = require("~/Layout/DanhSachHoaDonLayout");
 
 var _ThuNoLayout = require("~/Layout/ThuNoLayout");
 
+var _Admin = require("~/Layout/Admin");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var publicRoutes = [{
@@ -127,6 +129,10 @@ var publicRoutes = [{
 }, {
   path: '/supportchat',
   component: _SupportChat["default"],
+  layout: null
+}, {
+  path: '/admin',
+  component: _Admin.AdminLayout,
   layout: null
 }, {
   path: '/danhsachhoadon',

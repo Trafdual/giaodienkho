@@ -60,11 +60,26 @@
 .navigation ul .litong.hovered {
     background-color: white !important;
     color: var(--blue) !important;
+
+    .soluonglenh {
+        background-color: var(--blue) !important;
+        color: var(--white) !important;
+    }
 }
 
-// .navigation ul .litong:nth-child(1) {
-//     margin-bottom: 20px;
-// }
+.soluonglenh {
+    border-radius: 50%;
+    padding: 5px;
+    color: var(--blue);
+    background-color: white;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
 .a {
     margin-top: 20px;
     display: flex;
@@ -115,6 +130,11 @@
         color: var(--blue);
         border-top-left-radius: 30px;
         border-bottom-left-radius: 30px;
+
+        .soluonglenh {
+            background-color: var(--blue) !important;
+            color: var(--white) !important;
+        }
     }
 }
 

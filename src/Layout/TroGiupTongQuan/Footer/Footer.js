@@ -3,7 +3,7 @@ import "./Footer.scss";
 
 const Footer = () => {
   return (
-    <footer className="footer">
+    <footer className="footer_container_sp">
       <div className="footer-support">
         <h3>Danh sách các kênh hỗ trợ</h3>
         <div className="support-channels">
@@ -31,7 +31,7 @@ const Footer = () => {
 
           </div>
           <div>
-            <img className="facebook-icon" src="https://eshop.misa.vn/help/vi/help/images/ic-facebook.svg" alt=""/>
+            <img className="facebook-icon" src="https://www.citypng.com/public/uploads/preview/square-facebook-f-icon-3d-effect-701751695134299wocw4wanpo.png?v=2024121001" alt=""/>
             <p>Kênh Youtube</p>
             
 

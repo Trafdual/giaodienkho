@@ -31,27 +31,24 @@ function Sidebar ({ isActive, setIsActive }) {
   const location = useLocation()
   const [activeItem, setActiveItem] = useState('')
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
-  const [isDropdownOpenBaoCao, setIsDropdownOpenBaoCao] = useState(false)
-  const [isDropdownOpenKho, setIsDropdownOpenKho] = useState(false)
-  const [isDropdownOpenQuyTien, setIsDropdownOpenQuyTien] = useState(false)
+  const [dropdownState, setDropdownState] = useState({
+    isDropdownOpen: false,
+    isDropdownOpenBaoCao: false,
+    isDropdownOpenKho: false,
+    isDropdownOpenQuyTien: false
+  })
+
   const [isModalDangXuat, setIsModalDangXuat] = useState(false)
+  const [soluonglenh, setsoluonglenh] = useState(0)
   const khoID = localStorage.getItem('khoID')
 
-  const toggleDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen)
-  }
-  const toggleDropdownBapCao = () => {
-    setIsDropdownOpenBaoCao(!isDropdownOpenBaoCao)
-  }
-  const toggleDropdownKho = () => {
-    setIsDropdownOpenKho(!isDropdownOpenKho)
-  }
-  const toggleDropdownQuyTien = () => {
-    setIsDropdownOpenQuyTien(!isDropdownOpenQuyTien)
+  const toggleDropdown = key => {
+    setDropdownState(prev => ({
+      ...prev,
+      [key]: !prev[key]
+    }))
   }
 
-  // Lấy trạng thái active từ localStorage khi trang load
   useEffect(() => {
     const savedActiveItem = localStorage.getItem('activeItem')
     if (savedActiveItem && savedActiveItem === location.pathname) {
@@ -65,17 +62,14 @@ function Sidebar ({ isActive, setIsActive }) {
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth <= 768) {
-        // Giả sử 768px là kích thước cắt của điện thoại
         setIsMobile(window.innerWidth <= 768)
       } else {
         setIsMobile(window.innerWidth >= 768)
       }
     }
 
-    // Gọi hàm khi trang được tải
     handleResize()
 
-    // Thay đổi itemsPerPage khi kích thước cửa sổ thay đổi
     window.addEventListener('resize', handleResize)
 
     return () => {
@@ -86,8 +80,8 @@ function Sidebar ({ isActive, setIsActive }) {
   const handleLogout = () => {
     localStorage.clear()
     sessionStorage.clear()
-    window.history.replaceState(null, '', publicRoutes[0].path) // Thay thế trang hiện tại
-    window.location.reload() // Tải lại trang
+    window.history.replaceState(null, '', publicRoutes[0].path)
+    window.location.reload()
   }
 
   const handleItemClick = path => {
@@ -97,6 +91,134 @@ function Sidebar ({ isActive, setIsActive }) {
     }
     localStorage.setItem('activeItem', path)
   }
+
+  const fetchsoluonglenh = async () => {
+    try {
+      const response = await fetch(`http://localhost:3015/soluonglenh/${khoID}`)
+      const data = await response.json()
+      if (response.ok) {
+        setsoluonglenh(data)
+      }
+    } catch (error) {
+      console.error('Error fetching data:', error)
+    }
+  }
+
+  useEffect(() => {
+    fetchsoluonglenh()
+  }, [khoID])
+
+  const menuItems = [
+    {
+      path: '/home',
+      title: 'Tổng quan',
+      icon: faHouse
+    },
+    {
+      title: 'Báo cáo',
+      icon: faChartPie,
+      dropdownKey: 'isDropdownOpenBaoCao',
+      children: [
+        {
+          path: '/doanhthu',
+          title: 'Doanh Thu',
+          icon: faMoneyBillTrendUp
+        },
+        {
+          path: '/baocaokho',
+          title: 'Kho',
+          icon: faLandmark
+        },
+        {
+          path: '/baocaobanhang',
+          title: 'Bán hàng',
+          icon: faCartShopping
+        },
+        {
+          path: '/baocaocongno',
+          title: 'Công nợ',
+          icon: faMoneyBill
+        }
+      ]
+    },
+    {
+      path: '/nhacungcap',
+      title: 'Nhà cung cấp',
+      icon: faHandshake
+    },
+    {
+      title: 'Kho',
+      icon: faLandmark,
+      dropdownKey: 'isDropdownOpenKho',
+      children: [
+        {
+          path: '/nhapkho',
+          title: 'Nhập Kho',
+          icon: faLandmark
+        },
+        {
+          path: '/xuatkho',
+          title: 'Xuất Kho',
+          icon: faWarehouse
+        },
+        {
+          path: '/lenhdieuchuyen',
+          title: 'Lệnh điều chuyển',
+          icon: faTruckFast,
+          badge: true
+        }
+      ]
+    },
+    {
+      title: 'Quỹ tiền',
+      icon: faWallet,
+      dropdownKey: 'isDropdownOpenQuyTien',
+      children: [
+        {
+          path: '/quytienmat',
+          title: 'Thu, chi tiền mặt',
+          icon: faMoneyBill
+        },
+        {
+          path: '/quytiengui',
+          title: 'Thu, chi tiền gửi',
+          icon: faMoneyCheck
+        }
+      ]
+    },
+    {
+      path: '/banhang',
+      title: 'Bán Hàng',
+      icon: faCartShopping
+    },
+    {
+      path: '/trogiup',
+      title: 'Trợ giúp',
+      icon: faCircleQuestion
+    },
+    {
+      title: 'Thiết lập',
+      icon: faGear,
+      dropdownKey: 'isDropdownOpen',
+      children: [
+        {
+          path: '/thietlap',
+          title: 'Cấu hình',
+          icon: faWrench
+        },
+        {
+          path: '/thietlap/baomat',
+          title: 'Bảo mật',
+          icon: faShieldHalved
+        }
+      ]
+    },
+    {
+      title: 'Đăng Xuất',
+      icon: faRightFromBracket,
+      onClick: () => setIsModalDangXuat(true)
+    }
+  ]
 
   return (
     <div className={`navigation ${isActive ? 'active' : ''}`}>
@@ -112,409 +234,74 @@ function Sidebar ({ isActive, setIsActive }) {
       </div>
 
       <ul>
-        <li
-          className={`litong ${activeItem === '/home' ? 'hovered' : ''}`}
-          onClick={() => handleItemClick('/home')}
-        >
-          <Link to={'/home'}>
-            <a>
-              <span className='icon'>
-                <FontAwesomeIcon className='fonticon' icon={faHouse} />
-              </span>
-              <span className='title'>Tổng quan</span>
-            </a>
-          </Link>
-        </li>
-
-        <li className={`litong1 ${activeItem === '/baocao' ? 'hovered' : ''}`}>
-          <a onClick={toggleDropdownBapCao}>
-            <span className='icon'>
-              <FontAwesomeIcon className='fonticon' icon={faChartPie} />
-            </span>
-            <span className='title'>Báo cáo</span>
-            <FontAwesomeIcon
-              icon={isDropdownOpenBaoCao ? faChevronUp : faChevronDown}
-              className='dropdown-icon'
-            />
-          </a>
-          {isDropdownOpenBaoCao && (
-            <ul className='dropdown-menu'>
-              <li
-                className={`litong ${
-                  activeItem === '/doanhthu' ? 'hovered' : ''
-                }`}
-                onClick={() => handleItemClick('/doanhthu')}
-              >
-                <Link to={'/doanhthu'}>
-                  <a>
-                    <span className='icon'>
-                      <FontAwesomeIcon className='fonticon' icon={faMoneyBillTrendUp} />
-                    </span>
-                    <span className='title'>Doanh Thu</span>
-                  </a>
-                </Link>
-              </li>
-              <li
-                className={`litong ${
-                  activeItem === '/baocaokho' ? 'hovered' : ''
-                }`}
-                onClick={() => handleItemClick('/baocaokho')}
-              >
-                <Link to={'/baocaokho'}>
-                  <a>
-                    <span className='icon'>
-                      <FontAwesomeIcon
-                        className='fonticon'
-                        icon={faLandmark}
-                      />
-                    </span>
-                    <span className='title'>Kho</span>
-                  </a>
-                </Link>
-              </li>
-              <li
-                className={`litong ${
-                  activeItem === '/baocaobanhang' ? 'hovered' : ''
-                }`}
-                onClick={() => handleItemClick('/baocaobanhang')}
-              >
-                <Link to={'/baocaobanhang'}>
-                  <a>
-                    <span className='icon'>
-                      <FontAwesomeIcon
-                        className='fonticon'
-                        icon={faCartShopping}
-                      />
-                    </span>
-                    <span className='title'>Bán hàng</span>
-                  </a>
-                </Link>
-              </li>
-              <li
-                className={`litong ${
-                  activeItem === '/baocaocongno' ? 'hovered' : ''
-                }`}
-                onClick={() => handleItemClick('/baocaocongno')}
-              >
-                <Link to={'/baocaocongno'}>
-                  <a>
-                    <span className='icon'>
-                      <FontAwesomeIcon
-                        className='fonticon'
-                        icon={faMoneyBill}
-                      />
-                    </span>
-                    <span className='title'>Công nợ</span>
-                  </a>
-                </Link>
-              </li>
-            </ul>
-          )}
-        </li>
-        <li
-          className={`litong ${activeItem === '/nhacungcap' ? 'hovered' : ''}`}
-          onClick={() => handleItemClick('/nhacungcap')}
-        >
-          <Link to={'/nhacungcap'}>
-            <a>
-              <span className='icon'>
-                <FontAwesomeIcon className='fonticon' icon={faHandshake} />
-              </span>
-              <span className='title'>Nhà cung cấp</span>
-            </a>
-          </Link>
-        </li>
-
-        <li className='litong1'>
-          <a onClick={toggleDropdownKho}>
-            <span className='icon'>
-              <FontAwesomeIcon className='fonticon' icon={faLandmark} />
-            </span>
-            <span className='title'>Kho</span>
-            <FontAwesomeIcon
-              icon={isDropdownOpenKho ? faChevronUp : faChevronDown}
-              className='dropdown-icon'
-            />
-          </a>
-          {isDropdownOpenKho && (
-            <ul className='dropdown-menu'>
-              <li
-                className={`litong ${
-                  activeItem === '/nhapkho' ? 'hovered' : ''
-                }`}
-                onClick={() => handleItemClick('/nhapkho')}
-              >
-                <Link to={'/nhapkho'}>
-                  <a>
-                    <span className='icon'>
-                      <FontAwesomeIcon className='fonticon' icon={faLandmark} />
-                    </span>
-                    <span className='title'>Nhập Kho</span>
-                  </a>
-                </Link>
-              </li>
-              <li
-                className={`litong ${
-                  activeItem === '/xuatkho' ? 'hovered' : ''
-                }`}
-                onClick={() => handleItemClick('/xuatkho')}
-              >
-                <Link to={'/xuatkho'}>
-                  <a>
-                    <span className='icon'>
-                      <FontAwesomeIcon
-                        className='fonticon'
-                        icon={faWarehouse}
-                      />
-                    </span>
-                    <span className='title'>Xuất Kho</span>
-                  </a>
-                </Link>
-              </li>
-              <li
-                className={`litong ${
-                  activeItem === '/dieuchuyen' ? 'hovered' : ''
-                }`}
-                onClick={() => handleItemClick('/dieuchuyen')}
-              >
-                <Link to={'/dieuchuyen'}>
-                  <a>
-                    <span className='icon'>
-                      <FontAwesomeIcon
-                        className='fonticon'
-                        icon={faTruckFast}
-                      />
-                    </span>
-                    <span className='title'>Điều chuyển từ cửa hàng khác</span>
-                  </a>
-                </Link>
-              </li>
-              <li
-                className={`litong ${
-                  activeItem === '/lenhdieuchuyen' ? 'hovered' : ''
-                }`}
-                onClick={() => handleItemClick('/lenhdieuchuyen')}
-              >
-                <Link to={'/lenhdieuchuyen'}>
-                  <a>
-                    <span className='icon'>
-                      <FontAwesomeIcon
-                        className='fonticon'
-                        icon={faTruckFast}
-                      />
-                    </span>
-                    <span className='title'>Lệnh điều chuyển</span>
-                  </a>
-                </Link>
-              </li>
-            </ul>
-          )}
-        </li>
-
-        <li className='litong1'>
-          <a onClick={toggleDropdownQuyTien}>
-            <span className='icon'>
-              <FontAwesomeIcon className='fonticon' icon={faWallet} />
-            </span>
-            <span className='title'>Quỹ tiền</span>
-            <FontAwesomeIcon
-              icon={isDropdownOpenQuyTien ? faChevronUp : faChevronDown}
-              className='dropdown-icon'
-            />
-          </a>
-          {isDropdownOpenQuyTien && (
-            <ul className='dropdown-menu'>
-              <li
-                className={`litong ${
-                  activeItem === '/quytienmat' ? 'hovered' : ''
-                }`}
-                onClick={() => handleItemClick('/quytienmat')}
-              >
-                <Link to={'/quytienmat'}>
-                  <a>
-                    <span className='icon'>
-                      <FontAwesomeIcon
-                        className='fonticon'
-                        icon={faMoneyBill}
-                      />
-                    </span>
-                    <span className='title'>Thu, chi tiền mặt</span>
-                  </a>
-                </Link>
-              </li>
-              {/* <li
-                className={`litong ${
-                  activeItem === '/xuatkho' ? 'hovered' : ''
-                }`}
-                onClick={() => handleItemClick('/xuatkho')}
-              >
-                <Link to={'/xuatkho'}>
-                  <a>
-                    <span className='icon'>
-                      <FontAwesomeIcon className='fonticon' icon={faReceipt} />
-                    </span>
-                    <span className='title'>Sổ chi tiết tiền mặt</span>
-                  </a>
-                </Link>
-              </li> */}
-              <li
-                className={`litong ${
-                  activeItem === '/dieuchuyen' ? 'hovered' : ''
-                }`}
-                onClick={() => handleItemClick('/dieuchuyen')}
-              >
-                <Link to={'/quytiengui'}>
-                  <a>
-                    <span className='icon'>
-                      <FontAwesomeIcon
-                        className='fonticon'
-                        icon={faMoneyCheck}
-                      />
-                    </span>
-                    <span className='title'>Thu, chi tiền gửi</span>
-                  </a>
-                </Link>
-              </li>
-              {/* <li
-                className={`litong ${
-                  activeItem === '/lenhdieuchuyen' ? 'hovered' : ''
-                }`}
-                onClick={() => handleItemClick('/lenhdieuchuyen')}
-              >
-                <Link to={'/lenhdieuchuyen'}>
-                  <a>
-                    <span className='icon'>
-                      <FontAwesomeIcon className='fonticon' icon={faReceipt} />
-                    </span>
-                    <span className='title'>Sổ chi tiết tiền gửi</span>
-                  </a>
-                </Link>
-              </li> */}
-            </ul>
-          )}
-        </li>
-
-        {/* <li
-          className={`litong ${activeItem === '/hoadon' ? 'hovered' : ''}`}
-          onClick={() => handleItemClick('/hoadon')}
-        >
-          <Link to={'/hoadon'}>
-            <a>
-              <span className='icon'>
+        {menuItems.map((item, index) => (
+          <li
+            key={index}
+            className={`${item.dropdownKey ? 'litong1' : 'litong'} ${
+              activeItem === item.path ? 'hovered' : ''
+            }`}
+            onClick={() => {
+              if (item.onClick) item.onClick()
+              else if (item.path) handleItemClick(item.path)
+            }}
+          >
+            {item.path || item.onClick ? (
+              <Link to={item.path}>
+                <span className='icon'>
+                  <FontAwesomeIcon className='fonticon' icon={item.icon} />
+                </span>
+                <span className='title'>{item.title}</span>
+                {item.badge && (
+                  <span className='soluonglenh'>{soluonglenh}</span>
+                )}
+              </Link>
+            ) : (
+              <a onClick={() => toggleDropdown(item.dropdownKey)}>
+                <span className='icon'>
+                  <FontAwesomeIcon className='fonticon' icon={item.icon} />
+                </span>
+                <span className='title'>{item.title}</span>
                 <FontAwesomeIcon
-                  className='fonticon'
-                  icon={faFileInvoiceDollar}
+                  icon={
+                    dropdownState[item.dropdownKey]
+                      ? faChevronUp
+                      : faChevronDown
+                  }
+                  className='dropdown-icon'
                 />
-              </span>
-              <span className='title'>Hóa Đơn</span>
-            </a>
-          </Link>
-        </li> */}
-        <li
-          className={`litong ${activeItem === '/banhang' ? 'hovered' : ''}`}
-          onClick={() => {
-            localStorage.setItem('khoIDBH', khoID)
-            handleItemClick('/banhang')
-          }}
-        >
-          <a href='/banhang' target='_blank' rel='noopener noreferrer'>
-            <span className='icon'>
-              <FontAwesomeIcon className='fonticon' icon={faCartShopping} />
-            </span>
-            <span className='title'>Bán Hàng</span>
-          </a>
-        </li>
+              </a>
+            )}
 
-        <li
-          className={`litong ${activeItem === '/trogiup' ? 'hovered' : ''}`}
-          onClick={() => handleItemClick('/trogiup')}
-        >
-          <Link to={'/trogiup'}>
-            <a>
-              <span className='icon'>
-                <FontAwesomeIcon className='fonticon' icon={faCircleQuestion} />
-              </span>
-              <span className='title'>Trợ giúp</span>
-            </a>
-          </Link>
-        </li>
-        {/* <li
-          className={`litong ${
-            activeItem === '/testlungtung' ? 'hovered' : ''
-          }`}
-          onClick={() => handleItemClick('/testlungtung')}
-        >
-          <Link to={'/testlungtung'}>
-            <a>
-              <span className='icon'>
-                <FontAwesomeIcon className='fonticon' icon={faCircleQuestion} />
-              </span>
-              <span className='title'>Test Lung Tung</span>
-            </a>
-          </Link>
-        </li> */}
-        <li
-          className={`litong1 ${activeItem === '/thietlap' ? 'hovered' : ''}`}
-        >
-          <a onClick={toggleDropdown}>
-            <span className='icon'>
-              <FontAwesomeIcon className='fonticon' icon={faGear} />
-            </span>
-            <span className='title'>Thiết lập</span>
-            {/* Thêm mũi tên hiển thị dropdown */}
-            <FontAwesomeIcon
-              icon={isDropdownOpen ? faChevronUp : faChevronDown}
-              className='dropdown-icon'
-            />
-          </a>
-          {/* Dropdown menu */}
-          {isDropdownOpen && (
-            <ul className='dropdown-menu'>
-              <li
-                className={`litong ${
-                  activeItem === '/thietlap' ? 'hovered' : ''
-                }`}
-                onClick={() => handleItemClick('/thietlap')}
-              >
-                <Link to={'/thietlap'}>
-                  <a>
-                    <span className='icon'>
-                      <FontAwesomeIcon className='fonticon' icon={faWrench} />
-                    </span>
-                    <span className='title'>Cấu hình</span>
-                  </a>
-                </Link>
-              </li>
-              <li
-                className={`litong ${
-                  activeItem === '/thietlap/baomat' ? 'hovered' : ''
-                }`}
-                onClick={() => handleItemClick('/thietlap/baomat')}
-              >
-                <Link to={'/thietlap/baomat'}>
-                  <a>
-                    <span className='icon'>
-                      <FontAwesomeIcon
-                        className='fonticon'
-                        icon={faShieldHalved}
-                      />
-                    </span>
-                    <span className='title'>Bảo mật</span>
-                  </a>
-                </Link>
-              </li>
-            </ul>
-          )}
-        </li>
-
-        <li className='litong'>
-          <a onClick={() => setIsModalDangXuat(true)}>
-            <span className='icon'>
-              <FontAwesomeIcon className='fonticon' icon={faRightFromBracket} />
-            </span>
-            <span className='title'>Đăng Xuất</span>
-          </a>
-        </li>
+            {item.children && dropdownState[item.dropdownKey] && (
+              <ul className='dropdown-menu'>
+                {item.children.map((child, childIndex) => (
+                  <li
+                    key={childIndex}
+                    className={`litong ${
+                      activeItem === child.path ? 'hovered' : ''
+                    }`}
+                    onClick={() => handleItemClick(child.path)}
+                  >
+                    <Link to={child.path}>
+                      <span className='icon'>
+                        <FontAwesomeIcon
+                          className='fonticon'
+                          icon={child.icon}
+                        />
+                      </span>
+                      <span className='title'>{child.title}</span>
+                      {child.badge && (
+                        <span className='soluonglenh'>
+                          {soluonglenh.soluonglenh}
+                        </span>
+                      )}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </li>
+        ))}
       </ul>
       <ModalDangXuat
         dangxuat={handleLogout}

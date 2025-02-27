@@ -2,16 +2,20 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useToast } from '../../components/GlobalStyles/ToastContext'
-import { Loading } from '../../components/Loading' // Import component Loading
-import Datepicker from '../../components/Calendar/DatePicker' // Import Datepicker component
+import { Loading } from '../../components/Loading'
+import Datepicker from '../../components/Calendar/DatePicker'
 import './LenhDieuChuyen.scss'
 import { PaginationComponent } from '~/components/NextPage'
+import { ModalDelete } from '~/components/ModalDelete'
 
 function LenhDieuChuyen () {
   const [orders, setOrders] = useState([])
   const [filteredOrders, setFilteredOrders] = useState([])
   const [filterStatus, setFilterStatus] = useState('Chờ xác nhận')
-  const [isLoading, setIsLoading] = useState(false) // Trạng thái loading
+  const [isLoading, setIsLoading] = useState(false)
+  const [isOpenDelete, setIsOpenDelete] = useState(false)
+  const [lenhid, setlenhid] = useState(false)
+
   const { showToast } = useToast()
   const khoID = localStorage.getItem('khoID')
 
@@ -33,8 +37,8 @@ function LenhDieuChuyen () {
     try {
       const url =
         beginDate && endDate
-          ? `https://ansuataohanoi.com/getlenhdctheongay/${khoID}?begintime=${beginDate}&endtime=${endDate}`
-          : `https://ansuataohanoi.com/getlenhdieuchuyen/${khoID}`
+          ? `http://localhost:3015/getlenhdctheongay/${khoID}?begintime=${beginDate}&endtime=${endDate}`
+          : `http://localhost:3015/getlenhdieuchuyen/${khoID}`
 
       const response = await axios.get(url)
       setOrders(response.data)
@@ -47,6 +51,7 @@ function LenhDieuChuyen () {
     }
   }
 
+
   const filterOrders = (orders, status) => {
     const filtered =
       status === 'Chờ xác nhận'
@@ -56,7 +61,7 @@ function LenhDieuChuyen () {
   }
 
   useEffect(() => {
-    fetchOrders() // Lấy dữ liệu khi component được tải
+    fetchOrders() 
   }, [showToast])
 
   const handleFilterChange = status => {
@@ -95,11 +100,30 @@ function LenhDieuChuyen () {
     }
   }
 
+  const handlehuylenh = async idlenh => {
+    try {
+      const response = await fetch(
+        `http://localhost:3015/huylenhdieuchuyen/${idlenh}`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' }
+        }
+      )
+      if (response.ok) {
+        showToast('Hủy lệnh điều chuyển thành công', 'success')
+        setIsOpenDelete(false)
+        fetchOrders()
+      }
+    } catch (error) {
+      console.error('Error confirming transfer order:', error)
+      showToast('Không thể hủy lệnh điều chuyển', 'error')
+    }
+  }
+
   return (
     <div className='transfer-orders'>
       <h2>Lệnh điều chuyển</h2>
 
-      {/* Bộ lọc */}
       <div className='filter-container'>
         <div className='dropdown-container'>
           <label htmlFor='status-filter'>Trạng thái:</label>
@@ -136,7 +160,7 @@ function LenhDieuChuyen () {
       </div>
 
       {isLoading ? (
-        <Loading /> // Hiển thị component Loading khi đang tải
+        <Loading />
       ) : (
         <div className='orders-section'>
           <h3>{filterStatus}</h3>
@@ -163,12 +187,21 @@ function LenhDieuChuyen () {
                     <td>{order.lido || '(Không có lý do)'}</td>
                     <td>{order.soluong}</td>
                     {filterStatus === 'Chờ xác nhận' && (
-                      <td>
+                      <td className='td_btn_ldc'>
                         <button
                           className='confirm-btn'
                           onClick={() => handleConfirm(order._id)}
                         >
                           Xác nhận
+                        </button>
+                        <button
+                          className='cancel-btn_ldc'
+                          onClick={() => {
+                            setlenhid(order._id)
+                            setIsOpenDelete(true)
+                          }}
+                        >
+                          Hủy
                         </button>
                       </td>
                     )}
@@ -196,6 +229,12 @@ function LenhDieuChuyen () {
           fetchData={fetchOrders}
         />
       </div>
+      <ModalDelete
+        isOpen={isOpenDelete}
+        Cancel={() => setIsOpenDelete(false)}
+        Save={() => handlehuylenh(lenhid)}
+        content={'Bạn có chắc chắn muốn hủy lệnh điều chuyển này'}
+      />
     </div>
   )
 }

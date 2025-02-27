@@ -222,7 +222,7 @@ function Header ({
             src='https://gcs.tripi.vn/public-tripi/tripi-feed/img/474014bom/anh-gai-xinh-cute-de-thuong-hot-girl-2.jpg'
             alt=''
           />
-          <h4>{name}</h4>
+          <h4 className='name_header'>{name}</h4>
         </div>
         <div className='help'>
           <Tippy content='Tin nhắn' placement='bottom'>

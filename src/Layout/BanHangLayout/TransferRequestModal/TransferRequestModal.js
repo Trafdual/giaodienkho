@@ -20,7 +20,7 @@ function TransferRequestModal ({ isOpen, onClose, store, productName, idsku,mask
       const payload = {
         idsku,
         soluong: quantity,
-        tenkhochuyen: store.tenkho,
+        idkhochuyen: store.khoId,
         lido: reason.trim()
       }
 
@@ -51,7 +51,7 @@ function TransferRequestModal ({ isOpen, onClose, store, productName, idsku,mask
               <label>Chi nhánh xin hàng *</label>
               <select>
                 <option>
-                  {store.tenkho} ({store.khoId})
+                  {store.tenkho}
                 </option>
               </select>
             </div>

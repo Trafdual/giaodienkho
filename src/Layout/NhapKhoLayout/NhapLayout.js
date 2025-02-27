@@ -15,6 +15,7 @@ import { AddTest } from './SanPhamLayout/AddSanPham/AddTest'
 import { PostImel } from './SanPhamLayout/AddSanPham/PostImel'
 import PaginationComponent from '../../components/NextPage/PaginationComponent'
 import { useToast } from '~/components/GlobalStyles/ToastContext'
+import { getFromLocalStorage } from '~/components/MaHoaLocalStorage/MaHoaLocalStorage'
 
 function NhapKhoLayout () {
   const [lohang, setlohang] = useState([])
@@ -31,12 +32,10 @@ function NhapKhoLayout () {
   const [malohang, setmalohang] = useState('')
   const { showToast } = useToast()
 
-  // Trạng thái phân trang
   const [currentPage, setCurrentPage] = useState(1)
   const [itemsPerPage, setItemsPerPage] = useState(10)
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
 
-  //xử lý kéo
   const [height, setHeight] = useState(400)
   const [isDragging, setIsDragging] = useState(false)
   const [startY, setStartY] = useState(0)
@@ -44,11 +43,12 @@ function NhapKhoLayout () {
   const [remainingHeight, setRemainingHeight] = useState(
     window.innerHeight - 500
   )
+  const userdata = getFromLocalStorage('data')
 
   const handleMouseDown = e => {
     setIsDragging(true)
     setStartY(e.clientY)
-    document.body.style.cursor = 'ns-resize' // Đổi con trỏ chuột
+    document.body.style.cursor = 'ns-resize'
   }
 
   const handleMouseMove = e => {
@@ -60,18 +60,17 @@ function NhapKhoLayout () {
         setRemainingHeight(window.innerHeight - newHeight - 100)
       }
       setStartY(e.clientY)
-      document.body.style.userSelect = 'none' // Ngăn chọn text khi kéo
+      document.body.style.userSelect = 'none'
     }
   }
 
   const handleMouseUp = () => {
     setIsDragging(false)
-    document.body.style.cursor = 'auto' // Đổi con trỏ chuột về mặc định
+    document.body.style.cursor = 'auto'
     document.body.style.userSelect = 'auto'
   }
 
   useEffect(() => {
-    // Thêm sự kiện mousemove và mouseup khi kéo
     window.addEventListener('mousemove', handleMouseMove)
     window.addEventListener('mouseup', handleMouseUp)
 
@@ -79,10 +78,7 @@ function NhapKhoLayout () {
       window.removeEventListener('mousemove', handleMouseMove)
       window.removeEventListener('mouseup', handleMouseUp)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isDragging])
-
-  //hết kéo
 
   let isMounted = true
 
@@ -117,7 +113,6 @@ function NhapKhoLayout () {
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth <= 768) {
-        // Giả sử 768px là kích thước cắt của điện thoại
         setItemsPerPage(5)
         setIsMobile(window.innerWidth <= 768)
       } else {
@@ -125,10 +120,8 @@ function NhapKhoLayout () {
       }
     }
 
-    // Gọi hàm khi trang được tải
     handleResize()
 
-    // Thay đổi itemsPerPage khi kích thước cửa sổ thay đổi
     window.addEventListener('resize', handleResize)
 
     return () => {
@@ -166,19 +159,17 @@ function NhapKhoLayout () {
         console.log('Interval detected change, updating khoID:', newKhoID)
         setKhoID(newKhoID)
       }
-    }, 1000) // Kiểm tra mỗi giây
+    }, 1000)
 
     return () => clearInterval(intervalId)
   }, [khoID])
 
-  // Tính toán mục để hiển thị cho trang hiện tại
   const indexOfLastItem = currentPage * itemsPerPage
   const indexOfFirstItem = indexOfLastItem - itemsPerPage
   const currentItems = lohang.slice(indexOfFirstItem, indexOfLastItem)
   const totalPages = Math.ceil(lohang.length / itemsPerPage)
   const totalResults = lohang.length
 
-  // Chuyển trang
   const handlePageChange = page => {
     setCurrentPage(page)
   }
@@ -271,7 +262,6 @@ function NhapKhoLayout () {
                   <button
                     className={`btn-xoa `}
                     onClick={() => setIsOpenPostImel(true)}
-                    // disabled={!idloaisp}
                   >
                     <FontAwesomeIcon
                       icon={faPlus}
@@ -283,7 +273,6 @@ function NhapKhoLayout () {
                   <button
                     className={`btn-xoa `}
                     onClick={() => handlePostlohang()}
-                    // disabled={!idloaisp}
                   >
                     <FontAwesomeIcon
                       icon={faPlus}
@@ -320,18 +309,20 @@ function NhapKhoLayout () {
                   Xem
                 </button>
 
-                <button
-                  className={`btn-xoa ${
-                    selectedItems.length === 0 ? 'disabled' : ''
-                  }`}
-                  disabled={selectedItems.length === 0}
-                >
-                  <FontAwesomeIcon
-                    icon={faTrashCan}
-                    className='iconMenuSanPham'
-                  />
-                  Xóa
-                </button>
+                {userdata.data.user[0].role === 'manager' && (
+                  <button
+                    className={`btn-xoa ${
+                      selectedItems.length === 0 ? 'disabled' : ''
+                    }`}
+                    disabled={selectedItems.length === 0}
+                  >
+                    <FontAwesomeIcon
+                      icon={faTrashCan}
+                      className='iconMenuSanPham'
+                    />
+                    Xóa
+                  </button>
+                )}
               </div>
               <div className='divtablenhapkho'>
                 <table className='tablenhap'>
@@ -471,9 +462,9 @@ function NhapKhoLayout () {
                 height: '5px',
                 background: '#ccc',
                 position: 'sticky',
-                bottom: 0, // Đặt vị trí dính ở cuối
+                bottom: 0,
                 left: 0,
-                zIndex: 1 // Đảm bảo nằm trên các thành phần khác
+                zIndex: 1
               }}
             ></div>
 

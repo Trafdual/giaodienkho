@@ -152,6 +152,12 @@
   cursor: pointer;
 }
 
+.name_header {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 @media (max-width: 768px) {
   .search {
     display: none;
