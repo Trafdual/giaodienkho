@@ -1,5 +1,5 @@
 .sidebar_container {
-  background-color: #333;
+  background-color: var(--blue);
   height: 100vh;
   width: 250px;
   transition: width 0.3s ease-in-out;
@@ -20,12 +20,18 @@
   color: white;
 }
 
-.sidebar_logo h3 {
-  padding: 0;
-  margin: 0;
+.sidebar_logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 .sidebar_logo.hide {
   display: none;
+}
+
+.sidebar_header_close {
+  padding-right: unset !important;
+  padding-left: unset !important;
 }
 
 .sidebar_toggle {
@@ -53,12 +59,14 @@
   transition: background 0.2s ease, transform 0.2s ease;
 }
 .sidebar_item:hover {
-  background-color: #555;
+  background-color: white;
+  color: var(--blue);
   transform: translateX(5px);
 }
 
 .sidebar_item_active {
-  background-color: #555;
+  background-color: white;
+  color: var(--blue);
   transform: translateX(5px);
 }
 

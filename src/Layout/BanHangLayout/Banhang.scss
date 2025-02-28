@@ -18,11 +18,9 @@ body {
   width: 100%;
 }
 
-/* Header Section */
 .header {
   display: flex;
   justify-content: space-between;
-  // align-items: center;
   background-color: #ffffff;
   padding: 15px 30px;
   border-bottom: 1px solid #e0e0e0;
@@ -206,9 +204,8 @@ body {
 .product-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 10px;
+  gap: 50px;
   padding: 20px;
-
 }
 
 .product-card {
@@ -222,6 +219,7 @@ body {
   font-size: 1rem;
   font-weight: bold;
   padding: 20px;
+  cursor: pointer;
 }
 
 .product-card:hover {
@@ -285,6 +283,7 @@ body {
   display: flex;
   justify-content: space-between;
   margin-bottom: 10px;
+  padding: 10px;
   font-size: 1.2rem;
 }
 
@@ -335,6 +334,12 @@ body {
   flex-direction: column;
   gap: 10px;
   margin-bottom: 20px;
+
+  label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
 }
 
 .notes-input {
@@ -368,7 +373,7 @@ body {
 
 .pay-btn,
 .save-btn {
-  
+
   color: white;
   padding: 10px;
   border: none;
@@ -382,11 +387,12 @@ body {
   background-color: #007bff;
   flex: 1;
 }
-.save-btn{
+
+.save-btn {
   background-color: #ff4f4c;
 }
 
-.pay-btn:hover{
+.pay-btn:hover {
   background-color: #0056b3;
 }
 
@@ -467,6 +473,7 @@ body {
   display: flex;
   flex-wrap: wrap;
   gap: 5px;
+  margin-top: 10px;
 }
 
 .imei-btn {

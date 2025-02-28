@@ -53,7 +53,7 @@ var _DanhSachHoaDonLayout = require("~/Layout/DanhSachHoaDonLayout");
 
 var _ThuNoLayout = require("~/Layout/ThuNoLayout");
 
-var _Admin = require("~/Layout/Admin");
+var _AdminLayout = require("~/Layout/Admin/AdminLayout");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -132,7 +132,7 @@ var publicRoutes = [{
   layout: null
 }, {
   path: '/admin',
-  component: _Admin.AdminLayout,
+  component: _AdminLayout.AdminLayout,
   layout: null
 }, {
   path: '/danhsachhoadon',

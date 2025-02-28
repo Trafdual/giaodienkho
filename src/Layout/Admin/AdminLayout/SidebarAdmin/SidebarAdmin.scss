@@ -1,19 +1,18 @@
 .sidebar_container {
-    background-color: #333;
+    background-color: var(--blue);
     height: 100vh;
     width: 250px;
-    transition: width 0.3s ease-in-out; // Hiệu ứng mượt
+    transition: width 0.3s ease-in-out;
     color: white;
     display: flex;
     flex-direction: column;
     overflow: hidden;
 
     &.closed {
-        width: 60px; // Khi thu nhỏ
+        width: 60px;
     }
 }
 
-// Header
 .sidebar_header {
     display: flex;
     justify-content: space-between;
@@ -22,25 +21,26 @@
     color: white;
 }
 
-// Logo
 .sidebar_logo {
-    h3 {
-        padding: 0;
-        margin: 0;
-    }
+    display: flex;
+    align-items: center;
+    gap: 10px;
 
     &.hide {
         display: none;
     }
 }
 
-// Toggle Button
+.sidebar_header_close {
+    padding-right: unset !important;
+    padding-left: unset !important;
+}
+
 .sidebar_toggle {
     font-size: 22px;
     cursor: pointer;
 }
 
-// Menu Items
 .sidebar_body {
     padding: 10px;
 
@@ -62,13 +62,17 @@
     transition: background 0.2s ease, transform 0.2s ease;
 
     &:hover {
-        background-color: #555;
+        background-color: white;
+        color: var(--blue);
         transform: translateX(5px);
     }
 }
 
+
+
 .sidebar_item_active {
-    background-color: #555;
+    background-color: white;
+    color: var(--blue);
     transform: translateX(5px);
 }
 

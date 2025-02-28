@@ -1,11 +1,11 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import {
   faBars,
   faBlog,
-  faMobile,
-  faPercent,
   faChartLine,
   faReceipt,
-  faComments
+  faUserPlus,
+  faRightFromBracket
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import './SidebarAdmin.scss'
@@ -15,19 +15,27 @@ function SidebarAdmin ({ activeTab }) {
   const [istoggle, setIstoggle] = useState(true)
 
   const menus = [
-    { name: 'Sản Phẩm', icon: faMobile },
+    { name: 'Users', icon: faUserPlus },
     { name: 'Blog', icon: faBlog },
-    { name: 'Mã Giảm Giá', icon: faPercent },
-    { name: 'Đánh Giá', icon: faComments },
     { name: 'Hóa đơn', icon: faReceipt },
     { name: 'Doanh Thu', icon: faChartLine }
   ]
 
   return (
     <div className={`sidebar_container ${istoggle ? 'open' : 'closed'}`}>
-      <div className='sidebar_header'>
+      <div
+        className={` ${
+          istoggle ? 'sidebar_header' : 'sidebar_header sidebar_header_close'
+        }`}
+      >
         <div className={`sidebar_logo ${istoggle ? 'show' : 'hide'}`}>
-          <h3>Logo</h3>
+          <img
+            src={require('../../../../assets/images/LOGO.png')}
+            alt=''
+            width={40}
+            height={40}
+          />
+          <h3>BiCraft</h3>
         </div>
         <div className='sidebar_toggle' onClick={() => setIstoggle(!istoggle)}>
           <FontAwesomeIcon icon={faBars} />
@@ -52,6 +60,23 @@ function SidebarAdmin ({ activeTab }) {
             </div>
           </a>
         ))}
+        <a
+          onClick={e => {
+            e.preventDefault()
+            localStorage.clear()
+            window.location.href = '/'
+          }}
+        >
+          <div className={'sidebar_item'}>
+            <FontAwesomeIcon
+              className='sidebar_icon'
+              icon={faRightFromBracket}
+            />
+            <span className={`sidebar_text ${istoggle ? 'show' : 'hide'}`}>
+              Đăng xuất
+            </span>
+          </div>
+        </a>
       </div>
     </div>
   )

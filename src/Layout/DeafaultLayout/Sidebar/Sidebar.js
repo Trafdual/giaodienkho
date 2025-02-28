@@ -192,7 +192,7 @@ function Sidebar ({ isActive, setIsActive }) {
       icon: faCartShopping
     },
     {
-      path: '/trogiup',
+      path: '/trogiuptongquan',
       title: 'Trợ giúp',
       icon: faCircleQuestion
     },
@@ -252,7 +252,7 @@ function Sidebar ({ isActive, setIsActive }) {
                 </span>
                 <span className='title'>{item.title}</span>
                 {item.badge && (
-                  <span className='soluonglenh'>{soluonglenh}</span>
+                  <span className='soluonglenh'>{soluonglenh.soluonglenh}</span>
                 )}
               </Link>
             ) : (

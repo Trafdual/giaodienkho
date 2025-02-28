@@ -32,6 +32,7 @@
     "html5-qrcode": "^2.3.8",
     "ionicons": "^7.4.0",
     "jspdf": "^2.5.2",
+    "moment": "^2.30.1",
     "normalize.css": "^8.0.1",
     "pm2": "^5.4.3",
     "quagga": "^0.12.1",
@@ -56,6 +57,7 @@
     "serve": "^14.2.4",
     "web-vitals": "^2.1.4",
     "webrtc-adapter": "^9.0.1",
+    "react-quill": "^2.0.0",
     "xlsx": "^0.18.5"
   },
   "scripts": {

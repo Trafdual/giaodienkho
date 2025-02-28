@@ -8,6 +8,7 @@ import { LogoSwitcher as LogoSwitcherLogin } from '../../components/SwitchImageL
 import { useToast } from '../../components/GlobalStyles/ToastContext'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
+import { Birthday } from '~/components/Birthday'
 
 function Register () {
   const [showPassword, setShowPassword] = useState(false)
@@ -21,6 +22,7 @@ function Register () {
   const [nameError, setNameError] = useState('')
   const [phoneError, setPhoneError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const [birthday, setBirthday] = useState()
   const { showToast } = useToast()
   const navigate = useNavigate()
 
@@ -66,7 +68,7 @@ function Register () {
     if (validateInputs()) {
       setIsLoading(true)
       try {
-        const response = await fetch('https://ansuataohanoi.com/register', {
+        const response = await fetch('http://localhost:3015/register', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -75,7 +77,8 @@ function Register () {
             name: namereg,
             email: email,
             phone: phone,
-            password: password
+            password: password,
+            birthday
           })
         })
 
@@ -97,6 +100,7 @@ function Register () {
       }
     }
   }
+  console.log(birthday)
 
   return (
     <div className='container'>
@@ -141,6 +145,10 @@ function Register () {
               <label className='label'>Số điện thoại</label>
             </div>
             {phoneError && <div className='error'>{phoneError}</div>}
+          </div>
+          <div className='divngaythangnam'>
+            <label htmlFor=''>Ngày/tháng/năm sinh</label>
+            <Birthday setBirthday={setBirthday} />
           </div>
           <div className='divpassword'>
             <div className='divippass'>

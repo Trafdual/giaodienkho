@@ -23,8 +23,7 @@ import { BaoCaoCongNo } from '~/Layout/BaoCaoCongNoLayout'
 import { BaoCaoBanHangLayout } from '~/Layout/BaoCaoBanHangLayout'
 import { DanhSachHoaDonLayout } from '~/Layout/DanhSachHoaDonLayout'
 import { ThuNoLayout } from '~/Layout/ThuNoLayout'
-import { AdminLayout } from '~/Layout/Admin'
-
+import { AdminLayout } from '~/Layout/Admin/AdminLayout'
 const publicRoutes = [
   { path: '/', component: Login, layout: null },
   { path: '/home', component: DashboardLayout },

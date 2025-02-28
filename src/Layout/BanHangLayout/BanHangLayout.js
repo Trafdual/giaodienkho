@@ -377,7 +377,7 @@ function BanHangLayout () {
                     <React.Fragment key={item.idsku}>
                       <tr>
                         <td>{index + 1}</td>
-                        <td>{item.idsku}</td>
+                        <td>{item.masku}</td>
                         <td>
                           {item.tensp}
                           <br />
@@ -530,7 +530,6 @@ function BanHangLayout () {
                   html={
                     <div
                       className='supplier-table-container'
-                      //  ref={tooltipRefMethod}
                     >
                       <table className='supplier-info-table'>
                         <thead>
@@ -607,7 +606,6 @@ function BanHangLayout () {
                   html={
                     <div
                       className='supplier-table-container'
-                      //  ref={tooltipRefMethod}
                     >
                       <table className='supplier-info-table'>
                         <thead>
@@ -638,8 +636,8 @@ function BanHangLayout () {
                   </span>
                 </Tooltip>
                 <input
-                  onClick={() => setIsFocused(true)} // Khi focus
-                  onBlur={() => setIsFocused(false)} // Khi mất focus
+                  onClick={() => setIsFocused(true)} 
+                  onBlur={() => setIsFocused(false)}
                   className={isFocused ? 'border-bottom' : 'inputBanHang'}
                   value={
                     inputValue
@@ -663,7 +661,6 @@ function BanHangLayout () {
                     html={
                       <div
                         className='supplier-table-container'
-                        //  ref={tooltipRefMethod}
                       >
                         <table className='supplier-info-table'>
                           <thead>
@@ -743,9 +740,9 @@ function BanHangLayout () {
             </div>
 
             <div className='cash-suggestions'>
-              <button>500.000</button>
-              <button>200.000</button>
-              <button>100.000</button>
+              <button onClick={() => setInputValue('500000')}>500.000</button>
+              <button onClick={() => setInputValue('200000')}>200.000</button>
+              <button onClick={() => setInputValue('100000')}>100.000</button>
             </div>
 
             <div className='checkout-actions'>

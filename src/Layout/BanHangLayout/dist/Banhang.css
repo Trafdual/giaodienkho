@@ -19,7 +19,6 @@ body {
   width: 100%;
 }
 
-/* Header Section */
 .header {
   display: flex;
   justify-content: space-between;
@@ -206,7 +205,7 @@ body {
 .product-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 10px;
+  gap: 50px;
   padding: 20px;
 }
 
@@ -221,6 +220,7 @@ body {
   font-size: 1rem;
   font-weight: bold;
   padding: 20px;
+  cursor: pointer;
 }
 
 .product-card:hover {
@@ -283,6 +283,7 @@ body {
   display: flex;
   justify-content: space-between;
   margin-bottom: 10px;
+  padding: 10px;
   font-size: 1.2rem;
 }
 
@@ -328,6 +329,11 @@ body {
   flex-direction: column;
   gap: 10px;
   margin-bottom: 20px;
+}
+.additional-options label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .notes-input {
@@ -446,6 +452,7 @@ body {
   display: flex;
   flex-wrap: wrap;
   gap: 5px;
+  margin-top: 10px;
 }
 
 .imei-btn {

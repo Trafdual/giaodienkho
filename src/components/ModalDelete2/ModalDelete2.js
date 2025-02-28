@@ -1,0 +1,67 @@
+import {
+  faCircleQuestion,
+  faFloppyDisk,
+  faXmark
+} from '@fortawesome/free-solid-svg-icons'
+import { Modal } from '../Modal'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useToast } from '../GlobalStyles/ToastContext'
+
+function ModalDelete2 ({
+  onClose,
+  isOpen,
+  content,
+  seletecids,
+  fetchdata,
+  link,
+  setSelectedIds
+}) {
+  const { showToast } = useToast()
+  const handeldelte = async () => {
+    try {
+      const response = await fetch(`${link}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          ids: seletecids
+        })
+      })
+      if (response.ok) {
+        fetchdata()
+        onClose()
+        setSelectedIds([])
+        showToast('Xóa thành công')
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  return (
+    <Modal isOpen={isOpen} onClose={onClose}>
+      <div className='divModalOnClose'>
+        <div className='divModalBodyOnClose'>
+          <FontAwesomeIcon
+            icon={faCircleQuestion}
+            className='iconBodyOnclose'
+          />
+          <p className='pModalBodyOnClose'>{content}</p>
+        </div>
+        <div className='divModalFooterOnClose'>
+          <button onClick={handeldelte} className='btnsaveClose'>
+            <FontAwesomeIcon icon={faFloppyDisk} className='iconSaveOnclose' />
+            <p>Có</p>
+          </button>
+          <button onClick={onClose} className='btncancelClose'>
+            <FontAwesomeIcon icon={faXmark} className='iconCancelOnclose' />
+            <p>Không</p>
+          </button>
+        </div>
+      </div>
+    </Modal>
+  )
+}
+
+export default ModalDelete2

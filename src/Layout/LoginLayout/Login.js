@@ -77,7 +77,8 @@ function Login () {
 
         if (data.data) {
           if (data.data.user[0].role === 'admin') {
-            navigate('/admin')
+            saveToLocalStorage('data', data)
+            navigate('/admin?tab=Users')
           } else {
             const userId = data.data.user[0]._id
             const name = data.data.user[0].name

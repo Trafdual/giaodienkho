@@ -6,6 +6,8 @@
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    height: 95vh;
+    margin-top: 10px;
 }
 
 .thiet-lap-title {
@@ -28,6 +30,7 @@
     margin-bottom: 15px;
     display: flex;
     align-items: center;
+    gap: 10px;
 }
 
 .thiet-lap-field label {
@@ -80,6 +83,7 @@
     align-items: center;
     margin-bottom: 10px;
     font-size: 14px;
+    gap: 10px;
 }
 
 .thiet-lap-field-group {
