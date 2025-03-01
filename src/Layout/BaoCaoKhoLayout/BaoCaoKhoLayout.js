@@ -2,15 +2,25 @@ import React, { useState, useEffect } from 'react'
 import './BaoCaoKhoLayout.scss'
 import { enableColumnResizing } from '../ColumnResizer/columnResizer'
 import { Loading } from '~/components/Loading'
+import { useNavigate } from 'react-router-dom'
 
 function BaoCaoKhoLayout () {
+  const navigate = useNavigate()
   const today = new Date().toISOString().split('T')[0]
 
-  const [startDate, setStartDate] = useState(today) // Quản lý ngày bắt đầu
-  const [endDate, setEndDate] = useState(today) // Quản lý ngày kết thúc
+  const [startDate, setStartDate] = useState(today)
+  const [endDate, setEndDate] = useState(today)
   const [data, setData] = useState([])
   const [khoID, setKhoID] = useState(localStorage.getItem('khoID') || '')
   const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    const token =
+      sessionStorage.getItem('token') || localStorage.getItem('token')
+    if (!token) {
+      navigate('/')
+    }
+  }, [navigate])
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -19,13 +29,13 @@ function BaoCaoKhoLayout () {
         console.log('Interval detected change, updating khoID:', newKhoID)
         setKhoID(newKhoID)
       }
-    }, 1000) // Kiểm tra mỗi giây
+    }, 1000)
 
     return () => clearInterval(intervalId)
   }, [khoID])
 
   const HandleGetBaoCao = async () => {
-    setLoading(true) // Hiển thị loading khi bắt đầu tải
+    setLoading(true)
     try {
       const response = await fetch(
         `https://ansuataohanoi.com/getsptest/${khoID}?fromDate=${startDate}&endDate=${endDate}`

@@ -1,15 +1,25 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+
 import './ThietLapLayout.scss'
+import { useNavigate } from 'react-router-dom'
 
 function ThietLapLayout () {
   const [symbolPosition, setSymbolPosition] = useState(5000)
   const [currency, setCurrency] = useState('VND')
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    const token =
+      sessionStorage.getItem('token') || localStorage.getItem('token')
+    if (!token) {
+      navigate('/')
+    }
+  }, [navigate])
 
   return (
     <div className='thiet-lap-container'>
       <h2 className='thiet-lap-title'>Thông tin chung</h2>
 
-      {/* Currency Section */}
       <div className='thiet-lap-section'>
         <h3 className='thiet-lap-section-title'>Tiền tệ</h3>
         <div className='thiet-lap-field'>
@@ -46,7 +56,6 @@ function ThietLapLayout () {
         </div>
       </div>
 
-      {/* Product Section */}
       <div className='thiet-lap-section'>
         <h3 className='thiet-lap-section-title'>Hàng hóa</h3>
         <div className='thiet-lap-checkbox-group'>
@@ -65,7 +74,6 @@ function ThietLapLayout () {
         </div>
       </div>
 
-      {/* Signature Section */}
       <div className='thiet-lap-section'>
         <h3 className='thiet-lap-section-title'>Thông tin chữ ký</h3>
         <div className='thiet-lap-checkbox-group'>
@@ -76,7 +84,6 @@ function ThietLapLayout () {
         </div>
       </div>
 
-      {/* Number Formatting Section */}
       <div className='thiet-lap-section'>
         <h3 className='thiet-lap-section-title'>Định dạng số</h3>
         <div className='thiet-lap-field-group'>

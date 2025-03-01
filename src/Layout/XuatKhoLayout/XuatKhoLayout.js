@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { useToast } from '../../components/GlobalStyles/ToastContext'
 import { Loading } from '~/components/Loading'
 import { PaginationComponent } from '~/components/NextPage'
+import { useNavigate } from 'react-router-dom'
 
 function XuatKhoLayout () {
   const { showToast } = useToast()
@@ -12,6 +13,15 @@ function XuatKhoLayout () {
   const [selectAll, setSelectAll] = useState(false)
   const [selectedItems, setSelectedItems] = useState([])
   const [loading, setLoading] = useState(true)
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    const token =
+      sessionStorage.getItem('token') || localStorage.getItem('token')
+    if (!token) {
+      navigate('/')
+    }
+  }, [navigate])
 
   const handleSelectAll = () => {
     const newSelectAll = !selectAll

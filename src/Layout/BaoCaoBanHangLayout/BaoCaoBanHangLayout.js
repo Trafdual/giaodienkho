@@ -1,6 +1,7 @@
 import './BaoCaoBanHangLayout.scss'
 import { useState, useEffect } from 'react'
 import { Loading } from '~/components/Loading'
+import { useNavigate } from 'react-router-dom'
 function BaoCaoBanHangLayout () {
   const formatDate = date => {
     const d = new Date(date)
@@ -9,6 +10,15 @@ function BaoCaoBanHangLayout () {
     const day = String(d.getDate()).padStart(2, '0')
     return `${year}-${month}-${day}`
   }
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    const token =
+      sessionStorage.getItem('token') || localStorage.getItem('token')
+    if (!token) {
+      navigate('/')
+    }
+  }, [navigate])
 
   const [data, setdata] = useState([])
   const [fromdate, setfromdate] = useState(formatDate(new Date()))

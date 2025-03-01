@@ -16,6 +16,7 @@ import {
 } from 'chart.js'
 
 import images from '../../assets/images'
+import { useNavigate } from 'react-router-dom'
 import './DashboardLayout.scss'
 
 ChartJS.register(
@@ -34,7 +35,7 @@ const barOptions = {
     y: {
       ticks: {
         callback: function (value) {
-          return value.toLocaleString('vi-VN') + 'VNĐ' // Thêm ký hiệu tiền tệ
+          return value.toLocaleString('vi-VN') + 'VNĐ'
         }
       },
       title: {
@@ -53,6 +54,8 @@ const barOptions = {
 
 function TestDasboard () {
   const [khoID, setKhoID] = useState(localStorage.getItem('khoID') || '')
+  const navigate = useNavigate()
+  const token = sessionStorage.getItem('token') || localStorage.getItem('token')
   const [polarData, setpolarData] = useState({
     labels: [],
     datasets: [
@@ -74,6 +77,22 @@ function TestDasboard () {
     ]
   })
   const [topkhachhang, settopkhachhang] = useState([])
+  const datacustomer = [
+    { name: 'David', country: 'Italy' },
+    { name: 'Muhammad', country: 'India' },
+    { name: 'Amelia', country: 'France' },
+    { name: 'Olivia', country: 'USA' },
+    { name: 'Amit', country: 'Japan' },
+    { name: 'Ashraf', country: 'India' },
+    { name: 'Diana', country: 'Malaysia' },
+    { name: 'Amit', country: 'India' }
+  ]
+
+  useEffect(() => {
+    if (!token) {
+      navigate('/')
+    }
+  }, [token])
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -82,7 +101,7 @@ function TestDasboard () {
         console.log('Interval detected change, updating khoID:', newKhoID)
         setKhoID(newKhoID)
       }
-    }, 1000) // Kiểm tra mỗi giây
+    }, 1000)
 
     return () => clearInterval(intervalId)
   }, [localStorage.getItem('khoID')])
@@ -152,9 +171,6 @@ function TestDasboard () {
         <div className='recentOrders1'>
           <div className='cardHeader'>
             <h2>Top khách hàng mua hàng nhiều nhất</h2>
-            <a href='#' className='btn'>
-              View All
-            </a>
           </div>
           <table>
             <thead>
@@ -166,14 +182,32 @@ function TestDasboard () {
               </tr>
             </thead>
             <tbody>
-              {topkhachhang.map((item, index) => (
-                <tr key={index}>
-                  <td>{item.name}</td>
-                  <td>{item.phone}</td>
-                  <td>{item.address}</td>
-                  <td>{item.tongtien.toLocaleString()} VNĐ</td>
+              {topkhachhang.length > 0 ? (
+                topkhachhang.map((item, index) => (
+                  <tr key={index}>
+                    <td>{item.name}</td>
+                    <td>{item.phone}</td>
+                    <td>{item.address}</td>
+                    <td>{item.tongtien.toLocaleString()} VNĐ</td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={4} style={{ textAlign: 'center' }}>
+                    <div
+                      style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        gap: '10px'
+                      }}
+                    >
+                      <img src='/icontop.png' alt='icon' />
+                      Không có dữ liệu
+                    </div>
+                  </td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
         </div>
@@ -183,118 +217,24 @@ function TestDasboard () {
             <h2>Recent Customers</h2>
           </div>
           <table>
-            <tr>
-              <td width='60px'>
-                <div className='imgBx'>
-                  <img src={images.tn1} />
-                </div>
-              </td>
-              <td>
-                <h4>
-                  David
-                  <br />
-                  <span>Italy</span>
-                </h4>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <div className='imgBx'>
-                  <img src={images.tn1} />
-                </div>
-              </td>
-              <td>
-                <h4>
-                  Muhammad
-                  <br />
-                  <span>India</span>
-                </h4>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <div className='imgBx'>
-                  <img src={images.tn1} />
-                </div>
-              </td>
-              <td>
-                <h4>
-                  Amelia
-                  <br />
-                  <span>France</span>
-                </h4>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <div className='imgBx'>
-                  <img src={images.tn1} />
-                </div>
-              </td>
-              <td>
-                <h4>
-                  Olivia
-                  <br />
-                  <span>USA</span>
-                </h4>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <div className='imgBx'>
-                  <img src={images.tn1} />
-                </div>
-              </td>
-              <td>
-                <h4>
-                  Amit
-                  <br />
-                  <span>Japan</span>
-                </h4>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <div className='imgBx'>
-                  <img src={images.tn1} />
-                </div>
-              </td>
-              <td>
-                <h4>
-                  Ashraf
-                  <br />
-                  <span>India</span>
-                </h4>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <div className='imgBx'>
-                  <img src={images.tn1} />
-                </div>
-              </td>
-              <td>
-                <h4>
-                  Diana
-                  <br />
-                  <span>Malaysia</span>
-                </h4>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <div className='imgBx'>
-                  <img src={images.tn1} />
-                </div>
-              </td>
-              <td>
-                <h4>
-                  Amit
-                  <br />
-                  <span>India</span>
-                </h4>
-              </td>
-            </tr>
+            <tbody>
+              {datacustomer.map((user, index) => (
+                <tr key={index}>
+                  <td width='60px'>
+                    <div className='imgBx'>
+                      <img src={images.tn1} alt={user.name} />
+                    </div>
+                  </td>
+                  <td>
+                    <h4>
+                      {user.name}
+                      <br />
+                      <span>{user.country}</span>
+                    </h4>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
           </table>
         </div>
       </div>

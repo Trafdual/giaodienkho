@@ -4,13 +4,13 @@ import './ThuNoLayout.scss'
 import { PaginationComponent } from '~/components/NextPage'
 import { getFromLocalStorage } from '~/components/MaHoaLocalStorage/MaHoaLocalStorage'
 import { ModalThuNo } from './ModalThuNo'
+import { useNavigate } from 'react-router-dom'
 
 function ThuNoLayout () {
+  const navigate = useNavigate()
   const [activeTab, setActiveTab] = useState('Thu nợ KH')
-
   const [data, setdata] = useState([])
   const userId = getFromLocalStorage('userId') || ''
-
   const [itemsPerPage, setItemsPerPage] = useState(20)
   const [currentPage, setCurrentPage] = useState(1)
   const [khoID, setKhoID] = useState(localStorage.getItem('khoID') || '')
@@ -25,10 +25,18 @@ function ThuNoLayout () {
         console.log('Interval detected change, updating khoID:', newKhoID)
         setKhoID(newKhoID)
       }
-    }, 1000) // Kiểm tra mỗi giây
+    }, 1000)
 
     return () => clearInterval(intervalId)
   }, [khoID])
+
+  useEffect(() => {
+    const token =
+      sessionStorage.getItem('token') || localStorage.getItem('token')
+    if (!token) {
+      navigate('/')
+    }
+  }, [navigate])
 
   const totalPages = Math.ceil(data.length / itemsPerPage)
   const totalResults = data.length

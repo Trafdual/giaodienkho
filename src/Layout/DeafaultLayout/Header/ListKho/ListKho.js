@@ -27,6 +27,7 @@ function ListKho ({ datakho,selectedKho,setSelectedKho
   const handleSelectKho = kho => {
     setSelectedKho(kho)
     localStorage.setItem('khoID', kho._id)
+    localStorage.setItem('khoIDBH', kho._id)
     setIsOpen(false)
     window.location.reload()
   }

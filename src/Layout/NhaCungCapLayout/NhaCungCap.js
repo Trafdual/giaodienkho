@@ -16,6 +16,7 @@ import { AddNhaCungCap } from './AddNhaCungCap'
 import { EditNhaCungCap } from './EditNhaCungCap'
 import { PaginationComponent } from '~/components/NextPage'
 import { getFromLocalStorage } from '~/components/MaHoaLocalStorage/MaHoaLocalStorage'
+import { useNavigate } from 'react-router-dom'
 function NhaCungCapLayout () {
   const [nhacungcap, setnhacungcap] = useState([])
   const [isOpen, setIsOpen] = useState(false)
@@ -29,6 +30,15 @@ function NhaCungCapLayout () {
   const [itemsPerPage, setItemsPerPage] = useState(9)
   const [selectAll, setSelectAll] = useState(false)
   const userdata = getFromLocalStorage('data')
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    const token =
+      sessionStorage.getItem('token') || localStorage.getItem('token')
+    if (!token) {
+      navigate('/')
+    }
+  }, [navigate])
 
   const handleCloseModal = () => {
     setIsOpen(false)

@@ -3,19 +3,28 @@ import { useState, useEffect } from 'react'
 import { useToast } from '../../components/GlobalStyles/ToastContext'
 import { Loading } from '~/components/Loading'
 import { PaginationComponent } from '~/components/NextPage'
+import { useNavigate } from 'react-router-dom'
 
 function DieuChuyenLayout () {
   const { showToast } = useToast()
   const [lohang, setlohang] = useState([])
   const [khoID, setKhoID] = useState(localStorage.getItem('khoID') || '')
 
-  // Trạng thái phân trang
   const [currentPage, setCurrentPage] = useState(1)
-  const [itemsPerPage, setItemsPerPage] = useState(9) // Mặc định là 9
+  const [itemsPerPage, setItemsPerPage] = useState(9)
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
   const [selectAll, setSelectAll] = useState(false)
   const [selectedItems, setSelectedItems] = useState([])
   const [loading, setLoading] = useState(true)
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    const token =
+      sessionStorage.getItem('token') || localStorage.getItem('token')
+    if (!token) {
+      navigate('/')
+    }
+  }, [navigate])
 
   const handleSelectAll = () => {
     const newSelectAll = !selectAll

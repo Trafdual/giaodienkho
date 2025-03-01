@@ -82,6 +82,8 @@ function HeaderBanHang ({ userId, username }) {
     setSelectedKho(kho)
     setDropdownVisible(false)
     localStorage.setItem('khoIDBH', kho._id)
+    localStorage.setItem('khoID', kho._id)
+
     window.location.reload()
   }
   useEffect(() => {
@@ -191,7 +193,10 @@ function HeaderBanHang ({ userId, username }) {
                 <span>DS hóa đơn</span>
               </div>
               {/* dòng 2 */}
-              <div className='menu-item' onClick={() => handelchuyenman('/thuno')}>
+              <div
+                className='menu-item'
+                onClick={() => handelchuyenman('/thuno')}
+              >
                 <i className='ithuchi'></i>
                 <span>Thu chi</span>
               </div>

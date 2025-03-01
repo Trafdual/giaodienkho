@@ -16,8 +16,10 @@ import { PostImel } from './SanPhamLayout/AddSanPham/PostImel'
 import PaginationComponent from '../../components/NextPage/PaginationComponent'
 import { useToast } from '~/components/GlobalStyles/ToastContext'
 import { getFromLocalStorage } from '~/components/MaHoaLocalStorage/MaHoaLocalStorage'
+import { useNavigate } from 'react-router-dom'
 
 function NhapKhoLayout () {
+  const navigate = useNavigate()
   const [lohang, setlohang] = useState([])
   const [isOpen, setIsOpen] = useState(false)
   const [isOpenPostimel, setIsOpenPostImel] = useState(false)
@@ -44,6 +46,14 @@ function NhapKhoLayout () {
     window.innerHeight - 500
   )
   const userdata = getFromLocalStorage('data')
+
+  useEffect(() => {
+    const token =
+      sessionStorage.getItem('token') || localStorage.getItem('token')
+    if (!token) {
+      navigate('/')
+    }
+  }, [navigate])
 
   const handleMouseDown = e => {
     setIsDragging(true)

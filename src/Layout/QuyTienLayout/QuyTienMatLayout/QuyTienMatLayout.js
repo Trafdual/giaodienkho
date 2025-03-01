@@ -6,6 +6,7 @@ import { Loading } from '~/components/Loading'
 import { AddQuyTien } from '../AddQuyTien'
 import { PaginationComponent } from '~/components/NextPage'
 import ChiTietQuyTienMat from './ChiTietQuyTienMat'
+import { useNavigate } from 'react-router-dom'
 
 function QuyTienMatLayout () {
   const [quytien, setquytien] = useState([])
@@ -14,6 +15,8 @@ function QuyTienMatLayout () {
   const [khoID, setKhoID] = useState(localStorage.getItem('khoID') || '')
   const [idquytien, setidquytien] = useState('')
   const [loading, setLoading] = useState(true)
+  const navigate = useNavigate()
+
   //   const [isOpenEdit, setIsOpenEdit] = useState(false)
   const [selectedRow, setSelectedRow] = useState(null)
   const [loadingsp, setLoadingsp] = useState(false)
@@ -34,6 +37,14 @@ function QuyTienMatLayout () {
   const [remainingHeight, setRemainingHeight] = useState(
     window.innerHeight - 500
   )
+
+  useEffect(() => {
+    const token =
+      sessionStorage.getItem('token') || localStorage.getItem('token')
+    if (!token) {
+      navigate('/')
+    }
+  }, [navigate])
 
   const handleMouseDown = e => {
     setIsDragging(true)

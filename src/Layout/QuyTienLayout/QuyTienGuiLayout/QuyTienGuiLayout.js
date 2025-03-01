@@ -7,9 +7,11 @@ import { Loading } from '~/components/Loading'
 import { AddQuyTien } from '../AddQuyTien'
 import { PaginationComponent } from '~/components/NextPage'
 import ChiTietQuyTienGui from './ChiTietQuyTienGui'
+import { useNavigate } from 'react-router-dom'
 
 function QuyTienGuiLayout () {
   const [quytien, setquytien] = useState([])
+  const navigate = useNavigate()
   const [isOpen, setIsOpen] = useState(false)
   const [isOpenAdd, setIsOpenAdd] = useState(false)
   const [khoID, setKhoID] = useState(localStorage.getItem('khoID') || '')
@@ -22,12 +24,10 @@ function QuyTienGuiLayout () {
   const method = 'Tiền gửi'
   //   const { showToast } = useToast()
 
-  // Trạng thái phân trang
   const [currentPage, setCurrentPage] = useState(1)
   const [itemsPerPage, setItemsPerPage] = useState(10)
   //   const [idloaisanpham, setIdloaisanpham] = useState(null)
 
-  //xử lý kéo
   const [height, setHeight] = useState(400)
   const [isDragging, setIsDragging] = useState(false)
   const [startY, setStartY] = useState(0)
@@ -35,6 +35,14 @@ function QuyTienGuiLayout () {
   const [remainingHeight, setRemainingHeight] = useState(
     window.innerHeight - 500
   )
+
+  useEffect(() => {
+    const token =
+      sessionStorage.getItem('token') || localStorage.getItem('token')
+    if (!token) {
+      navigate('/')
+    }
+  }, [navigate])
 
   const handleMouseDown = e => {
     setIsDragging(true)

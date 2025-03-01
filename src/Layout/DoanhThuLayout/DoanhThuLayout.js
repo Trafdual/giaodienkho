@@ -1,6 +1,8 @@
-import React, { useState } from 'react'
-import './DoanhThuLayout.scss' // Import file CSS để style trang
+import React, { useState, useEffect } from 'react'
+import './DoanhThuLayout.scss'
 import { Loading } from '~/components/Loading'
+import { useNavigate } from 'react-router-dom'
+import * as XLSX from 'xlsx'
 
 function DoanhThuLayout () {
   const formatDate = date => {
@@ -19,6 +21,16 @@ function DoanhThuLayout () {
   const [loading, setLoading] = useState(false)
 
   const khoID = localStorage.getItem('khoID')
+
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    const token =
+      sessionStorage.getItem('token') || localStorage.getItem('token')
+    if (!token) {
+      navigate('/')
+    }
+  }, [navigate])
 
   const handleDoanhThu = async () => {
     setLoading(true)
@@ -42,6 +54,14 @@ function DoanhThuLayout () {
       setLoading(false)
     }
   }
+
+  const handleExportExcel = () => {
+    const ws = XLSX.utils.json_to_sheet([data])
+    const wb = XLSX.utils.book_new()
+    XLSX.utils.book_append_sheet(wb, ws, 'DoanhThu')
+    XLSX.writeFile(wb, 'DoanhThu.xlsx')
+  }
+
   const handelphantram = (a, b) => {
     const phantram = (a / b) * 100 - 100
     return phantram.toFixed(1)
@@ -291,7 +311,9 @@ function DoanhThuLayout () {
       </div>
       <div className='actions'>
         <button className='btn-print'>In</button>
-        <button className='btn-export'>Xuất Excel</button>
+        <button className='btn-export' onClick={handleExportExcel}>
+          Xuất Excel
+        </button>
       </div>
     </div>
   )

@@ -1,21 +1,22 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from 'react'
 import './HoaDonLayout.scss'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus } from '@fortawesome/free-solid-svg-icons'
+
 import { AddHoaDon } from './AddHoaDon'
 import { PaginationComponent } from '~/components/NextPage'
 import Invoice from './Invoice'
+import { useNavigate } from 'react-router-dom'
 
 function HoaDonLayout () {
+  const navigate = useNavigate()
   const [isOpen, setIsOpen] = useState(false)
   const [hoadon, setHoaDon] = useState([])
 
   const [khoID, setKhoID] = useState(localStorage.getItem('khoID') || '')
-  const componentRef = useRef() // Tạo ref để in
+  const componentRef = useRef()
   const [selectedInvoice, setSelectedInvoice] = useState(null)
   const [currentPage, setCurrentPage] = useState(1)
-  const [itemsPerPage, setItemsPerPage] = useState(9) // Mặc định là 9
+  const [itemsPerPage, setItemsPerPage] = useState(9)
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -24,7 +25,7 @@ function HoaDonLayout () {
         console.log('Interval detected change, updating khoID:', newKhoID)
         setKhoID(newKhoID)
       }
-    }, 1000) // Kiểm tra mỗi giây
+    }, 1000)
 
     return () => clearInterval(intervalId)
   }, [khoID])
@@ -43,7 +44,14 @@ function HoaDonLayout () {
     fetchHoaDon()
   }, [khoID])
 
-  // Tính toán dữ liệu cho trang hiện tại
+  useEffect(() => {
+    const token =
+      sessionStorage.getItem('token') || localStorage.getItem('token')
+    if (!token) {
+      navigate('/')
+    }
+  }, [navigate])
+
   const indexOfLastItem = currentPage * itemsPerPage
   const indexOfFirstItem = indexOfLastItem - itemsPerPage
   const currentItems = hoadon.slice(indexOfFirstItem, indexOfLastItem)

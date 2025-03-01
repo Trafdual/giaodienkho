@@ -3,8 +3,10 @@ import { useState, useEffect } from 'react'
 import { Loading } from '~/components/Loading'
 import { ModalChiTietHoaDon } from './ModalChiTietHoaDon'
 import { PaginationComponent } from '~/components/NextPage'
+import { useNavigate } from 'react-router-dom'
 
 function DanhSachHoaDonLayout () {
+  const navigate = useNavigate()
   const formatDate = date => {
     const d = new Date(date)
     const year = d.getFullYear()
@@ -45,6 +47,14 @@ function DanhSachHoaDonLayout () {
 
     return () => clearInterval(intervalId)
   }, [khoID])
+
+  useEffect(() => {
+    const token =
+      sessionStorage.getItem('token') || localStorage.getItem('token')
+    if (!token) {
+      navigate('/')
+    }
+  }, [navigate])
 
   const fetchhoadon = async () => {
     setLoading(true)

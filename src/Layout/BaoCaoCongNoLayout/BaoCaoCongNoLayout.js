@@ -3,8 +3,10 @@ import { enableColumnResizing } from '../ColumnResizer/columnResizer'
 import { Loading } from '~/components/Loading'
 import { useToast } from '~/components/GlobalStyles/ToastContext'
 import './BaoCaoCongNo.scss'
+import { useNavigate } from 'react-router-dom'
 
 function BaoCaoCongNo () {
+  const navigate = useNavigate()
   const today = new Date().toISOString().split('T')[0]
   const { showToast } = useToast()
   const [startDate, setStartDate] = useState(today)
@@ -12,6 +14,14 @@ function BaoCaoCongNo () {
   const [data, setData] = useState([])
   const [khoID, setKhoID] = useState(localStorage.getItem('khoID') || '')
   const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    const token =
+      sessionStorage.getItem('token') || localStorage.getItem('token')
+    if (!token) {
+      navigate('/')
+    }
+  }, [navigate])
 
   useEffect(() => {
     const intervalId = setInterval(() => {

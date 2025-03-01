@@ -110,7 +110,6 @@
     width: 100%;
     border-collapse: collapse;
     margin-top: 10px;
-    height: 100%;
 }
 
 .details1 table thead td {
@@ -239,6 +238,7 @@
         grid-template-columns: 1fr;
         height: auto;
     }
+
     .cardBox {
         grid-template-columns: repeat(2, 1fr);
     }
@@ -248,9 +248,11 @@
     .details1 {
         grid-template-columns: repeat(1, 1fr);
     }
+
     .recentOrders1 {
         overflow-x: auto;
     }
+
     .status.inprogress {
         white-space: nowrap;
     }
@@ -260,6 +262,7 @@
     .cardBox {
         grid-template-columns: repeat(1, 1fr);
     }
+
     .cardHeader h2 {
         font-size: 20px;
     }

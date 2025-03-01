@@ -21,8 +21,10 @@ import PaginationComponent from '../../components/NextPage/PaginationComponent'
 import { SanPhamGioHang } from './SanPhamGioHang'
 import { ModalTraHang } from './ModalTraHang'
 import { TroGiupLayout } from '../TroGiupLayout'
+import { useNavigate } from 'react-router-dom'
 
 function SearchProductLayout () {
+  const navigate = useNavigate()
   const location = useLocation()
   const { products } = location.state || { products: [] }
   const { showToast } = useToast()
@@ -47,41 +49,39 @@ function SearchProductLayout () {
     window.innerHeight - 500
   )
   const [isModalOpen, setModalOpen] = useState(false)
-  const [currentImei, setCurrentImei] = useState(null) // State để lưu imei hiện tại
+  const [currentImei, setCurrentImei] = useState(null)
 
   const handleOpenModal = imei => {
-    setCurrentImei(imei) // Đặt imei hiện tại
-    setModalOpen(true) // Mở modal
+    setCurrentImei(imei)
+    setModalOpen(true)
   }
-  // Xử lý khi kéo
+
   const handleMouseDown = e => {
     setIsDragging(true)
     setStartY(e.clientY)
-    document.body.style.cursor = 'ns-resize' // Đổi con trỏ chuột
+    document.body.style.cursor = 'ns-resize'
   }
 
   const handleMouseMove = e => {
     if (isDragging) {
       const newHeight = height + (e.clientY - startY)
       if (newHeight > 100 && newHeight <= 554) {
-        // Đảm bảo chiều cao không nhỏ hơn 100px
         setHeight(newHeight)
-        setResizerPosition(newHeight) // Cập nhật vị trí của resizer khi di chuyển
+        setResizerPosition(newHeight)
         setRemainingHeight(window.innerHeight - newHeight - 100)
       }
       setStartY(e.clientY)
-      document.body.style.userSelect = 'none' // Ngăn chọn text khi kéo
+      document.body.style.userSelect = 'none'
     }
   }
 
   const handleMouseUp = () => {
     setIsDragging(false)
-    document.body.style.cursor = 'auto' // Đổi con trỏ chuột về mặc định
+    document.body.style.cursor = 'auto'
     document.body.style.userSelect = 'auto'
   }
 
   useEffect(() => {
-    // Thêm sự kiện mousemove và mouseup khi kéo
     window.addEventListener('mousemove', handleMouseMove)
     window.addEventListener('mouseup', handleMouseUp)
 
@@ -101,11 +101,10 @@ function SearchProductLayout () {
   useEffect(() => {
     const savedSelectedItems = localStorage.getItem('selectedItems')
     if (savedSelectedItems) {
-      setSelectedItems(JSON.parse(savedSelectedItems)) // Khôi phục danh sách đã chọn từ localStorage
+      setSelectedItems(JSON.parse(savedSelectedItems))
     }
   }, [])
 
-  // Lưu danh sách sản phẩm đã chọn vào localStorage mỗi khi selectedItems thay đổi
   useEffect(() => {
     localStorage.setItem('selectedItems', JSON.stringify(selectedItems))
   }, [selectedItems])
@@ -141,15 +140,22 @@ function SearchProductLayout () {
         console.log('Interval detected change, updating khoID:', newKhoID)
         setKhoID(newKhoID)
       }
-    }, 1000) // Kiểm tra mỗi giây
+    }, 1000)
 
     return () => clearInterval(intervalId)
   }, [khoID])
 
   useEffect(() => {
+    const token =
+      sessionStorage.getItem('token') || localStorage.getItem('token')
+    if (!token) {
+      navigate('/')
+    }
+  }, [navigate])
+
+  useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth <= 768) {
-        // Giả sử 768px là kích thước cắt của điện thoại
         setItemsPerPage(5)
         setIsMobile(window.innerWidth <= 768)
       } else {
@@ -157,10 +163,8 @@ function SearchProductLayout () {
       }
     }
 
-    // Gọi hàm khi trang được tải
     handleResize()
 
-    // Thay đổi itemsPerPage khi kích thước cửa sổ thay đổi
     window.addEventListener('resize', handleResize)
 
     return () => {

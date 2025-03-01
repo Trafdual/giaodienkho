@@ -1,14 +1,15 @@
 import { useState, useEffect, useRef } from 'react'
 import { db, ref, push, onValue } from '../../../firebase/firebase'
+import { useNavigate } from 'react-router-dom'
 
 const SupportChat = () => {
-  const [users, setUsers] = useState([]) // Danh sách người dùng
-  const [selectedUser, setSelectedUser] = useState(null) // User đang được chọn
-  const [messages, setMessages] = useState([]) // Tin nhắn của user được chọn
+  const navigate = useNavigate()
+  const [users, setUsers] = useState([])
+  const [selectedUser, setSelectedUser] = useState(null)
+  const [messages, setMessages] = useState([])
   const [inputMessage, setInputMessage] = useState('')
   const chatBodyRef = useRef()
 
-  // Lấy danh sách người dùng từ Firebase
   useEffect(() => {
     const usersRef = ref(db, 'messages')
     const unsubscribe = onValue(usersRef, snapshot => {
@@ -22,7 +23,14 @@ const SupportChat = () => {
     return () => unsubscribe()
   }, [])
 
-  // Lấy tin nhắn của user được chọn
+  useEffect(() => {
+    const token =
+      sessionStorage.getItem('token') || localStorage.getItem('token')
+    if (!token) {
+      navigate('/')
+    }
+  }, [navigate])
+
   useEffect(() => {
     if (!selectedUser) return
 
@@ -32,7 +40,6 @@ const SupportChat = () => {
       const data = snapshot.val()
 
       if (data) {
-        // Chuyển đổi dữ liệu thành mảng tin nhắn
         for (const key in data) {
           msgList.push({ ...data[key], id: key })
         }
@@ -44,21 +51,19 @@ const SupportChat = () => {
     return () => unsubscribe()
   }, [selectedUser])
 
-  // Cuộn tin nhắn đến cuối
   useEffect(() => {
     if (chatBodyRef.current) {
       chatBodyRef.current.scrollTop = chatBodyRef.current.scrollHeight
     }
   }, [messages])
 
-  // Gửi tin nhắn
   const handleReply = () => {
     if (inputMessage.trim() === '' || !selectedUser) return
 
     const messageData = {
       name: 'Tổng đài',
       message: inputMessage,
-      isSupport: true, // Tin nhắn từ support
+      isSupport: true,
       timestamp: Date.now()
     }
 

@@ -20,7 +20,10 @@ import {
 import { ModalQrThanhToan } from './ModalQrThanhToan'
 import { handleGeneratePDF } from './InHoaDon/InHoaDon'
 import { useToast } from '~/components/GlobalStyles/ToastContext'
+import { useNavigate } from 'react-router-dom'
+
 function BanHangLayout () {
+  const navigate = useNavigate()
   const [currentTime, setCurrentTime] = useState(new Date())
   const [issOpenModalQR, setIsOpenModalQR] = useState(false)
   const { showToast } = useToast()
@@ -50,13 +53,13 @@ function BanHangLayout () {
 
   const [textkh, settextkh] = useState('')
   const methods = ['Tiền mặt', 'Chuyển khoản']
-  const [datcoc, setdatcoc] = useState(0)
+  const [datcoc, setdatcoc] = useState('0')
   const [method, setmethod] = useState('Tiền mặt')
   const [nganhangs, setnganhangs] = useState([])
   const [isFocused, setIsFocused] = useState(false)
 
   const [datakhachang, setdatakhachang] = useState([])
-  const [inputValue, setInputValue] = useState(0)
+  const [tienmat, settienmat] = useState('0')
 
   const storedKhoID = localStorage.getItem('khoIDBH')
   const userId = getFromLocalStorage('userId') || ''
@@ -64,7 +67,14 @@ function BanHangLayout () {
 
   const inputRef = useRef()
 
-  // Hàm xử lý khi checkbox được tích hoặc bỏ tích
+  useEffect(() => {
+    const token =
+      sessionStorage.getItem('token') || localStorage.getItem('token')
+    if (!token) {
+      navigate('/')
+    }
+  }, [navigate])
+
   const handleCheckboxChange = () => {
     setIsChecked(prevState => {
       const newCheckedState = !prevState
@@ -293,7 +303,7 @@ function BanHangLayout () {
     return valid
   }
   const handleThanhToan = async () => {
-    const tienkhachtra = inputValue === 0 ? totalAmount : inputValue
+    const tienkhachtra = tienmat === 0 ? totalAmount : tienmat
 
     const products = selectedItems.map(row => ({
       imelist: row.selectedImeis,
@@ -412,7 +422,6 @@ function BanHangLayout () {
                           onClick={() => setInputSoLuong(true)}
                           onMouseLeave={() => {
                             setInputSoLuong(false)
-                            handleManualQuantityChange(item.idsku, item.soluong)
                           }}
                         >
                           {!InputSoLuong ? (
@@ -448,7 +457,6 @@ function BanHangLayout () {
                           onClick={() => setInputDonGian(true)}
                           onMouseLeave={() => {
                             setInputDonGian(false)
-                            handleManualQuantityChange(item.idsku, item.dongia)
                           }}
                         >
                           {!InputDonGian ? (
@@ -528,9 +536,7 @@ function BanHangLayout () {
                   open={isTableKhachHang}
                   onRequestClose={() => setisTableKhachHang(false)}
                   html={
-                    <div
-                      className='supplier-table-container'
-                    >
+                    <div className='supplier-table-container'>
                       <table className='supplier-info-table'>
                         <thead>
                           <tr>
@@ -538,21 +544,27 @@ function BanHangLayout () {
                           </tr>
                         </thead>
                         <tbody>
-                          {datakhachang.map((khachhang, index) => (
-                            <tr className='trdulieu' key={index}>
-                              <td
-                                onClick={() => {
-                                  setmakh(khachhang.makh)
-                                  settextkh(
-                                    `${khachhang.name} - ${khachhang.phone}`
-                                  )
-                                  setisTableKhachHang(!isTableKhachHang)
-                                }}
-                              >
-                                {khachhang.name} - {khachhang.phone}
-                              </td>
+                          {datakhachang.length > 0 ? (
+                            datakhachang.map((khachhang, index) => (
+                              <tr className='trdulieu' key={index}>
+                                <td
+                                  onClick={() => {
+                                    setmakh(khachhang.makh)
+                                    settextkh(
+                                      `${khachhang.name} - ${khachhang.phone}`
+                                    )
+                                    setisTableKhachHang(!isTableKhachHang)
+                                  }}
+                                >
+                                  {khachhang.name} - {khachhang.phone}
+                                </td>
+                              </tr>
+                            ))
+                          ) : (
+                            <tr>
+                              <td>Không có dữ liệu</td>
                             </tr>
-                          ))}
+                          )}
                         </tbody>
                       </table>
                     </div>
@@ -585,8 +597,15 @@ function BanHangLayout () {
                 <span>Đặt cọc</span>
                 <input
                   type='text'
-                  value={datcoc}
-                  onChange={e => setdatcoc(e.target.value)}
+                  value={new Intl.NumberFormat().format(
+                    datcoc.replace(/\./g, '')
+                  )}
+                  onChange={e => {
+                    const value = e.target.value.replace(/\D/g, '')
+                    if (value === '' || Number(value) < totalAmount) {
+                      setdatcoc(value)
+                    }
+                  }}
                   className='inputBanHang'
                 />
               </div>
@@ -604,9 +623,7 @@ function BanHangLayout () {
                   open={isTableMethod}
                   onRequestClose={() => setisTableMethod(false)}
                   html={
-                    <div
-                      className='supplier-table-container'
-                    >
+                    <div className='supplier-table-container'>
                       <table className='supplier-info-table'>
                         <thead>
                           <tr>
@@ -636,15 +653,22 @@ function BanHangLayout () {
                   </span>
                 </Tooltip>
                 <input
-                  onClick={() => setIsFocused(true)} 
+                  onClick={() => setIsFocused(true)}
                   onBlur={() => setIsFocused(false)}
                   className={isFocused ? 'border-bottom' : 'inputBanHang'}
                   value={
-                    inputValue
-                      ? inputValue.toLocaleString()
-                      : totalAmount.toLocaleString()
+                    tienmat
+                      ? new Intl.NumberFormat().format(
+                          tienmat.replace(/\./g, '')
+                        )
+                      : new Intl.NumberFormat().format(
+                          totalAmount.replace(/\./g, '')
+                        )
                   }
-                  onChange={e => setInputValue(e.target.value)}
+                  onChange={e => {
+                    const rawValue = e.target.value.replace(/\./g, '')
+                    settienmat(rawValue === '' ? '0' : rawValue)
+                  }}
                 />
               </div>
               {method === 'Chuyển khoản' && (
@@ -659,9 +683,7 @@ function BanHangLayout () {
                     open={isTableNganHang}
                     onRequestClose={() => setisTableNganHang(false)}
                     html={
-                      <div
-                        className='supplier-table-container'
-                      >
+                      <div className='supplier-table-container'>
                         <table className='supplier-info-table'>
                           <thead>
                             <tr>
@@ -702,9 +724,11 @@ function BanHangLayout () {
               <div className='summary-item'>
                 <span>Trả lại khách</span>
                 <span>
-                  {inputValue
-                    ? Number(inputValue - totalAmount).toLocaleString()
-                    : Number(totalAmount - totalAmount).toLocaleString()}
+                  {tienmat && datcoc !== 0
+                    ? (
+                        Number(tienmat || 0) - Number(totalAmount || 0)
+                      ).toLocaleString()
+                    : 0}
                 </span>
               </div>
             </div>
@@ -740,9 +764,9 @@ function BanHangLayout () {
             </div>
 
             <div className='cash-suggestions'>
-              <button onClick={() => setInputValue('500000')}>500.000</button>
-              <button onClick={() => setInputValue('200000')}>200.000</button>
-              <button onClick={() => setInputValue('100000')}>100.000</button>
+              <button onClick={() => settienmat('500000')}>500.000</button>
+              <button onClick={() => settienmat('200000')}>200.000</button>
+              <button onClick={() => settienmat('100000')}>100.000</button>
             </div>
 
             <div className='checkout-actions'>

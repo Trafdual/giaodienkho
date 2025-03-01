@@ -7,8 +7,10 @@ import Datepicker from '../../components/Calendar/DatePicker'
 import './LenhDieuChuyen.scss'
 import { PaginationComponent } from '~/components/NextPage'
 import { ModalDelete } from '~/components/ModalDelete'
+import { useNavigate } from 'react-router-dom'
 
 function LenhDieuChuyen () {
+  const navigate = useNavigate()
   const [orders, setOrders] = useState([])
   const [filteredOrders, setFilteredOrders] = useState([])
   const [filterStatus, setFilterStatus] = useState('Chờ xác nhận')
@@ -27,13 +29,20 @@ function LenhDieuChuyen () {
   const totalPages = Math.ceil(orders.length / itemsPerPage)
   const totalResults = orders.length
 
-  // Chuyển trang
   const handlePageChange = pageNumber => {
     setCurrentPage(pageNumber)
   }
 
+  useEffect(() => {
+    const token =
+      sessionStorage.getItem('token') || localStorage.getItem('token')
+    if (!token) {
+      navigate('/')
+    }
+  }, [navigate])
+
   const fetchOrders = async () => {
-    setIsLoading(true) // Bắt đầu tải
+    setIsLoading(true)
     try {
       const url =
         beginDate && endDate
@@ -51,7 +60,6 @@ function LenhDieuChuyen () {
     }
   }
 
-
   const filterOrders = (orders, status) => {
     const filtered =
       status === 'Chờ xác nhận'
@@ -61,7 +69,7 @@ function LenhDieuChuyen () {
   }
 
   useEffect(() => {
-    fetchOrders() 
+    fetchOrders()
   }, [showToast])
 
   const handleFilterChange = status => {
