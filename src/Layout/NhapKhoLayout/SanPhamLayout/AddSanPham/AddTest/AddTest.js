@@ -184,7 +184,7 @@ function AddTest ({ isOpen, onClose, fetclohang, malohang }) {
   const resetForm = useCallback(() => {
     setName('')
     setmancc('')
-    setloaihanghoa('')
+    setloaihanghoa('Điện thoại')
     setNameError('')
     setdateError('')
     setmanccError('')
@@ -197,11 +197,10 @@ function AddTest ({ isOpen, onClose, fetclohang, malohang }) {
 
   const handleDateChange = selectedDate => {
     setdate(selectedDate)
-    setIsDatePickerOpen(false) // Ẩn DatePicker khi chọn xong
+    setIsDatePickerOpen(false)
   }
 
   const handleTimeChange = newTime => {
-    // Chỉ đóng tooltip nếu có thay đổi giá trị
     if (newTime !== time) {
       settime(newTime)
     }
@@ -244,6 +243,12 @@ function AddTest ({ isOpen, onClose, fetclohang, malohang }) {
     return valid
   }
 
+  const handleclosetippy = setopen => {
+    setopen(prev => !prev)
+  }
+
+  console.log('isTableMethod: ', isTableMethod)
+
   return (
     <ModalBig isOpen={isOpen} onClose={handleClose}>
       <div className='divAddLoHang'>
@@ -278,12 +283,10 @@ function AddTest ({ isOpen, onClose, fetclohang, malohang }) {
             </div>
             <div className='divinputmethod'>
               <Tooltip
-                key={isTableMethod ? 'open' : 'closed'}
-                trigger='click'
                 interactive
                 arrow
                 position='bottom'
-                onRequestClose={() => setIsTableMethod(false)}
+                open={isTableMethod}
                 html={
                   <div
                     className='supplier-table-container'
@@ -316,6 +319,7 @@ function AddTest ({ isOpen, onClose, fetclohang, malohang }) {
                 <button
                   className='divChonncc'
                   disabled={payment !== 'thanhtoanngay'}
+                  onClick={() => setIsTableMethod(!isTableMethod)}
                 >
                   {method ? `${method}` : 'Chọn phương thức'}
                   <FontAwesomeIcon icon={faChevronDown} className='iconNcc' />
@@ -380,10 +384,7 @@ function AddTest ({ isOpen, onClose, fetclohang, malohang }) {
             position='bottom'
             onRequestClose={() => setIsTableVisible(false)}
             html={
-              <div
-                className='supplier-table-container'
-                ref={tooltipRefNcc}
-              >
+              <div className='supplier-table-container' ref={tooltipRefNcc}>
                 {loadingSuppliers ? (
                   <p>Đang tải danh sách nhà cung cấp...</p>
                 ) : (
@@ -395,22 +396,28 @@ function AddTest ({ isOpen, onClose, fetclohang, malohang }) {
                       </tr>
                     </thead>
                     <tbody>
-                      {suppliers.map>0?suppliers.map(supplier => (
-                        <tr
-                          className='trdulieu'
-                          key={supplier.id}
-                          onClick={() => {
-                            setmancc(supplier.mancc)
-                            setIsTableVisible(false)
-                            setmanccError('')
-                          }}
-                        >
-                          <td>{supplier.mancc}</td>
-                          <td>{supplier.name}</td>
+                      {suppliers.map > 0 ? (
+                        suppliers.map(supplier => (
+                          <tr
+                            className='trdulieu'
+                            key={supplier.id}
+                            onClick={() => {
+                              setmancc(supplier.mancc)
+                              setIsTableVisible(false)
+                              setmanccError('')
+                            }}
+                          >
+                            <td>{supplier.mancc}</td>
+                            <td>{supplier.name}</td>
+                          </tr>
+                        ))
+                      ) : (
+                        <tr>
+                          <td colSpan={2} style={{ textAlign: 'center' }}>
+                            Không có dữ liệu
+                          </td>
                         </tr>
-                      )): <tr>
-                        <td colSpan={2} style={{ textAlign: 'center' }}>Không có dữ liệu</td>
-                        </tr>}
+                      )}
                     </tbody>
                   </table>
                 )}

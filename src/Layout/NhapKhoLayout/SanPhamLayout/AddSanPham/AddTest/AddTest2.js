@@ -45,6 +45,7 @@ function AddTest2 ({
   const [isEditingIMEI, setIsEditingIMEI] = useState([])
   const [isEditingPrice, setIsEditingPrice] = useState([])
   const [isEditingSoluong, setIsEditingSoluong] = useState([])
+  const [isEditingTotal, setIsEditingTotal] = useState([])
 
   const [isRemoving, setIsRemoving] = useState(true)
   const [selectedSKUs, setSelectedSKUs] = useState([])
@@ -72,6 +73,13 @@ function AddTest2 ({
   }
   const toggleSoluongEdit = index => {
     setIsEditingSoluong(prev => {
+      const updated = Array.isArray(prev) ? [...prev] : []
+      updated[index] = !updated[index]
+      return updated
+    })
+  }
+  const toggleSoluongTotal = index => {
+    setIsEditingTotal(prev => {
       const updated = Array.isArray(prev) ? [...prev] : []
       updated[index] = !updated[index]
       return updated
@@ -197,9 +205,21 @@ function AddTest2 ({
         const updatedRow = { ...row, [field]: value }
 
         if (field === 'price' || field === 'soluong') {
-          const price = parseFloat(updatedRow.price.replace(/\./g, '')) || 0
+          const price = parseFloat(
+            (typeof updatedRow.price === 'string'
+              ? updatedRow.price.replace(/\./g, '')
+              : updatedRow.price) || 0
+          )
           const quantity = updatedRow.soluong || 0
           updatedRow.tongtien = price * quantity
+        } else if (field === 'tongtien') {
+          const tongtien = parseFloat(
+            (typeof updatedRow.tongtien === 'string'
+              ? updatedRow.tongtien.replace(/\./g, '')
+              : updatedRow.tongtien) || 0
+          )
+          const quantity = parseFloat(updatedRow.soluong || 0)
+          updatedRow.price = tongtien / quantity
         }
 
         return updatedRow
@@ -293,7 +313,7 @@ function AddTest2 ({
       }
     }
   }
-  console.log(rows)
+
   const deleteRow = index => {
     setRows(prevRows => prevRows.filter((_, rowIndex) => rowIndex !== index))
   }
@@ -317,7 +337,6 @@ function AddTest2 ({
       console.error('Lỗi khi xóa lô hàng:', error)
     }
   }
-  console.log(isClickButton)
 
   const fetchimel = async () => {
     try {
@@ -332,7 +351,6 @@ function AddTest2 ({
       console.error('Lỗi khi lấy dữ liệu imel:', error)
     }
   }
-  console.log(rows)
 
   useEffect(() => {
     if (malohang) {
@@ -380,6 +398,7 @@ function AddTest2 ({
                     <td
                       onClick={() => toggleIMEIEdit(index)}
                       style={{ cursor: 'pointer' }}
+                      
                     >
                       {isEditingIMEI[index] ? (
                         <div className='imel-input-container'>
@@ -452,28 +471,13 @@ function AddTest2 ({
                           }
                         }}
                         autoFocus
-                        onBlur={() => {
-                          setIsEditingSoluong(prev => {
-                            const updated = [...prev]
-                            updated[index] = false
-                            return updated
-                          })
-
-                          if (row.imel && row.imel.length > 0) {
-                            setRows(prevRows =>
-                              prevRows.map((r, i) =>
-                                i === index
-                                  ? { ...r, soluong: r.imel.length }
-                                  : r
-                              )
-                            )
-                          }
-                        }}
+                        onBlur={() => setIsEditingSoluong(false)}
                       />
                     ) : (
                       row.soluong || 'Nhập số lượng'
                     )}
                   </td>
+
                   <td onClick={() => togglePriceEdit(index)}>
                     {isEditingPrice[index] ? (
                       <input
@@ -493,7 +497,7 @@ function AddTest2 ({
                             (!isNaN(numericValue) && numericValue > 0) ||
                             rawValue === ''
                           ) {
-                            handleInputChange(index, 'price', rawValue) 
+                            handleInputChange(index, 'price', rawValue)
                           }
                         }}
                         autoFocus
@@ -507,7 +511,43 @@ function AddTest2 ({
                       'Nhập đơn giá'
                     )}
                   </td>
-                  <td>{new Intl.NumberFormat().format(row.tongtien)}</td>
+
+                  <td onClick={() => toggleSoluongTotal(index)}>
+                    {isEditingTotal[index] ? (
+                      <input
+                        type='text'
+                        placeholder='Tổng tiền'
+                        className='imel-input'
+                        value={
+                          row.tongtien
+                            ? new Intl.NumberFormat().format(row.tongtien)
+                            : ''
+                        }
+                        onChange={e => {
+                          const rawValue = e.target.value.replace(/\./g, '')
+                          const numericValue = parseFloat(rawValue)
+
+                          if (
+                            (!isNaN(numericValue) && numericValue > 0) ||
+                            rawValue === ''
+                          ) {
+                            handleInputChange(index, 'tongtien', rawValue)
+
+                            if (row.soluong) {
+                              handleInputChange(index, 'price', rawValue)
+                            }
+                          }
+                        }}
+                        autoFocus
+                        onBlur={() => setIsEditingTotal(false)}
+                      />
+                    ) : row.tongtien ? (
+                      new Intl.NumberFormat().format(row.tongtien)
+                    ) : (
+                      'Nhập tổng tiền'
+                    )}
+                  </td>
+
                   <td>
                     <button
                       className='btnDeleterow'

@@ -17,10 +17,12 @@ import { EditNhaCungCap } from './EditNhaCungCap'
 import { PaginationComponent } from '~/components/NextPage'
 import { getFromLocalStorage } from '~/components/MaHoaLocalStorage/MaHoaLocalStorage'
 import { useNavigate } from 'react-router-dom'
+import { ModalDelete2 } from '~/components/ModalDelete2'
 function NhaCungCapLayout () {
   const [nhacungcap, setnhacungcap] = useState([])
   const [isOpen, setIsOpen] = useState(false)
   const [isOpenEdit, setIsOpenEdit] = useState(false)
+  const [isOpenDelete, setIsOpenDelete] = useState(false)
   const [idncc, setidncc] = useState('')
   const [loading, setLoading] = useState(true)
   const [selectedItems, setSelectedItems] = useState([])
@@ -173,6 +175,7 @@ function NhaCungCapLayout () {
                       selectedItems.length === 0 ? 'disabled' : ''
                     }`}
                     disabled={selectedItems.length === 0}
+                    onClick={() => setIsOpenDelete(true)}
                   >
                     <FontAwesomeIcon
                       icon={faTrashCan}
@@ -240,6 +243,14 @@ function NhaCungCapLayout () {
               idncc={idncc}
               fetchdata={fetchData}
               setidncc={setidncc}
+            />
+            <ModalDelete2
+              isOpen={isOpenDelete}
+              onClose={() => setIsOpenDelete(false)}
+              seletecids={selectedItems}
+              fetchdata={fetchData}
+              link={'http://localhost:3015/deletencc'}
+              content={'Bạn có chắc chắn xóa nhà cung cấp này'}
             />
           </div>
           <div className='pagination1'>
