@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect, useRef } from 'react'
 import { useToast } from '../../../../../components/GlobalStyles/ToastContext'
@@ -36,7 +37,6 @@ function PostImel ({ isOpen, onClose }) {
   const [imel, setImel] = useState('')
   const [isEditingIMEI, setIsEditingIMEI] = useState([])
   const [rowimel, setRowimel] = useState([])
-
   const [isRemoving, setIsRemoving] = useState(true)
   const [selectedSKUs, setSelectedSKUs] = useState([])
   const [isOpenAddSKU, setIsOpenAddSKU] = useState(false)

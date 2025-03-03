@@ -3,6 +3,8 @@ import './DoanhThuLayout.scss'
 import { Loading } from '~/components/Loading'
 import { useNavigate } from 'react-router-dom'
 import * as XLSX from 'xlsx'
+import jsPDF from 'jspdf'
+import html2canvas from 'html2canvas'
 
 function DoanhThuLayout () {
   const formatDate = date => {
@@ -19,6 +21,7 @@ function DoanhThuLayout () {
   const [startDatetruoc, setStartDatetruoc] = useState(formatDate(new Date()))
   const [endDatetruoc, setendDatetruoc] = useState(formatDate(new Date()))
   const [loading, setLoading] = useState(false)
+  const [isExporting, setIsExporting] = useState(false)
 
   const khoID = localStorage.getItem('khoID')
 
@@ -36,7 +39,7 @@ function DoanhThuLayout () {
     setLoading(true)
     try {
       const response = await fetch(
-        `https://ansuataohanoi.com/getdoanhthu/${khoID}?fromDate=${startDate}&endDate=${endDate}&fromDatetruoc=${startDatetruoc}&endDatetruoc=${endDatetruoc}`,
+        `http://localhost:3015/getdoanhthu/${khoID}?fromDate=${startDate}&endDate=${endDate}&fromDatetruoc=${startDatetruoc}&endDatetruoc=${endDatetruoc}`,
         {
           method: 'POST',
           headers: {
@@ -62,7 +65,40 @@ function DoanhThuLayout () {
     XLSX.writeFile(wb, 'DoanhThu.xlsx')
   }
 
+  const handleExportPDF = async () => {
+    setIsExporting(true)
+    await new Promise(resolve => setTimeout(resolve, 300))
+
+    const element = document.querySelector('.doanh-thu-layout')
+
+    if (!element) return
+
+    const buttons = element.querySelectorAll('button')
+    buttons.forEach(btn => (btn.style.display = 'none'))
+
+    try {
+      const canvas = await html2canvas(element, { scale: 2 })
+      const imgData = canvas.toDataURL('image/png')
+
+      const pdf = new jsPDF('p', 'mm', 'a4')
+      const imgWidth = 210
+      const imgHeight = (canvas.height * imgWidth) / canvas.width
+
+      pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight)
+
+      const pdfBlob = pdf.output('blob')
+      const pdfURL = URL.createObjectURL(pdfBlob)
+      window.open(pdfURL)
+      setIsExporting(false)
+    } catch (error) {
+      console.error('Lỗi khi xuất PDF:', error)
+    } finally {
+      buttons.forEach(btn => (btn.style.display = ''))
+    }
+  }
+
   const handelphantram = (a, b) => {
+    if (!b) return 0
     const phantram = (a / b) * 100 - 100
     return phantram.toFixed(1)
   }
@@ -73,63 +109,92 @@ function DoanhThuLayout () {
       <div className='filter-section'>
         <div className='filter-group'>
           <label>Kỳ:</label>
-          <select
-            value={currentPeriod}
-            onChange={e => setCurrentPeriod(e.target.value)}
-          >
-            <option value='Kỳ trước'>Kỳ trước</option>
-          </select>
+          {isExporting ? (
+            <span>Kỳ trước</span>
+          ) : (
+            <select
+              value={currentPeriod}
+              onChange={e => setCurrentPeriod(e.target.value)}
+            >
+              <option value='Kỳ trước'>Kỳ trước</option>
+            </select>
+          )}
         </div>
+
         <div className='date-filter'>
           <div className='divtungay'>
             <label>Từ ngày:</label>
-            <input
-              type='date'
-              value={startDatetruoc}
-              onChange={e => setStartDatetruoc(e.target.value)}
-            />
+            {isExporting ? (
+              <span>{startDatetruoc || '...'}</span>
+            ) : (
+              <input
+                type='date'
+                value={startDatetruoc}
+                onChange={e => setStartDatetruoc(e.target.value)}
+              />
+            )}
           </div>
+
           <div className='divdenngay'>
             <label>Đến ngày:</label>
-            <input
-              type='date'
-              value={endDatetruoc}
-              onChange={e => setendDatetruoc(e.target.value)}
-            />
+            {isExporting ? (
+              <span>{endDatetruoc || '...'}</span>
+            ) : (
+              <input
+                type='date'
+                value={endDatetruoc}
+                onChange={e => setendDatetruoc(e.target.value)}
+              />
+            )}
           </div>
         </div>
       </div>
+      
       <div className='filter-section'>
         <div className='filter-group'>
           <label>Kỳ:</label>
-          <select
-            value={currentPeriod}
-            onChange={e => setCurrentPeriod(e.target.value)}
-          >
-            <option value='Kỳ hiện tại'>Kỳ hiện tại</option>
-          </select>
+          {isExporting ? (
+            <span>Kỳ hiện tại</span>
+          ) : (
+            <select
+              value={currentPeriod}
+              onChange={e => setCurrentPeriod(e.target.value)}
+            >
+              <option value='Kỳ trước'>Kỳ hiện tại</option>
+            </select>
+          )}
         </div>
+
         <div className='date-filter'>
           <div className='divtungay'>
             <label>Từ ngày:</label>
-            <input
-              type='date'
-              value={startDate}
-              onChange={e => setStartDate(e.target.value)}
-            />
+            {isExporting ? (
+              <span>{startDate || '...'}</span>
+            ) : (
+              <input
+                type='date'
+                value={startDate}
+                onChange={e => setStartDate(e.target.value)}
+              />
+            )}
           </div>
+
           <div className='divdenngay'>
             <label>Đến ngày:</label>
-            <input
-              type='date'
-              value={endDate}
-              onChange={e => setEndDate(e.target.value)}
-            />
+            {isExporting ? (
+              <span>{endDate || '...'}</span>
+            ) : (
+              <input
+                type='date'
+                value={endDate}
+                onChange={e => setEndDate(e.target.value)}
+              />
+            )}
           </div>
+          <button className='btn-get-data' onClick={handleDoanhThu}>
+            Lấy dữ liệu
+          </button>
         </div>
-        <button className='btn-get-data' onClick={handleDoanhThu}>
-          Lấy dữ liệu
-        </button>
       </div>
       <div className='table-section'>
         <table>
@@ -203,7 +268,7 @@ function DoanhThuLayout () {
                   : 0}
               </td>
             </tr>
-            {/* Phần III. Chi phí */}
+
             <tr>
               <td colSpan='5'>
                 <strong>II. Chi phí</strong>
@@ -248,36 +313,56 @@ function DoanhThuLayout () {
             <tr>
               <td>2. Chi phí khác</td>
               <td>
-                {data.thuchidoanhthutruoc
-                  ? data.thuchidoanhthutruoc.toLocaleString()
+                {data.tongThuChitruoc
+                  ? data.tongThuChitruoc.toLocaleString()
                   : 0}
               </td>
+              <td>{data.tongThuChi ? data.tongThuChi.toLocaleString() : 0}</td>
               <td>
-                {data.thuchidoanhthu ? data.thuchidoanhthu.toLocaleString() : 0}
-              </td>
-              <td>
-                {isNaN(
-                  handelphantram(data.thuchidoanhthu, data.thuchidoanhthutruoc)
-                )
+                {isNaN(handelphantram(data.tongThuChi, data.tongThuChitruoc))
                   ? 0
-                  : handelphantram(
-                      data.thuchidoanhthu,
-                      data.thuchidoanhthutruoc
-                    )}
+                  : handelphantram(data.tongThuChi, data.tongThuChitruoc)}
               </td>
               <td>
-                {parseFloat(data.thuchidoanhthu - data.thuchidoanhthutruoc)
+                {parseFloat(data.tongThuChi - data.tongThuChitruoc)
                   ? parseFloat(
-                      data.thuchidoanhthu - data.thuchidoanhthutruoc
+                      data.tongThuChi - data.tongThuChitruoc
                     ).toLocaleString()
                   : 0}
               </td>
             </tr>
 
-            {/* Phần IV. Lợi nhuận */}
             <tr>
               <td colSpan='5'>
-                <strong>III. Lợi nhuận</strong>
+                <strong>III. Công nợ</strong>
+              </td>
+            </tr>
+            <tr>
+              <td>Công nợ</td>
+              <td>
+                {data.tongCongNoTruoc
+                  ? data.tongCongNoTruoc.toLocaleString()
+                  : 0}
+              </td>
+              <td>{data.tongCongNo ? data.tongCongNo.toLocaleString() : 0}</td>
+              <td>
+                {isNaN(handelphantram(data.tongCongNo, data.tongCongNoTruoc))
+                  ? 0
+                  : handelphantram(data.tongCongNo, data.tongCongNoTruoc)}
+              </td>
+
+              <td>
+                {parseFloat(data.tongCongNo - data.tongCongNoTruoc)
+                  ? parseFloat(
+                      data.tongCongNo - data.tongCongNoTruoc
+                    ).toLocaleString()
+                  : 0}
+              </td>
+            </tr>
+
+            <tr>
+              <td colSpan='5'>
+                <strong>IV. Lợi nhuận</strong>
               </td>
             </tr>
             <tr>
@@ -310,7 +395,9 @@ function DoanhThuLayout () {
         </table>
       </div>
       <div className='actions'>
-        <button className='btn-print'>In</button>
+        <button className='btn-print' onClick={handleExportPDF}>
+          In
+        </button>
         <button className='btn-export' onClick={handleExportExcel}>
           Xuất Excel
         </button>

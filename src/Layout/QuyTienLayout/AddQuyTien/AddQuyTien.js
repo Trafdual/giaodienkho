@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useCallback, useEffect, useRef } from 'react'
 import { useToast } from '~/components/GlobalStyles/ToastContext'

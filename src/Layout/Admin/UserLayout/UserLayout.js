@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from 'react'
 import { FaEdit, FaPlus } from 'react-icons/fa'
@@ -17,7 +18,6 @@ function UserLayout () {
   const [isOpen, setIsOpen] = useState(false)
   const [isOpenXoaTL, setisOpenXoaTL] = useState(false)
   const [isOpenCapNhat, setisOpenCapNhat] = useState(false)
-  const [isOpenChamCong, setisOpenChamCong] = useState(false)
 
   const fetchdata = async () => {
     try {

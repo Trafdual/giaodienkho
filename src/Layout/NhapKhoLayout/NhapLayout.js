@@ -41,6 +41,7 @@ function NhapKhoLayout () {
   const [height, setHeight] = useState(400)
   const [isDragging, setIsDragging] = useState(false)
   const [startY, setStartY] = useState(0)
+  // eslint-disable-next-line no-unused-vars
   const [resizerPosition, setResizerPosition] = useState(400)
   const [remainingHeight, setRemainingHeight] = useState(
     window.innerHeight - 500

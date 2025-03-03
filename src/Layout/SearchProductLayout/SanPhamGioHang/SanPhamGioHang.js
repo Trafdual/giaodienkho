@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from 'react'
 import './SanPhamGioHang.scss'
 
@@ -8,19 +9,17 @@ function SanPhamGioHang ({
   setselectAll
 }) {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
-  const [checkedItems, setCheckedItems] = useState([]) // Trạng thái lưu sản phẩm được chọn
+  const [checkedItems, setCheckedItems] = useState([])
 
-  // Hàm xử lý khi chọn/bỏ chọn một sản phẩm
   const handleCheckboxChange = id => {
     setCheckedItems(
       prevCheckedItems =>
         prevCheckedItems.includes(id)
-          ? prevCheckedItems.filter(itemId => itemId !== id) // Bỏ chọn nếu đã có
-          : [...prevCheckedItems, id] // Thêm vào danh sách nếu chưa có
+          ? prevCheckedItems.filter(itemId => itemId !== id) 
+          : [...prevCheckedItems, id] 
     )
   }
 
-  // Hàm xử lý xóa sản phẩm đã chọn
   const handleDeleteSelected = () => {
     const updatedSanPham = selectedsanpham.filter(
       sanpham => !checkedItems.includes(sanpham._id)
@@ -58,11 +57,9 @@ function SanPhamGioHang ({
                     type='checkbox'
                     onChange={e => {
                       if (e.target.checked) {
-                        // Chọn tất cả sản phẩm
                         const allIds = selectedsanpham.map(ncc => ncc._id)
                         setCheckedItems(allIds)
                       } else {
-                        // Bỏ chọn tất cả sản phẩm
                         setCheckedItems([])
                       }
                     }}

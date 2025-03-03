@@ -14,7 +14,7 @@ import './Header.scss'
 import { ListKho } from './ListKho'
 import { AddKho } from './AddKho'
 import { useToast } from '../../../components/GlobalStyles/ToastContext'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { Loading } from '~/components/Loading'
 import NotificationsList from '~/components/Notifications/Notification'
 import { Modal } from '~/components/Modal'
@@ -51,11 +51,7 @@ function Header ({
       setIsModalOpen(true)
     }
   }, [selectedKho])
-  const handleKhoChange = kho => {
-    setSelectedKho(kho)
-    localStorage.setItem('khoID', kho._id)
-    setIsModalOpen(false)
-  }
+
   useEffect(() => {
     const intervalId = setInterval(() => {
       const newKhoID = localStorage.getItem('khoID') || ''

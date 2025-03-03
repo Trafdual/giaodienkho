@@ -1,11 +1,11 @@
 import {
   faCircleQuestion,
-  faFloppyDisk,
   faRightFromBracket,
   faXmark
 } from '@fortawesome/free-solid-svg-icons'
 import { Modal } from '~/components/Modal'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
 
 function ModalDangXuat ({ dangxuat, Cancel, isOpen }) {
   return (

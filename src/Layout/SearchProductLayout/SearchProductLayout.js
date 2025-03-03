@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -40,7 +41,6 @@ function SearchProductLayout () {
   const [printBarcodeItem, setPrintBarcodeItem] = useState(null)
   const [openModalbarcode, setOpenmodalbarcode] = useState(false)
   const [isOpenModalTraHang, setIsOpenModalTraHang] = useState(false)
-  const [selectedImei, setSelectedImei] = useState('')
   const [height, setHeight] = useState(400)
   const [isDragging, setIsDragging] = useState(false)
   const [startY, setStartY] = useState(0)

@@ -3,7 +3,6 @@ import { useState } from 'react'
 import { Modal } from '../../../../components/Modal'
 import { FormAddTay } from './FormAddTay'
 import { FormAddImel } from './FormAddImel'
-import { AddTest } from './AddTest'
 
 function AddSanPham ({ isOpen, onClose, loaispid, fetchData, fetchlohang }) {
   const [isOpenForm, setIsOpenForm] = useState(false)

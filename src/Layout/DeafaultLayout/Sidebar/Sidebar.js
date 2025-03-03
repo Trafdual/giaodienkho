@@ -256,7 +256,13 @@ function Sidebar ({ isActive, setIsActive }) {
                 )}
               </Link>
             ) : (
-              <a onClick={() => toggleDropdown(item.dropdownKey)}>
+              <a
+                onClick={e => {
+                  e.preventDefault()
+                  toggleDropdown(item.dropdownKey)
+                }}
+                href='#'
+              >
                 <span className='icon'>
                   <FontAwesomeIcon className='fonticon' icon={item.icon} />
                 </span>

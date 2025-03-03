@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useCallback, useEffect, useRef } from 'react'
 import { useToast } from '../../../../../components/GlobalStyles/ToastContext'
@@ -243,10 +244,6 @@ function AddTest ({ isOpen, onClose, fetclohang, malohang }) {
     return valid
   }
 
-  const handleclosetippy = setopen => {
-    setopen(prev => !prev)
-  }
-
   console.log('isTableMethod: ', isTableMethod)
 
   return (
@@ -283,14 +280,17 @@ function AddTest ({ isOpen, onClose, fetclohang, malohang }) {
             </div>
             <div className='divinputmethod'>
               <Tooltip
+                trigger='click'
                 interactive
                 arrow
                 position='bottom'
-                open={isTableMethod}
+                onRequestClose={() => setIsTableMethod(false)}
+                ref = { tooltipRefMethod }
+
                 html={
                   <div
                     className='supplier-table-container'
-                    ref={tooltipRefMethod}
+                   
                   >
                     <table className='supplier-info-table'>
                       <thead>
@@ -305,7 +305,7 @@ function AddTest ({ isOpen, onClose, fetclohang, malohang }) {
                             key={index}
                             onClick={() => {
                               setmethod(paymentMethod)
-                              setIsTableMethod(false)
+                             
                             }}
                           >
                             <td>{paymentMethod}</td>
@@ -319,7 +319,6 @@ function AddTest ({ isOpen, onClose, fetclohang, malohang }) {
                 <button
                   className='divChonncc'
                   disabled={payment !== 'thanhtoanngay'}
-                  onClick={() => setIsTableMethod(!isTableMethod)}
                 >
                   {method ? `${method}` : 'Chọn phương thức'}
                   <FontAwesomeIcon icon={faChevronDown} className='iconNcc' />

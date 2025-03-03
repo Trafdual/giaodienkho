@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
 import "./Footer.scss";
 
@@ -45,13 +46,13 @@ const Footer = () => {
         <div></div>
         <p>
           Công ty cổ phần BICRAFT &nbsp; | &nbsp; Copyright © 2017 - 2024 MISA JSC &nbsp; | &nbsp; <a href="#!">Thỏa thuận quyền sử dụng</a> &nbsp; | &nbsp; 
-          <a href="#!">Chính sách bảo mật</a>
+          <a href="#">Chính sách bảo mật</a>
         </p>
         
         <div className="social-icons">
           <img className="fab" src="https://eshop.misa.vn/help/vi/help/images/ic-facebook.svg" alt=""/>
-          <img className="fab" src="	https://eshop.misa.vn/help/vi/help/images/ic-youtube.svg"/>
-          <img className="fab" src="	https://eshop.misa.vn/help/vi/help/images/ic-share.svg"/>
+          <img className="fab" src="	https://eshop.misa.vn/help/vi/help/images/ic-youtube.svg" alt=""/>
+          <img className="fab" src="	https://eshop.misa.vn/help/vi/help/images/ic-share.svg" alt=""/>
         </div>
       </div>
     </footer>
