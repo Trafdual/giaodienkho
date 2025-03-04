@@ -43,10 +43,7 @@ const ModalThemImel = ({
           <div className='ModalThemImel-header'>
             <h3 className='ModalThemImel-title'>
               Serial/IMEI
-              <FontAwesomeIcon
-                icon={faSyncAlt}
-                className='ModalThemImel-refresh'
-              />
+              
             </h3>
             <button className='ModalThemImel-close' onClick={onClose}>
               <FontAwesomeIcon icon={faXmark} />

@@ -108,6 +108,10 @@
       h4 {
         font-size: 14px;
         margin: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 100px;
       }
     }
 
@@ -275,7 +279,8 @@
   background-position-y: -630px;
   background-size: 378px auto;
 }
-.itrangquanly{
+
+.itrangquanly {
   background-image: url('../../../../public/LOGO.png');
   display: inline-block;
   background-repeat: no-repeat;

@@ -147,7 +147,7 @@ function HeaderBanHang ({ userId, username }) {
             interactive={true}
             visible={showNotifications}
             placement='bottom'
-           
+           render={()=><></>}
           >
             <button
               className='btn-icon'

@@ -16,7 +16,8 @@ import {
   faChevronDown,
   faPlus,
   faToggleOff,
-  faToggleOn
+  faToggleOn,
+  faXmark
 } from '@fortawesome/free-solid-svg-icons'
 import { ModalQrThanhToan } from './ModalQrThanhToan'
 import { handleGeneratePDF } from './InHoaDon/InHoaDon'
@@ -101,8 +102,6 @@ function BanHangLayout () {
 
     return `${day}/${month}/${year} - ${hours}:${minutes}`
   }
-
-  //....
 
   const handleItemsSelected = items => {
     const updatedItems = items.map(item => ({
@@ -354,7 +353,7 @@ function BanHangLayout () {
       <div className='row'>
         <div className='column left-column'>
           <div className='head'>
-            <div className='search-bar-section'>
+            {/* <div className='search-bar-section'>
               <div className='search-bar'>
                 <label>Tìm kiếm</label>
                 <input
@@ -368,7 +367,7 @@ function BanHangLayout () {
                 <FaUser className='staff-icon' />
                 <FaUserTag className='price-tag-icon' />
               </div>
-            </div>
+            </div> */}
             <div className='selected-products-container'>
               <h3>Danh sách sản phẩm đã chọn:</h3>
               <table className='product-table'>
@@ -454,15 +453,8 @@ function BanHangLayout () {
                             />
                           )}
                         </td>
-                        <td
-                          onClick={() => setInputDonGian(true)}
-                          onMouseLeave={() => {
-                            setInputDonGian(false)
-                          }}
-                        >
-                          {!InputDonGian ? (
-                            item.dongia.toLocaleString()
-                          ) : (
+                        <td onClick={() => setInputDonGian(true)}>
+                          {InputDonGian ? (
                             <input
                               type='number'
                               placeholder='Nhập đơn giá'
@@ -476,18 +468,20 @@ function BanHangLayout () {
                               }}
                               className={`inputbanhang`}
                             />
+                          ) : (
+                            item.dongia?.toLocaleString() || 0
                           )}
                         </td>
                         <td>
-                          {item.thanhtien ? item.thanhtien.toLocaleString() : 0}
-                          VND
+                          {item.thanhtien ? item.thanhtien.toLocaleString() : 0}{' '}
+                          VNĐ
                         </td>
                         <td>
                           <button
                             className='remove-btn'
                             onClick={() => handleRemove(index)}
                           >
-                            X
+                            <FontAwesomeIcon icon={faXmark} />
                           </button>
                         </td>
                       </tr>
@@ -527,7 +521,9 @@ function BanHangLayout () {
 
             <div className='customer-info'>
               <div className='customer-input-section'>
-                <MdSearch className='iconbanhang' />
+                <span className='iconbanhang'>
+                  <MdSearch />
+                </span>
 
                 <Tooltip
                   trigger='click'
@@ -725,11 +721,13 @@ function BanHangLayout () {
               <div className='summary-item'>
                 <span>Trả lại khách</span>
                 <span>
-                  {tienmat && datcoc !== 0
+                  {tienmat && datcoc === 0
                     ? (
                         Number(tienmat || 0) - Number(totalAmount || 0)
                       ).toLocaleString()
-                    : 0}
+                    : (
+                        Number(tienmat || 0) - Number(datcoc || 0)
+                      ).toLocaleString()}
                 </span>
               </div>
             </div>

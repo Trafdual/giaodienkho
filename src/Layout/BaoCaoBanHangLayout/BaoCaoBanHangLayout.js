@@ -99,56 +99,22 @@ function BaoCaoBanHangLayout () {
           <thead>
             <tr>
               <th>Ngày</th>
-              <th>
-                Tổng
-                <br />
-                (1)=(3)+(4)-(5)-(14)
-              </th>
-              <th>
-                Tiền hàng
-                <br />
-                (3)
-              </th>
-              <th>
-                Tiền phí
-                <br />
-                (4)
-              </th>
-              <th>
-                Khuyến mại
-                <br />
-                (5)
-              </th>
-              <th>
-                Tỷ lệ KM (%)
-                <br />
-                (6)
-              </th>
-              <th>
-                Tiền mặt
-                <br />
-                (7)
-              </th>
+              <th>Tổng</th>
+              <th>Tiền hàng</th>
+              <th>Tiền phí</th>
+              <th>Khuyến mại</th>
+              <th>Tỷ lệ KM (%)</th>
+              <th>Tiền mặt</th>
               <th>Chuyển khoản</th>
-              <th>
-                Công nợ
-                <br />
-                (11)
-              </th>
-              <th>
-                Thu hộ <br />
-                (12)
-              </th>
-              <th>
-                Thực thu <br />
-                (13) = (1) -(11) -(12)
-              </th>
+              <th>Công nợ</th>
+              <th>Thu hộ</th>
+              <th>Thực thu</th>
             </tr>
           </thead>
           <tbody>
             {data.length > 0 ? (
               data.map((item, index) => (
-                <tr>
+                <tr key={index}>
                   <td>{item.date}</td>
                   <td>{(item.tienmat + item.chuyenkhoan).toLocaleString()}</td>
                   <td>{(item.tienmat + item.chuyenkhoan).toLocaleString()}</td>

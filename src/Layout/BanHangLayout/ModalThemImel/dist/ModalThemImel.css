@@ -1,4 +1,3 @@
-@charset "UTF-8";
 .ModalThemImel-overlay {
   position: fixed;
   top: 0;
@@ -16,11 +15,10 @@
   background: #fff;
   border-radius: 8px;
   width: 400px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .ModalThemImel-header {
-  background: #f5f5f5;
+  background: linear-gradient(135deg, #0b8df8, #1ccffc);
   padding: 12px;
   display: flex;
   justify-content: space-between;
@@ -28,6 +26,7 @@
   border-bottom: 1px solid #ddd;
   cursor: move;
   border-radius: 8px;
+  color: white;
 }
 
 .ModalThemImel-title {
@@ -47,7 +46,7 @@
   border: none;
   font-size: 20px;
   cursor: pointer;
-  color: #333;
+  color: white;
 }
 
 .ModalThemImel-body {
@@ -108,7 +107,7 @@
 }
 
 .ModalThemImel-confirm {
-  background: #007bff;
+  background: linear-gradient(135deg, #0b8df8, #1ccffc);
   color: #fff;
   margin-right: 8px;
 }
@@ -137,16 +136,13 @@
 
 .custom-checkbox-input {
   display: none;
-  /* Ẩn checkbox mặc định */
 }
 
-/* Thiết kế hộp checkbox */
 .custom-checkbox-box {
   width: 20px;
   height: 20px;
   border: 2px solid #ccc;
   border-radius: 4px;
-  /* Tùy chỉnh để bo góc */
   background-color: white;
   display: flex;
   align-items: center;
@@ -155,7 +151,6 @@
   cursor: pointer;
 }
 
-/* Icon dấu tick */
 .custom-checkbox-box::after {
   content: "";
   width: 5px;
@@ -167,15 +162,11 @@
   transition: transform 0.2s ease;
 }
 
-/* Khi checkbox được chọn */
 .custom-checkbox-input:checked + .custom-checkbox-box {
-  background-color: var(--blue);
-  /* Màu nền khi được chọn */
+  background: linear-gradient(135deg, #0b8df8, #1ccffc);
   border-color: var(--blue);
-  /* Đổi màu viền */
 }
 
 .custom-checkbox-input:checked + .custom-checkbox-box::after {
   transform: rotate(45deg) scale(1);
-  /* Hiển thị dấu tick */
 }

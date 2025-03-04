@@ -96,6 +96,10 @@
 .topbar1 .user1 .user-info h4 {
   font-size: 14px;
   margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100px;
 }
 .topbar1 .user1 .help {
   display: flex;
