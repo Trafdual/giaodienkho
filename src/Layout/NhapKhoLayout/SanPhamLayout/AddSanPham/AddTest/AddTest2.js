@@ -9,7 +9,6 @@ import {
   faPlus,
   faTrashCan
 } from '@fortawesome/free-solid-svg-icons'
-import { Tooltip } from 'react-tippy'
 import 'react-tippy/dist/tippy.css'
 import './AddTest2.scss'
 import { ModalOnClose } from '~/components/ModalOnClose'
@@ -17,6 +16,7 @@ import { ModalAddSku } from './ModalAddSku'
 import { FormAddImel } from '../FormAddImel'
 import '~/components/Loadingnut/loadingnut.scss'
 import { getFromLocalStorage } from '~/components/MaHoaLocalStorage/MaHoaLocalStorage'
+import Tippy from '@tippyjs/react/headless'
 
 function AddTest2 ({
   fetchlohang,
@@ -67,7 +67,7 @@ function AddTest2 ({
 
   const togglePriceEdit = index => {
     setIsEditingPrice(prev => {
-      const updated = Array.isArray(prev) ? [...prev] : [] // Đảm bảo prev là mảng
+      const updated = Array.isArray(prev) ? [...prev] : []
       updated[index] = !updated[index]
       return updated
     })
@@ -100,7 +100,7 @@ function AddTest2 ({
   const fetchSku = async () => {
     try {
       const response = await fetch(
-        `https://ansuataohanoi.com/getdungluongsku/${userID}`
+        `http://localhost:3015/getdungluongsku/${userID}`
       )
       const data = await response.json()
 
@@ -143,7 +143,6 @@ function AddTest2 ({
       }
     ])
 
-    // Cập nhật danh sách SKU đã chọn
     setSelectedSKUs(prevSelectedSKUs => [
       ...prevSelectedSKUs,
       selectedSKU.madungluong
@@ -205,15 +204,21 @@ function AddTest2 ({
 
         const updatedRow = { ...row, [field]: value }
 
-        if (field === 'price' || field === 'soluong') {
+        if (
+          (field === 'price' || field === 'soluong') &&
+          field !== 'tongtien'
+        ) {
           const price = parseFloat(
             (typeof updatedRow.price === 'string'
               ? updatedRow.price.replace(/\./g, '')
               : updatedRow.price) || 0
           )
-          const quantity = updatedRow.soluong || 0
+          const quantity = parseFloat(updatedRow.soluong || 0)
+
           updatedRow.tongtien = price * quantity
-        } else if (field === 'tongtien') {
+        }
+
+        if (field === 'tongtien' && updatedRow.soluong > 0) {
           const tongtien = parseFloat(
             (typeof updatedRow.tongtien === 'string'
               ? updatedRow.tongtien.replace(/\./g, '')
@@ -321,7 +326,7 @@ function AddTest2 ({
 
   const handleDelete = async () => {
     try {
-      const response = await fetch(`https://ansuataohanoi.com/deletelohang`, {
+      const response = await fetch(`http://localhost:3015/deletelohang`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ malohang })
@@ -342,7 +347,7 @@ function AddTest2 ({
   const fetchimel = async () => {
     try {
       const response = await fetch(
-        `https://ansuataohanoi.com/getfullchitietlo/${malohang}`
+        `http://localhost:3015/getfullchitietlo/${malohang}`
       )
       if (response.ok) {
         const data = await response.json()
@@ -360,7 +365,7 @@ function AddTest2 ({
   }, [malohang])
 
   useEffect(() => {
-    const eventSource = new EventSource('https://ansuataohanoi.com/events')
+    const eventSource = new EventSource('http://localhost:3015/events')
 
     eventSource.onmessage = event => {
       const newMessage = JSON.parse(event.data)
@@ -399,7 +404,6 @@ function AddTest2 ({
                     <td
                       onClick={() => toggleIMEIEdit(index)}
                       style={{ cursor: 'pointer' }}
-                      
                     >
                       {isEditingIMEI[index] ? (
                         <div className='imel-input-container'>
@@ -506,7 +510,9 @@ function AddTest2 ({
                       />
                     ) : row.price ? (
                       new Intl.NumberFormat().format(
-                        row.price.replace(/\./g, '')
+                        typeof row.price === 'string'
+                          ? row.price.replace(/\./g, '')
+                          : row.price
                       )
                     ) : (
                       'Nhập đơn giá'
@@ -533,10 +539,6 @@ function AddTest2 ({
                             rawValue === ''
                           ) {
                             handleInputChange(index, 'tongtien', rawValue)
-
-                            if (row.soluong) {
-                              handleInputChange(index, 'price', rawValue)
-                            }
                           }
                         }}
                         autoFocus
@@ -562,15 +564,18 @@ function AddTest2 ({
               <tr>
                 <td>
                   <div className='tdMasku'>
-                    <Tooltip
-                      trigger='click'
+                    <Tippy
                       interactive
                       arrow
-                      position='bottom-start'
-                      open={isTableVisible}
-                      onRequestClose={() => setIsTableVisible(false)}
-                      html={
-                        <div className='supplier-table-container'>
+                      placement='bottom'
+                      visible={isTableVisible}
+                      onClickOutside={() => setIsTableVisible(false)}
+                      render={() => (
+                        <div
+                          className={`supplier-table-container ${
+                            isTableVisible ? 'fade-in' : 'fade-out'
+                          }`}
+                        >
                           {loadingSuppliers ? (
                             <p>Đang tải danh sách sku...</p>
                           ) : (
@@ -614,7 +619,7 @@ function AddTest2 ({
                             </table>
                           )}
                         </div>
-                      }
+                      )}
                     >
                       <button
                         className='btnaddtest'
@@ -626,7 +631,7 @@ function AddTest2 ({
                           className='iconaddtest'
                         />
                       </button>
-                    </Tooltip>
+                    </Tippy>
                     <button
                       className='btnaddskutest'
                       onClick={() => setIsOpenAddSKU(true)}
@@ -642,7 +647,7 @@ function AddTest2 ({
                   </div>
                 </td>
 
-                <td colSpan='5'></td>
+                <td colSpan='6'></td>
               </tr>
             </tbody>
           </table>

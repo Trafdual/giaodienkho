@@ -82,7 +82,7 @@ function PostImel ({ isOpen, onClose }) {
   const fetchSku = async () => {
     try {
       const response = await fetch(
-        `https://ansuataohanoi.com/getdungluongsku/${userID}`
+        `http://localhost:3015/getdungluongsku/${userID}`
       )
       const data = await response.json()
 
@@ -229,7 +229,7 @@ function PostImel ({ isOpen, onClose }) {
     if (validateInputs2()) {
       setIsClickButton(true)
       try {
-        const response = await fetch(`https://ansuataohanoi.com/postimel`, {
+        const response = await fetch(`http://localhost:3015/postimel`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)

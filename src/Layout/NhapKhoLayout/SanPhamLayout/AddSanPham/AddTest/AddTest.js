@@ -4,7 +4,6 @@ import { useState, useCallback, useEffect, useRef } from 'react'
 import { useToast } from '../../../../../components/GlobalStyles/ToastContext'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronDown, faPlus } from '@fortawesome/free-solid-svg-icons'
-import { Tooltip } from 'react-tippy'
 import 'react-tippy/dist/tippy.css'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
@@ -16,6 +15,7 @@ import './AddTest.scss'
 import { ModalAddNganHang } from '~/Layout/NhapKhoLayout/AddLoHang/ModalAddNganHang'
 import { ModalAddNhaCungCap } from '~/Layout/NhapKhoLayout/ModalAddNhaCungCap'
 import { getFromLocalStorage } from '~/components/MaHoaLocalStorage/MaHoaLocalStorage'
+import Tippy from '@tippyjs/react/headless'
 
 function AddTest ({ isOpen, onClose, fetclohang, malohang }) {
   const [name, setName] = useState('')
@@ -71,52 +71,6 @@ function AddTest ({ isOpen, onClose, fetclohang, malohang }) {
   }, [localStorage.getItem('khoID')])
 
   useEffect(() => {
-    const handleClickOutside = event => {
-      if (
-        tooltipRefMethod.current &&
-        !tooltipRefMethod.current.contains(event.target)
-      ) {
-        setIsTableMethod(false)
-      }
-      if (
-        tooltipRefHangHoa.current &&
-        !tooltipRefHangHoa.current.contains(event.target)
-      ) {
-        setIsTableHangHoa(false)
-      }
-      if (
-        tooltipRefNcc.current &&
-        !tooltipRefNcc.current.contains(event.target)
-      ) {
-        setIsTableVisible(false)
-      }
-      if (
-        tooltipRefDate.current &&
-        !tooltipRefDate.current.contains(event.target)
-      ) {
-        setIsDatePickerOpen(false)
-      }
-      if (
-        tooltipRefTime.current &&
-        !tooltipRefTime.current.contains(event.target)
-      ) {
-        setIsTimePickerOpen(false)
-      }
-      if (
-        tooltipRefNganHang.current &&
-        !tooltipRefNganHang.current.contains(event.target)
-      ) {
-        setIsTableNganHang(false)
-      }
-    }
-
-    document.addEventListener('mousedown', handleClickOutside)
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside)
-    }
-  }, [])
-
-  useEffect(() => {
     const intervalId = setInterval(() => {
       const newuserID = getFromLocalStorage('userId') || ''
       if (newuserID !== userID) {
@@ -131,7 +85,7 @@ function AddTest ({ isOpen, onClose, fetclohang, malohang }) {
   const fetchSuppliers = async () => {
     try {
       const response = await fetch(
-        `https://ansuataohanoi.com/getnhacungcap/${khoID}`
+        `http://localhost:3015/getnhacungcap/${khoID}`
       )
       const data = await response.json()
 
@@ -154,7 +108,7 @@ function AddTest ({ isOpen, onClose, fetclohang, malohang }) {
   const fetchnganhang = async () => {
     try {
       const response = await fetch(
-        `https://ansuataohanoi.com/getnganhang/${userID}`
+        `http://localhost:3015/getnganhang/${userID}`
       )
       const data = await response.json()
 
@@ -244,13 +198,11 @@ function AddTest ({ isOpen, onClose, fetclohang, malohang }) {
     return valid
   }
 
-  console.log('isTableMethod: ', isTableMethod)
-
   return (
     <ModalBig isOpen={isOpen} onClose={handleClose}>
       <div className='divAddLoHang'>
         <h2>Thêm lô hàng</h2>
-        <div>
+        <div className='div_malo'>
           <h4>Mã lô hàng:</h4>
           <p>{malohang}</p>
         </div>
@@ -279,18 +231,17 @@ function AddTest ({ isOpen, onClose, fetclohang, malohang }) {
               <label htmlFor='thanhtoanngay'>Thanh toán ngay</label>
             </div>
             <div className='divinputmethod'>
-              <Tooltip
-                trigger='click'
+              <Tippy
                 interactive
                 arrow
-                position='bottom'
-                onRequestClose={() => setIsTableMethod(false)}
-                ref = { tooltipRefMethod }
-
-                html={
+                visible={isTableMethod}
+                placement='bottom'
+                onClickOutside={() => setIsTableNganHang(false)}
+                render={() => (
                   <div
-                    className='supplier-table-container'
-                   
+                    className={`supplier-table-container ${
+                      isTableMethod ? 'fade-in' : 'fade-out'
+                    }`}
                   >
                     <table className='supplier-info-table'>
                       <thead>
@@ -305,7 +256,7 @@ function AddTest ({ isOpen, onClose, fetclohang, malohang }) {
                             key={index}
                             onClick={() => {
                               setmethod(paymentMethod)
-                             
+                              setIsTableMethod(false)
                             }}
                           >
                             <td>{paymentMethod}</td>
@@ -314,31 +265,35 @@ function AddTest ({ isOpen, onClose, fetclohang, malohang }) {
                       </tbody>
                     </table>
                   </div>
-                }
+                )}
               >
                 <button
                   className='divChonncc'
                   disabled={payment !== 'thanhtoanngay'}
+                  onClick={() => setIsTableMethod(!isTableMethod)}
                 >
                   {method ? `${method}` : 'Chọn phương thức'}
                   <FontAwesomeIcon icon={faChevronDown} className='iconNcc' />
                 </button>
-              </Tooltip>
+              </Tippy>
             </div>
           </div>
         </div>
 
         <div className='divinputncc'>
           <h4>Loại hàng hóa</h4>
-          <Tooltip
-            key={isTableHangHoa ? 'open' : 'closed'}
-            trigger='click'
+          <Tippy
+            visible={isTableHangHoa}
             interactive
             arrow
-            position='bottom'
-            onRequestClose={() => setIsTableHangHoa(false)}
-            html={
-              <div className='supplier-table-container' ref={tooltipRefHangHoa}>
+            placement='bottom'
+            onClickOutside={() => setIsTableHangHoa(false)}
+            render={() => (
+              <div
+                className={`supplier-table-container ${
+                  isTableHangHoa ? 'fade-in' : 'fade-out'
+                }`}
+              >
                 <table className='supplier-info-table'>
                   <thead>
                     <tr>
@@ -362,28 +317,34 @@ function AddTest ({ isOpen, onClose, fetclohang, malohang }) {
                   </tbody>
                 </table>
               </div>
-            }
+            )}
           >
-            <button className='divChonncc'>
+            <button
+              className='divChonncc'
+              onClick={() => setIsTableHangHoa(!isTableHangHoa)}
+            >
               {loaihanghoa ? `${loaihanghoa}` : 'Chọn loại hàng hóa'}
               <FontAwesomeIcon icon={faChevronDown} className='iconNcc' />
             </button>
-          </Tooltip>
+          </Tippy>
         </div>
 
         {loaihanghoaError && <div className='error'>{loaihanghoaError}</div>}
 
         <div className='divinputncc'>
           <h4>Nhà cung cấp</h4>
-          <Tooltip
-            key={isTableVisible ? 'open' : 'closed'}
-            trigger='click'
+          <Tippy
+            visible={isTableVisible}
             interactive
             arrow
-            position='bottom'
-            onRequestClose={() => setIsTableVisible(false)}
-            html={
-              <div className='supplier-table-container' ref={tooltipRefNcc}>
+            placement='bottom'
+            onClickOutside={() => setIsTableVisible(false)}
+            render={() => (
+              <div
+                className={`supplier-table-container ${
+                  isTableVisible ? 'fade-in' : 'fade-out'
+                }`}
+              >
                 {loadingSuppliers ? (
                   <p>Đang tải danh sách nhà cung cấp...</p>
                 ) : (
@@ -395,7 +356,7 @@ function AddTest ({ isOpen, onClose, fetclohang, malohang }) {
                       </tr>
                     </thead>
                     <tbody>
-                      {suppliers.map > 0 ? (
+                      {suppliers.length > 0 ? (
                         suppliers.map(supplier => (
                           <tr
                             className='trdulieu'
@@ -421,13 +382,16 @@ function AddTest ({ isOpen, onClose, fetclohang, malohang }) {
                   </table>
                 )}
               </div>
-            }
+            )}
           >
-            <button className='divChonncc'>
+            <button
+              className='divChonncc'
+              onClick={() => setIsTableVisible(!isTableVisible)}
+            >
               {mancc ? `${mancc}` : 'Chọn nhà cung cấp'}
               <FontAwesomeIcon icon={faChevronDown} className='iconNcc' />
             </button>
-          </Tooltip>
+          </Tippy>
           <button className='btnadd' onClick={() => setisOpenAddNcc(true)}>
             <FontAwesomeIcon icon={faPlus} className='icon' />
           </button>
@@ -441,16 +405,16 @@ function AddTest ({ isOpen, onClose, fetclohang, malohang }) {
         {method === 'Chuyển khoản' && (
           <div className='divinputncc'>
             <h4>Ngân hàng</h4>
-            <Tooltip
-              key={isTableNganHang ? 'open' : 'closed'}
-              trigger='click'
+            <Tippy
+              visible={isTableNganHang}
               arrow
-              position='bottom'
-              onRequestClose={() => setIsTableNganHang(false)}
-              html={
+              placement='bottom'
+              onClickOutside={() => setIsTableNganHang(false)}
+              render={() => (
                 <div
-                  className='supplier-table-container'
-                  ref={tooltipRefNganHang}
+                  className={`supplier-table-container ${
+                    isTableNganHang ? 'fade-in' : 'fade-out'
+                  }`}
                 >
                   {loadingSuppliers ? (
                     <p>Đang tải danh sách ngân hàng...</p>
@@ -492,13 +456,16 @@ function AddTest ({ isOpen, onClose, fetclohang, malohang }) {
                     </table>
                   )}
                 </div>
-              }
+              )}
             >
-              <button className='divChonncc'>
+              <button
+                className='divChonncc'
+                onClick={() => setIsTableNganHang(!isTableNganHang)}
+              >
                 {manganhang ? `${manganhang}` : 'Chọn ngân hàng'}
                 <FontAwesomeIcon icon={faChevronDown} className='iconNcc' />
               </button>
-            </Tooltip>
+            </Tippy>
             <button className='btnadd'>
               <FontAwesomeIcon
                 icon={faPlus}
@@ -535,14 +502,13 @@ function AddTest ({ isOpen, onClose, fetclohang, malohang }) {
         {nameError && <div className='error'>{nameError}</div>}
 
         <div className='divngaygio'>
-          <Tooltip
-            key={isDatePickerOpen ? 'open' : 'closed'}
-            trigger='click'
+          <Tippy
+            visible={isDatePickerOpen}
             interactive
             arrow
-            onRequestClose={() => setIsDatePickerOpen(false)}
-            html={
-              <div ref={tooltipRefDate}>
+            onClickOutside={() => setIsDatePickerOpen(false)}
+            render={() => (
+              <div className={`${isTableMethod ? 'fade-in' : 'fade-out'}`}>
                 <DatePicker
                   selected={date}
                   onChange={handleDateChange}
@@ -550,7 +516,7 @@ function AddTest ({ isOpen, onClose, fetclohang, malohang }) {
                   inline
                 />
               </div>
-            }
+            )}
           >
             <div className='divdate'>
               <input
@@ -568,16 +534,15 @@ function AddTest ({ isOpen, onClose, fetclohang, malohang }) {
                 Ngày nhập
               </label>
             </div>
-          </Tooltip>
-          <Tooltip
-            key={isTimePickerOpen ? 'open' : 'closed'}
-            trigger='click'
+          </Tippy>
+          <Tippy
+            visible={isTimePickerOpen}
             interactive
             arrow
-            onRequestClose={() => setIsTimePickerOpen(false)}
+            onClickOutside={() => setIsTimePickerOpen(false)}
             position='top'
-            html={
-              <div ref={tooltipRefTime}>
+            render={() => (
+              <div className={`${isTableMethod ? 'fade-in' : 'fade-out'}`}>
                 <DatePicker
                   selected={time}
                   onChange={handleTimeChange}
@@ -589,7 +554,7 @@ function AddTest ({ isOpen, onClose, fetclohang, malohang }) {
                   placeholderText='Chọn giờ'
                 />
               </div>
-            }
+            )}
           >
             <div className='divhour'>
               <input
@@ -606,7 +571,7 @@ function AddTest ({ isOpen, onClose, fetclohang, malohang }) {
                 Giờ nhập
               </label>
             </div>
-          </Tooltip>
+          </Tippy>
         </div>
         <div style={{ marginTop: '10px' }}>
           <AddTest2

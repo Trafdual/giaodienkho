@@ -7,6 +7,7 @@
     border: 1px solid #ccc;
     border-radius: 5px;
     overflow: hidden;
+    background-color: white
 }
 
 .supplier-info-table {
@@ -130,6 +131,50 @@
     gap: 10px;
 }
 
+.fade-in {
+    animation: fadeIn 0.3s ease forwards;
+}
+
+.fade-out {
+    animation: fadeOut 0.3s ease forwards;
+}
+#tippy-7{
+    background-color: white;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+}
+
+.div_malo{
+    display: flex;
+    margin-top: 10px;
+    align-items: center;
+    gap: 10px;
+    p{
+        font-size: 18px;
+    }
+}
 @media (max-width: 480px) {
    .divAddLoHang{
     width: 100%;

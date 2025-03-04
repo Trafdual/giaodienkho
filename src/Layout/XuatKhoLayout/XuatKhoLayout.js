@@ -82,7 +82,7 @@ function XuatKhoLayout () {
 
     try {
       const response = await fetch(
-        `https://ansuataohanoi.com/getxuatkho/${khoID}`,
+        `http://localhost:3015/getxuatkho/${khoID}`,
         {
           method: 'GET',
           headers: {
@@ -122,7 +122,7 @@ function XuatKhoLayout () {
   const XoaHangLoat = async () => {
     try {
       const response = await fetch(
-        `https://ansuataohanoi.com/deletexuatkho/${khoID}`,
+        `http://localhost:3015/deletexuatkho/${khoID}`,
         {
           method: 'POST',
           headers: {

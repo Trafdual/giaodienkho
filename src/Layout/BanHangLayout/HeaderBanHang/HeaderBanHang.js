@@ -51,7 +51,7 @@ function HeaderBanHang ({ userId, username }) {
       setIsLoading(true)
       try {
         const response = await axios.get(
-          `https://ansuataohanoi.com/getdepot/${userId}`
+          `http://localhost:3015/getdepot/${userId}`
         )
         if (Array.isArray(response.data)) {
           setKhoList(response.data)
@@ -108,6 +108,7 @@ function HeaderBanHang ({ userId, username }) {
       document.removeEventListener('mousedown', handleClickOutside)
     }
   }, [])
+  
 
   return (
     <div className='topbar1'>
@@ -142,7 +143,12 @@ function HeaderBanHang ({ userId, username }) {
               />
             </button>
           </Tippy>
-          <Tippy content='Thông báo' placement='bottom'>
+          <Tippy
+            interactive={true}
+            visible={showNotifications}
+            placement='bottom'
+           
+          >
             <button
               className='btn-icon'
               onClick={() => setShowNotifications(!showNotifications)}

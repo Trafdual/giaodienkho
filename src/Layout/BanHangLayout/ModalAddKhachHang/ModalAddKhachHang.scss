@@ -13,3 +13,47 @@
 .labelnhomkhachHang {
     position: static !important;
 }
+
+.btnAddKhachHang {
+    width: 100%;
+    height: 50px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    background-color: var(--blue);
+    font-family: var(--font-family);
+    color: #fffefe;
+    font-weight: bold;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+    border-radius: 5px;
+    margin-top: 20px;
+    cursor: pointer;
+
+    &:hover {
+        background-color: #0063c0;
+    }
+}
+
+.divAddKhachHang {
+    padding: 10px;
+}
+
+.btnhuyAddKhachHang {
+    width: 100%;
+    height: 50px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    background-color: #ff4747;
+    color: #fffefe;
+    font-family: var(--font-family);
+    font-weight: bold;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+    border-radius: 5px;
+    margin-top: 20px;
+    cursor: pointer;
+
+    &:hover {
+        background-color: #c20202;
+    }
+}

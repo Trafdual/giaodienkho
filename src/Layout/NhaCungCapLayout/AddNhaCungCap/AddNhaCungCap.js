@@ -28,14 +28,13 @@ function AddNhaCungCap ({ isOpen, onClose, khoID, setnhacungcap }) {
       setNameError('')
     }
 
-    if (!email) {
-      setEmailError('Vui lòng nhập email.')
-      valid = false
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      setEmailError('Email không hợp lệ.')
-      valid = false
-    } else {
-      setEmailError('')
+    if (email) {
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        setEmailError('Email không hợp lệ.')
+        valid = false
+      } else {
+        setEmailError('')
+      }
     }
 
     if (!phone) {
@@ -48,13 +47,6 @@ function AddNhaCungCap ({ isOpen, onClose, khoID, setnhacungcap }) {
       setPhoneError('')
     }
 
-    if (!address) {
-      setAddressError('Vui lòng nhập địa chỉ.')
-      valid = false
-    } else {
-      setAddressError('')
-    }
-
     return valid
   }
 
@@ -62,7 +54,7 @@ function AddNhaCungCap ({ isOpen, onClose, khoID, setnhacungcap }) {
     if (validateInputs()) {
       try {
         const response = await fetch(
-          `https://ansuataohanoi.com/postnhacungcap/${khoID}`,
+          `http://localhost:3015/postnhacungcap/${khoID}`,
           {
             method: 'POST',
             headers: {
@@ -131,7 +123,7 @@ function AddNhaCungCap ({ isOpen, onClose, khoID, setnhacungcap }) {
             }}
           />
           <label htmlFor='' className='label'>
-            Nhập tên nhà cung cấp
+            Nhập tên nhà cung cấp (*)
           </label>
         </div>
         {nameError && <div className='error'>{nameError}</div>}
@@ -148,7 +140,7 @@ function AddNhaCungCap ({ isOpen, onClose, khoID, setnhacungcap }) {
             }}
           />
           <label htmlFor='' className='label'>
-            Nhập số điện thoại
+            Nhập số điện thoại (*)
           </label>
         </div>
         {phoneError && <div className='error'>{phoneError}</div>}

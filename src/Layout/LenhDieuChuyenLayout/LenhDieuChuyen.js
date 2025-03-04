@@ -88,7 +88,7 @@ function LenhDieuChuyen () {
   const handleConfirm = async orderId => {
     try {
       const response = await axios.post(
-        `https://ansuataohanoi.com/duyetdieuchuyen/${orderId}`
+        `http://localhost:3015/duyetdieuchuyen/${orderId}`
       )
       if (response.status === 200) {
         showToast('Duyệt lệnh điều chuyển thành công!', 'success')

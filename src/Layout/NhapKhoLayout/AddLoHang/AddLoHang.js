@@ -78,7 +78,7 @@ function AddLoHang ({ isOpen, onClose, setlohang }) {
     const fetchSuppliers = async () => {
       try {
         const response = await fetch(
-          `https://ansuataohanoi.com/getnhacungcap/${khoID}`
+          `http://localhost:3015/getnhacungcap/${khoID}`
         )
         const data = await response.json()
 
@@ -100,7 +100,7 @@ function AddLoHang ({ isOpen, onClose, setlohang }) {
   const fetchnganhang = async () => {
     try {
       const response = await fetch(
-        `https://ansuataohanoi.com/getnganhang/${userID}`
+        `http://localhost:3015/getnganhang/${userID}`
       )
       const data = await response.json()
 
@@ -174,26 +174,23 @@ function AddLoHang ({ isOpen, onClose, setlohang }) {
   const handleAddLoHang = async () => {
     if (validateInputs()) {
       try {
-        const response = await fetch(
-          `https://ansuataohanoi.com/postloaisanpham2`,
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-              mancc: mancc,
-              name: name,
-              tongtien: tongtien,
-              date: date,
-              ghino: payment,
-              method: method,
-              hour: time,
-              manganhangkho: manganhang,
-              loaihanghoa: loaihanghoa
-            })
-          }
-        )
+        const response = await fetch(`http://localhost:3015/postloaisanpham2`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            mancc: mancc,
+            name: name,
+            tongtien: tongtien,
+            date: date,
+            ghino: payment,
+            method: method,
+            hour: time,
+            manganhangkho: manganhang,
+            loaihanghoa: loaihanghoa
+          })
+        })
         const data = await response.json()
 
         if (data.message) {

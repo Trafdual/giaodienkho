@@ -3,7 +3,6 @@ import {Modal} from "../Modal"; // Import modal riêng của bạn
 import "./Notification.scss";
 import { FaBell } from "react-icons/fa";
 const NotificationsList = () => {
-  // Dữ liệu thông báo
   const notifications = [
     {
       title: "BICRAFT thông báo chuyển đổi tổng đài hỗ trợ",

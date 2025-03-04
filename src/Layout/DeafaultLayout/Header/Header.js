@@ -126,7 +126,7 @@ function Header ({
     setIsLoading(true)
     try {
       const response = await fetch(
-        `https://ansuataohanoi.com/searchsanpham/${khoID}`,
+        `http://localhost:3015/searchsanpham/${khoID}`,
         {
           method: 'POST',
           headers: {
@@ -209,7 +209,6 @@ function Header ({
         </div>
         <ListKho
           datakho={datakho}
-
           selectedKho={selectedKho}
           setSelectedKho={setSelectedKho}
         />

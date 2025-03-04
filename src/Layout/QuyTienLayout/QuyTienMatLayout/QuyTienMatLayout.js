@@ -93,7 +93,7 @@ function QuyTienMatLayout () {
 
     try {
       const response = await fetch(
-        `https://ansuataohanoi.com/getthuchitienmat/${khoID}`,
+        `http://localhost:3015/getthuchitienmat/${khoID}`,
         {
           method: 'GET',
           headers: {
