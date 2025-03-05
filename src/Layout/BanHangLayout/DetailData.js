@@ -35,7 +35,7 @@ function ModalDataScreen ({
 
   const handleViewOtherStores = (stores, tensp, masku, idsku) => {
     setSelectedStores(stores)
-    setSelectedProductName(tensp) 
+    setSelectedProductName(tensp)
     setOtherStoreModalOpen(true)
     setSelectedProductmaSKU(masku)
     setSelectedProductidsku(idsku)
@@ -44,7 +44,7 @@ function ModalDataScreen ({
   useEffect(() => {
     if (isOpen) {
       axios
-        .get(`http://localhost:3015/banhang/${product._id}/${khoId1}/${userId}`)
+        .get(`https://baotech.shop/banhang/${product._id}/${khoId1}/${userId}`)
         .then(response => {
           setData(response.data)
 
@@ -92,11 +92,10 @@ function ModalDataScreen ({
       }
       setSelectedSize(size)
       setSelectAll(false)
-      setSelectedSizes(
-        prevSelected =>
-          prevSelected.includes(size)
-            ? prevSelected.filter(s => s !== size) 
-            : [...prevSelected, size] 
+      setSelectedSizes(prevSelected =>
+        prevSelected.includes(size)
+          ? prevSelected.filter(s => s !== size)
+          : [...prevSelected, size]
       )
     }
   }
@@ -240,21 +239,20 @@ function ModalDataScreen ({
                         <input
                           type='checkbox'
                           checked={filteredItems
-                            .filter(item => item.tonkho > 0) 
+                            .filter(item => item.tonkho > 0)
                             .every(item =>
                               selectedProducts.includes(item.idsku)
                             )}
                           onChange={() => {
                             const availableItems = filteredItems.filter(
                               item => item.tonkho > 0
-                            ) 
+                            )
 
                             if (
                               availableItems.every(item =>
                                 selectedProducts.includes(item.idsku)
                               )
                             ) {
-                             
                               setSelectedProducts(prevState =>
                                 prevState.filter(
                                   id =>
@@ -264,13 +262,12 @@ function ModalDataScreen ({
                                 )
                               )
                             } else {
-                             
                               setSelectedProducts(prevState => [
                                 ...prevState,
                                 ...availableItems
                                   .filter(
                                     item => !prevState.includes(item.idsku)
-                                  ) 
+                                  )
                                   .map(item => item.idsku)
                               ])
                             }

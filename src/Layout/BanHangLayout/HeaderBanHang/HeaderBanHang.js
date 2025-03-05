@@ -51,7 +51,7 @@ function HeaderBanHang ({ userId, username }) {
       setIsLoading(true)
       try {
         const response = await axios.get(
-          `http://localhost:3015/getdepot/${userId}`
+          `https://baotech.shop/getdepot/${userId}`
         )
         if (Array.isArray(response.data)) {
           setKhoList(response.data)
@@ -75,7 +75,7 @@ function HeaderBanHang ({ userId, username }) {
   }
 
   const handelchuyenman = man => {
-    window.location.assign(man) // Thay đổi URL
+    window.location.assign(man)
   }
 
   const handleSelectKho = kho => {
@@ -108,7 +108,6 @@ function HeaderBanHang ({ userId, username }) {
       document.removeEventListener('mousedown', handleClickOutside)
     }
   }, [])
-  
 
   return (
     <div className='topbar1'>
@@ -147,7 +146,7 @@ function HeaderBanHang ({ userId, username }) {
             interactive={true}
             visible={showNotifications}
             placement='bottom'
-           render={()=><></>}
+            render={() => <></>}
           >
             <button
               className='btn-icon'

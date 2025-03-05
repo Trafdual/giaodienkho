@@ -26,8 +26,10 @@ import { publicRoutes } from '../../../router'
 import { Link, useLocation } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { ModalDangXuat } from './ModalDangXuat'
+import { useToast } from '~/components/GlobalStyles/ToastContext'
 
 function Sidebar ({ isActive, setIsActive }) {
+  const { showToast } = useToast()
   const location = useLocation()
   const [activeItem, setActiveItem] = useState('')
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
@@ -94,9 +96,11 @@ function Sidebar ({ isActive, setIsActive }) {
 
   const fetchsoluonglenh = async () => {
     try {
-      const response = await fetch(`http://localhost:3015/soluonglenh/${khoID}`)
+      const response = await fetch(`https://baotech.shop/soluonglenh/${khoID}`)
       const data = await response.json()
-      if (response.ok) {
+      if (data.error) {
+        showToast(data.error, 'error')
+      } else {
         setsoluonglenh(data)
       }
     } catch (error) {

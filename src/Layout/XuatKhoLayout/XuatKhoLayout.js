@@ -81,15 +81,12 @@ function XuatKhoLayout () {
     if (!khoID) return
 
     try {
-      const response = await fetch(
-        `http://localhost:3015/getxuatkho/${khoID}`,
-        {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json'
-          }
+      const response = await fetch(`https://baotech.shop/getxuatkho/${khoID}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
         }
-      )
+      })
 
       if (response.ok) {
         const data = await response.json()
@@ -122,7 +119,7 @@ function XuatKhoLayout () {
   const XoaHangLoat = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3015/deletexuatkho/${khoID}`,
+        `https://baotech.shop/deletexuatkho/${khoID}`,
         {
           method: 'POST',
           headers: {

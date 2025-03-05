@@ -60,7 +60,7 @@ function DanhSachHoaDonLayout () {
     setLoading(true)
     try {
       const response = await fetch(
-        `http://localhost:3015/gethoadonstore/${khoID}?fromdate=${fromdate}&enddate=${enddate}`
+        `https://baotech.shop/gethoadonstore/${khoID}?fromdate=${fromdate}&enddate=${enddate}`
       )
       if (response.ok) {
         const data = await response.json()

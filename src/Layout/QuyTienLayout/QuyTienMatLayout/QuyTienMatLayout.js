@@ -93,7 +93,7 @@ function QuyTienMatLayout () {
 
     try {
       const response = await fetch(
-        `http://localhost:3015/getthuchitienmat/${khoID}`,
+        `https://baotech.shop/getthuchitienmat/${khoID}`,
         {
           method: 'GET',
           headers: {

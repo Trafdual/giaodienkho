@@ -2,10 +2,17 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import './TransferRequestModal.scss'
 import { useToast } from '../../../components/GlobalStyles/ToastContext'
-function TransferRequestModal ({ isOpen, onClose, store, productName, idsku,masku }) {
-  const [quantity, setQuantity] = useState(1) 
-  const [reason, setReason] = useState('') 
-  const [reference, setReference] = useState('') 
+function TransferRequestModal ({
+  isOpen,
+  onClose,
+  store,
+  productName,
+  idsku,
+  masku
+}) {
+  const [quantity, setQuantity] = useState(1)
+  const [reason, setReason] = useState('')
+  const [reference, setReference] = useState('')
   const [currentDate, setCurrentDate] = useState('')
   const { showToast } = useToast()
   const idkho1 = localStorage.getItem('khoIDBH')
@@ -25,7 +32,7 @@ function TransferRequestModal ({ isOpen, onClose, store, productName, idsku,mask
       }
 
       const response = await axios.post(
-        `http://localhost:3015/postyeucaudc/${idkho1}`,
+        `https://baotech.shop/postyeucaudc/${idkho1}`,
         payload
       )
 
@@ -50,9 +57,7 @@ function TransferRequestModal ({ isOpen, onClose, store, productName, idsku,mask
             <div className='info-group'>
               <label>Chi nhánh xin hàng *</label>
               <select>
-                <option>
-                  {store.tenkho}
-                </option>
+                <option>{store.tenkho}</option>
               </select>
             </div>
             <div className='info-group'>

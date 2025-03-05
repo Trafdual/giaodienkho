@@ -58,7 +58,7 @@ function SanPhamLayout ({
 
     try {
       const response = await fetch(
-        `http://localhost:3015/getsanpham/${idloaisp}`,
+        `https://baotech.shop/getsanpham/${idloaisp}`,
         {
           method: 'GET',
           headers: {
@@ -86,7 +86,7 @@ function SanPhamLayout ({
   }, [idloaisp])
 
   // useEffect(() => {
-  //   const eventSource = new EventSource('http://localhost:3015/events')
+  //   const eventSource = new EventSource('https://baotech.shop/events')
 
   //   eventSource.onmessage = event => {
   //     const newMessage = JSON.parse(event.data)

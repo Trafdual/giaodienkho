@@ -61,7 +61,7 @@ function AddHoaDon ({ isOpen, onClose, khoID, fetchData }) {
     if (validateInputs()) {
       try {
         const response = await fetch(
-          `http://localhost:3015/posthoadon/${khoID}`,
+          `https://baotech.shop/posthoadon/${khoID}`,
           {
             method: 'POST',
             headers: {

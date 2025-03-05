@@ -42,7 +42,7 @@ function BaoCaoBanHangLayout () {
     setLoading(true)
     try {
       const response = await fetch(
-        `http://localhost:3015/baocaobanhang/${khoID}?fromdate=${fromdate}&enddate=${enddate}`
+        `https://baotech.shop/baocaobanhang/${khoID}?fromdate=${fromdate}&enddate=${enddate}`
       )
       if (response.ok) {
         const data = await response.json()

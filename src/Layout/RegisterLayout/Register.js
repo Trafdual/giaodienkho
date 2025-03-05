@@ -68,7 +68,7 @@ function Register () {
     if (validateInputs()) {
       setIsLoading(true)
       try {
-        const response = await fetch('http://localhost:3015/register', {
+        const response = await fetch('https://baotech.shop/register', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'

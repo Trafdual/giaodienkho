@@ -22,7 +22,7 @@ function UserLayout () {
   const fetchdata = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3015/getuser/${userdata.data.user[0]._id}`
+        `https://baotech.shop/getuser/${userdata.data.user[0]._id}`
       )
       if (response.ok) {
         const data = await response.json()
@@ -175,7 +175,7 @@ function UserLayout () {
         content={'Bạn có muốn xóa những user này?'}
         seletecids={selectedIds}
         fetchdata={fetchdata}
-        link={'http://localhost:3015/deleteuser'}
+        link={'https://baotech.shop/deleteuser'}
         setSelectedIds={setSelectedIds}
       />
     </div>

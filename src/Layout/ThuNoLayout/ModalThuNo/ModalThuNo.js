@@ -63,7 +63,7 @@ function ModalThuNo ({
   const fetchloaichungtu = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3015/getloaichungtu/${userId}`
+        `https://baotech.shop/getloaichungtu/${userId}`
       )
       const data = await response.json()
       if (response.ok) {
@@ -90,7 +90,7 @@ function ModalThuNo ({
   const handleThuNo = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3015/thuno/${userId}/${khoID}`,
+        `https://baotech.shop/thuno/${userId}/${khoID}`,
         {
           method: 'POST',
           headers: {

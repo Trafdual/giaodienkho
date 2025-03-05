@@ -73,7 +73,7 @@ function AddQuyTien2 ({
   const fetchMucThu = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3015/getmucthuchi/${userID}`
+        `https://baotech.shop/getmucthuchi/${userID}`
       )
       const data = await response.json()
       setmucthudata(data)
@@ -123,7 +123,7 @@ function AddQuyTien2 ({
       setIsClickButton(true)
       try {
         const response = await fetch(
-          `http://localhost:3015/postthuchi/${depotid}`,
+          `https://baotech.shop/postthuchi/${depotid}`,
           {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },

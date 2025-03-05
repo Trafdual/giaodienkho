@@ -60,7 +60,7 @@ function NhaCungCapLayout () {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3015/getnhacungcap/${khoID}`,
+        `https://baotech.shop/getnhacungcap/${khoID}`,
         {
           method: 'GET',
           headers: {
@@ -249,7 +249,7 @@ function NhaCungCapLayout () {
               onClose={() => setIsOpenDelete(false)}
               seletecids={selectedItems}
               fetchdata={fetchData}
-              link={'http://localhost:3015/deletencc'}
+              link={'https://baotech.shop/deletencc'}
               content={'Bạn có chắc chắn xóa nhà cung cấp này'}
             />
           </div>

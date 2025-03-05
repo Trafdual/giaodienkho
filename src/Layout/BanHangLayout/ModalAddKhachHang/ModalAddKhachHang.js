@@ -80,7 +80,7 @@ function ModalAddKhachHang ({ isOpen, onClose, khoID, fetchData, userId }) {
   const fetchnhomkhachang = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3015/getnhomkhachhang/${userId}`
+        `https://baotech.shop/getnhomkhachhang/${userId}`
       )
       const data = await response.json()
 
@@ -100,7 +100,7 @@ function ModalAddKhachHang ({ isOpen, onClose, khoID, fetchData, userId }) {
     if (validateInputs()) {
       try {
         const response = await fetch(
-          `http://localhost:3015/postkhachhang/${khoID}`,
+          `https://baotech.shop/postkhachhang/${khoID}`,
           {
             method: 'POST',
             headers: {

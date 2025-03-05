@@ -100,7 +100,7 @@ function AddQuyTien ({ isOpen, onClose, fetchquytien, loaitien, method }) {
   const fetchSuppliers = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3015/doituongthuchi/${khoID}`
+        `https://baotech.shop/doituongthuchi/${khoID}`
       )
       const data = await response.json()
 
@@ -121,7 +121,7 @@ function AddQuyTien ({ isOpen, onClose, fetchquytien, loaitien, method }) {
   const fetchLoaichungtu = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3015/getloaichungtu/${userID}`
+        `https://baotech.shop/getloaichungtu/${userID}`
       )
       const data = await response.json()
 
