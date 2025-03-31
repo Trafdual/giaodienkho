@@ -24,6 +24,7 @@ import { BaoCaoBanHangLayout } from '~/Layout/BaoCaoBanHangLayout'
 import { DanhSachHoaDonLayout } from '~/Layout/DanhSachHoaDonLayout'
 import { ThuNoLayout } from '~/Layout/ThuNoLayout'
 import { AdminLayout } from '~/Layout/Admin/AdminLayout'
+import { NhanVienLayout } from '../Layout/NhanVienLayout'
 const publicRoutes = [
   { path: '/', component: Login, layout: null },
   { path: '/home', component: DashboardLayout },
@@ -49,6 +50,8 @@ const publicRoutes = [
   { path: '/trogiuptongquan', component: TroGiupTongQuan, layout: null },
   { path: '/supportchat', component: SupportChat, layout: null },
   { path: '/admin', component: AdminLayout, layout: null },
+  { path: '/nhanvien', component: NhanVienLayout },
+
   {
     path: '/danhsachhoadon',
     component: DanhSachHoaDonLayout,

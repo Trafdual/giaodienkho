@@ -55,6 +55,8 @@ var _ThuNoLayout = require("~/Layout/ThuNoLayout");
 
 var _AdminLayout = require("~/Layout/Admin/AdminLayout");
 
+var _NhanVienLayout = require("../Layout/NhanVienLayout");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var publicRoutes = [{
@@ -134,6 +136,9 @@ var publicRoutes = [{
   path: '/admin',
   component: _AdminLayout.AdminLayout,
   layout: null
+}, {
+  path: '/nhanvien',
+  component: _NhanVienLayout.NhanVienLayout
 }, {
   path: '/danhsachhoadon',
   component: _DanhSachHoaDonLayout.DanhSachHoaDonLayout,

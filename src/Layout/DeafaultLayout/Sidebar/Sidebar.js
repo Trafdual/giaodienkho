@@ -20,13 +20,15 @@ import {
   faMoneyCheck,
   faWallet,
   faCartShopping,
-  faMoneyBillTrendUp
+  faMoneyBillTrendUp,
+  faUsers
 } from '@fortawesome/free-solid-svg-icons'
 import { publicRoutes } from '../../../router'
 import { Link, useLocation } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { ModalDangXuat } from './ModalDangXuat'
 import { useToast } from '~/components/GlobalStyles/ToastContext'
+import { getFromLocalStorage } from '../../../components/MaHoaLocalStorage/MaHoaLocalStorage'
 
 function Sidebar ({ isActive, setIsActive }) {
   const { showToast } = useToast()
@@ -43,6 +45,7 @@ function Sidebar ({ isActive, setIsActive }) {
   const [isModalDangXuat, setIsModalDangXuat] = useState(false)
   const [soluonglenh, setsoluonglenh] = useState(0)
   const khoID = localStorage.getItem('khoID')
+  const userdata = getFromLocalStorage('data')
 
   const toggleDropdown = key => {
     setDropdownState(prev => ({
@@ -109,7 +112,9 @@ function Sidebar ({ isActive, setIsActive }) {
   }
 
   useEffect(() => {
-    fetchsoluonglenh()
+    if (khoID) {
+      fetchsoluonglenh()
+    }
   }, [khoID])
 
   const menuItems = [
@@ -118,6 +123,12 @@ function Sidebar ({ isActive, setIsActive }) {
       title: 'Tổng quan',
       icon: faHouse
     },
+    userdata?.data?.user[0]?.role === 'manager' && {
+      path: '/nhanvien',
+      title: 'Nhân viên',
+      icon: faUsers
+    },
+
     {
       title: 'Báo cáo',
       icon: faChartPie,
@@ -222,7 +233,7 @@ function Sidebar ({ isActive, setIsActive }) {
       icon: faRightFromBracket,
       onClick: () => setIsModalDangXuat(true)
     }
-  ]
+  ].filter(Boolean)
 
   return (
     <div className={`navigation ${isActive ? 'active' : ''}`}>
