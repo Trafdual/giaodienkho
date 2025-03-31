@@ -36,16 +36,19 @@ function ModalAddSku ({ isOpen, onClose, userID, fetchsku }) {
     if (validateInputs()) {
       setIsClickButton(true)
       try {
-        const response = await fetch(`https://baotech.shop/postsku/${userID}`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            name: name,
-            namedungluong: dungluongs
-          })
-        })
+        const response = await fetch(
+          `http://localhost:3015/postsku/${userID}`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              name: name,
+              namedungluong: dungluongs
+            })
+          }
+        )
 
         if (response.ok) {
           fetchsku()

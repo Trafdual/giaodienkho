@@ -191,7 +191,7 @@ function SearchProductLayout () {
   }
   const XuatKhoHangLoat = async () => {
     try {
-      const response = await fetch(`https://baotech.shop/xuatkho1/${khoID}`, {
+      const response = await fetch(`http://localhost:3015/xuatkho1/${khoID}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

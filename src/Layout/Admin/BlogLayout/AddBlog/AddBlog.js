@@ -27,7 +27,7 @@ function AddBlog ({ isOpen, onClose, fetchdata }) {
         formData.append('image', file)
       }
 
-      const response = await fetch('https://baotech.shop/posttrogiup', {
+      const response = await fetch('http://localhost:3015/posttrogiup', {
         method: 'POST',
         body: formData
       })

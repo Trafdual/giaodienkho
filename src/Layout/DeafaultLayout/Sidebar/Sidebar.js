@@ -96,7 +96,7 @@ function Sidebar ({ isActive, setIsActive }) {
 
   const fetchsoluonglenh = async () => {
     try {
-      const response = await fetch(`https://baotech.shop/soluonglenh/${khoID}`)
+      const response = await fetch(`http://localhost:3015/soluonglenh/${khoID}`)
       const data = await response.json()
       if (data.error) {
         showToast(data.error, 'error')
