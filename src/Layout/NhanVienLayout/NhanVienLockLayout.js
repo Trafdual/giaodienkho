@@ -2,35 +2,25 @@
 import { useState, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
-  faEye,
   faKey,
-  faLock,
-  faPen,
-  faPlus,
-  faUserTie
+  faLockOpen,
+
 } from '@fortawesome/free-solid-svg-icons'
 import '../ColumnResizer/columnResizer.scss'
 import { enableColumnResizing } from '../ColumnResizer/columnResizer'
 import { Loading } from '~/components/Loading'
 
-import { AddNhanVien } from './AddNhanVien'
 // import { EditNhanVien } from './EditNhanVien'
 import { PaginationComponent } from '~/components/NextPage'
 import { getFromLocalStorage } from '~/components/MaHoaLocalStorage/MaHoaLocalStorage'
 import { useNavigate } from 'react-router-dom'
-import { EditNhanVien } from './EditNhanVien'
-import { EditPassword } from './EditPassword'
-import { ModalDelete2 } from '~/components/ModalDelete2'
-import { AddQuyen } from './AddQuyen'
-function NhanVienLayout () {
-  const [nhanvien, setnhanvien] = useState([])
-  const [isOpen, setIsOpen] = useState(false)
-  const [isOpenEdit, setIsOpenEdit] = useState(false)
-  const [isOpenEditPassword, setIsOpenEditPassword] = useState(false)
-  const [isLock, setIsLock] = useState(false)
-  const [isOpenAddQuyen, setIsOpenAddQuyen] = useState(false)
 
-  const [idncc, setidncc] = useState('')
+import { ModalDelete2 } from '~/components/ModalDelete2'
+function NhanVienLockLayout () {
+  const [nhanvien, setnhanvien] = useState([])
+
+  const [isLock, setIsLock] = useState(false)
+
   const [loading, setLoading] = useState(true)
   const [selectedItems, setSelectedItems] = useState([])
 
@@ -51,9 +41,7 @@ function NhanVienLayout () {
     }
   }, [navigate])
 
-  const handleCloseModal = () => {
-    setIsOpen(false)
-  }
+
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -69,7 +57,7 @@ function NhanVienLayout () {
   const fetchData = async (page = 1) => {
     try {
       const response = await fetch(
-        `http://localhost:3015/getnhanvien/${userdata.data.user[0]._id}?page=${page}&limit=${itemsPerPage}&status=active`,
+        `http://localhost:3015/getnhanvien/${userdata.data.user[0]._id}?page=${page}&limit=${itemsPerPage}&status=locked`,
         {
           method: 'GET',
           headers: {
@@ -116,7 +104,6 @@ function NhanVienLayout () {
     if (newSelectAll) {
       const allIds = nhanvien.map(item => item._id)
       setSelectedItems(allIds)
-      setidncc(allIds.length === 1 ? allIds[0] : '')
     } else {
       setSelectedItems([])
     }
@@ -147,81 +134,22 @@ function NhanVienLayout () {
                 style={{ position: 'sticky', top: '0px' }}
               >
                 <h4>{selectedItems.length} nhân viên được chọn</h4>
-                <button className={`btn-xoa `} onClick={() => setIsOpen(true)}>
-                  <FontAwesomeIcon icon={faPlus} className='iconMenuSanPham' />
-                  Thêm nhân viên
-                </button>
 
-                <button
-                  className={`btn-xoa ${
-                    selectedItems.length > 1 || selectedItems.length === 0
-                      ? 'disabled'
-                      : ''
-                  }`}
-                  disabled={
-                    selectedItems.length > 1 || selectedItems.length === 0
-                  }
-                  onClick={() => setIsOpenEdit(true)}
-                >
-                  <FontAwesomeIcon icon={faPen} className='iconMenuSanPham' />
-                  Sửa
-                </button>
-                <button
-                  className={`btn-xoa ${
-                    selectedItems.length > 1 || selectedItems.length === 0
-                      ? 'disabled'
-                      : ''
-                  }`}
-                  disabled={
-                    selectedItems.length > 1 || selectedItems.length === 0
-                  }
-                >
-                  <FontAwesomeIcon icon={faEye} className='iconMenuSanPham' />
-                  Xem
-                </button>
-                <button
-                  className={`btn-xoa ${
-                    selectedItems.length > 1 || selectedItems.length === 0
-                      ? 'disabled'
-                      : ''
-                  }`}
-                  disabled={
-                    selectedItems.length > 1 || selectedItems.length === 0
-                  }
-                  onClick={() => setIsOpenEditPassword(true)}
-                >
-                  <FontAwesomeIcon icon={faKey} className='iconMenuSanPham' />
-                  Cập nhật mật khẩu
-                </button>
-
-                <button
-                  className={`btn-xoa ${
-                    selectedItems.length === 0 ? 'disabled' : ''
-                  }`}
-                  disabled={selectedItems.length === 0}
-                  onClick={() => setIsLock(true)}
-                >
-                  <FontAwesomeIcon icon={faLock} className='iconMenuSanPham' />
-                  Khóa nhân viên
-                </button>
-
-                <button
-                  className={`btn-xoa ${
-                    selectedItems.length > 1 || selectedItems.length === 0
-                      ? 'disabled'
-                      : ''
-                  }`}
-                  disabled={
-                    selectedItems.length > 1 || selectedItems.length === 0
-                  }
-                  onClick={() => setIsOpenAddQuyen(true)}
-                >
-                  <FontAwesomeIcon
-                    icon={faUserTie}
-                    className='iconMenuSanPham'
-                  />
-                  Cho phép quyền
-                </button>
+                {userdata.data.user[0].role === 'manager' && (
+                  <button
+                    className={`btn-xoa ${
+                      selectedItems.length === 0 ? 'disabled' : ''
+                    }`}
+                    disabled={selectedItems.length === 0}
+                    onClick={() => setIsLock(true)}
+                  >
+                    <FontAwesomeIcon
+                      icon={faLockOpen}
+                      className='iconMenuSanPham'
+                    />
+                    Mở khóa nhân viên
+                  </button>
+                )}
               </div>
               <div className='table-container'>
                 <table className='tablenhap'>
@@ -254,7 +182,6 @@ function NhanVienLayout () {
                               checked={selectedItems.includes(ncc._id)}
                               onChange={() => {
                                 handleSelectItem(ncc._id)
-                                setidncc(ncc._id)
                               }}
                             />
                           </td>
@@ -277,39 +204,14 @@ function NhanVienLayout () {
                 </table>
               </div>
             </div>
-            <AddNhanVien
-              isOpen={isOpen}
-              onClose={handleCloseModal}
-              khoID={khoID}
-              fetchData={fetchData}
-            />
-            <EditNhanVien
-              isOpen={isOpenEdit}
-              onClose={() => setIsOpenEdit(false)}
-              idncc={idncc}
-              fetchdata={fetchData}
-              setidncc={setidncc}
-            />
-            <EditPassword
-              isOpen={isOpenEditPassword}
-              onClose={() => setIsOpenEditPassword(false)}
-              idncc={idncc}
-              fetchdata={fetchData}
-            />
             <ModalDelete2
               isOpen={isLock}
               onClose={() => setIsLock(false)}
               seletecids={selectedItems}
               setSelectedIds={setSelectedItems}
               fetchdata={fetchData}
-              link={'http://localhost:3015/khoanhanvien'}
-              content={'Bạn có chắc chắn khóa những nhân viên này'}
-            />
-            <AddQuyen
-              isOpen={isOpenAddQuyen}
-              onClose={() => setIsOpenAddQuyen(false)}
-              idncc={idncc}
-              fetchdata={fetchData}
+              link={'http://localhost:3015/mokhoanhanvien'}
+              content={'Bạn có chắc chắn mở khóa những nhân viên này'}
             />
           </div>
           <div className='pagination1'>
@@ -329,4 +231,4 @@ function NhanVienLayout () {
   )
 }
 
-export default NhanVienLayout
+export default NhanVienLockLayout

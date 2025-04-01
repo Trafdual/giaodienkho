@@ -25,6 +25,7 @@ import { DanhSachHoaDonLayout } from '~/Layout/DanhSachHoaDonLayout'
 import { ThuNoLayout } from '~/Layout/ThuNoLayout'
 import { AdminLayout } from '~/Layout/Admin/AdminLayout'
 import { NhanVienLayout } from '../Layout/NhanVienLayout'
+import NhanVienLockLayout from '../Layout/NhanVienLayout/NhanVienLockLayout'
 const publicRoutes = [
   { path: '/', component: Login, layout: null },
   { path: '/home', component: DashboardLayout },
@@ -50,7 +51,8 @@ const publicRoutes = [
   { path: '/trogiuptongquan', component: TroGiupTongQuan, layout: null },
   { path: '/supportchat', component: SupportChat, layout: null },
   { path: '/admin', component: AdminLayout, layout: null },
-  { path: '/nhanvien', component: NhanVienLayout },
+  { path: '/nhanvien/active', component: NhanVienLayout },
+  { path: '/nhanvien/locked', component: NhanVienLockLayout },
 
   {
     path: '/danhsachhoadon',

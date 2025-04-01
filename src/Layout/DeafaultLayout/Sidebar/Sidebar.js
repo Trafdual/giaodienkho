@@ -21,7 +21,9 @@ import {
   faWallet,
   faCartShopping,
   faMoneyBillTrendUp,
-  faUsers
+  faUsers,
+  faCircleUser,
+  faUsersSlash
 } from '@fortawesome/free-solid-svg-icons'
 import { publicRoutes } from '../../../router'
 import { Link, useLocation } from 'react-router-dom'
@@ -124,9 +126,21 @@ function Sidebar ({ isActive, setIsActive }) {
       icon: faHouse
     },
     userdata?.data?.user[0]?.role === 'manager' && {
-      path: '/nhanvien',
       title: 'Nhân viên',
-      icon: faUsers
+      icon: faCircleUser,
+      dropdownKey: 'isDropdownOpenQuyTien',
+      children: [
+        {
+          path: '/nhanvien/active',
+          title: 'Đang hoạt động',
+          icon: faUsers
+        },
+        {
+          path: '/nhanvien/locked',
+          title: 'Đã bị khóa',
+          icon: faUsersSlash
+        }
+      ]
     },
 
     {

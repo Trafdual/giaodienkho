@@ -1,15 +1,15 @@
-import { useState, useCallback } from 'react'
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useState, useCallback, useEffect } from 'react'
 
 import { Modal } from '../../../components/Modal'
 import { useToast } from '../../../components/GlobalStyles/ToastContext'
 import { ModalOnClose } from '~/components/ModalOnClose'
 
-function AddNhanVien ({ isOpen, onClose, khoID, fetchData }) {
+function EditNhanVien ({ isOpen, onClose, idncc, fetchdata, setidncc }) {
   const [name, setName] = useState('')
   const [hovaten, sethovaten] = useState('')
   const [chucvu, setchucvu] = useState('')
   const [birthday, setbirthday] = useState('')
-  const [password, setpassword] = useState('')
 
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
@@ -19,7 +19,6 @@ function AddNhanVien ({ isOpen, onClose, khoID, fetchData }) {
   const [hovatenError, sethovatenError] = useState('')
   const [chucvuError, setchucvuError] = useState('')
   const [birthdayError, setbirthdayError] = useState('')
-  const [passwordError, setpasswordError] = useState('')
 
   const [emailError, setEmailError] = useState('')
   const [phoneError, setPhoneError] = useState('')
@@ -52,12 +51,6 @@ function AddNhanVien ({ isOpen, onClose, khoID, fetchData }) {
     } else {
       setbirthdayError('')
     }
-    if (!password) {
-      setpasswordError('Vui lòng nhập mật khẩu.')
-      valid = false
-    } else {
-      setpasswordError('')
-    }
 
     if (email) {
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
@@ -81,11 +74,34 @@ function AddNhanVien ({ isOpen, onClose, khoID, fetchData }) {
     return valid
   }
 
-  const handleAddnhanvien = async () => {
+  const fetchchitiet = async () => {
+    try {
+      const response = await fetch(`http://localhost:3015/chitietnv/${idncc}`)
+      const data = await response.json()
+
+      if (response.ok) {
+        setName(data.name)
+        sethovaten(data.hovaten)
+        setchucvu(data.chucvu)
+        setbirthday(data.birthday)
+        setEmail(data.email)
+        setPhone(data.phone)
+      }
+    } catch (error) {
+      console.error('Lỗi khi gửi yêu cầu lấy chi tiết nhân viên:', error)
+    }
+  }
+  useEffect(() => {
+    if (isOpen && idncc) {
+      fetchchitiet()
+    }
+  }, [idncc, isOpen])
+
+  const handleEditNhanVien = async () => {
     if (validateInputs()) {
       try {
         const response = await fetch(
-          `http://localhost:3015/postnhanvien/${khoID}`,
+          `http://localhost:3015/putnhanvien/${idncc}`,
           {
             method: 'POST',
             headers: {
@@ -97,23 +113,22 @@ function AddNhanVien ({ isOpen, onClose, khoID, fetchData }) {
               email: email,
               birthday,
               hovaten,
-              chucvu,
-              password
+              chucvu
             })
           }
         )
 
         if (response.ok) {
-          fetchData()
+          fetchdata()
           handelsave()
-          showToast('Thêm nhân viên thành công')
+          showToast('Cập nhật nhân viên thành công')
         } else {
-          showToast('Thêm nhân viên thất bại', 'error')
+          showToast('Cập nhật nhân viên thất bại', 'error')
           onClose()
         }
       } catch (error) {
-        console.error('Lỗi khi gửi yêu cầu thêm nhân viên:', error)
-        showToast('Thêm nhân viên thất bại', 'error')
+        console.error('Lỗi khi gửi yêu cầu Cập nhật nhân viên:', error)
+        showToast('Cập nhật nhân viên thất bại', 'error')
         handleClose()
       }
     }
@@ -124,14 +139,12 @@ function AddNhanVien ({ isOpen, onClose, khoID, fetchData }) {
     setEmail('')
     setPhone('')
     setbirthday('')
-    setpassword('')
     sethovaten('')
     setchucvu('')
     setNameError('')
     setEmailError('')
     setPhoneError('')
     setbirthdayError('')
-    setpasswordError('')
     sethovatenError('')
     setchucvuError('')
   }, [])
@@ -149,7 +162,7 @@ function AddNhanVien ({ isOpen, onClose, khoID, fetchData }) {
   return (
     <Modal isOpen={isOpen} onClose={handleClose}>
       <div className='divAddNhaCungCap'>
-        <h2>Thêm nhân viên</h2>
+        <h2>Cập nhật nhân viên</h2>
         <div className='divtenkho'>
           <input
             type='text'
@@ -250,25 +263,8 @@ function AddNhanVien ({ isOpen, onClose, khoID, fetchData }) {
         </div>
         {emailError && <div className='error'>{emailError}</div>}
 
-        <div className='divtenkho'>
-          <input
-            type='text'
-            className={`tenkho ${passwordError ? 'input-error' : ''}`}
-            placeholder=''
-            value={password}
-            onChange={e => {
-              setpassword(e.target.value)
-              setpasswordError('')
-            }}
-          />
-          <label htmlFor='' className='label'>
-            Nhập mật khẩu tài khoản (*)
-          </label>
-        </div>
-        {passwordError && <div className='error'>{passwordError}</div>}
-
-        <button onClick={handleAddnhanvien} className='btnAddNhaCungCap'>
-          Thêm nhân viên
+        <button onClick={handleEditNhanVien} className='btnAddNhaCungCap'>
+          Cập nhật nhân viên
         </button>
         <button onClick={handleClose} className='btnhuyAddNhaCungCap'>
           Hủy
@@ -276,7 +272,7 @@ function AddNhanVien ({ isOpen, onClose, khoID, fetchData }) {
       </div>
       <ModalOnClose
         isOpen={isModalHuy}
-        Save={handleAddnhanvien}
+        Save={handleEditNhanVien}
         DontSave={handelsave}
         Cancel={() => setIsModalHuy(false)}
       />
@@ -284,4 +280,4 @@ function AddNhanVien ({ isOpen, onClose, khoID, fetchData }) {
   )
 }
 
-export default AddNhanVien
+export default EditNhanVien

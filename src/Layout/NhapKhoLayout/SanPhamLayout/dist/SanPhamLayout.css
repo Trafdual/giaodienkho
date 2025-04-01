@@ -49,6 +49,8 @@
   border-radius: 5px;
   padding-left: 10px;
   padding-right: 10px;
+  overflow-x: auto;
+  z-index: 1000;
 }
 
 .action-menu h4 {
@@ -116,11 +118,6 @@
     margin-top: 5px;
     height: unset !important;
   }
-
-  .action-menu .btn-xoa,
-.action-menu .btn-xuat {
-    height: unset !important;
-  }
 }
 @media print {
   /* Ẩn mọi thành phần khác ngoài barcode */
@@ -168,5 +165,14 @@
 
   .recentOrdersnhapkho {
     height: 400px !important;
+  }
+
+  .action-menu .btn-xoa,
+.action-menu .btn-xuat {
+    flex: 0 0 auto;
+  }
+
+  .action-menu h4 {
+    flex: 0 0 auto;
   }
 }

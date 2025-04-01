@@ -1,0 +1,83 @@
+.add-quyen-container {
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.add-quyen-title {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.quyen-checkbox-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.quyen-checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  padding: 5px 0;
+}
+
+.quyen-button-group {
+  display: flex;
+  justify-content: right;
+  gap: 10px;
+}
+
+.quyen-save-btn,
+.quyen-remove-btn,
+.quyen-close-btn {
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.15);
+}
+
+.quyen-save-btn {
+  background: var(--blue);
+  color: white;
+  border: 1px solid #07a8e7;
+}
+
+.quyen-save-btn:hover {
+  background: #025caf;
+}
+
+.quyen-remove-btn {
+  background: #dc3545;
+  color: white;
+  border: 1px solid #ff648b;
+}
+
+.quyen-remove-btn:hover {
+  background: #c82333;
+}
+
+.quyen-close-btn {
+  background: #6c757d;
+  color: white;
+  border: 1px solid #babdbe;
+}
+
+.quyen-close-btn:hover {
+  background: #555d63;
+}
+
+.iconaddquyen {
+  width: 30px;
+}

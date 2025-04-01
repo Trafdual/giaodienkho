@@ -57,6 +57,8 @@ var _AdminLayout = require("~/Layout/Admin/AdminLayout");
 
 var _NhanVienLayout = require("../Layout/NhanVienLayout");
 
+var _NhanVienLockLayout = _interopRequireDefault(require("../Layout/NhanVienLayout/NhanVienLockLayout"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var publicRoutes = [{
@@ -137,8 +139,11 @@ var publicRoutes = [{
   component: _AdminLayout.AdminLayout,
   layout: null
 }, {
-  path: '/nhanvien',
+  path: '/nhanvien/active',
   component: _NhanVienLayout.NhanVienLayout
+}, {
+  path: '/nhanvien/locked',
+  component: _NhanVienLockLayout["default"]
 }, {
   path: '/danhsachhoadon',
   component: _DanhSachHoaDonLayout.DanhSachHoaDonLayout,
