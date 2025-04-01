@@ -45,7 +45,7 @@ function AddKho ({
       setLoading(true)
       try {
         const response = await fetch(
-          `http://localhost:3015/postdepot/${userId}`,
+          `https://baotech.shop/postdepot/${userId}`,
           {
             method: 'POST',
             headers: {

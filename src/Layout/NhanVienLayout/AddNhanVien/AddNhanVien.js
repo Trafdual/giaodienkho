@@ -85,7 +85,7 @@ function AddNhanVien ({ isOpen, onClose, khoID, fetchData }) {
     if (validateInputs()) {
       try {
         const response = await fetch(
-          `http://localhost:3015/postnhanvien/${khoID}`,
+          `https://baotech.shop/postnhanvien/${khoID}`,
           {
             method: 'POST',
             headers: {

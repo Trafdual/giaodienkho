@@ -18,7 +18,7 @@ function BlogLayout () {
 
   const fetchdata = async () => {
     try {
-      const response = await fetch('http://localhost:3015/getalltrogiup')
+      const response = await fetch('https://baotech.shop/getalltrogiup')
       if (response.ok) {
         const data = await response.json()
         setdata(data)
@@ -134,7 +134,7 @@ function BlogLayout () {
         content={'Bạn có muốn xóa những blog này?'}
         seletecids={selectedIds}
         fetchdata={fetchdata}
-        link={'http://localhost:3015/deletetrogiup'}
+        link={'https://baotech.shop/deletetrogiup'}
         setSelectedIds={setSelectedIds}
       />
     </div>

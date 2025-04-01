@@ -22,7 +22,7 @@ const AddQuyen = ({ idncc, isOpen, onClose, fetchdata }) => {
 
   const fetchquyen = async () => {
     try {
-      const response = await fetch(`http://localhost:3015/quyennv/${idncc}`)
+      const response = await fetch(`https://baotech.shop/quyennv/${idncc}`)
       const data = await response.json()
       if (response.ok) {
         setQuyen(data.quyen)
@@ -46,14 +46,11 @@ const AddQuyen = ({ idncc, isOpen, onClose, fetchdata }) => {
 
   const handleSave = async () => {
     try {
-      const response = await fetch(
-        `http://localhost:3015/addquyennv/${idncc}`,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ quyen })
-        }
-      )
+      const response = await fetch(`https://baotech.shop/addquyennv/${idncc}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ quyen })
+      })
       if (response.ok) {
         fetchdata()
         fetchquyen()
@@ -68,7 +65,7 @@ const AddQuyen = ({ idncc, isOpen, onClose, fetchdata }) => {
   const handleRemove = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3015/removequyennv/${idncc}`,
+        `https://baotech.shop/removequyennv/${idncc}`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },

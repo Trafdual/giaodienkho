@@ -100,7 +100,7 @@ function TestLayout () {
   const XoaHangLoat = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3015/deletexuatkho/${khoID}`,
+        `https://baotech.shop/deletexuatkho/${khoID}`,
         {
           method: 'POST',
           headers: {
@@ -127,7 +127,7 @@ function TestLayout () {
   }
 
   useEffect(() => {
-    const eventSource = new EventSource('http://localhost:3015/events')
+    const eventSource = new EventSource('https://baotech.shop/events')
 
     eventSource.onmessage = event => {
       const newMessage = JSON.parse(event.data)

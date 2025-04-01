@@ -26,7 +26,7 @@ function ModalXuatKho ({
 
     try {
       const response = await fetch(
-        `http://localhost:3015/xuatkho/${idsp}/${idloaisp}/${khoID}`,
+        `https://baotech.shop/xuatkho/${idsp}/${idloaisp}/${khoID}`,
         {
           method: 'POST',
           headers: {

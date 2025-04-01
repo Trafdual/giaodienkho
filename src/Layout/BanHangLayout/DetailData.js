@@ -44,7 +44,7 @@ function ModalDataScreen ({
   useEffect(() => {
     if (isOpen) {
       axios
-        .get(`http://localhost:3015/banhang/${product._id}/${khoId1}/${userId}`)
+        .get(`https://baotech.shop/banhang/${product._id}/${khoId1}/${userId}`)
         .then(response => {
           setData(response.data)
 

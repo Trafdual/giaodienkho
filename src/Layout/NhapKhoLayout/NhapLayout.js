@@ -98,7 +98,7 @@ function NhapKhoLayout () {
 
     try {
       const response = await fetch(
-        `http://localhost:3015/getloaisanpham2/${khoID}`,
+        `https://baotech.shop/getloaisanpham2/${khoID}`,
         {
           method: 'GET',
           headers: {
@@ -219,7 +219,7 @@ function NhapKhoLayout () {
   const handlePostlohang = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3015/postloaisanpham5/${khoID}`,
+        `https://baotech.shop/postloaisanpham5/${khoID}`,
         {
           method: 'POST',
           headers: {
@@ -238,7 +238,7 @@ function NhapKhoLayout () {
   }
 
   useEffect(() => {
-    const eventSource = new EventSource('http://localhost:3015/events')
+    const eventSource = new EventSource('https://baotech.shop/events')
 
     eventSource.onmessage = event => {
       fetchData()

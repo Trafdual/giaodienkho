@@ -1,11 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {
-  faKey,
-  faLockOpen,
-
-} from '@fortawesome/free-solid-svg-icons'
+import { faKey, faLockOpen } from '@fortawesome/free-solid-svg-icons'
 import '../ColumnResizer/columnResizer.scss'
 import { enableColumnResizing } from '../ColumnResizer/columnResizer'
 import { Loading } from '~/components/Loading'
@@ -41,8 +37,6 @@ function NhanVienLockLayout () {
     }
   }, [navigate])
 
-
-
   useEffect(() => {
     const intervalId = setInterval(() => {
       const newKhoID = localStorage.getItem('khoID') || ''
@@ -57,7 +51,7 @@ function NhanVienLockLayout () {
   const fetchData = async (page = 1) => {
     try {
       const response = await fetch(
-        `http://localhost:3015/getnhanvien/${userdata.data.user[0]._id}?page=${page}&limit=${itemsPerPage}&status=locked`,
+        `https://baotech.shop/getnhanvien/${userdata.data.user[0]._id}?page=${page}&limit=${itemsPerPage}&status=locked`,
         {
           method: 'GET',
           headers: {
@@ -210,7 +204,7 @@ function NhanVienLockLayout () {
               seletecids={selectedItems}
               setSelectedIds={setSelectedItems}
               fetchdata={fetchData}
-              link={'http://localhost:3015/mokhoanhanvien'}
+              link={'https://baotech.shop/mokhoanhanvien'}
               content={'Bạn có chắc chắn mở khóa những nhân viên này'}
             />
           </div>

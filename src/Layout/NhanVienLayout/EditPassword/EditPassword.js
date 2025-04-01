@@ -29,7 +29,7 @@ function EditPassword ({ isOpen, onClose, idncc, fetchdata }) {
 
   const fetchchitiet = async () => {
     try {
-      const response = await fetch(`http://localhost:3015/chitietnv/${idncc}`)
+      const response = await fetch(`https://baotech.shop/chitietnv/${idncc}`)
       const data = await response.json()
 
       if (response.ok) {
@@ -48,18 +48,15 @@ function EditPassword ({ isOpen, onClose, idncc, fetchdata }) {
   const handleEditNhanVien = async () => {
     if (validateInputs()) {
       try {
-        const response = await fetch(
-          `http://localhost:3015/doimknv/${idncc}`,
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-              password
-            })
-          }
-        )
+        const response = await fetch(`https://baotech.shop/doimknv/${idncc}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            password
+          })
+        })
 
         if (response.ok) {
           fetchdata()

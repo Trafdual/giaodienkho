@@ -38,7 +38,7 @@ function BaoCaoKhoLayout () {
     setLoading(true)
     try {
       const response = await fetch(
-        `http://localhost:3015/getsptest/${khoID}?fromDate=${startDate}&endDate=${endDate}`
+        `https://baotech.shop/getsptest/${khoID}?fromDate=${startDate}&endDate=${endDate}`
       )
       const data = await response.json()
       setData(data)

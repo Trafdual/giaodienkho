@@ -25,7 +25,7 @@ function AddUser ({ isOpen, onClose, fetchdata }) {
 
   const handelAddUser = async () => {
     try {
-      const response = await fetch('http://localhost:3015/registeradmin', {
+      const response = await fetch('https://baotech.shop/registeradmin', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

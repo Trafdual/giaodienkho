@@ -69,7 +69,7 @@ function NhanVienLayout () {
   const fetchData = async (page = 1) => {
     try {
       const response = await fetch(
-        `http://localhost:3015/getnhanvien/${userdata.data.user[0]._id}?page=${page}&limit=${itemsPerPage}&status=active`,
+        `https://baotech.shop/getnhanvien/${userdata.data.user[0]._id}?page=${page}&limit=${itemsPerPage}&status=active`,
         {
           method: 'GET',
           headers: {
@@ -302,7 +302,7 @@ function NhanVienLayout () {
               seletecids={selectedItems}
               setSelectedIds={setSelectedItems}
               fetchdata={fetchData}
-              link={'http://localhost:3015/khoanhanvien'}
+              link={'https://baotech.shop/khoanhanvien'}
               content={'Bạn có chắc chắn khóa những nhân viên này'}
             />
             <AddQuyen

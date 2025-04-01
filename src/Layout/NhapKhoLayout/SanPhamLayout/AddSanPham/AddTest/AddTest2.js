@@ -100,7 +100,7 @@ function AddTest2 ({
   const fetchSku = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3015/getdungluongsku/${userID}`
+        `https://baotech.shop/getdungluongsku/${userID}`
       )
       const data = await response.json()
 
@@ -294,7 +294,7 @@ function AddTest2 ({
       setIsClickButton(true)
       try {
         const response = await fetch(
-          `http://localhost:3015/updateloaisanpham4`,
+          `https://baotech.shop/updateloaisanpham4`,
           {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -326,7 +326,7 @@ function AddTest2 ({
 
   const handleDelete = async () => {
     try {
-      const response = await fetch(`http://localhost:3015/deletelohang`, {
+      const response = await fetch(`https://baotech.shop/deletelohang`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ malohang })
@@ -347,7 +347,7 @@ function AddTest2 ({
   const fetchimel = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3015/getfullchitietlo/${malohang}`
+        `https://baotech.shop/getfullchitietlo/${malohang}`
       )
       if (response.ok) {
         const data = await response.json()
@@ -365,7 +365,7 @@ function AddTest2 ({
   }, [malohang])
 
   useEffect(() => {
-    const eventSource = new EventSource('http://localhost:3015/events')
+    const eventSource = new EventSource('https://baotech.shop/events')
 
     eventSource.onmessage = event => {
       const newMessage = JSON.parse(event.data)
