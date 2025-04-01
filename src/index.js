@@ -6,6 +6,11 @@ import reportWebVitals from './reportWebVitals'
 import { GlobalStyles } from './components/GlobalStyles'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
+console.log(
+  '%cỨng dụng này được bảo vệ bởi Công ty BiCraft',
+  'color: red; font-size: 20px;'
+)
+
 root.render(
   <React.StrictMode>
     <GlobalStyles>
