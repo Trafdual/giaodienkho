@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faKey, faLockOpen } from '@fortawesome/free-solid-svg-icons'
+import { faLockOpen } from '@fortawesome/free-solid-svg-icons'
 import '../ColumnResizer/columnResizer.scss'
 import { enableColumnResizing } from '../ColumnResizer/columnResizer'
 import { Loading } from '~/components/Loading'

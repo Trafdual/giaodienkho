@@ -41,7 +41,8 @@ function Sidebar ({ isActive, setIsActive }) {
     isDropdownOpen: false,
     isDropdownOpenBaoCao: false,
     isDropdownOpenKho: false,
-    isDropdownOpenQuyTien: false
+    isDropdownOpenQuyTien: false,
+    isDropdownOpenNhanVien: false
   })
 
   const [isModalDangXuat, setIsModalDangXuat] = useState(false)
@@ -128,7 +129,7 @@ function Sidebar ({ isActive, setIsActive }) {
     userdata?.data?.user[0]?.role === 'manager' && {
       title: 'Nhân viên',
       icon: faCircleUser,
-      dropdownKey: 'isDropdownOpenQuyTien',
+      dropdownKey: 'isDropdownOpenNhanVien',
       children: [
         {
           path: '/nhanvien/active',

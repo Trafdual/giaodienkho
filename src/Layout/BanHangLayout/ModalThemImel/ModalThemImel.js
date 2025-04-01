@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import Draggable from 'react-draggable'
 import './ModalThemImel.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faXmark, faSyncAlt } from '@fortawesome/free-solid-svg-icons'
+import { faXmark } from '@fortawesome/free-solid-svg-icons'
 
 const ModalThemImel = ({
   isOpen,
