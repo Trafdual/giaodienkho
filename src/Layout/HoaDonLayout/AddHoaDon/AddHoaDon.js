@@ -5,6 +5,7 @@ import { useToast } from '../../../components/GlobalStyles/ToastContext'
 import './AddHoaDon.scss'
 import { faXmark } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { getApiUrl } from '../../../api/api'
 
 function AddHoaDon ({ isOpen, onClose, khoID, fetchData }) {
   const [makh, setMakh] = useState('')
@@ -61,7 +62,7 @@ function AddHoaDon ({ isOpen, onClose, khoID, fetchData }) {
     if (validateInputs()) {
       try {
         const response = await fetch(
-          `http://localhost:3015/posthoadon/${khoID}`,
+          `${getApiUrl('domain')}/posthoadon/${khoID}`,
           {
             method: 'POST',
             headers: {

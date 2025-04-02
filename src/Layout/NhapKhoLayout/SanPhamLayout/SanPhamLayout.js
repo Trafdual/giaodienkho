@@ -4,6 +4,7 @@ import { AddSanPham } from './AddSanPham'
 import { ModalXuatKho } from './ModalXuatkho'
 import './SanPhamLayout.scss'
 import EditSanPham from './EditSanPham/EditSanPham'
+import { getApiUrl } from '../../../api/api'
 
 function SanPhamLayout ({
   idloaisp,
@@ -58,7 +59,7 @@ function SanPhamLayout ({
 
     try {
       const response = await fetch(
-        `http://localhost:3015/getsanpham/${idloaisp}`,
+        `${getApiUrl('domain')}/getsanpham/${idloaisp}`,
         {
           method: 'GET',
           headers: {
@@ -86,7 +87,7 @@ function SanPhamLayout ({
   }, [idloaisp])
 
   // useEffect(() => {
-  //   const eventSource = new EventSource('http://localhost:3015/events')
+  //   const eventSource = new EventSource(`${getApiUrl('domain')}/events')
 
   //   eventSource.onmessage = event => {
   //     const newMessage = JSON.parse(event.data)

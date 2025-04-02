@@ -6,6 +6,8 @@ import { ModalOnClose } from '~/components/ModalOnClose'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faXmark } from '@fortawesome/free-solid-svg-icons'
 import './ModalAddSku.scss'
+import { getApiUrl } from '../../../../../../api/api'
+
 function ModalAddSku ({ isOpen, onClose, userID, fetchsku }) {
   const [name, setName] = useState('')
   const [dungluong, setdungluong] = useState('')
@@ -37,7 +39,7 @@ function ModalAddSku ({ isOpen, onClose, userID, fetchsku }) {
       setIsClickButton(true)
       try {
         const response = await fetch(
-          `http://localhost:3015/postsku/${userID}`,
+          `${getApiUrl('domain')}/postsku/${userID}`,
           {
             method: 'POST',
             headers: {

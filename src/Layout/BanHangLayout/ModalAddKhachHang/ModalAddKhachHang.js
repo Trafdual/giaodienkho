@@ -4,6 +4,7 @@ import { useState, useCallback, useEffect } from 'react'
 import { Modal } from '~/components/Modal'
 import { useToast } from '~/components/GlobalStyles/ToastContext'
 import './ModalAddKhachHang.scss'
+import { getApiUrl } from '../../../api/api'
 
 function ModalAddKhachHang ({ isOpen, onClose, khoID, fetchData, userId }) {
   const [nhomkhachhangs, setnhomkhachangs] = useState([])
@@ -80,7 +81,7 @@ function ModalAddKhachHang ({ isOpen, onClose, khoID, fetchData, userId }) {
   const fetchnhomkhachang = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3015/getnhomkhachhang/${userId}`
+        `${getApiUrl('domain')}/getnhomkhachhang/${userId}`
       )
       const data = await response.json()
 
@@ -100,7 +101,7 @@ function ModalAddKhachHang ({ isOpen, onClose, khoID, fetchData, userId }) {
     if (validateInputs()) {
       try {
         const response = await fetch(
-          `http://localhost:3015/postkhachhang/${khoID}`,
+          `${getApiUrl('domain')}/postkhachhang/${khoID}`,
           {
             method: 'POST',
             headers: {

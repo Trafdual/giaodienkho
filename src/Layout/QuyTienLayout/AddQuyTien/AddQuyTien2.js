@@ -7,6 +7,7 @@ import '~/components/Loadingnut/loadingnut.scss'
 import './AddQuyTien2.scss'
 import { faPlus, faTrashCan } from '@fortawesome/free-solid-svg-icons'
 import { AddMucThu } from './AddMucThu'
+import { getApiUrl } from '../../../api/api'
 
 function AddQuyTien2 ({
   onClose,
@@ -73,7 +74,7 @@ function AddQuyTien2 ({
   const fetchMucThu = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3015/getmucthuchi/${userID}`
+        `${getApiUrl('domain')}/getmucthuchi/${userID}`
       )
       const data = await response.json()
       setmucthudata(data)
@@ -123,7 +124,7 @@ function AddQuyTien2 ({
       setIsClickButton(true)
       try {
         const response = await fetch(
-          `http://localhost:3015/postthuchi/${depotid}`,
+          `${getApiUrl('domain')}/postthuchi/${depotid}`,
           {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },

@@ -2,6 +2,7 @@ import './BaoCaoBanHangLayout.scss'
 import { useState, useEffect } from 'react'
 import { Loading } from '~/components/Loading'
 import { useNavigate } from 'react-router-dom'
+import { getApiUrl } from '../../api/api'
 function BaoCaoBanHangLayout () {
   const formatDate = date => {
     const d = new Date(date)
@@ -42,7 +43,9 @@ function BaoCaoBanHangLayout () {
     setLoading(true)
     try {
       const response = await fetch(
-        `http://localhost:3015/baocaobanhang/${khoID}?fromdate=${fromdate}&enddate=${enddate}`
+        `${getApiUrl(
+          'domain'
+        )}/baocaobanhang/${khoID}?fromdate=${fromdate}&enddate=${enddate}`
       )
       if (response.ok) {
         const data = await response.json()

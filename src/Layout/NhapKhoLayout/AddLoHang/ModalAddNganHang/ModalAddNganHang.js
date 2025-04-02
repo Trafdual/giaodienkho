@@ -45,7 +45,7 @@ function ModalAddNganHang ({ isOpen, onClose, userId, fetchdata }) {
     if (validateInputs()) {
       try {
         const response = await fetch(
-          `http://localhost:3015/postnganhang/${userId}`,
+          `${getApiUrl('domain')}/postnganhang/${userId}`,
           {
             method: 'POST',
             headers: {

@@ -2,6 +2,7 @@ import { Modal } from '~/components/Modal'
 import { useState } from 'react'
 import './AddUser.scss'
 import { Birthday } from '~/components/Birthday'
+import { getApiUrl } from '../../../../api/api'
 
 function AddUser ({ isOpen, onClose, fetchdata }) {
   const [password, setpassword] = useState('')
@@ -25,7 +26,7 @@ function AddUser ({ isOpen, onClose, fetchdata }) {
 
   const handelAddUser = async () => {
     try {
-      const response = await fetch('http://localhost:3015/registeradmin', {
+      const response = await fetch(`${getApiUrl('domain')}/registeradmin`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

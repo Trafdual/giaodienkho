@@ -23,6 +23,7 @@ import { ModalTraHang } from './ModalTraHang'
 import { TroGiupLayout } from '../TroGiupLayout'
 import { useNavigate } from 'react-router-dom'
 import { getFromLocalStorage } from '../../components/MaHoaLocalStorage/MaHoaLocalStorage'
+import { getApiUrl } from '../../api/api'
 
 function SearchProductLayout () {
   const navigate = useNavigate()
@@ -52,7 +53,6 @@ function SearchProductLayout () {
   const [currentImei, setCurrentImei] = useState(null)
 
   const userdata = getFromLocalStorage('data')
-
 
   const handleOpenModal = imei => {
     setCurrentImei(imei)
@@ -194,7 +194,7 @@ function SearchProductLayout () {
   }
   const XuatKhoHangLoat = async () => {
     try {
-      const response = await fetch(`http://localhost:3015/xuatkho1/${khoID}`, {
+      const response = await fetch(`${getApiUrl('domain')}/xuatkho1/${khoID}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

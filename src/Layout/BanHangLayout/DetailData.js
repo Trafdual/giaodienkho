@@ -8,6 +8,7 @@ import 'tippy.js/dist/tippy.css'
 import axios from 'axios'
 import OtherStoreModal from './ModalOtherStore/OtherStoreModal'
 import { useToast } from '~/components/GlobalStyles/ToastContext'
+import { getApiUrl } from '../../api/api'
 function ModalDataScreen ({
   isOpen,
   onClose,
@@ -44,7 +45,9 @@ function ModalDataScreen ({
   useEffect(() => {
     if (isOpen) {
       axios
-        .get(`http://localhost:3015/banhang/${product._id}/${khoId1}/${userId}`)
+        .get(
+          `${getApiUrl('domain')}/banhang/${product._id}/${khoId1}/${userId}`
+        )
         .then(response => {
           setData(response.data)
 

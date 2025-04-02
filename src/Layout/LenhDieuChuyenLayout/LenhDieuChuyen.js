@@ -8,6 +8,7 @@ import './LenhDieuChuyen.scss'
 import { PaginationComponent } from '~/components/NextPage'
 import { ModalDelete } from '~/components/ModalDelete'
 import { useNavigate } from 'react-router-dom'
+import { getApiUrl } from '../../api/api'
 
 function LenhDieuChuyen () {
   const navigate = useNavigate()
@@ -46,8 +47,10 @@ function LenhDieuChuyen () {
     try {
       const url =
         beginDate && endDate
-          ? `http://localhost:3015/getlenhdctheongay/${khoID}?begintime=${beginDate}&endtime=${endDate}`
-          : `http://localhost:3015/getlenhdieuchuyen/${khoID}`
+          ? `${getApiUrl(
+              'domain'
+            )}/getlenhdctheongay/${khoID}?begintime=${beginDate}&endtime=${endDate}`
+          : `${getApiUrl('domain')}/getlenhdieuchuyen/${khoID}`
 
       const response = await axios.get(url)
       setOrders(response.data)
@@ -88,7 +91,7 @@ function LenhDieuChuyen () {
   const handleConfirm = async orderId => {
     try {
       const response = await axios.post(
-        `http://localhost:3015/duyetdieuchuyen/${orderId}`
+        `${getApiUrl('domain')}/duyetdieuchuyen/${orderId}`
       )
       if (response.status === 200) {
         showToast('Duyệt lệnh điều chuyển thành công!', 'success')
@@ -111,7 +114,7 @@ function LenhDieuChuyen () {
   const handlehuylenh = async idlenh => {
     try {
       const response = await fetch(
-        `http://localhost:3015/huylenhdieuchuyen/${idlenh}`,
+        `${getApiUrl('domain')}/huylenhdieuchuyen/${idlenh}`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' }

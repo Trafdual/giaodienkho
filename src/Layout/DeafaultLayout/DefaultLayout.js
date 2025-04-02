@@ -9,7 +9,7 @@ import { Header } from './Header'
 import { Sidebar } from './Sidebar'
 import { Loading } from '~/components/Loading'
 import { getFromLocalStorage } from '~/components/MaHoaLocalStorage/MaHoaLocalStorage'
-
+import { getApiUrl } from '../../api/api'
 function DefaultLayout ({ children }) {
   const [isActive, setIsActive] = useState(false)
   const [loading, setloading] = useState(true)
@@ -33,12 +33,15 @@ function DefaultLayout ({ children }) {
 
   const handleGetKho = async () => {
     try {
-      const response = await fetch(`http://localhost:3015/getdepot/${userID}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'
+      const response = await fetch(
+        `${getApiUrl('domain')}/getdepot/${userID}`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          }
         }
-      })
+      )
 
       if (response.ok) {
         const data = await response.json()

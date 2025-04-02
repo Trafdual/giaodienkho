@@ -16,6 +16,7 @@ import { ModalAddNganHang } from '~/Layout/NhapKhoLayout/AddLoHang/ModalAddNganH
 import { ModalAddNhaCungCap } from '~/Layout/NhapKhoLayout/ModalAddNhaCungCap'
 import { getFromLocalStorage } from '~/components/MaHoaLocalStorage/MaHoaLocalStorage'
 import Tippy from '@tippyjs/react/headless'
+import { getApiUrl } from '../../../../../api/api'
 
 function AddTest ({ isOpen, onClose, fetclohang, malohang }) {
   const [name, setName] = useState('')
@@ -85,7 +86,7 @@ function AddTest ({ isOpen, onClose, fetclohang, malohang }) {
   const fetchSuppliers = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3015/getnhacungcap/${khoID}`
+        `${getApiUrl('domain')}/getnhacungcap/${khoID}`
       )
       const data = await response.json()
 
@@ -103,12 +104,14 @@ function AddTest ({ isOpen, onClose, fetclohang, malohang }) {
   }
 
   useEffect(() => {
-    fetchSuppliers()
+    if (khoID) {
+      fetchSuppliers()
+    }
   }, [khoID, showToast])
   const fetchnganhang = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3015/getnganhang/${userID}`
+        `${getApiUrl('domain')}/getnganhang/${userID}`
       )
       const data = await response.json()
 

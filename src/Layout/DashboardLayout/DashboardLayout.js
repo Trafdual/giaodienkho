@@ -18,6 +18,7 @@ import {
 import images from '../../assets/images'
 import { useNavigate } from 'react-router-dom'
 import './DashboardLayout.scss'
+import { getApiUrl } from '../../api/api'
 
 ChartJS.register(
   Title,
@@ -109,7 +110,7 @@ function TestDasboard () {
   const fetchtopkhachhang = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3015/topkhachhang/${khoID}`
+        `${getApiUrl('domain')}/topkhachhang/${khoID}`
       )
       const data = await response.json()
       if (response.ok) {
@@ -122,7 +123,7 @@ function TestDasboard () {
 
   const fetchpolarData = async () => {
     try {
-      const response = await fetch(`http://localhost:3015/sanphamban/${khoID}`)
+      const response = await fetch(`${getApiUrl('domain')}/sanphamban/${khoID}`)
       const data = await response.json()
       if (response.ok) {
         setpolarData(data)
@@ -135,7 +136,7 @@ function TestDasboard () {
   const fetchbardata = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3015/doanhthutheothang/${khoID}`
+        `${getApiUrl('domain')}/doanhthutheothang/${khoID}`
       )
       const data = await response.json()
       if (response.ok) {

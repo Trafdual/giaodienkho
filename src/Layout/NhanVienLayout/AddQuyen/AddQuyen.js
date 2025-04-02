@@ -9,6 +9,7 @@ import {
   faFloppyDisk,
   faXmarkCircle
 } from '@fortawesome/free-solid-svg-icons'
+import { getApiUrl } from '../../../api/api'
 
 const AddQuyen = ({ idncc, isOpen, onClose, fetchdata }) => {
   const { showToast } = useToast()
@@ -21,7 +22,7 @@ const AddQuyen = ({ idncc, isOpen, onClose, fetchdata }) => {
 
   const fetchquyen = async () => {
     try {
-      const response = await fetch(`http://localhost:3015/quyennv/${idncc}`)
+      const response = await fetch(`${getApiUrl('domain')}/quyennv/${idncc}`)
       const data = await response.json()
       if (response.ok) {
         setQuyen(data.quyen)
@@ -46,7 +47,7 @@ const AddQuyen = ({ idncc, isOpen, onClose, fetchdata }) => {
   const handleSave = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3015/addquyennv/${idncc}`,
+        `${getApiUrl('domain')}/addquyennv/${idncc}`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -67,7 +68,7 @@ const AddQuyen = ({ idncc, isOpen, onClose, fetchdata }) => {
   const handleRemove = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3015/removequyennv/${idncc}`,
+        `${getApiUrl('domain')}/removequyennv/${idncc}`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },

@@ -92,7 +92,7 @@ function SanPhamLayout (_ref) {
               _context.prev = 2
               _context.next = 5
               return regeneratorRuntime.awrap(
-                fetch('http://localhost:3015/getsanpham/'.concat(idloaisp), {
+                fetch(`${getApiUrl('domain')}/getsanpham/'.concat(idloaisp), {
                   method: 'GET',
                   headers: {
                     'Content-Type': 'application/json'
@@ -167,7 +167,7 @@ function SanPhamLayout (_ref) {
               _context2.next = 5
               return regeneratorRuntime.awrap(
                 fetch(
-                  'http://localhost:3015/xuatkho/'
+                  `${getApiUrl('domain')}/xuatkho/'
                     .concat(idsp, '/')
                     .concat(idloaisp, '/')
                     .concat(khoID),

@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { Modal } from '../../../../components/Modal'
 import { ChuyenKho } from './ChuyenKho'
 import { useToast } from '../../../../components/GlobalStyles/ToastContext'
+import { getApiUrl } from '../../../../api/api'
 
 function ModalXuatKho ({
   isOpen,
@@ -26,7 +27,7 @@ function ModalXuatKho ({
 
     try {
       const response = await fetch(
-        `http://localhost:3015/xuatkho/${idsp}/${idloaisp}/${khoID}`,
+        `${getApiUrl('domain')}/xuatkho/${idsp}/${idloaisp}/${khoID}`,
         {
           method: 'POST',
           headers: {

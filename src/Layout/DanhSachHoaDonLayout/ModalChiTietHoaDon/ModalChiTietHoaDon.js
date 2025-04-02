@@ -2,6 +2,7 @@
 import React from 'react'
 import './ModalChiTietHoaDon.scss'
 import { useState, useEffect } from 'react'
+import { getApiUrl } from '../../../api/api'
 
 function ModalChiTietHoaDon ({ isOpen, onClose, idhoadon }) {
   const [data, setdata] = useState(null)
@@ -9,7 +10,7 @@ function ModalChiTietHoaDon ({ isOpen, onClose, idhoadon }) {
   const fetchchitiet = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3015/gethoadonchitiet/${idhoadon}`
+        `${getApiUrl('domain')}/gethoadonchitiet/${idhoadon}`
       )
       if (response.ok) {
         const data = await response.json()

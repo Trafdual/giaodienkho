@@ -3,6 +3,7 @@ import { useState, useCallback } from 'react'
 import { Modal } from '~/components/Modal'
 import { useToast } from '~/components/GlobalStyles/ToastContext'
 import { ModalOnClose } from '~/components/ModalOnClose'
+import { getApiUrl } from '../../../../api/api'
 
 function AddLoaiChungTu ({ isOpen, onClose, userID, fetchdata }) {
   const [name, setName] = useState('')
@@ -39,7 +40,7 @@ function AddLoaiChungTu ({ isOpen, onClose, userID, fetchdata }) {
     if (validateInputs()) {
       try {
         const response = await fetch(
-          `http://localhost:3015/postloaichungtu/${userID}`,
+          `${getApiUrl('domain')}/postloaichungtu/${userID}`,
           {
             method: 'POST',
             headers: {

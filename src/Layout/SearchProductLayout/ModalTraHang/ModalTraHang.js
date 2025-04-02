@@ -12,6 +12,7 @@ import 'react-datepicker/dist/react-datepicker.css'
 import 'react-time-picker/dist/TimePicker.css'
 import 'react-clock/dist/Clock.css'
 import { getFromLocalStorage } from '~/components/MaHoaLocalStorage/MaHoaLocalStorage'
+import { getApiUrl } from '../../../api/api'
 
 function ModalTraHang ({ isOpen, onClose, fetchData, imellist }) {
   const [name, setName] = useState('')
@@ -65,7 +66,7 @@ function ModalTraHang ({ isOpen, onClose, fetchData, imellist }) {
     const fetchSuppliers = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3015/getnhacungcap/${khoID}`
+          `${getApiUrl('domain')}/getnhacungcap/${khoID}`
         )
         const data = await response.json()
 
@@ -128,7 +129,7 @@ function ModalTraHang ({ isOpen, onClose, fetchData, imellist }) {
     if (validateInputs()) {
       try {
         const response = await fetch(
-          `http://localhost:3015/posttrahang/${khoID}`,
+          `${getApiUrl('domain')}/posttrahang/${khoID}`,
           {
             method: 'POST',
             headers: {

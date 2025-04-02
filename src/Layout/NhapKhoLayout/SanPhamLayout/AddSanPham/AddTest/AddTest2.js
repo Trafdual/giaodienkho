@@ -17,6 +17,7 @@ import { FormAddImel } from '../FormAddImel'
 import '~/components/Loadingnut/loadingnut.scss'
 import { getFromLocalStorage } from '~/components/MaHoaLocalStorage/MaHoaLocalStorage'
 import Tippy from '@tippyjs/react/headless'
+import { getApiUrl } from '../../../../../api/api'
 
 function AddTest2 ({
   fetchlohang,
@@ -100,7 +101,7 @@ function AddTest2 ({
   const fetchSku = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3015/getdungluongsku/${userID}`
+        `${getApiUrl('domain')}/getdungluongsku/${userID}`
       )
       const data = await response.json()
 
@@ -294,7 +295,7 @@ function AddTest2 ({
       setIsClickButton(true)
       try {
         const response = await fetch(
-          `http://localhost:3015/updateloaisanpham4`,
+          `${getApiUrl('domain')}/updateloaisanpham4`,
           {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -326,7 +327,7 @@ function AddTest2 ({
 
   const handleDelete = async () => {
     try {
-      const response = await fetch(`http://localhost:3015/deletelohang`, {
+      const response = await fetch(`${getApiUrl('domain')}/deletelohang`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ malohang })
@@ -347,7 +348,7 @@ function AddTest2 ({
   const fetchimel = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3015/getfullchitietlo/${malohang}`
+        `${getApiUrl('domain')}/getfullchitietlo/${malohang}`
       )
       if (response.ok) {
         const data = await response.json()
@@ -365,7 +366,7 @@ function AddTest2 ({
   }, [malohang])
 
   useEffect(() => {
-    const eventSource = new EventSource('http://localhost:3015/events')
+    const eventSource = new EventSource(`${getApiUrl('domain')}/events`)
 
     eventSource.onmessage = event => {
       const newMessage = JSON.parse(event.data)

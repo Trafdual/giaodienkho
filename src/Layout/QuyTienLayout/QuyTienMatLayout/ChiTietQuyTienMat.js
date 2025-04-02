@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from 'react'
+import { getApiUrl } from '../../../api/api'
 
 function ChiTietQuyTienMat ({
   idquytien,
@@ -26,7 +27,7 @@ function ChiTietQuyTienMat ({
 
     try {
       const response = await fetch(
-        `http://localhost:3015/getchitietthuchi/${idquytien}`,
+        `${getApiUrl('domain')}/getchitietthuchi/${idquytien}`,
         {
           method: 'GET',
           headers: {
@@ -52,7 +53,7 @@ function ChiTietQuyTienMat ({
   }, [idquytien])
 
   // useEffect(() => {
-  //   const eventSource = new EventSource('http://localhost:3015/events')
+  //   const eventSource = new EventSource(`${getApiUrl('domain')}/events')
 
   //   eventSource.onmessage = event => {
   //     const newMessage = JSON.parse(event.data)

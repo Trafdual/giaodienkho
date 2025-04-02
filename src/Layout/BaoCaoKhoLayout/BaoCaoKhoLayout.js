@@ -3,6 +3,7 @@ import './BaoCaoKhoLayout.scss'
 import { enableColumnResizing } from '../ColumnResizer/columnResizer'
 import { Loading } from '~/components/Loading'
 import { useNavigate } from 'react-router-dom'
+import { getApiUrl } from '../../api/api'
 
 function BaoCaoKhoLayout () {
   const navigate = useNavigate()
@@ -38,7 +39,9 @@ function BaoCaoKhoLayout () {
     setLoading(true)
     try {
       const response = await fetch(
-        `http://localhost:3015/getsptest/${khoID}?fromDate=${startDate}&endDate=${endDate}`
+        `${getApiUrl(
+          'domain'
+        )}/getsptest/${khoID}?fromDate=${startDate}&endDate=${endDate}`
       )
       const data = await response.json()
       setData(data)

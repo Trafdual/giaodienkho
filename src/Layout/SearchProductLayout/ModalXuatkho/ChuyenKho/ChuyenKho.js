@@ -3,6 +3,8 @@ import { useState, useEffect } from 'react'
 import { useToast } from '../../../../components/GlobalStyles/ToastContext'
 import { Modal } from '../../../../components/Modal'
 import { getFromLocalStorage } from '~/components/MaHoaLocalStorage/MaHoaLocalStorage'
+import { getApiUrl } from '../../../../api/api'
+
 function ChuyenKho ({ isOpen, onClose, fetchData, idsanpham }) {
   const { showToast } = useToast()
   const [datakho, setdatakho] = useState([])
@@ -24,12 +26,15 @@ function ChuyenKho ({ isOpen, onClose, fetchData, idsanpham }) {
 
   const handleGetKho = async () => {
     try {
-      const response = await fetch(`http://localhost:3015/getdepot/${userID}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'
+      const response = await fetch(
+        `${getApiUrl('domain')}/getdepot/${userID}`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          }
         }
-      })
+      )
 
       if (response.ok) {
         const data = await response.json()
@@ -51,7 +56,7 @@ function ChuyenKho ({ isOpen, onClose, fetchData, idsanpham }) {
   const postchuyenkho = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3015/chuyenkho/${idsanpham}`,
+        `${getApiUrl('domain')}/chuyenkho/${idsanpham}`,
         {
           method: 'POST',
           headers: {

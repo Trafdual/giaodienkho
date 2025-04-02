@@ -4,6 +4,7 @@ import { useState, useCallback, useEffect } from 'react'
 import { Modal } from '../../../components/Modal'
 import { useToast } from '../../../components/GlobalStyles/ToastContext'
 import { ModalOnClose } from '~/components/ModalOnClose'
+import { getApiUrl } from '../../../api/api'
 
 function EditPassword ({ isOpen, onClose, idncc, fetchdata }) {
   const [password, setpassword] = useState('')
@@ -29,7 +30,7 @@ function EditPassword ({ isOpen, onClose, idncc, fetchdata }) {
 
   const fetchchitiet = async () => {
     try {
-      const response = await fetch(`http://localhost:3015/chitietnv/${idncc}`)
+      const response = await fetch(`${getApiUrl('domain')}/chitietnv/${idncc}`)
       const data = await response.json()
 
       if (response.ok) {
@@ -48,15 +49,18 @@ function EditPassword ({ isOpen, onClose, idncc, fetchdata }) {
   const handleEditNhanVien = async () => {
     if (validateInputs()) {
       try {
-        const response = await fetch(`http://localhost:3015/doimknv/${idncc}`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            password
-          })
-        })
+        const response = await fetch(
+          `${getApiUrl('domain')}/doimknv/${idncc}`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              password
+            })
+          }
+        )
 
         if (response.ok) {
           fetchdata()

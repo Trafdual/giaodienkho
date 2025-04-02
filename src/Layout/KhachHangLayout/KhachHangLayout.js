@@ -7,6 +7,7 @@ import { Loading } from '~/components/Loading'
 import { getFromLocalStorage } from '~/components/MaHoaLocalStorage/MaHoaLocalStorage'
 import { PaginationComponent } from '~/components/NextPage'
 import './KhacHangLayout.scss'
+import { getApiUrl } from '../../api/api'
 
 function KhachHangLayout () {
   const [isOpen, setIsOpen] = useState(false)
@@ -58,7 +59,7 @@ function KhachHangLayout () {
 
     try {
       const response = await fetch(
-        `http://localhost:3015/getkhachhang/${khoID}`,
+        `${getApiUrl('domain')}/getkhachhang/${khoID}`,
         {
           method: 'GET',
           headers: {

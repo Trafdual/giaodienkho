@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react'
 import { useToast } from '../../components/GlobalStyles/ToastContext'
 import { ModalTest } from './ModalTest'
+import { getApiUrl } from '../../api/api'
 
 function TestLayout () {
   const { showToast } = useToast()
@@ -100,7 +101,7 @@ function TestLayout () {
   const XoaHangLoat = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3015/deletexuatkho/${khoID}`,
+        `${getApiUrl('domain')}/deletexuatkho/${khoID}`,
         {
           method: 'POST',
           headers: {
@@ -127,7 +128,7 @@ function TestLayout () {
   }
 
   useEffect(() => {
-    const eventSource = new EventSource('http://localhost:3015/events')
+    const eventSource = new EventSource(`${getApiUrl('domain')}/events`)
 
     eventSource.onmessage = event => {
       const newMessage = JSON.parse(event.data)

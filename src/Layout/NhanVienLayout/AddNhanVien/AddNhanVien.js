@@ -3,6 +3,7 @@ import { useState, useCallback } from 'react'
 import { Modal } from '../../../components/Modal'
 import { useToast } from '../../../components/GlobalStyles/ToastContext'
 import { ModalOnClose } from '~/components/ModalOnClose'
+import { getApiUrl } from '../../../api/api'
 
 function AddNhanVien ({ isOpen, onClose, khoID, fetchData }) {
   const [name, setName] = useState('')
@@ -85,7 +86,7 @@ function AddNhanVien ({ isOpen, onClose, khoID, fetchData }) {
     if (validateInputs()) {
       try {
         const response = await fetch(
-          `http://localhost:3015/postnhanvien/${khoID}`,
+          `${getApiUrl('domain')}/postnhanvien/${khoID}`,
           {
             method: 'POST',
             headers: {

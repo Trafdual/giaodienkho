@@ -4,6 +4,7 @@ import { Loading } from '~/components/Loading'
 import { ModalChiTietHoaDon } from './ModalChiTietHoaDon'
 import { PaginationComponent } from '~/components/NextPage'
 import { useNavigate } from 'react-router-dom'
+import { getApiUrl } from '../../api/api'
 
 function DanhSachHoaDonLayout () {
   const navigate = useNavigate()
@@ -60,7 +61,9 @@ function DanhSachHoaDonLayout () {
     setLoading(true)
     try {
       const response = await fetch(
-        `http://localhost:3015/gethoadonstore/${khoID}?fromdate=${fromdate}&enddate=${enddate}`
+        `${getApiUrl(
+          'domain'
+        )}/gethoadonstore/${khoID}?fromdate=${fromdate}&enddate=${enddate}`
       )
       if (response.ok) {
         const data = await response.json()

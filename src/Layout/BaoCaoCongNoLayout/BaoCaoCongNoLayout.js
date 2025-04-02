@@ -4,7 +4,7 @@ import { Loading } from '~/components/Loading'
 import { useToast } from '~/components/GlobalStyles/ToastContext'
 import './BaoCaoCongNo.scss'
 import { useNavigate } from 'react-router-dom'
-
+import { getApiUrl } from '../../api/api'
 function BaoCaoCongNo () {
   const navigate = useNavigate()
   const today = new Date().toISOString().split('T')[0]
@@ -43,7 +43,9 @@ function BaoCaoCongNo () {
       setLoading(true)
       try {
         const response = await fetch(
-          `http://localhost:3015/getcongno3/${khoID}?fromdate=${startDate}&enddate=${endDate}`
+          `${getApiUrl(
+            'domain'
+          )}/getcongno3/${khoID}?fromdate=${startDate}&enddate=${endDate}`
         )
         const data = await response.json()
         setData(data)

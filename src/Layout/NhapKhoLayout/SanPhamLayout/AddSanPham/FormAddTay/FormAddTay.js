@@ -8,6 +8,7 @@ import { faChevronDown, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { Tooltip } from 'react-tippy'
 import 'react-tippy/dist/tippy.css'
 import { getFromLocalStorage } from '~/components/MaHoaLocalStorage/MaHoaLocalStorage'
+import { getApiUrl } from '../../../../../api/api'
 
 function FormAddTay ({ isOpen, onClose, loaispid, fetchData, fetchlohang }) {
   const [name, setName] = useState('')
@@ -66,7 +67,7 @@ function FormAddTay ({ isOpen, onClose, loaispid, fetchData, fetchlohang }) {
     if (valicolorInputs()) {
       try {
         const response = await fetch(
-          `http://localhost:3015/postsp/${loaispid}`,
+          `${getApiUrl('domain')}/postsp/${loaispid}`,
           {
             method: 'POST',
             headers: {
@@ -113,7 +114,7 @@ function FormAddTay ({ isOpen, onClose, loaispid, fetchData, fetchlohang }) {
   }
 
   // useEffect(() => {
-  //   const eventSource = new EventSource('http://localhost:3015/events')
+  //   const eventSource = new EventSource(`${getApiUrl('domain')}/events')
 
   //   eventSource.onmessage = event => {
   //     const newMessage = JSON.parse(event.data)
@@ -129,7 +130,7 @@ function FormAddTay ({ isOpen, onClose, loaispid, fetchData, fetchlohang }) {
   const fetchSku = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3015/getdungluongsku/${userID}`
+        `${getApiUrl('domain')}/getdungluongsku/${userID}`
       )
       const data = await response.json()
 

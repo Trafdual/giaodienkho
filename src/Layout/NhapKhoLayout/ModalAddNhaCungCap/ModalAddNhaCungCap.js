@@ -4,6 +4,7 @@ import { Modal } from '../../../components/Modal'
 import { useToast } from '../../../components/GlobalStyles/ToastContext'
 import { ModalOnClose } from '~/components/ModalOnClose'
 import './ModalAddNhaCungCap.scss'
+import { getApiUrl } from '../../../api/api'
 
 function ModalAddNhaCungCap ({ isOpen, onClose, khoID, fetchnhacungcap }) {
   const [name, setName] = useState('')
@@ -58,7 +59,7 @@ function ModalAddNhaCungCap ({ isOpen, onClose, khoID, fetchnhacungcap }) {
       setIsClickButton(true)
       try {
         const response = await fetch(
-          `http://localhost:3015/postnhacungcap/${khoID}`,
+          `${getApiUrl('domain')}/postnhacungcap/${khoID}`,
           {
             method: 'POST',
             headers: {

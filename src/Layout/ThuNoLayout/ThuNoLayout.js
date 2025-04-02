@@ -5,6 +5,7 @@ import { PaginationComponent } from '~/components/NextPage'
 import { getFromLocalStorage } from '~/components/MaHoaLocalStorage/MaHoaLocalStorage'
 import { ModalThuNo } from './ModalThuNo'
 import { useNavigate } from 'react-router-dom'
+import { getApiUrl } from '../../api/api'
 
 function ThuNoLayout () {
   const navigate = useNavigate()
@@ -46,7 +47,7 @@ function ThuNoLayout () {
 
   const fetchhoadon = async () => {
     try {
-      const response = await fetch(`http://localhost:3015/gettrano/${khoID}`)
+      const response = await fetch(`${getApiUrl('domain')}/gettrano/${khoID}`)
       if (response.ok) {
         const data = await response.json()
         setdata(data)

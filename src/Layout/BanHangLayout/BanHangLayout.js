@@ -23,6 +23,7 @@ import { ModalQrThanhToan } from './ModalQrThanhToan'
 import { handleGeneratePDF } from './InHoaDon/InHoaDon'
 import { useToast } from '~/components/GlobalStyles/ToastContext'
 import { useNavigate } from 'react-router-dom'
+import { getApiUrl } from '../../api/api'
 
 function BanHangLayout () {
   const navigate = useNavigate()
@@ -117,7 +118,7 @@ function BanHangLayout () {
   const handleOpenModal = async idSku => {
     try {
       const response = await axios.get(
-        `http://localhost:3015/getsanphamchon/${idkho1}/${idSku}`
+        `${getApiUrl('domain')}/getsanphamchon/${idkho1}/${idSku}`
       )
       const data = response.data
       console.log('Dữ liệu IMEI từ API:', data)
@@ -190,7 +191,7 @@ function BanHangLayout () {
       if (!userId) return
       try {
         const response = await axios.get(
-          `http://localhost:3015/getspbanhang/${userId}`
+          `${getApiUrl('domain')}/getspbanhang/${userId}`
         )
         setProducts(response.data)
       } catch (error) {
@@ -245,7 +246,7 @@ function BanHangLayout () {
   const handleKhacHang = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3015/getkhachhang/${storedKhoID}`,
+        `${getApiUrl('domain')}/getkhachhang/${storedKhoID}`,
         {
           method: 'GET',
           headers: {
@@ -267,7 +268,7 @@ function BanHangLayout () {
   const fetchnganhang = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3015/getnganhang/${userId}`
+        `${getApiUrl('domain')}/getnganhang/${userId}`
       )
       const data = await response.json()
 
@@ -314,7 +315,7 @@ function BanHangLayout () {
     try {
       if (validate()) {
         const response = await fetch(
-          `http://localhost:3015/postchonsanpham/${storedKhoID}`,
+          `${getApiUrl('domain')}/postchonsanpham/${storedKhoID}`,
           {
             method: 'POST',
             headers: {

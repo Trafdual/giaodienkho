@@ -7,6 +7,7 @@ import './EditSanPham.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrashCan } from '@fortawesome/free-solid-svg-icons'
 import '~/components/Loadingnut/loadingnut.scss'
+import { getApiUrl } from '../../../../api/api'
 
 function EditSanPham ({
   sku,
@@ -39,7 +40,7 @@ function EditSanPham ({
     setIsDulieu(true)
     try {
       const response = await fetch(
-        `http://localhost:3015/getsanphambySKU/${sku}/${idloaisp}`
+        `${getApiUrl('domain')}/getsanphambySKU/${sku}/${idloaisp}`
       )
       const data = await response.json()
       if (response.ok) {
@@ -82,7 +83,7 @@ function EditSanPham ({
     }))
     setIsClickButton(true)
     try {
-      const response = await fetch('http://localhost:3015/putsomeproduct', {
+      const response = await fetch(`${getApiUrl('domain')}/putsomeproduct`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

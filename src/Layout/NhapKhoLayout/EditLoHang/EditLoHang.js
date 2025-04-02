@@ -14,7 +14,7 @@ import 'react-clock/dist/Clock.css'
 import { ModalAddNganHang } from '../AddLoHang/ModalAddNganHang'
 import { setDate } from 'date-fns'
 import { getFromLocalStorage } from '~/components/MaHoaLocalStorage/MaHoaLocalStorage'
-
+import { getApiUrl } from '../../../api/api'
 function EditLoHang ({ isOpen, onClose, idloaisanpham, fetchlohang }) {
   const [name, setName] = useState('')
   const [soluong, setsoluong] = useState('')
@@ -76,7 +76,7 @@ function EditLoHang ({ isOpen, onClose, idloaisanpham, fetchlohang }) {
     const fetchSuppliers = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3015/getnhacungcap/${khoID}`
+          `${getApiUrl('domain')}/getnhacungcap/${khoID}`
         )
         const data = await response.json()
 
@@ -98,7 +98,7 @@ function EditLoHang ({ isOpen, onClose, idloaisanpham, fetchlohang }) {
   const fetchnganhang = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3015/getnganhang/${userID}`
+        `${getApiUrl('domain')}/getnganhang/${userID}`
       )
       const data = await response.json()
 
@@ -164,7 +164,7 @@ function EditLoHang ({ isOpen, onClose, idloaisanpham, fetchlohang }) {
     if (validateInputs()) {
       try {
         const response = await fetch(
-          `http://localhost:3015/putloaisanpham/${idloaisanpham}`,
+          `${getApiUrl('domain')}/putloaisanpham/${idloaisanpham}`,
           {
             method: 'POST',
             headers: {
@@ -208,7 +208,7 @@ function EditLoHang ({ isOpen, onClose, idloaisanpham, fetchlohang }) {
       const fetchChitiet = async () => {
         try {
           const response = await fetch(
-            `http://localhost:3015/getchitietloaisanpham/${idloaisanpham}`
+            `${getApiUrl('domain')}/getchitietloaisanpham/${idloaisanpham}`
           )
           const data = await response.json()
           if (response.ok) {
@@ -378,7 +378,7 @@ function EditLoHang ({ isOpen, onClose, idloaisanpham, fetchlohang }) {
                       {suppliers.map(supplier => (
                         <tr
                           className='trdulieu'
-                          key={supplier.id}
+                          key={supplier._id}
                           onClick={() => {
                             setmancc(supplier.mancc)
                             setIsTableVisible(false)

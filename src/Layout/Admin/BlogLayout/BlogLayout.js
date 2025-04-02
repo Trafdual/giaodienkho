@@ -6,6 +6,7 @@ import { AddBlog } from './AddBlog'
 import './BlogLayout.scss'
 import { FaTrashCan } from 'react-icons/fa6'
 import { ModalDelete2 } from '~/components/ModalDelete2'
+import { getApiUrl } from '../../../api/api'
 function BlogLayout () {
   const [data, setdata] = useState([])
 
@@ -18,7 +19,7 @@ function BlogLayout () {
 
   const fetchdata = async () => {
     try {
-      const response = await fetch('http://localhost:3015/getalltrogiup')
+      const response = await fetch(`${getApiUrl('domain')}/getalltrogiup`)
       if (response.ok) {
         const data = await response.json()
         setdata(data)
@@ -134,7 +135,7 @@ function BlogLayout () {
         content={'Bạn có muốn xóa những blog này?'}
         seletecids={selectedIds}
         fetchdata={fetchdata}
-        link={'http://localhost:3015/deletetrogiup'}
+        link={`${getApiUrl('domain')}/deletetrogiup`}
         setSelectedIds={setSelectedIds}
       />
     </div>

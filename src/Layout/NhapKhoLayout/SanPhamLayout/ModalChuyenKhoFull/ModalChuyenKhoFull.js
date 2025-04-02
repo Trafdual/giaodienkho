@@ -3,6 +3,8 @@ import { useState, useEffect } from 'react'
 import { useToast } from '../../../../components/GlobalStyles/ToastContext'
 import { Modal } from '../../../../components/Modal'
 import { getFromLocalStorage } from '~/components/MaHoaLocalStorage/MaHoaLocalStorage'
+import { getApiUrl } from '../../../../api/api'
+
 function ModalChuyenKhoFull ({
   isOpen,
   onClose,
@@ -32,12 +34,15 @@ function ModalChuyenKhoFull ({
 
   const handleGetKho = async () => {
     try {
-      const response = await fetch(`http://localhost:3015/getdepot/${userID}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'
+      const response = await fetch(
+        `${getApiUrl('domain')}/getdepot/${userID}`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          }
         }
-      })
+      )
 
       if (response.ok) {
         const data = await response.json()
@@ -58,7 +63,7 @@ function ModalChuyenKhoFull ({
 
   const postchuyenkho = async () => {
     try {
-      const response = await fetch(`http://localhost:3015/chuyenkho1`, {
+      const response = await fetch(`${getApiUrl('domain')}/chuyenkho1`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

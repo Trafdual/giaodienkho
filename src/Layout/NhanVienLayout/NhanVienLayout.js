@@ -22,6 +22,8 @@ import { EditNhanVien } from './EditNhanVien'
 import { EditPassword } from './EditPassword'
 import { ModalDelete2 } from '~/components/ModalDelete2'
 import { AddQuyen } from './AddQuyen'
+import { getApiUrl } from '../../api/api'
+
 function NhanVienLayout () {
   const [nhanvien, setnhanvien] = useState([])
   const [isOpen, setIsOpen] = useState(false)
@@ -69,7 +71,9 @@ function NhanVienLayout () {
   const fetchData = async (page = 1) => {
     try {
       const response = await fetch(
-        `http://localhost:3015/getnhanvien/${userdata.data.user[0]._id}?page=${page}&limit=${itemsPerPage}&status=active`,
+        `${getApiUrl('domain')}/getnhanvien/${
+          userdata.data.user[0]._id
+        }?page=${page}&limit=${itemsPerPage}&status=active`,
         {
           method: 'GET',
           headers: {
@@ -302,7 +306,7 @@ function NhanVienLayout () {
               seletecids={selectedItems}
               setSelectedIds={setSelectedItems}
               fetchdata={fetchData}
-              link={'http://localhost:3015/khoanhanvien'}
+              link={`${getApiUrl('domain')}/khoanhanvien`}
               content={'Bạn có chắc chắn khóa những nhân viên này'}
             />
             <AddQuyen

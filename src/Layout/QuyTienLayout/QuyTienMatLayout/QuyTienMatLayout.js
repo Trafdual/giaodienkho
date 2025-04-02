@@ -8,6 +8,7 @@ import { AddQuyTien } from '../AddQuyTien'
 import { PaginationComponent } from '~/components/NextPage'
 import ChiTietQuyTienMat from './ChiTietQuyTienMat'
 import { useNavigate } from 'react-router-dom'
+import { getApiUrl } from '../../../api/api'
 
 function QuyTienMatLayout () {
   const [quytien, setquytien] = useState([])
@@ -93,7 +94,7 @@ function QuyTienMatLayout () {
 
     try {
       const response = await fetch(
-        `http://localhost:3015/getthuchitienmat/${khoID}`,
+        `${getApiUrl('domain')}/getthuchitienmat/${khoID}`,
         {
           method: 'GET',
           headers: {

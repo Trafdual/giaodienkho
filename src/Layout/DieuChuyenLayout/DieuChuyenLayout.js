@@ -4,6 +4,7 @@ import { useToast } from '../../components/GlobalStyles/ToastContext'
 import { Loading } from '~/components/Loading'
 import { PaginationComponent } from '~/components/NextPage'
 import { useNavigate } from 'react-router-dom'
+import { getApiUrl } from '../../api/api'
 
 function DieuChuyenLayout () {
   const { showToast } = useToast()
@@ -89,7 +90,7 @@ function DieuChuyenLayout () {
 
     try {
       const response = await fetch(
-        `http://localhost:3015/getdieuchuyen/${khoID}`,
+        `${getApiUrl('domain')}/getdieuchuyen/${khoID}`,
         {
           method: 'GET',
           headers: {
@@ -128,7 +129,7 @@ function DieuChuyenLayout () {
   const XoaHangLoat = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3015/deletedieuchuyen/${khoID}`,
+        `${getApiUrl('domain')}/deletedieuchuyen/${khoID}`,
         {
           method: 'POST',
           headers: {

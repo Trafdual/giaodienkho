@@ -39,7 +39,7 @@ function DoanhThuLayout () {
     setLoading(true)
     try {
       const response = await fetch(
-        `http://localhost:3015/getdoanhthu/${khoID}?fromDate=${startDate}&endDate=${endDate}&fromDatetruoc=${startDatetruoc}&endDatetruoc=${endDatetruoc}`,
+        `https://baotech.shop/getdoanhthu/${khoID}?fromDate=${startDate}&endDate=${endDate}&fromDatetruoc=${startDatetruoc}&endDatetruoc=${endDatetruoc}`,
         {
           method: 'POST',
           headers: {
@@ -64,36 +64,75 @@ function DoanhThuLayout () {
     XLSX.utils.book_append_sheet(wb, ws, 'DoanhThu')
     XLSX.writeFile(wb, 'DoanhThu.xlsx')
   }
-
+  
   const handleExportPDF = async () => {
     setIsExporting(true)
     await new Promise(resolve => setTimeout(resolve, 300))
 
     const element = document.querySelector('.doanh-thu-layout')
-
     if (!element) return
 
     const buttons = element.querySelectorAll('button')
     buttons.forEach(btn => (btn.style.display = 'none'))
 
     try {
-      const canvas = await html2canvas(element, { scale: 2 })
+      const pdfWidth = 240
+      const pdfHeight = 297
+      const scaleFactor = 4
+      const margin = 16
+
+      const originalWidth = element.style.width
+      const originalHeight = element.style.height
+      const originalPosition = element.style.position
+
+      element.style.position = 'absolute'
+      element.style.left = '-9999px'
+
+      const targetWidth = (pdfWidth - 2 * margin) * scaleFactor
+      element.style.width = `${targetWidth}px`
+      element.style.height = 'auto'
+
+      await new Promise(resolve => setTimeout(resolve, 100))
+
+      const canvas = await html2canvas(element, {
+        scale: scaleFactor,
+        width: element.scrollWidth,
+        height: element.scrollHeight
+      })
+
       const imgData = canvas.toDataURL('image/png')
 
-      const pdf = new jsPDF('p', 'mm', 'a4')
-      const imgWidth = 210
-      const imgHeight = (canvas.height * imgWidth) / canvas.width
+      element.style.width = originalWidth
+      element.style.height = originalHeight
+      element.style.position = originalPosition
+      element.style.left = 'auto'
 
-      pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight)
+      const maxImgWidth = pdfWidth - 2 * margin
+      const maxImgHeight = pdfHeight - 2 * margin
+
+      let imgWidth = maxImgWidth
+      let imgHeight = (canvas.height * imgWidth) / canvas.width
+
+      if (imgHeight > maxImgHeight) {
+        imgHeight = maxImgHeight
+        imgWidth = (canvas.width * imgHeight) / canvas.height
+      }
+
+      const pdf = new jsPDF('p', 'mm', 'a4')
+
+      const xPosition = (pdfWidth - imgWidth) / 40
+      const yPosition = (pdfHeight - imgHeight) / 10
+
+      pdf.addImage(imgData, 'PNG', xPosition, yPosition, imgWidth, imgHeight)
 
       const pdfBlob = pdf.output('blob')
       const pdfURL = URL.createObjectURL(pdfBlob)
       window.open(pdfURL)
-      setIsExporting(false)
     } catch (error) {
       console.error('Lỗi khi xuất PDF:', error)
     } finally {
       buttons.forEach(btn => (btn.style.display = ''))
+      setIsExporting(false)
     }
   }
 

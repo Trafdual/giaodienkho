@@ -18,6 +18,8 @@ import { useNavigate } from 'react-router-dom'
 import { Loading } from '~/components/Loading'
 import NotificationsList from '~/components/Notifications/Notification'
 import { Modal } from '~/components/Modal'
+import { getFromLocalStorage } from '../../../components/MaHoaLocalStorage/MaHoaLocalStorage'
+import { getApiUrl } from '../../../api/api'
 function Header ({
   toggleMenu,
   userId,
@@ -45,6 +47,8 @@ function Header ({
   const [showNotifications, setShowNotifications] = useState(false)
   const navigate = useNavigate()
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const userdata = getFromLocalStorage('data')
+
   useEffect(() => {
     // Mở modal nếu chưa chọn kho
     if (!selectedKho) {
@@ -126,7 +130,7 @@ function Header ({
     setIsLoading(true)
     try {
       const response = await fetch(
-        `http://localhost:3015/searchsanpham/${khoID}`,
+        `${getApiUrl('domain')}/searchsanpham/${khoID}`,
         {
           method: 'POST',
           headers: {
@@ -200,13 +204,17 @@ function Header ({
         )}
       </div>
       <div className='user'>
-        <div className='divthemkho'>
-          <Tippy content='Thêm kho' placement='bottom'>
-            <button className='btnicon' onClick={() => setIsOpen(true)}>
-              <FontAwesomeIcon className='iconhelp' icon={faPlus} />
-            </button>
-          </Tippy>
-        </div>
+        {(userdata.data.user[0].role === 'manager' ||
+          userdata.data.user[0].quyen.includes('quanly')) && (
+          <div className='divthemkho'>
+            <Tippy content='Thêm kho' placement='bottom'>
+              <button className='btnicon' onClick={() => setIsOpen(true)}>
+                <FontAwesomeIcon className='iconhelp' icon={faPlus} />
+              </button>
+            </Tippy>
+          </div>
+        )}
+
         <ListKho
           datakho={datakho}
           selectedKho={selectedKho}
@@ -277,16 +285,19 @@ function Header ({
               selectedKho={selectedKho}
               setSelectedKho={setSelectedKho}
             />
-            <div
-              className='divthemkho'
-              style={{ width: '50px', height: '50px', paddingLeft: '10px' }}
-            >
-              <Tippy content='Thêm kho' placement='bottom'>
-                <button className='btnicon' onClick={() => setIsOpen(true)}>
-                  Thêm kho
-                </button>
-              </Tippy>
-            </div>
+            {(userdata.data.user[0].role === 'manager' ||
+              userdata.data.user[0].quyen.includes('quanly')) && (
+              <div
+                className='divthemkho'
+                style={{ width: '50px', height: '50px', paddingLeft: '10px' }}
+              >
+                <Tippy content='Thêm kho' placement='bottom'>
+                  <button className='btnicon' onClick={() => setIsOpen(true)}>
+                    Thêm kho
+                  </button>
+                </Tippy>
+              </div>
+            )}
           </div>
         </Modal>
       )}

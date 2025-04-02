@@ -4,6 +4,7 @@ import ReactQuill from 'react-quill'
 import { useToast } from '~/components/GlobalStyles/ToastContext'
 import 'react-quill/dist/quill.snow.css'
 import './AddBlog.scss'
+import { getApiUrl } from '../../../../api/api'
 
 function AddBlog ({ isOpen, onClose, fetchdata }) {
   const [tieude_blog, settieude_blog] = useState('')
@@ -27,7 +28,7 @@ function AddBlog ({ isOpen, onClose, fetchdata }) {
         formData.append('image', file)
       }
 
-      const response = await fetch('http://localhost:3015/posttrogiup', {
+      const response = await fetch(`${getApiUrl('domain')}/posttrogiup`, {
         method: 'POST',
         body: formData
       })

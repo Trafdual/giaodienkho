@@ -17,6 +17,7 @@ import PaginationComponent from '../../components/NextPage/PaginationComponent'
 import { useToast } from '~/components/GlobalStyles/ToastContext'
 import { getFromLocalStorage } from '~/components/MaHoaLocalStorage/MaHoaLocalStorage'
 import { useNavigate } from 'react-router-dom'
+import { getApiUrl } from '../../api/api'
 
 function NhapKhoLayout () {
   const navigate = useNavigate()
@@ -98,7 +99,7 @@ function NhapKhoLayout () {
 
     try {
       const response = await fetch(
-        `http://localhost:3015/getloaisanpham2/${khoID}`,
+        `${getApiUrl('domain')}/getloaisanpham2/${khoID}`,
         {
           method: 'GET',
           headers: {
@@ -219,7 +220,7 @@ function NhapKhoLayout () {
   const handlePostlohang = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3015/postloaisanpham5/${khoID}`,
+        `${getApiUrl('domain')}/postloaisanpham5/${khoID}`,
         {
           method: 'POST',
           headers: {
@@ -238,7 +239,7 @@ function NhapKhoLayout () {
   }
 
   useEffect(() => {
-    const eventSource = new EventSource('http://localhost:3015/events')
+    const eventSource = new EventSource(`${getApiUrl('domain')}/events`)
 
     eventSource.onmessage = event => {
       fetchData()
@@ -320,7 +321,8 @@ function NhapKhoLayout () {
                   Xem
                 </button>
 
-                {(userdata.data.user[0].role === 'manager' || userdata.data.user[0].quyen.includes('quanly')) && (
+                {(userdata.data.user[0].role === 'manager' ||
+                  userdata.data.user[0].quyen.includes('quanly')) && (
                   <button
                     className={`btn-xoa ${
                       selectedItems.length === 0 ? 'disabled' : ''
@@ -365,62 +367,58 @@ function NhapKhoLayout () {
                   <tbody className='tbodynhap'>
                     {currentItems.length > 0 ? (
                       currentItems.map(ncc => (
-                        <>
-                          <tr
-                            key={ncc._id}
-                            className={
-                              selectedRow === ncc._id ? 'selectedrow' : ''
+                        <tr
+                          key={ncc._id}
+                          className={
+                            selectedRow === ncc._id ? 'selectedrow' : ''
+                          }
+                          onClick={() => {
+                            if (selectedRow !== ncc._id) {
+                              handleLohang(ncc._id)
+                              setLoadingsp(true)
                             }
-                            onClick={() => {
-                              if (selectedRow !== ncc._id) {
-                                handleLohang(ncc._id)
-                                setLoadingsp(true)
-                              }
-                            }}
-                            style={{ cursor: 'pointer' }}
-                          >
-                            <td className='tdnhap'>
-                              <input
-                                type='checkbox'
-                                checked={selectedItems.includes(ncc._id)}
-                                onChange={() => handleSelectItem(ncc._id)}
-                              />
-                            </td>
-                            <td>{ncc.malsp}</td>
-                            <td>{ncc.name}</td>
-                            <td>
-                              {isMobile
-                                ? ncc.date
-                                  ? new Date(
-                                      typeof ncc.date === 'string' &&
-                                      ncc.date.includes('/')
-                                        ? ncc.date
-                                            .split('/')
-                                            .reverse()
-                                            .join('-') // Chuyển từ DD/MM/YYYY -> YYYY-MM-DD
-                                        : ncc.date
-                                    ).toLocaleDateString('vi-VN', {
-                                      day: '2-digit',
-                                      month: '2-digit',
-                                      year: '2-digit'
-                                    })
-                                  : ''
-                                : ncc.date
-                                ? ncc.date
-                                : ''}
-                            </td>
-                            <td>
-                              {isMobile
-                                ? ncc.tongtien
-                                  ? `${(ncc.tongtien / 1000).toLocaleString()}k`
-                                  : 0
-                                : ncc.tongtien
-                                ? ncc.tongtien.toLocaleString()
-                                : 0}
-                              VNĐ
-                            </td>
-                            <td>{ncc.conlai}</td>
-                            {/* <td className='tdchucnang'>
+                          }}
+                          style={{ cursor: 'pointer' }}
+                        >
+                          <td className='tdnhap'>
+                            <input
+                              type='checkbox'
+                              checked={selectedItems.includes(ncc._id)}
+                              onChange={() => handleSelectItem(ncc._id)}
+                            />
+                          </td>
+                          <td>{ncc.malsp}</td>
+                          <td>{ncc.name}</td>
+                          <td>
+                            {isMobile
+                              ? ncc.date
+                                ? new Date(
+                                    typeof ncc.date === 'string' &&
+                                    ncc.date.includes('/')
+                                      ? ncc.date.split('/').reverse().join('-') // Chuyển từ DD/MM/YYYY -> YYYY-MM-DD
+                                      : ncc.date
+                                  ).toLocaleDateString('vi-VN', {
+                                    day: '2-digit',
+                                    month: '2-digit',
+                                    year: '2-digit'
+                                  })
+                                : ''
+                              : ncc.date
+                              ? ncc.date
+                              : ''}
+                          </td>
+                          <td>
+                            {isMobile
+                              ? ncc.tongtien
+                                ? `${(ncc.tongtien / 1000).toLocaleString()}k`
+                                : 0
+                              : ncc.tongtien
+                              ? ncc.tongtien.toLocaleString()
+                              : 0}
+                            VNĐ
+                          </td>
+                          <td>{ncc.conlai}</td>
+                          {/* <td className='tdchucnang'>
                             <button
                               className='btncnncc'
                               onClick={() => handleEditClick(ncc._id)}
@@ -428,8 +426,7 @@ function NhapKhoLayout () {
                               Cập nhật
                             </button>
                           </td> */}
-                          </tr>
-                        </>
+                        </tr>
                       ))
                     ) : (
                       <tr>

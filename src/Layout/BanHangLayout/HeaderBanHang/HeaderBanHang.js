@@ -12,6 +12,7 @@ import axios from 'axios'
 import NotificationsList from '~/components/Notifications/Notification'
 import { useNavigate } from 'react-router-dom'
 import { faFacebookMessenger } from '@fortawesome/free-brands-svg-icons'
+import { getApiUrl } from '../../../api/api'
 
 function HeaderBanHang ({ userId, username }) {
   const [khoList, setKhoList] = useState([])
@@ -51,7 +52,7 @@ function HeaderBanHang ({ userId, username }) {
       setIsLoading(true)
       try {
         const response = await axios.get(
-          `http://localhost:3015/getdepot/${userId}`
+          `${getApiUrl('domain')}/getdepot/${userId}`
         )
         if (Array.isArray(response.data)) {
           setKhoList(response.data)

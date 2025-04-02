@@ -13,6 +13,7 @@ import {
 import './ModalThuNo.scss'
 import { AddLoaiChungTu } from '~/Layout/QuyTienLayout/AddQuyTien/AddLoaiChungTu'
 import { useToast } from '~/components/GlobalStyles/ToastContext'
+import { getApiUrl } from '../../../api/api'
 
 function ModalThuNo ({
   isOpen,
@@ -63,7 +64,7 @@ function ModalThuNo ({
   const fetchloaichungtu = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3015/getloaichungtu/${userId}`
+        `${getApiUrl('domain')}/getloaichungtu/${userId}`
       )
       const data = await response.json()
       if (response.ok) {
@@ -90,7 +91,7 @@ function ModalThuNo ({
   const handleThuNo = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3015/thuno/${userId}/${khoID}`,
+        `${getApiUrl('domain')}/thuno/${userId}/${khoID}`,
         {
           method: 'POST',
           headers: {

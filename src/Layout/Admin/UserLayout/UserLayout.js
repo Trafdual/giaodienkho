@@ -9,6 +9,7 @@ import moment from 'moment'
 import { getFromLocalStorage } from '~/components/MaHoaLocalStorage/MaHoaLocalStorage'
 import { AddUser } from './AddUser'
 import { ModalDelete2 } from '~/components/ModalDelete2'
+import { getApiUrl } from '../../../api/api'
 
 function UserLayout () {
   const userdata = getFromLocalStorage('data')
@@ -22,7 +23,7 @@ function UserLayout () {
   const fetchdata = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3015/getuser/${userdata.data.user[0]._id}`
+        `${getApiUrl('backend')}/getuser/${userdata.data.user[0]._id}`
       )
       if (response.ok) {
         const data = await response.json()
@@ -175,7 +176,7 @@ function UserLayout () {
         content={'Bạn có muốn xóa những user này?'}
         seletecids={selectedIds}
         fetchdata={fetchdata}
-        link={'http://localhost:3015/deleteuser'}
+        link={`${getApiUrl('domain')}/deleteuser`}
         setSelectedIds={setSelectedIds}
       />
     </div>

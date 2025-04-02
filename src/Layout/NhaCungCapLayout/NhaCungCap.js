@@ -18,6 +18,8 @@ import { PaginationComponent } from '~/components/NextPage'
 import { getFromLocalStorage } from '~/components/MaHoaLocalStorage/MaHoaLocalStorage'
 import { useNavigate } from 'react-router-dom'
 import { ModalDelete2 } from '~/components/ModalDelete2'
+import { getApiUrl } from '../../api/api'
+
 function NhaCungCapLayout () {
   const [nhacungcap, setnhacungcap] = useState([])
   const [isOpen, setIsOpen] = useState(false)
@@ -60,7 +62,7 @@ function NhaCungCapLayout () {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3015/getnhacungcap/${khoID}`,
+        `${getApiUrl('domain')}/getnhacungcap/${khoID}`,
         {
           method: 'GET',
           headers: {
@@ -169,7 +171,8 @@ function NhaCungCapLayout () {
                   Xem
                 </button>
 
-                {(userdata.data.user[0].role === 'manager' || userdata.data.user[0].quyen.includes('quanly')) && (
+                {(userdata.data.user[0].role === 'manager' ||
+                  userdata.data.user[0].quyen.includes('quanly')) && (
                   <button
                     className={`btn-xoa ${
                       selectedItems.length === 0 ? 'disabled' : ''
@@ -249,7 +252,7 @@ function NhaCungCapLayout () {
               onClose={() => setIsOpenDelete(false)}
               seletecids={selectedItems}
               fetchdata={fetchData}
-              link={'http://localhost:3015/deletencc'}
+              link={`${getApiUrl('domain')}/deletencc`}
               content={'Bạn có chắc chắn xóa nhà cung cấp này'}
             />
           </div>

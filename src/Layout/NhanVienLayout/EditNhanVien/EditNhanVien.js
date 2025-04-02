@@ -4,6 +4,7 @@ import { useState, useCallback, useEffect } from 'react'
 import { Modal } from '../../../components/Modal'
 import { useToast } from '../../../components/GlobalStyles/ToastContext'
 import { ModalOnClose } from '~/components/ModalOnClose'
+import { getApiUrl } from '../../../api/api'
 
 function EditNhanVien ({ isOpen, onClose, idncc, fetchdata, setidncc }) {
   const [name, setName] = useState('')
@@ -76,7 +77,7 @@ function EditNhanVien ({ isOpen, onClose, idncc, fetchdata, setidncc }) {
 
   const fetchchitiet = async () => {
     try {
-      const response = await fetch(`http://localhost:3015/chitietnv/${idncc}`)
+      const response = await fetch(`${getApiUrl('domain')}/chitietnv/${idncc}`)
       const data = await response.json()
 
       if (response.ok) {
@@ -101,7 +102,7 @@ function EditNhanVien ({ isOpen, onClose, idncc, fetchdata, setidncc }) {
     if (validateInputs()) {
       try {
         const response = await fetch(
-          `http://localhost:3015/putnhanvien/${idncc}`,
+          `${getApiUrl('domain')}/putnhanvien/${idncc}`,
           {
             method: 'POST',
             headers: {

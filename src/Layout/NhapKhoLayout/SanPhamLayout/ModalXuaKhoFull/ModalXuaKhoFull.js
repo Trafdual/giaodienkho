@@ -1,6 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useToast } from '../../../../components/GlobalStyles/ToastContext'
 import { Modal } from '../../../../components/Modal'
+import { getApiUrl } from '../../../../api/api'
+
 function ModalXuaKhoFull ({
   isOpen,
   onClose,
@@ -18,7 +20,7 @@ function ModalXuaKhoFull ({
     if (selectedItems.length > 0) {
       try {
         const response = await fetch(
-          `http://localhost:3015/xuatkho1/${idloaisp}/${khoID}`,
+          `${getApiUrl('domain')}/xuatkho1/${idloaisp}/${khoID}`,
           {
             method: 'POST',
             headers: {

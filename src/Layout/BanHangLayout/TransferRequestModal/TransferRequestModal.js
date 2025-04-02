@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import './TransferRequestModal.scss'
 import { useToast } from '../../../components/GlobalStyles/ToastContext'
+import { getApiUrl } from '../../../api/api'
 function TransferRequestModal ({
   isOpen,
   onClose,
@@ -32,7 +33,7 @@ function TransferRequestModal ({
       }
 
       const response = await axios.post(
-        `http://localhost:3015/postyeucaudc/${idkho1}`,
+        `${getApiUrl('domain')}/postyeucaudc/${idkho1}`,
         payload
       )
 

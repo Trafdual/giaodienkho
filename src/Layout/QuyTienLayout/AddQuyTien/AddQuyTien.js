@@ -15,6 +15,7 @@ import { ModalBig } from '~/components/ModalBig'
 import { ModalAddNhaCungCap } from '~/Layout/NhapKhoLayout/ModalAddNhaCungCap'
 import { getFromLocalStorage } from '~/components/MaHoaLocalStorage/MaHoaLocalStorage'
 import { AddLoaiChungTu } from './AddLoaiChungTu'
+import { getApiUrl } from '../../../api/api'
 
 function AddQuyTien ({ isOpen, onClose, fetchquytien, loaitien, method }) {
   const [lydo, setlydo] = useState('')
@@ -100,7 +101,7 @@ function AddQuyTien ({ isOpen, onClose, fetchquytien, loaitien, method }) {
   const fetchSuppliers = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3015/doituongthuchi/${khoID}`
+        `${getApiUrl('domain')}/doituongthuchi/${khoID}`
       )
       const data = await response.json()
 
@@ -121,7 +122,7 @@ function AddQuyTien ({ isOpen, onClose, fetchquytien, loaitien, method }) {
   const fetchLoaichungtu = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3015/getloaichungtu/${userID}`
+        `${getApiUrl('domain')}/getloaichungtu/${userID}`
       )
       const data = await response.json()
 

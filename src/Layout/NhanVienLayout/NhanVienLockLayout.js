@@ -12,6 +12,8 @@ import { getFromLocalStorage } from '~/components/MaHoaLocalStorage/MaHoaLocalSt
 import { useNavigate } from 'react-router-dom'
 
 import { ModalDelete2 } from '~/components/ModalDelete2'
+import { getApiUrl } from '../../api/api'
+
 function NhanVienLockLayout () {
   const [nhanvien, setnhanvien] = useState([])
 
@@ -51,7 +53,9 @@ function NhanVienLockLayout () {
   const fetchData = async (page = 1) => {
     try {
       const response = await fetch(
-        `http://localhost:3015/getnhanvien/${userdata.data.user[0]._id}?page=${page}&limit=${itemsPerPage}&status=locked`,
+        `${getApiUrl('domain')}/getnhanvien/${
+          userdata.data.user[0]._id
+        }?page=${page}&limit=${itemsPerPage}&status=locked`,
         {
           method: 'GET',
           headers: {
@@ -204,7 +208,7 @@ function NhanVienLockLayout () {
               seletecids={selectedItems}
               setSelectedIds={setSelectedItems}
               fetchdata={fetchData}
-              link={'http://localhost:3015/mokhoanhanvien'}
+              link={`${getApiUrl('domain')}/mokhoanhanvien`}
               content={'Bạn có chắc chắn mở khóa những nhân viên này'}
             />
           </div>

@@ -9,6 +9,7 @@ import { AddQuyTien } from '../AddQuyTien'
 import { PaginationComponent } from '~/components/NextPage'
 import ChiTietQuyTienGui from './ChiTietQuyTienGui'
 import { useNavigate } from 'react-router-dom'
+import { getApiUrl } from '../../../api/api'
 
 function QuyTienGuiLayout () {
   const [quytien, setquytien] = useState([])
@@ -91,7 +92,7 @@ function QuyTienGuiLayout () {
 
     try {
       const response = await fetch(
-        `http://localhost:3015/getthuchichuyenkhoan/${khoID}`,
+        `${getApiUrl('domain')}/getthuchichuyenkhoan/${khoID}`,
         {
           method: 'GET',
           headers: {

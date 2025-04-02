@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import './BlogList.scss'
+import { getApiUrl } from '../../../api/api'
+
 const BlogList = ({ onSelectBlog }) => {
   const [blogs, setBlogs] = useState([])
 
   useEffect(() => {
-    fetch('http://localhost:3015/getalltrogiup')
+    fetch(`${getApiUrl('domain')}/getalltrogiup`)
       .then(response => response.json())
       .then(data => setBlogs(data))
       .catch(error => console.error('Error fetching blogs:', error))

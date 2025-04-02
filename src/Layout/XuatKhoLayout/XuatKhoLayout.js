@@ -5,6 +5,7 @@ import { useToast } from '../../components/GlobalStyles/ToastContext'
 import { Loading } from '~/components/Loading'
 import { PaginationComponent } from '~/components/NextPage'
 import { useNavigate } from 'react-router-dom'
+import { getApiUrl } from '../../api/api'
 
 function XuatKhoLayout () {
   const { showToast } = useToast()
@@ -82,7 +83,7 @@ function XuatKhoLayout () {
 
     try {
       const response = await fetch(
-        `http://localhost:3015/getxuatkho/${khoID}`,
+        `${getApiUrl('domain')}/getxuatkho/${khoID}`,
         {
           method: 'GET',
           headers: {
@@ -122,7 +123,7 @@ function XuatKhoLayout () {
   const XoaHangLoat = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3015/deletexuatkho/${khoID}`,
+        `${getApiUrl('domain')}/deletexuatkho/${khoID}`,
         {
           method: 'POST',
           headers: {

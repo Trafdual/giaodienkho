@@ -21,6 +21,7 @@ import { ModalOnClose } from '~/components/ModalOnClose'
 import { ModalAddSku } from '../AddTest/ModalAddSku'
 import { FormAddImel } from '../FormAddImel'
 import '~/components/Loadingnut/loadingnut.scss'
+import { getApiUrl } from '../../../../../api/api'
 
 function PostImel ({ isOpen, onClose }) {
   const { showToast } = useToast()
@@ -82,7 +83,7 @@ function PostImel ({ isOpen, onClose }) {
   const fetchSku = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3015/getdungluongsku/${userID}`
+        `${getApiUrl('domain')}/getdungluongsku/${userID}`
       )
       const data = await response.json()
 
@@ -229,7 +230,7 @@ function PostImel ({ isOpen, onClose }) {
     if (validateInputs2()) {
       setIsClickButton(true)
       try {
-        const response = await fetch(`http://localhost:3015/postimel`, {
+        const response = await fetch(`${getApiUrl('domain')}/postimel`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)

@@ -3,6 +3,7 @@ import { Modal } from '../../../../components/Modal'
 import { useToast } from '../../../../components/GlobalStyles/ToastContext'
 import { Loading } from '../../../../components/Loading' // Giả sử bạn có component Loading
 import './AddKho.scss'
+import { getApiUrl } from '../../../../api/api'
 
 function AddKho ({
   isOpen,
@@ -45,7 +46,7 @@ function AddKho ({
       setLoading(true)
       try {
         const response = await fetch(
-          `http://localhost:3015/postdepot/${userId}`,
+          `${getApiUrl('domain')}/postdepot/${userId}`,
           {
             method: 'POST',
             headers: {

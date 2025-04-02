@@ -3,6 +3,7 @@ import { useState, useCallback } from 'react'
 import { Modal } from '~/components/Modal'
 import { useToast } from '~/components/GlobalStyles/ToastContext'
 import { ModalOnClose } from '~/components/ModalOnClose'
+import { getApiUrl } from '../../../../api/api'
 
 function AddMucThu ({ isOpen, onClose, userId, fetchdata, loaitien }) {
   const [name, setName] = useState('')
@@ -27,7 +28,7 @@ function AddMucThu ({ isOpen, onClose, userId, fetchdata, loaitien }) {
     if (validateInputs()) {
       try {
         const response = await fetch(
-          `http://localhost:3015/postmucthuchi/${userId}`,
+          `${getApiUrl('domain')}/postmucthuchi/${userId}`,
           {
             method: 'POST',
             headers: {

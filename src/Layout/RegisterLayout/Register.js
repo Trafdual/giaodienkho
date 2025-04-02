@@ -9,6 +9,7 @@ import { useToast } from '../../components/GlobalStyles/ToastContext'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
 import { Birthday } from '~/components/Birthday'
+import { getApiUrl } from '../../api/api'
 
 function Register () {
   const [showPassword, setShowPassword] = useState(false)
@@ -68,7 +69,7 @@ function Register () {
     if (validateInputs()) {
       setIsLoading(true)
       try {
-        const response = await fetch('http://localhost:3015/register', {
+        const response = await fetch(`${getApiUrl('domain')}/register`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'

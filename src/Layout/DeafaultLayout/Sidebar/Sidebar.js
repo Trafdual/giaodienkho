@@ -31,6 +31,7 @@ import { useEffect, useState } from 'react'
 import { ModalDangXuat } from './ModalDangXuat'
 import { useToast } from '~/components/GlobalStyles/ToastContext'
 import { getFromLocalStorage } from '../../../components/MaHoaLocalStorage/MaHoaLocalStorage'
+import { getApiUrl } from '../../../api/api'
 
 function Sidebar ({ isActive, setIsActive }) {
   const { showToast } = useToast()
@@ -102,7 +103,9 @@ function Sidebar ({ isActive, setIsActive }) {
 
   const fetchsoluonglenh = async () => {
     try {
-      const response = await fetch(`http://localhost:3015/soluonglenh/${khoID}`)
+      const response = await fetch(
+        `${getApiUrl('domain')}/soluonglenh/${khoID}`
+      )
       const data = await response.json()
       if (data.error) {
         showToast(data.error, 'error')

@@ -7,6 +7,7 @@ import { AddHoaDon } from './AddHoaDon'
 import { PaginationComponent } from '~/components/NextPage'
 import Invoice from './Invoice'
 import { useNavigate } from 'react-router-dom'
+import { getApiUrl } from '../../api/api'
 
 function HoaDonLayout () {
   const navigate = useNavigate()
@@ -33,7 +34,7 @@ function HoaDonLayout () {
 
   const fetchHoaDon = async () => {
     try {
-      const response = await fetch(`http://localhost:3015/hoadon/${khoID}`)
+      const response = await fetch(`${getApiUrl('domain')}/hoadon/${khoID}`)
       const data = await response.json()
       setHoaDon(data)
     } catch (error) {

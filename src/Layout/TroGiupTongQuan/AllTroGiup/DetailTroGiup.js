@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import './DetailTroGiup.scss'
 import TongDaiTuVan from '../TongDaiTuVan/TongDaiTuVan'
+import { getApiUrl } from '../../../api/api'
 
 const BlogDetail = ({ id }) => {
   const [blog, setBlog] = useState(null)
 
   useEffect(() => {
-    fetch(`http://localhost:3015/gettrogiup/${id}`)
+    fetch(`${getApiUrl('domain')}/gettrogiup/${id}`)
       .then(response => response.json())
       .then(data => setBlog(data))
       .catch(error => console.error('Error fetching blog details:', error))

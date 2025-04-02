@@ -9,6 +9,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
 import { useToast } from '../../components/GlobalStyles/ToastContext'
 import { saveToLocalStorage } from '~/components/MaHoaLocalStorage/MaHoaLocalStorage'
+import { getApiUrl } from '../../api/api'
+
 function Login () {
   const [showPassword, setShowPassword] = useState(false)
   const [isIconVisible, setIsIconVisible] = useState(false)
@@ -61,7 +63,7 @@ function Login () {
     if (validateInputs()) {
       setIsLoading(true)
       try {
-        const response = await fetch('http://localhost:3015/loginadmin', {
+        const response = await fetch(`${getApiUrl('domain')}/loginadmin`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
