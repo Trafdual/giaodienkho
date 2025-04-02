@@ -126,7 +126,7 @@ function Header ({
     setIsLoading(true)
     try {
       const response = await fetch(
-        `https://baotech.shop/searchsanpham/${khoID}`,
+        `http://localhost:3015/searchsanpham/${khoID}`,
         {
           method: 'POST',
           headers: {

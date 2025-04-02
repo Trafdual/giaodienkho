@@ -92,7 +92,7 @@ function SanPhamLayout (_ref) {
               _context.prev = 2
               _context.next = 5
               return regeneratorRuntime.awrap(
-                fetch('https://baotech.shop/getsanpham/'.concat(idloaisp), {
+                fetch('http://localhost:3015/getsanpham/'.concat(idloaisp), {
                   method: 'GET',
                   headers: {
                     'Content-Type': 'application/json'
@@ -167,7 +167,7 @@ function SanPhamLayout (_ref) {
               _context2.next = 5
               return regeneratorRuntime.awrap(
                 fetch(
-                  'https://baotech.shop/xuatkho/'
+                  'http://localhost:3015/xuatkho/'
                     .concat(idsp, '/')
                     .concat(idloaisp, '/')
                     .concat(khoID),

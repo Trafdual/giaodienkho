@@ -85,7 +85,7 @@ function AddTest ({ isOpen, onClose, fetclohang, malohang }) {
   const fetchSuppliers = async () => {
     try {
       const response = await fetch(
-        `https://baotech.shop/getnhacungcap/${khoID}`
+        `http://localhost:3015/getnhacungcap/${khoID}`
       )
       const data = await response.json()
 
@@ -107,7 +107,9 @@ function AddTest ({ isOpen, onClose, fetclohang, malohang }) {
   }, [khoID, showToast])
   const fetchnganhang = async () => {
     try {
-      const response = await fetch(`https://baotech.shop/getnganhang/${userID}`)
+      const response = await fetch(
+        `http://localhost:3015/getnganhang/${userID}`
+      )
       const data = await response.json()
 
       if (response.ok) {

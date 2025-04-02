@@ -98,7 +98,7 @@ function NhapKhoLayout () {
 
     try {
       const response = await fetch(
-        `https://baotech.shop/getloaisanpham2/${khoID}`,
+        `http://localhost:3015/getloaisanpham2/${khoID}`,
         {
           method: 'GET',
           headers: {
@@ -219,7 +219,7 @@ function NhapKhoLayout () {
   const handlePostlohang = async () => {
     try {
       const response = await fetch(
-        `https://baotech.shop/postloaisanpham5/${khoID}`,
+        `http://localhost:3015/postloaisanpham5/${khoID}`,
         {
           method: 'POST',
           headers: {
@@ -238,7 +238,7 @@ function NhapKhoLayout () {
   }
 
   useEffect(() => {
-    const eventSource = new EventSource('https://baotech.shop/events')
+    const eventSource = new EventSource('http://localhost:3015/events')
 
     eventSource.onmessage = event => {
       fetchData()
@@ -320,7 +320,7 @@ function NhapKhoLayout () {
                   Xem
                 </button>
 
-                {userdata.data.user[0].role === 'manager' && (
+                {(userdata.data.user[0].role === 'manager' || userdata.data.user[0].quyen.includes('quanly')) && (
                   <button
                     className={`btn-xoa ${
                       selectedItems.length === 0 ? 'disabled' : ''

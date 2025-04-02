@@ -17,6 +17,7 @@
 }
 .transfer-orders table th {
   background-color: #f4f4f4;
+  white-space: nowrap;
 }
 .transfer-orders table tbody tr:hover {
   background-color: #f9f9f9;

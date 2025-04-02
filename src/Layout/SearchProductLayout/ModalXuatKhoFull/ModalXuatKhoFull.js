@@ -47,7 +47,7 @@ function ModalXuatKhoFull ({
 
   const handleGetKho = async () => {
     try {
-      const response = await fetch(`https://baotech.shop/getdepot/${userID}`, {
+      const response = await fetch(`http://localhost:3015/getdepot/${userID}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'
@@ -74,16 +74,19 @@ function ModalXuatKhoFull ({
   const postchuyenkho = async () => {
     const idsanpham1 = selectedItems.map(item => item._id)
     try {
-      const response = await fetch(`https://baotech.shop/chuyenkho2/${khoID}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          tenkho: tenkho,
-          idsanpham1: idsanpham1
-        })
-      })
+      const response = await fetch(
+        `http://localhost:3015/chuyenkho2/${khoID}`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            tenkho: tenkho,
+            idsanpham1: idsanpham1
+          })
+        }
+      )
       const data = await response.json()
 
       if (data.message) {

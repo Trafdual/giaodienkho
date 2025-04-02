@@ -51,7 +51,7 @@ function NhanVienLockLayout () {
   const fetchData = async (page = 1) => {
     try {
       const response = await fetch(
-        `https://baotech.shop/getnhanvien/${userdata.data.user[0]._id}?page=${page}&limit=${itemsPerPage}&status=locked`,
+        `http://localhost:3015/getnhanvien/${userdata.data.user[0]._id}?page=${page}&limit=${itemsPerPage}&status=locked`,
         {
           method: 'GET',
           headers: {
@@ -204,7 +204,7 @@ function NhanVienLockLayout () {
               seletecids={selectedItems}
               setSelectedIds={setSelectedItems}
               fetchdata={fetchData}
-              link={'https://baotech.shop/mokhoanhanvien'}
+              link={'http://localhost:3015/mokhoanhanvien'}
               content={'Bạn có chắc chắn mở khóa những nhân viên này'}
             />
           </div>

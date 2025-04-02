@@ -9,7 +9,6 @@ import { ModalXuatKhoFull } from './ModalXuatKhoFull'
 import { ModalXuatKho } from './ModalXuatkho'
 
 import {
-  faBarcode,
   faEye,
   faPen,
   faTrashCan,
@@ -23,6 +22,7 @@ import { SanPhamGioHang } from './SanPhamGioHang'
 import { ModalTraHang } from './ModalTraHang'
 import { TroGiupLayout } from '../TroGiupLayout'
 import { useNavigate } from 'react-router-dom'
+import { getFromLocalStorage } from '../../components/MaHoaLocalStorage/MaHoaLocalStorage'
 
 function SearchProductLayout () {
   const navigate = useNavigate()
@@ -50,6 +50,9 @@ function SearchProductLayout () {
   )
   const [isModalOpen, setModalOpen] = useState(false)
   const [currentImei, setCurrentImei] = useState(null)
+
+  const userdata = getFromLocalStorage('data')
+
 
   const handleOpenModal = imei => {
     setCurrentImei(imei)
@@ -191,7 +194,7 @@ function SearchProductLayout () {
   }
   const XuatKhoHangLoat = async () => {
     try {
-      const response = await fetch(`https://baotech.shop/xuatkho1/${khoID}`, {
+      const response = await fetch(`http://localhost:3015/xuatkho1/${khoID}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -259,15 +262,21 @@ function SearchProductLayout () {
               <FontAwesomeIcon icon={faEye} className='iconMenuSanPham' />
               Xem
             </button>
-            <button
-              className={`btn-xoa ${
-                selectedItems.length === 0 ? 'disabled' : ''
-              }`}
-              disabled={selectedItems.length === 0}
-            >
-              <FontAwesomeIcon icon={faTrashCan} className='iconMenuSanPham' />
-              Xóa
-            </button>
+            {(userdata.data.user[0].role === 'manager' ||
+              userdata.data.user[0].quyen.includes('quanly')) && (
+              <button
+                className={`btn-xoa ${
+                  selectedItems.length === 0 ? 'disabled' : ''
+                }`}
+                disabled={selectedItems.length === 0}
+              >
+                <FontAwesomeIcon
+                  icon={faTrashCan}
+                  className='iconMenuSanPham'
+                />
+                Xóa
+              </button>
+            )}
             <button
               className={`btn-xuat ${
                 selectedItems.length === 0 ? 'disabled' : ''

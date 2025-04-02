@@ -58,7 +58,7 @@ function ModalAddNhaCungCap ({ isOpen, onClose, khoID, fetchnhacungcap }) {
       setIsClickButton(true)
       try {
         const response = await fetch(
-          `https://baotech.shop/postnhacungcap/${khoID}`,
+          `http://localhost:3015/postnhacungcap/${khoID}`,
           {
             method: 'POST',
             headers: {

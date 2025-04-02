@@ -76,6 +76,7 @@
   text-align: center;
   font-weight: bold;
   border: 1px solid #ddd;
+  white-space: nowrap;
 }
 .bao-cao-ban-hang-layout .table-container table tbody tr:nth-child(even) {
   background-color: #f2f2f2;

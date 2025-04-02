@@ -58,7 +58,7 @@ function KhachHangLayout () {
 
     try {
       const response = await fetch(
-        `https://baotech.shop/getkhachhang/${khoID}`,
+        `http://localhost:3015/getkhachhang/${khoID}`,
         {
           method: 'GET',
           headers: {

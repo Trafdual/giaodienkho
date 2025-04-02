@@ -45,7 +45,7 @@ function ModalAddNganHang ({ isOpen, onClose, userId, fetchdata }) {
     if (validateInputs()) {
       try {
         const response = await fetch(
-          `https://baotech.shop/postnganhang/${userId}`,
+          `http://localhost:3015/postnganhang/${userId}`,
           {
             method: 'POST',
             headers: {

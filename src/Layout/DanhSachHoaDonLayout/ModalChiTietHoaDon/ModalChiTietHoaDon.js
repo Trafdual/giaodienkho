@@ -9,7 +9,7 @@ function ModalChiTietHoaDon ({ isOpen, onClose, idhoadon }) {
   const fetchchitiet = async () => {
     try {
       const response = await fetch(
-        `https://baotech.shop/gethoadonchitiet/${idhoadon}`
+        `http://localhost:3015/gethoadonchitiet/${idhoadon}`
       )
       if (response.ok) {
         const data = await response.json()

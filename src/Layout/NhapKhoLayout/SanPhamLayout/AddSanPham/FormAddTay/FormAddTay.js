@@ -66,7 +66,7 @@ function FormAddTay ({ isOpen, onClose, loaispid, fetchData, fetchlohang }) {
     if (valicolorInputs()) {
       try {
         const response = await fetch(
-          `https://baotech.shop/postsp/${loaispid}`,
+          `http://localhost:3015/postsp/${loaispid}`,
           {
             method: 'POST',
             headers: {
@@ -113,7 +113,7 @@ function FormAddTay ({ isOpen, onClose, loaispid, fetchData, fetchlohang }) {
   }
 
   // useEffect(() => {
-  //   const eventSource = new EventSource('https://baotech.shop/events')
+  //   const eventSource = new EventSource('http://localhost:3015/events')
 
   //   eventSource.onmessage = event => {
   //     const newMessage = JSON.parse(event.data)
@@ -129,7 +129,7 @@ function FormAddTay ({ isOpen, onClose, loaispid, fetchData, fetchlohang }) {
   const fetchSku = async () => {
     try {
       const response = await fetch(
-        `https://baotech.shop/getdungluongsku/${userID}`
+        `http://localhost:3015/getdungluongsku/${userID}`
       )
       const data = await response.json()
 

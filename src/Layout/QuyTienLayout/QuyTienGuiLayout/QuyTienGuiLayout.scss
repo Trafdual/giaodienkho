@@ -15,6 +15,17 @@
     transform: rotate(180deg);
 }
 
+.action-menu-quytien {
+    display: flex;
+    align-items: center;
+    background-color: var(--blue);
+    margin-bottom: 10px;
+    border-radius: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    z-index: 1000;
+}
+
 .caret1 {
     width: 0;
     height: 0;
@@ -24,7 +35,7 @@
     transition: 0.3s;
 }
 
-.action-menu {
+.action-menu-quytien {
     .dropdown-menu1 {
         display: block;
         position: absolute;

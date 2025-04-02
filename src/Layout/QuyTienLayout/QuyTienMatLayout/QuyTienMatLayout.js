@@ -93,7 +93,7 @@ function QuyTienMatLayout () {
 
     try {
       const response = await fetch(
-        `https://baotech.shop/getthuchitienmat/${khoID}`,
+        `http://localhost:3015/getthuchitienmat/${khoID}`,
         {
           method: 'GET',
           headers: {
@@ -174,7 +174,7 @@ function QuyTienMatLayout () {
               }}
             >
               <div
-                className='action-menu'
+                className='action-menu-quytien'
                 style={{ position: 'sticky', top: '0px' }}
               >
                 <button

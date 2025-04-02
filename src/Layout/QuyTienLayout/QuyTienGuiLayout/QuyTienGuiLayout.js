@@ -91,7 +91,7 @@ function QuyTienGuiLayout () {
 
     try {
       const response = await fetch(
-        `https://baotech.shop/getthuchichuyenkhoan/${khoID}`,
+        `http://localhost:3015/getthuchichuyenkhoan/${khoID}`,
         {
           method: 'GET',
           headers: {
@@ -172,7 +172,7 @@ function QuyTienGuiLayout () {
               }}
             >
               <div
-                className='action-menu'
+                className='action-menu-quytien'
                 style={{ position: 'sticky', top: '0px' }}
               >
                 <button

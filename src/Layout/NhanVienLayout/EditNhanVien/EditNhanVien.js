@@ -76,7 +76,7 @@ function EditNhanVien ({ isOpen, onClose, idncc, fetchdata, setidncc }) {
 
   const fetchchitiet = async () => {
     try {
-      const response = await fetch(`https://baotech.shop/chitietnv/${idncc}`)
+      const response = await fetch(`http://localhost:3015/chitietnv/${idncc}`)
       const data = await response.json()
 
       if (response.ok) {
@@ -101,7 +101,7 @@ function EditNhanVien ({ isOpen, onClose, idncc, fetchdata, setidncc }) {
     if (validateInputs()) {
       try {
         const response = await fetch(
-          `https://baotech.shop/putnhanvien/${idncc}`,
+          `http://localhost:3015/putnhanvien/${idncc}`,
           {
             method: 'POST',
             headers: {

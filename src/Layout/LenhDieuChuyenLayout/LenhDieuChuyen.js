@@ -46,8 +46,8 @@ function LenhDieuChuyen () {
     try {
       const url =
         beginDate && endDate
-          ? `https://baotech.shop/getlenhdctheongay/${khoID}?begintime=${beginDate}&endtime=${endDate}`
-          : `https://baotech.shop/getlenhdieuchuyen/${khoID}`
+          ? `http://localhost:3015/getlenhdctheongay/${khoID}?begintime=${beginDate}&endtime=${endDate}`
+          : `http://localhost:3015/getlenhdieuchuyen/${khoID}`
 
       const response = await axios.get(url)
       setOrders(response.data)
@@ -88,7 +88,7 @@ function LenhDieuChuyen () {
   const handleConfirm = async orderId => {
     try {
       const response = await axios.post(
-        `https://baotech.shop/duyetdieuchuyen/${orderId}`
+        `http://localhost:3015/duyetdieuchuyen/${orderId}`
       )
       if (response.status === 200) {
         showToast('Duyệt lệnh điều chuyển thành công!', 'success')
@@ -111,7 +111,7 @@ function LenhDieuChuyen () {
   const handlehuylenh = async idlenh => {
     try {
       const response = await fetch(
-        `https://baotech.shop/huylenhdieuchuyen/${idlenh}`,
+        `http://localhost:3015/huylenhdieuchuyen/${idlenh}`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' }

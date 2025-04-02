@@ -76,7 +76,7 @@ function EditLoHang ({ isOpen, onClose, idloaisanpham, fetchlohang }) {
     const fetchSuppliers = async () => {
       try {
         const response = await fetch(
-          `https://baotech.shop/getnhacungcap/${khoID}`
+          `http://localhost:3015/getnhacungcap/${khoID}`
         )
         const data = await response.json()
 
@@ -97,7 +97,9 @@ function EditLoHang ({ isOpen, onClose, idloaisanpham, fetchlohang }) {
   }, [khoID, showToast])
   const fetchnganhang = async () => {
     try {
-      const response = await fetch(`https://baotech.shop/getnganhang/${userID}`)
+      const response = await fetch(
+        `http://localhost:3015/getnganhang/${userID}`
+      )
       const data = await response.json()
 
       if (response.ok) {
@@ -162,7 +164,7 @@ function EditLoHang ({ isOpen, onClose, idloaisanpham, fetchlohang }) {
     if (validateInputs()) {
       try {
         const response = await fetch(
-          `https://baotech.shop/putloaisanpham/${idloaisanpham}`,
+          `http://localhost:3015/putloaisanpham/${idloaisanpham}`,
           {
             method: 'POST',
             headers: {
@@ -206,7 +208,7 @@ function EditLoHang ({ isOpen, onClose, idloaisanpham, fetchlohang }) {
       const fetchChitiet = async () => {
         try {
           const response = await fetch(
-            `https://baotech.shop/getchitietloaisanpham/${idloaisanpham}`
+            `http://localhost:3015/getchitietloaisanpham/${idloaisanpham}`
           )
           const data = await response.json()
           if (response.ok) {

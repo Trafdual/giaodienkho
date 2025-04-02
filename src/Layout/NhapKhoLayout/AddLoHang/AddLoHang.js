@@ -78,7 +78,7 @@ function AddLoHang ({ isOpen, onClose, setlohang }) {
     const fetchSuppliers = async () => {
       try {
         const response = await fetch(
-          `https://baotech.shop/getnhacungcap/${khoID}`
+          `http://localhost:3015/getnhacungcap/${khoID}`
         )
         const data = await response.json()
 
@@ -99,7 +99,9 @@ function AddLoHang ({ isOpen, onClose, setlohang }) {
   }, [khoID, showToast])
   const fetchnganhang = async () => {
     try {
-      const response = await fetch(`https://baotech.shop/getnganhang/${userID}`)
+      const response = await fetch(
+        `http://localhost:3015/getnganhang/${userID}`
+      )
       const data = await response.json()
 
       if (response.ok) {
@@ -172,7 +174,7 @@ function AddLoHang ({ isOpen, onClose, setlohang }) {
   const handleAddLoHang = async () => {
     if (validateInputs()) {
       try {
-        const response = await fetch(`https://baotech.shop/postloaisanpham2`, {
+        const response = await fetch(`http://localhost:3015/postloaisanpham2`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
