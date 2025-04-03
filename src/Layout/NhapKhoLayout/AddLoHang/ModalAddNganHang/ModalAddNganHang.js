@@ -2,6 +2,7 @@ import { useState } from 'react'
 
 import { Modal } from '../../../../components/Modal'
 import { useToast } from '../../../../components/GlobalStyles/ToastContext'
+import { getApiUrl } from '../../../../api/api'
 
 function ModalAddNganHang ({ isOpen, onClose, userId, fetchdata }) {
   const [name, setName] = useState('')
