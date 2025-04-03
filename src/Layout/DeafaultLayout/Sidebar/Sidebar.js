@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import './Sidebar.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -25,7 +24,6 @@ import {
   faCircleUser,
   faUsersSlash
 } from '@fortawesome/free-solid-svg-icons'
-import { publicRoutes } from '../../../router'
 import { Link, useLocation } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { ModalDangXuat } from './ModalDangXuat'
@@ -35,165 +33,91 @@ import { getApiUrl } from '../../../api/api'
 
 function Sidebar ({ isActive, setIsActive }) {
   const { showToast } = useToast()
-  const location = useLocation()
-  const [activeItem, setActiveItem] = useState('')
+  const { pathname } = useLocation()
+  const [activeItem, setActiveItem] = useState(pathname)
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
-  const [dropdownState, setDropdownState] = useState({
-    isDropdownOpen: false,
-    isDropdownOpenBaoCao: false,
-    isDropdownOpenKho: false,
-    isDropdownOpenQuyTien: false,
-    isDropdownOpenNhanVien: false
-  })
-
+  const [dropdownState, setDropdownState] = useState({})
   const [isModalDangXuat, setIsModalDangXuat] = useState(false)
-  const [soluonglenh, setsoluonglenh] = useState(0)
+  const [soluonglenh, setSoluonglenh] = useState(0)
   const khoID = localStorage.getItem('khoID')
   const userdata = getFromLocalStorage('data')
 
   const toggleDropdown = key => {
-    setDropdownState(prev => ({
-      ...prev,
-      [key]: !prev[key]
-    }))
+    setDropdownState(prev => {
+      const newState = Object.keys(prev).reduce(
+        (acc, curr) => ({
+          ...acc,
+          [curr]: false
+        }),
+        {}
+      )
+      return { ...newState, [key]: !prev[key] }
+    })
   }
 
   useEffect(() => {
-    const savedActiveItem = localStorage.getItem('activeItem')
-    if (savedActiveItem && savedActiveItem === location.pathname) {
-      setActiveItem(savedActiveItem)
-    } else {
-      setActiveItem(location.pathname)
-      localStorage.setItem('activeItem', location.pathname)
-    }
-  }, [location.pathname])
+    setActiveItem(pathname)
+    localStorage.setItem('activeItem', pathname)
+  }, [pathname])
 
   useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth <= 768) {
-        setIsMobile(window.innerWidth <= 768)
-      } else {
-        setIsMobile(window.innerWidth >= 768)
-      }
-    }
-
-    handleResize()
-
+    const handleResize = () => setIsMobile(window.innerWidth <= 768)
     window.addEventListener('resize', handleResize)
-
-    return () => {
-      window.removeEventListener('resize', handleResize)
-    }
+    return () => window.removeEventListener('resize', handleResize)
   }, [])
 
   const handleLogout = () => {
     localStorage.clear()
     sessionStorage.clear()
-    window.history.replaceState(null, '', publicRoutes[0].path)
-    window.location.reload()
+    window.location.href='/'
   }
 
   const handleItemClick = path => {
     setActiveItem(path)
-    if (isMobile) {
-      setIsActive(false)
-    }
+    if (isMobile) setIsActive(false)
     localStorage.setItem('activeItem', path)
   }
 
-  const fetchsoluonglenh = async () => {
-    try {
-      const response = await fetch(
-        `${getApiUrl('domain')}/soluonglenh/${khoID}`
-      )
-      const data = await response.json()
-      if (data.error) {
-        showToast(data.error, 'error')
-      } else {
-        setsoluonglenh(data)
-      }
-    } catch (error) {
-      console.error('Error fetching data:', error)
-    }
-  }
-
   useEffect(() => {
-    if (khoID) {
-      fetchsoluonglenh()
-    }
-  }, [khoID])
+    if (!khoID) return
+    fetch(`${getApiUrl('domain')}/soluonglenh/${khoID}`)
+      .then(res => res.json())
+      .then(data =>
+        data.error ? showToast(data.error, 'error') : setSoluonglenh(data)
+      )
+      .catch(err => console.error('Error:', err))
+  }, [khoID, showToast])
 
   const menuItems = [
-    {
-      path: '/home',
-      title: 'Tổng quan',
-      icon: faHouse
-    },
+    { path: '/home', title: 'Tổng quan', icon: faHouse },
     userdata?.data?.user[0]?.role === 'manager' && {
       title: 'Nhân viên',
       icon: faCircleUser,
       dropdownKey: 'isDropdownOpenNhanVien',
       children: [
-        {
-          path: '/nhanvien/active',
-          title: 'Đang hoạt động',
-          icon: faUsers
-        },
-        {
-          path: '/nhanvien/locked',
-          title: 'Đã bị khóa',
-          icon: faUsersSlash
-        }
+        { path: '/nhanvien/active', title: 'Đang hoạt động', icon: faUsers },
+        { path: '/nhanvien/locked', title: 'Đã bị khóa', icon: faUsersSlash }
       ]
     },
-
     {
       title: 'Báo cáo',
       icon: faChartPie,
       dropdownKey: 'isDropdownOpenBaoCao',
       children: [
-        {
-          path: '/doanhthu',
-          title: 'Doanh Thu',
-          icon: faMoneyBillTrendUp
-        },
-        {
-          path: '/baocaokho',
-          title: 'Kho',
-          icon: faLandmark
-        },
-        {
-          path: '/baocaobanhang',
-          title: 'Bán hàng',
-          icon: faCartShopping
-        },
-        {
-          path: '/baocaocongno',
-          title: 'Công nợ',
-          icon: faMoneyBill
-        }
+        { path: '/doanhthu', title: 'Doanh Thu', icon: faMoneyBillTrendUp },
+        { path: '/baocaokho', title: 'Kho', icon: faLandmark },
+        { path: '/baocaobanhang', title: 'Bán hàng', icon: faCartShopping },
+        { path: '/baocaocongno', title: 'Công nợ', icon: faMoneyBill }
       ]
     },
-    {
-      path: '/nhacungcap',
-      title: 'Nhà cung cấp',
-      icon: faHandshake
-    },
+    { path: '/nhacungcap', title: 'Nhà cung cấp', icon: faHandshake },
     {
       title: 'Kho',
       icon: faLandmark,
       dropdownKey: 'isDropdownOpenKho',
       children: [
-        {
-          path: '/nhapkho',
-          title: 'Nhập Kho',
-          icon: faLandmark
-        },
-        {
-          path: '/xuatkho',
-          title: 'Xuất Kho',
-          icon: faWarehouse
-        },
+        { path: '/nhapkho', title: 'Nhập Kho', icon: faLandmark },
+        { path: '/xuatkho', title: 'Xuất Kho', icon: faWarehouse },
         {
           path: '/lenhdieuchuyen',
           title: 'Lệnh điều chuyển',
@@ -207,43 +131,19 @@ function Sidebar ({ isActive, setIsActive }) {
       icon: faWallet,
       dropdownKey: 'isDropdownOpenQuyTien',
       children: [
-        {
-          path: '/quytienmat',
-          title: 'Thu, chi tiền mặt',
-          icon: faMoneyBill
-        },
-        {
-          path: '/quytiengui',
-          title: 'Thu, chi tiền gửi',
-          icon: faMoneyCheck
-        }
+        { path: '/quytienmat', title: 'Thu, chi tiền mặt', icon: faMoneyBill },
+        { path: '/quytiengui', title: 'Thu, chi tiền gửi', icon: faMoneyCheck }
       ]
     },
-    {
-      path: '/banhang',
-      title: 'Bán Hàng',
-      icon: faCartShopping
-    },
-    {
-      path: '/trogiuptongquan',
-      title: 'Trợ giúp',
-      icon: faCircleQuestion
-    },
+    { path: '/banhang', title: 'Bán Hàng', icon: faCartShopping },
+    { path: '/trogiuptongquan', title: 'Trợ giúp', icon: faCircleQuestion },
     {
       title: 'Thiết lập',
       icon: faGear,
       dropdownKey: 'isDropdownOpen',
       children: [
-        {
-          path: '/thietlap',
-          title: 'Cấu hình',
-          icon: faWrench
-        },
-        {
-          path: '/thietlap/baomat',
-          title: 'Bảo mật',
-          icon: faShieldHalved
-        }
+        { path: '/thietlap', title: 'Cấu hình', icon: faWrench },
+        { path: '/thietlap/baomat', title: 'Bảo mật', icon: faShieldHalved }
       ]
     },
     {
@@ -265,18 +165,18 @@ function Sidebar ({ isActive, setIsActive }) {
           <span className='title'>BICRAFT</span>
         </a>
       </div>
-
       <ul>
-        {menuItems.map((item, index) => (
+        {menuItems.map((item, i) => (
           <li
-            key={index}
+            key={i}
             className={`${item.dropdownKey ? 'litong1' : 'litong'} ${
               activeItem === item.path ? 'hovered' : ''
             }`}
-            onClick={() => {
-              if (item.onClick) item.onClick()
-              else if (item.path) handleItemClick(item.path)
-            }}
+            onClick={() =>
+              item.onClick
+                ? item.onClick()
+                : item.path && handleItemClick(item.path)
+            }
           >
             {item.path || item.onClick ? (
               <Link to={item.path}>
@@ -310,12 +210,11 @@ function Sidebar ({ isActive, setIsActive }) {
                 />
               </a>
             )}
-
             {item.children && dropdownState[item.dropdownKey] && (
               <ul className='dropdown-menu'>
-                {item.children.map((child, childIndex) => (
+                {item.children.map((child, j) => (
                   <li
-                    key={childIndex}
+                    key={j}
                     className={`litong ${
                       activeItem === child.path ? 'hovered' : ''
                     }`}

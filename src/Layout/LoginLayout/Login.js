@@ -96,7 +96,16 @@ function Login () {
               saveToLocalStorage('data', data)
             }
             showToast('Đăng nhập thành công!')
-            navigate(publicRoutes[1].path, { state: { userId: userId } })
+            if (
+              data.data.user[0].role === 'manager' ||
+              (data.data.user[0].role === 'staff' &&
+                (data.data.user[0].quyen.includes('ketoan') ||
+                  data.data.user[0].quyen.includes('quanly')))
+            ) {
+              navigate(publicRoutes[1].path, { state: { userId: userId } })
+            } else {
+              navigate('/banhang')
+            }
           }
         } else {
           showToast(data.message, 'error')

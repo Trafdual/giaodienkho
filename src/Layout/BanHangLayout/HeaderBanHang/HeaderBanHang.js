@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect, useRef } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
@@ -13,20 +14,75 @@ import NotificationsList from '~/components/Notifications/Notification'
 import { useNavigate } from 'react-router-dom'
 import { faFacebookMessenger } from '@fortawesome/free-brands-svg-icons'
 import { getApiUrl } from '../../../api/api'
+import { getFromLocalStorage } from '../../../components/MaHoaLocalStorage/MaHoaLocalStorage'
+import { ListKho } from '../../DeafaultLayout/Header/ListKho'
+import { Modal } from '../../../components/Modal'
+import { useToast } from '../../../components/GlobalStyles/ToastContext'
 
 function HeaderBanHang ({ userId, username }) {
+  const { showToast } = useToast()
   const [khoList, setKhoList] = useState([])
   const [isLoading, setIsLoading] = useState(false)
   const [isDropdownVisible, setDropdownVisible] = useState(false)
   const [selectedKho, setSelectedKho] = useState(null)
   const dropdownRef = useRef(null)
   const [showNotifications, setShowNotifications] = useState(false)
+  const [datakho, setdatakho] = useState([])
+  const [loading, setloading] = useState(true)
+  const [isModalOpen, setIsModalOpen] = useState(!selectedKho)
+  const userID = getFromLocalStorage('userId')
+  const khoId = localStorage.getItem('khoID')
+
+  const handleGetKho = async () => {
+    try {
+      const response = await fetch(
+        `${getApiUrl('domain')}/getdepot/${userID}`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+      )
+
+      if (response.ok) {
+        const data = await response.json()
+        setdatakho(data)
+        setloading(false)
+
+        const storedKhoID = localStorage.getItem('khoID')
+        if (storedKhoID) {
+          const storedKho = data.find(kho => kho._id === storedKhoID)
+          if (storedKho) {
+            setSelectedKho(storedKho)
+          }
+        }
+      } else {
+        console.error('Failed to fetch data')
+      }
+    } catch (error) {
+      console.error('Error fetching data:', error)
+    }
+  }
+
+  useEffect(() => {
+    handleGetKho()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userID])
+
+  const userdata = getFromLocalStorage('data')
   const navigate = useNavigate()
 
   const [isMenuVisible, setMenuVisible] = useState(false)
 
   const toggleMenu = () => {
     setMenuVisible(prev => !prev)
+  }
+
+  const handleLogout = () => {
+    localStorage.clear()
+    sessionStorage.clear()
+    window.location.href = '/'
   }
 
   const handleClickOutsideMenu = event => {
@@ -206,10 +262,18 @@ function HeaderBanHang ({ userId, username }) {
                 <i className='ithuchi'></i>
                 <span>Thu chi</span>
               </div>
-              <div className='menu-item' onClick={() => handelchuyenman('/')}>
-                <i className='itrangquanly'></i>
-                <span>Trang quản lý</span>
-              </div>
+              {userdata.data.user[0].role === 'manager' ||
+                (userdata.data.user[0].role === 'staff' &&
+                  (userdata.data.user[0].quyen.includes('ketoan') ||
+                    userdata.data.user[0].quyen.includes('quanly')) && (
+                    <div
+                      className='menu-item'
+                      onClick={() => handelchuyenman('/')}
+                    >
+                      <i className='itrangquanly'></i>
+                      <span>Trang quản lý</span>
+                    </div>
+                  ))}
               <div
                 className='menu-item'
                 onClick={() => navigate('/danhsachhoadon')}
@@ -233,10 +297,37 @@ function HeaderBanHang ({ userId, username }) {
                 <i className='igioithieu'></i>
                 <span>Giới thiệu</span>
               </div>
+              <div className='menu-item' onClick={handleLogout}>
+                <i className='idangxuat'></i>
+                <span>Đăng xuất</span>
+              </div>
             </div>
           </div>
         )}
       </div>
+      {!khoId && (
+        <Modal
+          isOpen={isModalOpen}
+          title='Vui lòng chọn kho'
+          onClose={() =>
+            showToast('Vui lòng chọn kho trước khi sử dụng!', 'warning')
+          }
+        >
+          <p>Trước khi sử dụng các chức năng, bạn cần chọn một kho:</p>
+          <div
+            className='landauvaoapp'
+            style={{ display: 'flex', alignItems: 'center', margin: '20px 0' }}
+          >
+            <ListKho
+              datakho={datakho}
+              setdatakho={setdatakho}
+              setloading={setloading}
+              selectedKho={selectedKho}
+              setSelectedKho={setSelectedKho}
+            />
+          </div>
+        </Modal>
+      )}
 
       {isLoading && <div className='loading-overlay'>Loading...</div>}
     </div>
