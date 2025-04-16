@@ -75,7 +75,6 @@ function Login () {
         })
 
         const data = await response.json()
-        console.log(data)
 
         if (data.data) {
           if (data.data.user[0].role === 'admin') {

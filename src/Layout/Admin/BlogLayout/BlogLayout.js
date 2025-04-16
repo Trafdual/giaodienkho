@@ -105,23 +105,29 @@ function BlogLayout () {
           </tr>
         </thead>
         <tbody>
-          {data.map((item, index) => (
-            <tr key={index}>
-              <td>
-                <input
-                  type='checkbox'
-                  checked={selectedIds.includes(item._id)}
-                  onChange={() => handleSelectItem(item._id)}
-                />
-              </td>
-              <td>{index + 1}</td>
-              <td>{item._id}</td>
-              <td>
-                <img src={`${item.image}`} alt='' />
-              </td>
-              <td>{item.tieude}</td>
+          {data.length > 0 ? (
+            data.map((item, index) => (
+              <tr key={index}>
+                <td>
+                  <input
+                    type='checkbox'
+                    checked={selectedIds.includes(item._id)}
+                    onChange={() => handleSelectItem(item._id)}
+                  />
+                </td>
+                <td>{index + 1}</td>
+                <td>{item._id}</td>
+                <td>
+                  <img src={`${item.image}`} alt='' />
+                </td>
+                <td>{item.tieude}</td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan={5}>Không có dữ liệu</td>
             </tr>
-          ))}
+          )}
         </tbody>
       </table>
       <AddBlog
@@ -137,6 +143,7 @@ function BlogLayout () {
         fetchdata={fetchdata}
         link={`${getApiUrl('domain')}/deletetrogiup`}
         setSelectedIds={setSelectedIds}
+        message={'xóa thành công'}
       />
     </div>
   )

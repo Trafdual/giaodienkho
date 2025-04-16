@@ -14,7 +14,8 @@ function ModalDelete2 ({
   seletecids,
   fetchdata,
   link,
-  setSelectedIds
+  setSelectedIds,
+  message
 }) {
   const { showToast } = useToast()
   const handeldelte = async () => {
@@ -32,7 +33,7 @@ function ModalDelete2 ({
         fetchdata()
         onClose()
         setSelectedIds([])
-        showToast('Xóa thành công')
+        showToast(message)
       }
     } catch (error) {
       console.error(error)

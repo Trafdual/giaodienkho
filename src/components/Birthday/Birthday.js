@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-const Birthday = ({ setBirthday }) => {
+const Birthday = ({ birthday, setBirthday }) => {
   const [day, setDay] = useState('')
   const [month, setMonth] = useState('')
   const [year, setYear] = useState('')
@@ -27,6 +27,19 @@ const Birthday = ({ setBirthday }) => {
     padding: '16px'
   }
 
+  // Gán giá trị từ birthday ban đầu nếu có
+  useEffect(() => {
+    if (birthday) {
+      const date = new Date(birthday)
+      if (!isNaN(date)) {
+        setDay(date.getDate().toString())
+        setMonth((date.getMonth() + 1).toString())
+        setYear(date.getFullYear().toString())
+      }
+    }
+  }, [birthday])
+
+  // Cập nhật khi người dùng chọn lại
   useEffect(() => {
     if (day && month && year) {
       const formattedBirthday = `${year}-${String(month).padStart(

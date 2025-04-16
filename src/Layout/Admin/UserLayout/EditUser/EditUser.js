@@ -1,11 +1,12 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 // import { Modal } from '~/components/Modal'
-import { useState } from 'react'
-import './AddUser.scss'
+import { useEffect, useState } from 'react'
 import { Birthday } from '~/components/Birthday'
 import { getApiUrl } from '../../../../api/api'
+import { useToast } from '../../../../components/GlobalStyles/ToastContext'
 import { CustomModal } from '../../../../components/CustomModal'
 
-function AddUser ({ isOpen, onClose, fetchdata }) {
+function EditUser ({ isOpen, onClose, fetchdata, iduser }) {
   const [password, setpassword] = useState('')
   const [name, setname] = useState('')
   const [email, setemail] = useState('')
@@ -13,10 +14,11 @@ function AddUser ({ isOpen, onClose, fetchdata }) {
   const [phone, setphone] = useState('')
   const [ngaysinh, setngaysinh] = useState()
 
-  const [role, setrole] = useState('manager')
+  const [role, setrole] = useState('')
+  const { showToast } = useToast()
 
   const handelClose = () => {
-    setrole('manager')
+    setrole('')
     setpassword('')
     setname('')
     setemail('')
@@ -25,9 +27,35 @@ function AddUser ({ isOpen, onClose, fetchdata }) {
     onClose()
   }
 
-  const handelAddUser = async () => {
+  const fetchchitiet = async () => {
     try {
-      const response = await fetch(`${getApiUrl('domain')}/registeradmin`, {
+      const response = await fetch(
+        `${getApiUrl('domain')}/getchitietuser/${iduser}`
+      )
+      if (response.ok) {
+        const data = await response.json()
+        setname(data.name)
+        setemail(data.email)
+        setphone(data.phone)
+        setngaysinh(data.birthday)
+        setrole(data.role)
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  console.log(ngaysinh)
+
+  useEffect(() => {
+    if (isOpen && iduser) {
+      fetchchitiet()
+    }
+  }, [isOpen, iduser])
+
+  const handelEditUser = async () => {
+    try {
+      const response = await fetch(`${getApiUrl('domain')}/updateuser/${iduser}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -44,6 +72,7 @@ function AddUser ({ isOpen, onClose, fetchdata }) {
       if (response.ok) {
         handelClose()
         fetchdata()
+        showToast('Cập nhật thành công')
       }
     } catch (error) {
       console.error(error)
@@ -52,7 +81,7 @@ function AddUser ({ isOpen, onClose, fetchdata }) {
   return (
     <CustomModal isOpen={isOpen} onClose={handelClose}>
       <div className='addnhanvien'>
-        <h2>Thêm người dùng</h2>
+        <h2>Cập nhật người dùng</h2>
         <div className='div_input_group'>
           <div className='input-group'>
             <input
@@ -64,7 +93,7 @@ function AddUser ({ isOpen, onClose, fetchdata }) {
 
             <div className='divngaythangnam'>
               <label htmlFor=''>Ngày/tháng/năm sinh</label>
-              <Birthday setBirthday={setngaysinh} />
+              <Birthday birthday={ngaysinh} setBirthday={setngaysinh} />
             </div>
             <input
               type='text'
@@ -113,8 +142,8 @@ function AddUser ({ isOpen, onClose, fetchdata }) {
         </div>
 
         <div className='button-group'>
-          <button onClick={handelAddUser} className='btnaddtl'>
-            Thêm
+          <button onClick={handelEditUser} className='btnaddtl'>
+            Cập nhật
           </button>
         </div>
       </div>
@@ -122,4 +151,4 @@ function AddUser ({ isOpen, onClose, fetchdata }) {
   )
 }
 
-export default AddUser
+export default EditUser

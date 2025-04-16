@@ -254,6 +254,7 @@ function NhaCungCapLayout () {
               fetchdata={fetchData}
               link={`${getApiUrl('domain')}/deletencc`}
               content={'Bạn có chắc chắn xóa nhà cung cấp này'}
+              message={'xóa thành công'}
             />
           </div>
           <div className='pagination1'>

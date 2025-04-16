@@ -1,26 +1,20 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from 'react'
-import { FaEdit, FaPlus } from 'react-icons/fa'
-
-import { FaLock } from 'react-icons/fa6'
-import './UserLayout.scss'
+import { FaEdit,FaUnlock } from 'react-icons/fa'
 import moment from 'moment'
 import { getFromLocalStorage } from '~/components/MaHoaLocalStorage/MaHoaLocalStorage'
-import { AddUser } from './AddUser'
-import { EditUser } from './EditUser'
+import { EditUser } from '../UserLayout/EditUser'
 import { ModalDelete2 } from '~/components/ModalDelete2'
 import { getApiUrl } from '../../../api/api'
 import { PaginationComponent } from '../../../components/NextPage'
-import { KhoAdminLayout } from './KhoAdminLayout'
+import { KhoAdminLayout } from '../UserLayout/KhoAdminLayout'
 
-
-function UserLayout () {
+function UserBiKhoaLayout () {
   const userdata = getFromLocalStorage('data')
   const [data, setData] = useState([])
   const [selectedIds, setSelectedIds] = useState([])
   const [selectAll, setSelectAll] = useState(false)
-  const [isOpen, setIsOpen] = useState(false)
   const [isOpenXoaTL, setisOpenXoaTL] = useState(false)
   const [isOpenCapNhat, setisOpenCapNhat] = useState(false)
   const [isOpenKhoChua, setisOpenKhoChua] = useState(false)
@@ -34,7 +28,7 @@ function UserLayout () {
       const response = await fetch(
         `${getApiUrl('domain')}/getuser/${
           userdata?.data.user[0]._id
-        }?page=${page}&limit=${itemsPerPage}&khoa=false`
+        }?page=${page}&limit=${itemsPerPage}&khoa=true`
       )
       if (response.ok) {
         const data = await response.json()
@@ -99,10 +93,6 @@ function UserLayout () {
   return (
     <div className='theloai_container'>
       <div className='nav_chucnang'>
-        <button className='btnthemtheloai' onClick={() => setIsOpen(true)}>
-          <FaPlus className='icons' />
-          Thêm User
-        </button>
         <button
           className='btnthemtheloai'
           onClick={() => {
@@ -123,11 +113,11 @@ function UserLayout () {
           onClick={() =>
             selectedIds.length > 0
               ? setisOpenXoaTL(true)
-              : alert('Chọn user để khóa')
+              : alert('Chọn user để mở khóa')
           }
         >
-          <FaLock className='icons' />
-          Khóa user
+          <FaUnlock className='icons' />
+           Mở khóa user
         </button>
 
         <button
@@ -206,11 +196,7 @@ function UserLayout () {
         </table>
       </div>
 
-      <AddUser
-        isOpen={isOpen}
-        onClose={() => setIsOpen(false)}
-        fetchdata={fetchdata}
-      />
+
       <EditUser
         isOpen={isOpenCapNhat}
         onClose={() => setisOpenCapNhat(false)}
@@ -220,12 +206,12 @@ function UserLayout () {
       <ModalDelete2
         isOpen={isOpenXoaTL}
         onClose={() => setisOpenXoaTL(false)}
-        content={'Bạn có muốn khóa những user này?'}
+        content={'Bạn có muốn mở khóa những user này?'}
         seletecids={selectedIds}
         fetchdata={fetchdata}
-        link={`${getApiUrl('domain')}/admin/khoauser`}
+        link={`${getApiUrl('domain')}/admin/mokhoauser`}
         setSelectedIds={setSelectedIds}
-        message={'khóa thành công'}
+        message={'Mở khóa thành công'}
       />
       <KhoAdminLayout
         isOpen={isOpenKhoChua}
@@ -247,4 +233,4 @@ function UserLayout () {
   )
 }
 
-export default UserLayout
+export default UserBiKhoaLayout

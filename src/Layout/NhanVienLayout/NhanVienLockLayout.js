@@ -210,6 +210,7 @@ function NhanVienLockLayout () {
               fetchdata={fetchData}
               link={`${getApiUrl('domain')}/mokhoanhanvien`}
               content={'Bạn có chắc chắn mở khóa những nhân viên này'}
+              message={'mở khóa thành công'}
             />
           </div>
           <div className='pagination1'>

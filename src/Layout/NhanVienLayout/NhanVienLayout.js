@@ -308,6 +308,7 @@ function NhanVienLayout () {
               fetchdata={fetchData}
               link={`${getApiUrl('domain')}/khoanhanvien`}
               content={'Bạn có chắc chắn khóa những nhân viên này'}
+              message={'khóa thành công'}
             />
             <AddQuyen
               isOpen={isOpenAddQuyen}
