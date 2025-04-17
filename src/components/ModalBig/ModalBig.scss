@@ -18,10 +18,13 @@
     padding: 20px;
     border-radius: 8px;
     width: 80%;
-    position: absolute; // Đổi từ relative sang absolute
+    position: absolute; 
     overflow: hidden;
-    cursor: grab; // Thay đổi con trỏ mặc định
+    cursor: grab; 
     height: 80%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) !important;
 }
 
 .ModalBig-close {

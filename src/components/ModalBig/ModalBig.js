@@ -4,58 +4,75 @@ import './ModalBig.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faXmark } from '@fortawesome/free-solid-svg-icons'
 import Draggable from 'react-draggable'
+import { motion, AnimatePresence } from 'framer-motion'
 
 const ModalBig = ({ isOpen, onClose, children }) => {
   const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
+    const handleEsc = e => {
+      if (e.key === 'Escape') onClose()
+    }
+    if (isOpen) document.addEventListener('keydown', handleEsc)
+    return () => document.removeEventListener('keydown', handleEsc)
+  }, [isOpen, onClose])
+
+  useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768) // Giới hạn kích thước màn hình ở 768px
+      setIsMobile(window.innerWidth <= 768)
     }
 
     window.addEventListener('resize', handleResize)
 
-    // Gọi ngay khi lần đầu render
     handleResize()
 
     return () => {
       window.removeEventListener('resize', handleResize)
     }
   }, [])
-  if (!isOpen) return null
 
   return ReactDOM.createPortal(
-    <div className='ModalBig-overlay'>
-      {isMobile ? (
-        <div
-          className='ModalBig-content'
-          onClick={e => e.stopPropagation()}
-        >
-          <div
-            className='modal-header'
-          >
-            <button className='ModalBig-close' onClick={onClose}>
-              <FontAwesomeIcon icon={faXmark} className='iconHuy' />
-            </button>
-          </div>
-          {children}
+    <AnimatePresence>
+      {isOpen && (
+        <div className='ModalBig-overlay'>
+          {isMobile ? (
+            <motion.div
+              className='ModalBig-content'
+              initial={{ opacity: 0, scale: 0.8, y: '-50%' }}
+              animate={{ opacity: 1, scale: 1, y: '0%' }}
+              exit={{ opacity: 0, scale: 0.8, y: '-50%' }}
+              transition={{ duration: 0.3 }}
+              onClick={e => e.stopPropagation()}
+            >
+              <div className='modal-header'>
+                <button className='ModalBig-close' onClick={onClose}>
+                  <FontAwesomeIcon icon={faXmark} className='iconHuy' />
+                </button>
+              </div>
+              {children}
+            </motion.div>
+          ) : (
+            <Draggable handle='.modal-header'>
+              <motion.div
+                className='ModalBig-content'
+                initial={{ opacity: 0, scale: 0.8, y: '-50%' }}
+                animate={{ opacity: 1, scale: 1, y: '0%' }}
+                exit={{ opacity: 0, scale: 0.8, y: '-50%' }}
+                transition={{ duration: 0.3 }}
+                onClick={e => e.stopPropagation()}
+              >
+                <div className='modal-header'>
+                  <button className='ModalBig-close' onClick={onClose}>
+                    <FontAwesomeIcon icon={faXmark} className='iconHuy' />
+                  </button>
+                </div>
+                {children}
+              </motion.div>
+            </Draggable>
+          )}
         </div>
-      ) : (
-        <Draggable handle='.modal-header'>
-          <div
-            className='ModalBig-content'
-            onClick={e => e.stopPropagation()}
-          >
-            <div className='modal-header'>
-              <button className='ModalBig-close' onClick={onClose}>
-                <FontAwesomeIcon icon={faXmark} className='iconHuy' />
-              </button>
-            </div>
-            {children}
-          </div>
-        </Draggable>
       )}
-    </div>,
+    </AnimatePresence>,
     document.body
   )
 }

@@ -6,9 +6,12 @@ import {
 import { Modal } from '../Modal'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
+
 function ModalDelete ({ Save, Cancel, isOpen, content }) {
   return (
+
     <Modal isOpen={isOpen} onClose={Cancel}>
+
       <div className='divModalOnClose'>
         <div className='divModalBodyOnClose'>
           <FontAwesomeIcon

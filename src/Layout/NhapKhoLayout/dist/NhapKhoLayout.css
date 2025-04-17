@@ -78,6 +78,7 @@
 .divtablenhapkho table thead {
   position: sticky;
   top: 0;
+  background-color: white;
   z-index: 10;
   will-change: transform;
 }
