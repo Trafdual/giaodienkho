@@ -19,7 +19,7 @@ function SidebarAdmin ({ activeTab }) {
   const menus = [
     { name: 'Users', icon: faUserPlus },
     { name: 'Users bị khóa', icon: faUserMinus },
-    { name: 'Blog', icon: faBlog },
+    { name: 'Thể loại Blog', icon: faBlog },
     { name: 'Hóa đơn', icon: faReceipt },
     { name: 'Doanh Thu', icon: faChartLine }
   ]

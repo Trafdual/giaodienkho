@@ -3,13 +3,13 @@ import { HeaderAdmin } from './HeaderAdmin'
 import { SidebarAdmin } from './SidebarAdmin'
 import { useSearchParams } from 'react-router-dom'
 import { UserLayout } from '../UserLayout'
-import { BlogLayout } from '../BlogLayout'
 import { UserBiKhoaLayout } from '../UserBiKhoaLayout'
 import './AdminLayout.scss'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getFromLocalStorage } from '../../../components/MaHoaLocalStorage/MaHoaLocalStorage'
 import { AnimatePresence, motion } from 'framer-motion'
+import { TheLoaiBlogLayout } from '../TheLoaiBlogLayout'
 
 function AdminLayout () {
   const [searchParams] = useSearchParams()
@@ -44,7 +44,7 @@ function AdminLayout () {
             transition={{ duration: 0.4, ease: 'easeInOut' }}
           >
             {tabFromUrl === 'Users' && <UserLayout />}
-            {tabFromUrl === 'Blog' && <BlogLayout />}
+            {tabFromUrl === 'Thể loại Blog' && <TheLoaiBlogLayout />}
             {tabFromUrl === 'Users bị khóa' && <UserBiKhoaLayout />}
           </motion.div>
         </AnimatePresence>

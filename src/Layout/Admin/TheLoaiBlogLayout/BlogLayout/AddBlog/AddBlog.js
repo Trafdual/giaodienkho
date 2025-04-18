@@ -1,12 +1,12 @@
-import { Modal } from '../../../../components/Modal'
+import { Modal } from '../../../../../components/Modal'
 import { useState } from 'react'
 import ReactQuill from 'react-quill'
 import { useToast } from '~/components/GlobalStyles/ToastContext'
 import 'react-quill/dist/quill.snow.css'
 import './AddBlog.scss'
-import { getApiUrl } from '../../../../api/api'
+import { getApiUrl } from '../../../../../api/api'
 
-function AddBlog ({ isOpen, onClose, fetchdata }) {
+function AddBlog ({ isOpen, onClose, fetchdata, idtheloai }) {
   const [tieude_blog, settieude_blog] = useState('')
   const [file, setFile] = useState(null)
   const [noidung, setnoidung] = useState('')
@@ -28,10 +28,13 @@ function AddBlog ({ isOpen, onClose, fetchdata }) {
         formData.append('image', file)
       }
 
-      const response = await fetch(`${getApiUrl('domain')}/posttrogiup`, {
-        method: 'POST',
-        body: formData
-      })
+      const response = await fetch(
+        `${getApiUrl('domain')}/posttrogiup/${idtheloai}`,
+        {
+          method: 'POST',
+          body: formData
+        }
+      )
       if (response.ok) {
         handelclose()
         fetchdata()

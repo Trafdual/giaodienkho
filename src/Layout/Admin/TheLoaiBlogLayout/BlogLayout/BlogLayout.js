@@ -1,45 +1,52 @@
-import { useEffect, useState } from 'react'
-import { getApiUrl } from '../../../../api/api'
-import { PaginationComponent } from '../../../../components/NextPage'
-import { CustomModal } from '../../../../components/CustomModal'
-import { FaUsers } from 'react-icons/fa6'
-import { NhanVienAdmin } from './NhanVienAdmin'
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-unused-vars */
+import { useState, useEffect } from 'react'
+import { FaEdit, FaPlus } from 'react-icons/fa'
+import { AddBlog } from './AddBlog'
 
-function KhoAdminLayout ({ isOpen, onClose, iduser }) {
+import './BlogLayout.scss'
+import { FaTrashCan } from 'react-icons/fa6'
+import { ModalDelete2 } from '~/components/ModalDelete2'
+import { getApiUrl } from '../../../../api/api'
+import { CustomModal } from '../../../../components/CustomModal'
+import { PaginationComponent } from '../../../../components/NextPage'
+import { EditBlog } from './EditBlog'
+
+function BlogLayout ({ isOpen, onClose, idtheloai }) {
   const [data, setdata] = useState([])
+
+  const [isOpenAdd, setIsOpenAdd] = useState(false)
+  const [isOpenDelete, setIsOpenDelete] = useState(false)
+  const [isOpenEdit, setIsOpenEdit] = useState(false)
+
   const [selectedIds, setSelectedIds] = useState([])
   const [selectAll, setSelectAll] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
   const [itemsPerPage, setItemsPerPage] = useState(9)
   const [totalResults, setTotalResults] = useState(0)
   const [totalPages, setTotalPages] = useState(0)
-  const [isOpenNhanVien, setisOpenNhanVien] = useState(false)
 
-  const fetchdata = async (page = 1) => {
+  const fetchdata = async () => {
     try {
       const response = await fetch(
-        `${getApiUrl(
-          'domain'
-        )}/admin/getkhochua/${iduser}?page=${page}&limit=${itemsPerPage}`
+        `${getApiUrl('domain')}/gettrogiuptl/${idtheloai}`
       )
       if (response.ok) {
         const data = await response.json()
         setdata(data.data)
-        setCurrentPage(data.currentPage)
+        setCurrentPage(data.page)
         setTotalPages(data.totalPages)
-        setTotalResults(data.totalItems)
+        setTotalResults(data.total)
       }
     } catch (error) {
       console.error(error)
     }
   }
-
   useEffect(() => {
-    if (isOpen && iduser) {
+    if (isOpen && idtheloai) {
       fetchdata()
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isOpen, iduser])
+  }, [isOpen, idtheloai])
 
   const handleSelectAll = () => {
     if (selectAll) {
@@ -68,45 +75,61 @@ function KhoAdminLayout ({ isOpen, onClose, iduser }) {
 
   return (
     <CustomModal isOpen={isOpen} onClose={onClose}>
-      <div className='div_khoadmin_tong'>
+      <div className='blogadmin_container'>
         <div className='nav_chucnang'>
+          <button className='btnthemtheloai' onClick={() => setIsOpenAdd(true)}>
+            <FaPlus className='icons' />
+            Thêm Blog
+          </button>
           <button
             className='btnthemtheloai'
             onClick={() => {
               if (selectedIds.length === 0) {
-                alert('Chọn một user để xem kho chứa')
+                alert('Chọn một Blog để cập nhật')
               } else if (selectedIds.length > 1) {
-                alert('Chỉ được chọn một user để xem kho chứa')
+                alert('Chỉ được chọn một Blog để cập nhật')
               } else {
-                setisOpenNhanVien(true)
+                setIsOpenEdit(true)
               }
             }}
           >
-            <FaUsers className='icons' />
-            Nhân viên
+            <FaEdit className='icons' />
+            Cập nhật
+          </button>
+
+          <button
+            className='btnthemtheloai'
+            onClick={() =>
+              selectedIds.length > 0
+                ? setIsOpenDelete(true)
+                : alert('Chọn một Blog để xóa')
+            }
+          >
+            <FaTrashCan className='icons' />
+            Xóa Blog
           </button>
         </div>
         <div className='div_table_khoadmin'>
           <table className='tablenhap'>
             <thead>
               <tr>
-                <th className = 'thsmall'>
+                <th className='thsmall'>
                   <input
                     type='checkbox'
                     checked={selectAll}
                     onChange={handleSelectAll}
                   />
                 </th>
-                <th className = 'thsmall'>STT</th>
-                <th>Tên kho</th>
-                <th>Địa chỉ</th>
-                <th>Nhân viên</th>
+                <th className='thsmall'>STT</th>
+                <th>ID</th>
+                <th>Ảnh</th>
+                <th>Tiêu đề</th>
               </tr>
             </thead>
             <tbody>
               {data.length > 0 ? (
                 data.map((item, index) => (
-                  <tr key={item._id}>
+                  <tr key={index}>
                     <td>
                       <input
                         type='checkbox'
@@ -115,23 +138,46 @@ function KhoAdminLayout ({ isOpen, onClose, iduser }) {
                       />
                     </td>
                     <td>{index + 1}</td>
-                    <td>{item.name}</td>
-                    <td>{item.address}</td>
-                    <td>{item.user}</td>
+                    <td>{item._id}</td>
+                    <td>
+                      <img
+                        src={`${getApiUrl('domain')}/${item.image}`}
+                        alt=''
+                      />
+                    </td>
+                    <td>{item.tieude}</td>
                   </tr>
                 ))
               ) : (
                 <tr>
-                  <td colSpan='5'>Không có kho chứa</td>
+                  <td colSpan={5}>Không có dữ liệu</td>
                 </tr>
               )}
             </tbody>
           </table>
         </div>
-        <NhanVienAdmin
-          isOpen={isOpenNhanVien}
-          onClose={() => setisOpenNhanVien(false)}
-          idkho={selectedIds[0]}
+        <AddBlog
+          isOpen={isOpenAdd}
+          onClose={() => setIsOpenAdd(false)}
+          fetchdata={fetchdata}
+          idtheloai={idtheloai}
+        />
+
+        <EditBlog
+          isOpen={isOpenEdit}
+          onClose={() => setIsOpenEdit(false)}
+          idblog={selectedIds[0]}
+          fetchdata={fetchdata}
+        />
+        <ModalDelete2
+          isOpen={isOpenDelete}
+          onClose={() => setIsOpenDelete(false)}
+          content={'Bạn có muốn xóa những blog này?'}
+          seletecids={selectedIds}
+          fetchdata={fetchdata}
+          link={`${getApiUrl('domain')}/deletetrogiup/${idtheloai}`}
+          setSelectedIds={setSelectedIds}
+          message={'xóa thành công'}
         />
         <div className='pagination1'>
           <PaginationComponent
@@ -149,4 +195,4 @@ function KhoAdminLayout ({ isOpen, onClose, iduser }) {
   )
 }
 
-export default KhoAdminLayout
+export default BlogLayout
