@@ -283,7 +283,7 @@ function EditLoHang ({ isOpen, onClose, idloaisanpham, fetchlohang }) {
   return (
     <Modal isOpen={isOpen} onClose={handleClose}>
       <div className='divAddLoHang'>
-        <h2>Thêm lô hàng</h2>
+        <h2>Cập nhật lô hàng</h2>
         <div className='divphuongthuc'>
           <div className='divghino'>
             <input

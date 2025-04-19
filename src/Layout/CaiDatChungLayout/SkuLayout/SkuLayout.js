@@ -1,30 +1,27 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import './NhaCungCap.scss'
 import { useState, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {
-  faEye,
-  faPen,
-  faPlus,
-  faTrashCan
-} from '@fortawesome/free-solid-svg-icons'
-import '../ColumnResizer/columnResizer.scss'
-import { enableColumnResizing } from '../ColumnResizer/columnResizer'
-import { Loading } from '~/components/Loading'
+import { faEye, faPen, faPlus } from '@fortawesome/free-solid-svg-icons'
 
-import { AddNhaCungCap } from './AddNhaCungCap'
-import { EditNhaCungCap } from './EditNhaCungCap'
+import '../../ColumnResizer/columnResizer.scss'
+import { enableColumnResizing } from '../../ColumnResizer/columnResizer'
+import { Loading } from '~/components/Loading'
+import { ModalAddSku } from '../../NhapKhoLayout/SanPhamLayout/AddSanPham/AddTest/ModalAddSku'
+// import { Editsku } from './Editsku'
 import { PaginationComponent } from '~/components/NextPage'
 import { getFromLocalStorage } from '~/components/MaHoaLocalStorage/MaHoaLocalStorage'
 import { useNavigate } from 'react-router-dom'
 import { ModalDelete2 } from '~/components/ModalDelete2'
-import { getApiUrl } from '../../api/api'
+import { getApiUrl } from '~/api/api'
+import { DungLuongSku } from './DungLuongSku'
 
-function NhaCungCapLayout () {
-  const [nhacungcap, setnhacungcap] = useState([])
+function SkuLayout () {
+  const [sku, setsku] = useState([])
   const [isOpen, setIsOpen] = useState(false)
   const [isOpenEdit, setIsOpenEdit] = useState(false)
-  const [isOpenDelete, setIsOpenDelete] = useState(false)
+  const [isLock, setIsLock] = useState(false)
+  const [isOpenDungluongsku, setisOpenDungluongsku] = useState(false)
+
   const [idncc, setidncc] = useState('')
   const [loading, setLoading] = useState(true)
   const [selectedItems, setSelectedItems] = useState([])
@@ -33,6 +30,8 @@ function NhaCungCapLayout () {
   const [currentPage, setCurrentPage] = useState(1)
   const [itemsPerPage, setItemsPerPage] = useState(9)
   const [selectAll, setSelectAll] = useState(false)
+  const [totalResults, setTotalResults] = useState(0)
+  const [totalPages, setTotalPages] = useState(0)
   const userdata = getFromLocalStorage('data')
   const navigate = useNavigate()
 
@@ -59,10 +58,12 @@ function NhaCungCapLayout () {
     return () => clearInterval(intervalId)
   }, [localStorage.getItem('khoID')])
 
-  const fetchData = async () => {
+  const fetchData = async (page = 1) => {
     try {
       const response = await fetch(
-        `${getApiUrl('domain')}/getnhacungcap/${khoID}`,
+        `${getApiUrl('domain')}/getsku/${
+          userdata.data.user[0]._id
+        }?page=${page}&limit=${itemsPerPage}`,
         {
           method: 'GET',
           headers: {
@@ -73,7 +74,10 @@ function NhaCungCapLayout () {
 
       if (response.ok) {
         const data = await response.json()
-        setnhacungcap(data)
+        setsku(data.data) // Dữ liệu mã sku
+        setCurrentPage(data.currentPage) // Trang hiện tại
+        setTotalPages(data.totalPages) // Tổng số trang
+        setTotalResults(data.totalItems) // Tổng số mã sku
         setLoading(false)
       } else {
         console.error('Failed to fetch data')
@@ -84,7 +88,6 @@ function NhaCungCapLayout () {
   }
 
   useEffect(() => {
-    console.log(localStorage.getItem('khoID'))
     if (khoID) {
       fetchData()
     }
@@ -93,9 +96,6 @@ function NhaCungCapLayout () {
   useEffect(() => {
     enableColumnResizing('.tablenhap')
   }, [])
-
-  const totalPages = Math.ceil(nhacungcap.length / itemsPerPage)
-  const totalResults = nhacungcap.length
 
   const handlePageChange = pageNumber => {
     setCurrentPage(pageNumber)
@@ -106,8 +106,9 @@ function NhaCungCapLayout () {
     setSelectAll(newSelectAll)
 
     if (newSelectAll) {
-      const allIds = nhacungcap.map(item => item._id)
+      const allIds = sku.map(item => item._id)
       setSelectedItems(allIds)
+      setidncc(allIds.length === 1 ? allIds[0] : '')
     } else {
       setSelectedItems([])
     }
@@ -122,7 +123,7 @@ function NhaCungCapLayout () {
     }
 
     setSelectedItems(updatedSelectedItems)
-    setSelectAll(updatedSelectedItems.length === nhacungcap.length)
+    setSelectAll(updatedSelectedItems.length === sku.length)
   }
 
   return (
@@ -130,17 +131,17 @@ function NhaCungCapLayout () {
       {loading ? (
         <Loading />
       ) : (
-        <div className='divnhacungcap'>
+        <div className='divnhanvien'>
           <div className='detailsnhap'>
             <div className='recentOrdersnhap'>
               <div
                 className='action-menu'
                 style={{ position: 'sticky', top: '0px' }}
               >
-                <h4>{selectedItems.length} nhà cung cấp được chọn</h4>
+                <h4>{selectedItems.length} Mã sku được chọn</h4>
                 <button className={`btn-xoa `} onClick={() => setIsOpen(true)}>
                   <FontAwesomeIcon icon={faPlus} className='iconMenuSanPham' />
-                  Thêm nhà cung cấp
+                  Thêm mã sku
                 </button>
 
                 <button
@@ -166,27 +167,11 @@ function NhaCungCapLayout () {
                   disabled={
                     selectedItems.length > 1 || selectedItems.length === 0
                   }
+                  onClick={() => setisOpenDungluongsku(true)}
                 >
                   <FontAwesomeIcon icon={faEye} className='iconMenuSanPham' />
                   Xem
                 </button>
-
-                {(userdata.data.user[0].role === 'manager' ||
-                  userdata.data.user[0].quyen.includes('quanly')) && (
-                  <button
-                    className={`btn-xoa ${
-                      selectedItems.length === 0 ? 'disabled' : ''
-                    }`}
-                    disabled={selectedItems.length === 0}
-                    onClick={() => setIsOpenDelete(true)}
-                  >
-                    <FontAwesomeIcon
-                      icon={faTrashCan}
-                      className='iconMenuSanPham'
-                    />
-                    Xóa
-                  </button>
-                )}
               </div>
               <div className='table-container'>
                 <table className='tablenhap'>
@@ -199,15 +184,15 @@ function NhaCungCapLayout () {
                           onChange={handleSelectAll}
                         />
                       </td>
-                      <td className='tdnhap'>Mã nhà cung cấp</td>
-                      <td className='tdnhap'>Tên nhà cung cấp</td>
-                      <td className='tdnhap'>Số điện thoại</td>
-                      <td className='tdnhap'>Địa chỉ</td>
+                      <td>STT</td>
+                      <td>ID</td>
+                      <td className='tdnhap'>Mã sku</td>
+                      <td className='tdnhap'>Tên sku</td>
                     </tr>
                   </thead>
                   <tbody className='tbodynhap'>
-                    {nhacungcap.length > 0 ? (
-                      nhacungcap.map(ncc => (
+                    {sku.length > 0 ? (
+                      sku.map((ncc, index) => (
                         <tr key={ncc._id}>
                           <td>
                             <input
@@ -219,42 +204,41 @@ function NhaCungCapLayout () {
                               }}
                             />
                           </td>
-                          <td>{ncc.mancc}</td>
+                          <td>{index + 1}</td>
+                          <td>{ncc._id}</td>
+                          <td>{ncc.masku}</td>
                           <td>{ncc.name}</td>
-                          <td>{ncc.phone}</td>
-                          <td>{ncc.address}</td>
                         </tr>
                       ))
                     ) : (
                       <tr>
-                        <td colSpan='5'>Không có nhà cung cấp nào</td>
+                        <td colSpan='9'>Không có mã sku nào</td>
                       </tr>
                     )}
                   </tbody>
                 </table>
               </div>
             </div>
-            <AddNhaCungCap
+            <ModalAddSku
               isOpen={isOpen}
               onClose={handleCloseModal}
               khoID={khoID}
-              setnhacungcap={setnhacungcap}
-            />
-            <EditNhaCungCap
-              isOpen={isOpenEdit}
-              onClose={() => setIsOpenEdit(false)}
-              idncc={idncc}
-              fetchdata={fetchData}
-              setidncc={setidncc}
+              fetchData={fetchData}
             />
             <ModalDelete2
-              isOpen={isOpenDelete}
-              onClose={() => setIsOpenDelete(false)}
+              isOpen={isLock}
+              onClose={() => setIsLock(false)}
               seletecids={selectedItems}
+              setSelectedIds={setSelectedItems}
               fetchdata={fetchData}
-              link={`${getApiUrl('domain')}/deleteanncc`}
-              content={'Bạn có chắc chắn xóa nhà cung cấp này'}
-              message={'xóa thành công'}
+              link={`${getApiUrl('domain')}/khoasku`}
+              content={'Bạn có chắc chắn xóa những mã sku này'}
+              message={'khóa thành công'}
+            />
+            <DungLuongSku
+              isOpen={isOpenDungluongsku}
+              onClose={() => setisOpenDungluongsku(false)}
+              idsku={selectedItems[0]}
             />
           </div>
           <div className='pagination1'>
@@ -274,4 +258,4 @@ function NhaCungCapLayout () {
   )
 }
 
-export default NhaCungCapLayout
+export default SkuLayout

@@ -5,77 +5,50 @@ import { useToast } from '~/components/GlobalStyles/ToastContext'
 import { ModalOnClose } from '~/components/ModalOnClose'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faXmark } from '@fortawesome/free-solid-svg-icons'
-import './ModalAddSku.scss'
-import { getApiUrl } from '../../../../../../api/api'
+import { getApiUrl } from '~/api/api'
 
-function ModalAddSku ({ isOpen, onClose, userID, fetchsku }) {
-  const [name, setName] = useState('')
+function ModalAddDungLuongSku ({ isOpen, onClose, userID, fetchsku }) {
   const [dungluong, setdungluong] = useState('')
   const [dungluongs, setdungluongs] = useState([])
 
   const { showToast } = useToast()
-  const [nameError, setNameError] = useState('')
   const [dungluongError, setDungluongError] = useState('')
 
   const [isModalHuy, setIsModalHuy] = useState(false)
   const [isClickButton, setIsClickButton] = useState(false)
 
-  const validateInputs = () => {
-    let valid = true
-
-    if (!name) {
-      setNameError('Vui lòng nhập tên sku.')
-      valid = false
-      setIsModalHuy(false)
-    } else {
-      setNameError('')
-    }
-
-    return valid
-  }
-
   const handleAddSku = async () => {
-    if (validateInputs()) {
-      setIsClickButton(true)
-      try {
-        const response = await fetch(
-          `${getApiUrl('domain')}/postsku/${userID}`,
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-              name: name,
-              namedungluong: dungluongs
-            })
-          }
-        )
+    setIsClickButton(true)
+    try {
+      const response = await fetch(`${getApiUrl('domain')}/postsku/${userID}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          namedungluong: dungluongs
+        })
+      })
 
-        if (response.ok) {
-          fetchsku()
-          handelsave()
-          setIsClickButton(false)
-          setdungluongs([])
-          showToast('Thêm sku thành công')
-        } else {
-          showToast('Thêm sku thất bại', 'error')
-          onClose()
-        }
-      } catch (error) {
-        console.error('Lỗi khi gửi yêu cầu thêm sku:', error)
+      if (response.ok) {
+        fetchsku()
+        handelsave()
+        setIsClickButton(false)
+        setdungluongs([])
+        showToast('Thêm sku thành công')
+      } else {
         showToast('Thêm sku thất bại', 'error')
+        onClose()
       }
+    } catch (error) {
+      console.error('Lỗi khi gửi yêu cầu thêm sku:', error)
+      showToast('Thêm sku thất bại', 'error')
     }
   }
 
-  const resetForm = useCallback(() => {
-    setName('')
-    setNameError('')
-  }, [])
+
 
   const handelsave = () => {
-    resetForm()
     onClose()
     setIsModalHuy(false)
   }
@@ -111,20 +84,7 @@ function ModalAddSku ({ isOpen, onClose, userID, fetchsku }) {
     <Modal isOpen={isOpen} onClose={handleClose}>
       <div className='divAddNhaCungCap'>
         <h2>Thêm Sku</h2>
-        <div className='div_name_masku'>
-          <label htmlFor=''>Nhập tên sản phẩm</label>
-          <div>
-            <input
-              type='text'
-              className={`tenkho ${nameError ? 'input-error' : ''}`}
-              placeholder='VD: 12 pro max'
-              value={name}
-              onChange={e => setName(e.target.value)}
-            />
-          </div>
-        </div>
 
-        {nameError && <div className='error'>{nameError}</div>}
         <div className='div_name_masku'>
           <label htmlFor=''>Nhập dung lượng</label>
           <div>
@@ -180,4 +140,4 @@ function ModalAddSku ({ isOpen, onClose, userID, fetchsku }) {
   )
 }
 
-export default ModalAddSku
+export default ModalAddDungLuongSku

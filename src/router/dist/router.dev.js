@@ -59,6 +59,8 @@ var _NhanVienLayout = require("../Layout/NhanVienLayout");
 
 var _NhanVienLockLayout = _interopRequireDefault(require("../Layout/NhanVienLayout/NhanVienLockLayout"));
 
+var _SkuLayout = require("../Layout/CaiDatChungLayout/SkuLayout");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var publicRoutes = [{
@@ -144,6 +146,9 @@ var publicRoutes = [{
 }, {
   path: '/nhanvien/locked',
   component: _NhanVienLockLayout["default"]
+}, {
+  path: '/setting/sku',
+  component: _SkuLayout.SkuLayout
 }, {
   path: '/danhsachhoadon',
   component: _DanhSachHoaDonLayout.DanhSachHoaDonLayout,

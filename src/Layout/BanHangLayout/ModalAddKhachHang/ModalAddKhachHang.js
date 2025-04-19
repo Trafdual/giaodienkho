@@ -5,6 +5,9 @@ import { Modal } from '~/components/Modal'
 import { useToast } from '~/components/GlobalStyles/ToastContext'
 import './ModalAddKhachHang.scss'
 import { getApiUrl } from '../../../api/api'
+import { AddNhomKhachHang } from './AddNhomKhachHang'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPlus } from '@fortawesome/free-solid-svg-icons'
 
 function ModalAddKhachHang ({ isOpen, onClose, khoID, fetchData, userId }) {
   const [nhomkhachhangs, setnhomkhachangs] = useState([])
@@ -14,6 +17,7 @@ function ModalAddKhachHang ({ isOpen, onClose, khoID, fetchData, userId }) {
   const [address, setAddress] = useState('')
   const [date, setDate] = useState('')
   const [cancuoc, setCancuoc] = useState('')
+  const [isOpenNkh, setisOpenNkh] = useState(false)
   const [nhomkhachhangID, setNhomkhachhangID] = useState('')
   const [nhomkhachangname, setnhomkhachangname] = useState('')
 
@@ -183,6 +187,14 @@ function ModalAddKhachHang ({ isOpen, onClose, khoID, fetchData, userId }) {
               </option>
             ))}
           </select>
+
+          <button className='btnadd'>
+            <FontAwesomeIcon
+              icon={faPlus}
+              className='icon'
+              onClick={() => setisOpenNkh(true)}
+            />
+          </button>
         </div>
 
         <div className='divtenkho'>
@@ -291,6 +303,12 @@ function ModalAddKhachHang ({ isOpen, onClose, khoID, fetchData, userId }) {
           Hủy
         </button>
       </div>
+      <AddNhomKhachHang
+        isOpen={isOpenNkh}
+        onClose={() => setisOpenNkh(false)}
+        userId={userId}
+        fetchdata={fetchnhomkhachang}
+      />
     </Modal>
   )
 }

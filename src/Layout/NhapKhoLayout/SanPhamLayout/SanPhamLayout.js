@@ -229,7 +229,7 @@ function SanPhamLayout ({
                       ))
                     ) : (
                       <tr>
-                        <td colSpan='8'>Không có sản phẩm nào</td>
+                        <td colSpan='7'>Không có sản phẩm nào</td>
                       </tr>
                     )}
                   </tbody>
