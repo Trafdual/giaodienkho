@@ -27,6 +27,7 @@ import { AdminLayout } from '~/Layout/Admin/AdminLayout'
 import { NhanVienLayout } from '../Layout/NhanVienLayout'
 import NhanVienLockLayout from '../Layout/NhanVienLayout/NhanVienLockLayout'
 import { SkuLayout } from '../Layout/CaiDatChungLayout/SkuLayout'
+import { NhomKhachHangLayout } from '../Layout/CaiDatChungLayout/NhomKhachHangLayout'
 const publicRoutes = [
   { path: '/', component: Login, layout: null },
   { path: '/home', component: DashboardLayout },
@@ -55,6 +56,7 @@ const publicRoutes = [
   { path: '/nhanvien/active', component: NhanVienLayout },
   { path: '/nhanvien/locked', component: NhanVienLockLayout },
   { path: '/setting/sku', component: SkuLayout },
+  { path: '/setting/nhomkhachhang', component: NhomKhachHangLayout },
 
   {
     path: '/danhsachhoadon',

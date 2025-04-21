@@ -1,7 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEye, faPen, faPlus } from '@fortawesome/free-solid-svg-icons'
+import {
+  faEye,
+  faPen,
+  faPlus,
+  faTrash
+} from '@fortawesome/free-solid-svg-icons'
 
 import '../../ColumnResizer/columnResizer.scss'
 import { enableColumnResizing } from '../../ColumnResizer/columnResizer'
@@ -14,6 +19,7 @@ import { useNavigate } from 'react-router-dom'
 import { ModalDelete2 } from '~/components/ModalDelete2'
 import { getApiUrl } from '~/api/api'
 import { DungLuongSku } from './DungLuongSku'
+import { EditSku } from './EditSku'
 
 function SkuLayout () {
   const [sku, setsku] = useState([])
@@ -172,6 +178,21 @@ function SkuLayout () {
                   <FontAwesomeIcon icon={faEye} className='iconMenuSanPham' />
                   Xem
                 </button>
+
+                <button
+                  className={`btn-xoa ${
+                    selectedItems.length === 0 ? 'disabled' : ''
+                  }`}
+                  disabled={selectedItems.length === 0}
+                  onClick={() =>
+                    selectedItems.length > 0
+                      ? setIsLock(true)
+                      : alert('Chọn sku để xóa')
+                  }
+                >
+                  <FontAwesomeIcon icon={faTrash} className='iconMenuSanPham' />
+                  Xóa sku
+                </button>
               </div>
               <div className='table-container'>
                 <table className='tablenhap'>
@@ -222,8 +243,14 @@ function SkuLayout () {
             <ModalAddSku
               isOpen={isOpen}
               onClose={handleCloseModal}
-              khoID={khoID}
-              fetchData={fetchData}
+              userID={userdata.data.user[0]._id}
+              fetchsku={fetchData}
+            />
+            <EditSku
+              isOpen={isOpenEdit}
+              onClose={() => setIsOpenEdit(false)}
+              fetchsku={fetchData}
+              idsku={selectedItems[0]}
             />
             <ModalDelete2
               isOpen={isLock}
@@ -231,9 +258,9 @@ function SkuLayout () {
               seletecids={selectedItems}
               setSelectedIds={setSelectedItems}
               fetchdata={fetchData}
-              link={`${getApiUrl('domain')}/khoasku`}
+              link={`${getApiUrl('domain')}/deletesku`}
               content={'Bạn có chắc chắn xóa những mã sku này'}
-              message={'khóa thành công'}
+              message={'xóa thành công'}
             />
             <DungLuongSku
               isOpen={isOpenDungluongsku}

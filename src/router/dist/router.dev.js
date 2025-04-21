@@ -61,6 +61,8 @@ var _NhanVienLockLayout = _interopRequireDefault(require("../Layout/NhanVienLayo
 
 var _SkuLayout = require("../Layout/CaiDatChungLayout/SkuLayout");
 
+var _NhomKhachHangLayout = require("../Layout/CaiDatChungLayout/NhomKhachHangLayout");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var publicRoutes = [{
@@ -149,6 +151,9 @@ var publicRoutes = [{
 }, {
   path: '/setting/sku',
   component: _SkuLayout.SkuLayout
+}, {
+  path: '/setting/nhomkhachhang',
+  component: _NhomKhachHangLayout.NhomKhachHangLayout
 }, {
   path: '/danhsachhoadon',
   component: _DanhSachHoaDonLayout.DanhSachHoaDonLayout,

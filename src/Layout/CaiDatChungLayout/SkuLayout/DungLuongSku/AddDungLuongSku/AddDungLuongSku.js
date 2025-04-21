@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import { useState } from 'react'
 
 import { Modal } from '~/components/Modal'
 import { useToast } from '~/components/GlobalStyles/ToastContext'
@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faXmark } from '@fortawesome/free-solid-svg-icons'
 import { getApiUrl } from '~/api/api'
 
-function ModalAddDungLuongSku ({ isOpen, onClose, userID, fetchsku }) {
+function ModalAddDungLuongSku ({ isOpen, onClose, idsku, fetchsku }) {
   const [dungluong, setdungluong] = useState('')
   const [dungluongs, setdungluongs] = useState([])
 
@@ -20,15 +20,18 @@ function ModalAddDungLuongSku ({ isOpen, onClose, userID, fetchsku }) {
   const handleAddSku = async () => {
     setIsClickButton(true)
     try {
-      const response = await fetch(`${getApiUrl('domain')}/postsku/${userID}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          namedungluong: dungluongs
-        })
-      })
+      const response = await fetch(
+        `${getApiUrl('domain')}/postdungluongsku/${idsku}`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            namedungluong: dungluongs
+          })
+        }
+      )
 
       if (response.ok) {
         fetchsku()
@@ -45,8 +48,6 @@ function ModalAddDungLuongSku ({ isOpen, onClose, userID, fetchsku }) {
       showToast('Thêm sku thất bại', 'error')
     }
   }
-
-
 
   const handelsave = () => {
     onClose()

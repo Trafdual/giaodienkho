@@ -9,6 +9,8 @@ import { getApiUrl } from '~/api/api'
 import { CustomModal } from '~/components/CustomModal'
 import { PaginationComponent } from '~/components/NextPage'
 // import { EditBlog } from './EditBlog'
+import { AddDungLuongSku } from './AddDungLuongSku'
+import { EditDungLuongSku } from './EditDungLuongSku'
 
 function DungLuongSku ({ isOpen, onClose, idsku }) {
   const [data, setdata] = useState([])
@@ -153,19 +155,25 @@ function DungLuongSku ({ isOpen, onClose, idsku }) {
             </tbody>
           </table>
         </div>
-        {/* <AddBlog
+        <AddDungLuongSku
           isOpen={isOpenAdd}
           onClose={() => setIsOpenAdd(false)}
-          fetchdata={fetchdata}
+          fetchsku={fetchdata}
           idsku={idsku}
-        /> */}
+        />
+        <EditDungLuongSku
+          isOpen={isOpenEdit}
+          onClose={() => setIsOpenEdit(false)}
+          fetchsku={fetchdata}
+          iddungluong={selectedIds[0]}
+        />
         <ModalDelete2
           isOpen={isOpenDelete}
           onClose={() => setIsOpenDelete(false)}
           content={'Bạn có muốn xóa những dung lượng này?'}
           seletecids={selectedIds}
           fetchdata={fetchdata}
-          link={`${getApiUrl('domain')}/deletedungluongsku/${idsku}`}
+          link={`${getApiUrl('domain')}/deletedungluongsku`}
           setSelectedIds={setSelectedIds}
           message={'xóa thành công'}
         />

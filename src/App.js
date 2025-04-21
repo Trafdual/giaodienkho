@@ -4,10 +4,9 @@ import { publicRoutes } from './router'
 import { DefaultLayout } from './Layout/DeafaultLayout'
 import DefaultBanHangLayout from './Layout/BanHangLayout/DefaultBanHangLayout'
 import ToastProvider from './components/GlobalStyles/ToastContext'
+import PrivateRoute from './components/PrivateRoutes/PrivateRoutes'
 
 function App () {
-
-
   return (
     <ToastProvider>
       <Router>

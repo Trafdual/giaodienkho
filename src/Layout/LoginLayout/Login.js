@@ -84,12 +84,12 @@ function Login () {
             const userId = data.data.user[0]._id
             const name = data.data.user[0].name
             if (rememberMe) {
-              localStorage.setItem('token', data.token)
+              saveToLocalStorage('token', data.token)
               saveToLocalStorage('userId', userId)
               saveToLocalStorage('name', name)
               saveToLocalStorage('data', data)
             } else {
-              sessionStorage.setItem('token', data.token)
+              saveToLocalStorage('token', data.token)
               saveToLocalStorage('userId', userId)
               saveToLocalStorage('name', name)
               saveToLocalStorage('data', data)
