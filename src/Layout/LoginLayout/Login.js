@@ -8,7 +8,10 @@ import { LogoSwitcher as LogoSwitcherLogin } from '../../components/SwitchImageL
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
 import { useToast } from '../../components/GlobalStyles/ToastContext'
-import { saveToLocalStorage } from '~/components/MaHoaLocalStorage/MaHoaLocalStorage'
+import {
+  saveToLocalStorage,
+  getFromLocalStorage
+} from '~/components/MaHoaLocalStorage/MaHoaLocalStorage'
 import { getApiUrl } from '../../api/api'
 
 function Login () {
@@ -25,7 +28,7 @@ function Login () {
   const { showToast } = useToast()
   useEffect(() => {
     const token =
-      localStorage.getItem('token') || sessionStorage.getItem('token')
+      getFromLocalStorage('token') || sessionStorage.getItem('token')
     if (token) {
       navigate(publicRoutes[1].path)
     }
@@ -78,6 +81,7 @@ function Login () {
 
         if (data.data) {
           if (data.data.user[0].role === 'admin') {
+            saveToLocalStorage('token', data.token)
             saveToLocalStorage('data', data)
             navigate('/admin?tab=Users')
           } else {

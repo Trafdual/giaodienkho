@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 
 import './ThietLapLayout.scss'
 import { useNavigate } from 'react-router-dom'
+import { getFromLocalStorage } from '../../components/MaHoaLocalStorage/MaHoaLocalStorage'
 
 function ThietLapLayout () {
   const [symbolPosition, setSymbolPosition] = useState(5000)
@@ -9,8 +10,7 @@ function ThietLapLayout () {
   const navigate = useNavigate()
 
   useEffect(() => {
-    const token =
-      sessionStorage.getItem('token') || localStorage.getItem('token')
+    const token = getFromLocalStorage('token')
     if (!token) {
       navigate('/')
     }

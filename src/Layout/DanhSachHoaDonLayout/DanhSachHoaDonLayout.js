@@ -5,6 +5,7 @@ import { ModalChiTietHoaDon } from './ModalChiTietHoaDon'
 import { PaginationComponent } from '~/components/NextPage'
 import { useNavigate } from 'react-router-dom'
 import { getApiUrl } from '../../api/api'
+import { getFromLocalStorage } from '../../components/MaHoaLocalStorage/MaHoaLocalStorage'
 
 function DanhSachHoaDonLayout () {
   const navigate = useNavigate()
@@ -50,8 +51,7 @@ function DanhSachHoaDonLayout () {
   }, [khoID])
 
   useEffect(() => {
-    const token =
-      sessionStorage.getItem('token') || localStorage.getItem('token')
+    const token = getFromLocalStorage('token')
     if (!token) {
       navigate('/')
     }

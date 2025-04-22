@@ -9,6 +9,7 @@ import { PaginationComponent } from '~/components/NextPage'
 import ChiTietQuyTienMat from './ChiTietQuyTienMat'
 import { useNavigate } from 'react-router-dom'
 import { getApiUrl } from '../../../api/api'
+import { getFromLocalStorage } from '../../../components/MaHoaLocalStorage/MaHoaLocalStorage'
 
 function QuyTienMatLayout () {
   const [quytien, setquytien] = useState([])
@@ -41,8 +42,7 @@ function QuyTienMatLayout () {
   )
 
   useEffect(() => {
-    const token =
-      sessionStorage.getItem('token') || localStorage.getItem('token')
+    const token = getFromLocalStorage('token')
     if (!token) {
       navigate('/')
     }

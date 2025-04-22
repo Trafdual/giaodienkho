@@ -52,8 +52,7 @@ function NhapKhoLayout () {
   const userdata = getFromLocalStorage('data')
 
   useEffect(() => {
-    const token =
-      sessionStorage.getItem('token') || localStorage.getItem('token')
+    const token = getFromLocalStorage('token')
     if (!token) {
       navigate('/')
     }

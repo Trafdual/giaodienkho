@@ -8,6 +8,7 @@ import { PaginationComponent } from '~/components/NextPage'
 import Invoice from './Invoice'
 import { useNavigate } from 'react-router-dom'
 import { getApiUrl } from '../../api/api'
+import { getFromLocalStorage } from '../../components/MaHoaLocalStorage/MaHoaLocalStorage'
 
 function HoaDonLayout () {
   const navigate = useNavigate()
@@ -47,8 +48,7 @@ function HoaDonLayout () {
   }, [khoID])
 
   useEffect(() => {
-    const token =
-      sessionStorage.getItem('token') || localStorage.getItem('token')
+    const token = getFromLocalStorage('token')
     if (!token) {
       navigate('/')
     }

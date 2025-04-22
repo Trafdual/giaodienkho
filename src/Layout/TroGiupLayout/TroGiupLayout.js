@@ -4,6 +4,7 @@ import Barcode from 'bwip-js'
 import jsPDF from 'jspdf'
 import './TroGiup.scss'
 import { useNavigate } from 'react-router-dom'
+import { getFromLocalStorage } from '../../components/MaHoaLocalStorage/MaHoaLocalStorage'
 
 const TroGiupLayout = ({ isOpen, onClose, imei }) => {
   const navigate = useNavigate()
@@ -31,8 +32,7 @@ const TroGiupLayout = ({ isOpen, onClose, imei }) => {
   }, [imei, isOpen])
 
   useEffect(() => {
-    const token =
-      sessionStorage.getItem('token') || localStorage.getItem('token')
+    const token = getFromLocalStorage('token')
     if (!token) {
       navigate('/')
     }

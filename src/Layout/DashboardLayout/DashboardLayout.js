@@ -19,6 +19,7 @@ import images from '../../assets/images'
 import { useNavigate } from 'react-router-dom'
 import './DashboardLayout.scss'
 import { getApiUrl } from '../../api/api'
+import { getFromLocalStorage } from '../../components/MaHoaLocalStorage/MaHoaLocalStorage'
 
 ChartJS.register(
   Title,
@@ -56,7 +57,7 @@ const barOptions = {
 function TestDasboard () {
   const [khoID, setKhoID] = useState(localStorage.getItem('khoID') || '')
   const navigate = useNavigate()
-  const token = sessionStorage.getItem('token') || localStorage.getItem('token')
+  const token = sessionStorage.getItem('token') || getFromLocalStorage('token')
   const [polarData, setpolarData] = useState({
     labels: [],
     datasets: [

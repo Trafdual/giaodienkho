@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import { Loading } from '~/components/Loading'
 import { useNavigate } from 'react-router-dom'
 import { getApiUrl } from '../../api/api'
+import { getFromLocalStorage } from '../../components/MaHoaLocalStorage/MaHoaLocalStorage'
 function BaoCaoBanHangLayout () {
   const formatDate = date => {
     const d = new Date(date)
@@ -14,8 +15,7 @@ function BaoCaoBanHangLayout () {
   const navigate = useNavigate()
 
   useEffect(() => {
-    const token =
-      sessionStorage.getItem('token') || localStorage.getItem('token')
+    const token = getFromLocalStorage('token')
     if (!token) {
       navigate('/')
     }

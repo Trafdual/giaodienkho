@@ -5,6 +5,7 @@ import { useToast } from '~/components/GlobalStyles/ToastContext'
 import './BaoCaoCongNo.scss'
 import { useNavigate } from 'react-router-dom'
 import { getApiUrl } from '../../api/api'
+import { getFromLocalStorage } from '../../components/MaHoaLocalStorage/MaHoaLocalStorage'
 function BaoCaoCongNo () {
   const navigate = useNavigate()
   const today = new Date().toISOString().split('T')[0]
@@ -16,8 +17,7 @@ function BaoCaoCongNo () {
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    const token =
-      sessionStorage.getItem('token') || localStorage.getItem('token')
+    const token = getFromLocalStorage('token')
     if (!token) {
       navigate('/')
     }
