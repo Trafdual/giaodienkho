@@ -314,6 +314,7 @@ function NhanVienLayout () {
               onClose={() => setIsOpenAddQuyen(false)}
               idncc={idncc}
               fetchdata={fetchData}
+              userid={userdata.data.user[0]._id}
             />
           </div>
           <div className='pagination1'>

@@ -63,6 +63,10 @@ var _SkuLayout = require("../Layout/CaiDatChungLayout/SkuLayout");
 
 var _NhomKhachHangLayout = require("../Layout/CaiDatChungLayout/NhomKhachHangLayout");
 
+var _NganHangLayout = require("../Layout/CaiDatChungLayout/NganHangLayout");
+
+var _MucThuChiLayout = require("../Layout/CaiDatChungLayout/MucThuChiLayout");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var publicRoutes = [{
@@ -154,6 +158,12 @@ var publicRoutes = [{
 }, {
   path: '/setting/nhomkhachhang',
   component: _NhomKhachHangLayout.NhomKhachHangLayout
+}, {
+  path: '/setting/bank',
+  component: _NganHangLayout.NganHangLayout
+}, {
+  path: '/setting/mucthuchi',
+  component: _MucThuChiLayout.MucThuChiLayout
 }, {
   path: '/danhsachhoadon',
   component: _DanhSachHoaDonLayout.DanhSachHoaDonLayout,

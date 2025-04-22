@@ -11,7 +11,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import { getApiUrl } from '../../../api/api'
 
-const AddQuyen = ({ idncc, isOpen, onClose, fetchdata }) => {
+const AddQuyen = ({ idncc, isOpen, onClose, fetchdata, userid }) => {
   const { showToast } = useToast()
   const [quyen, setQuyen] = useState([])
   const validRoles = [
@@ -51,7 +51,7 @@ const AddQuyen = ({ idncc, isOpen, onClose, fetchdata }) => {
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ quyen })
+          body: JSON.stringify({ quyen, userid })
         }
       )
       if (response.ok) {

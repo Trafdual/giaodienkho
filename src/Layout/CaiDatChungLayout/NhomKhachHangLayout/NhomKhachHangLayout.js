@@ -2,7 +2,6 @@
 import { useState, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
-  faEye,
   faPen,
   faPlus,
   faTrash
@@ -26,9 +25,6 @@ function NhomKhachHangLayout () {
   const [isOpen, setIsOpen] = useState(false)
   const [isOpenEdit, setIsOpenEdit] = useState(false)
   const [isLock, setIsLock] = useState(false)
-  const [isOpenDungluongsku, setisOpenDungluongsku] = useState(false)
-
-  const [idncc, setidncc] = useState('')
   const [loading, setLoading] = useState(true)
   const [selectedItems, setSelectedItems] = useState([])
 
@@ -113,7 +109,6 @@ function NhomKhachHangLayout () {
     if (newSelectAll) {
       const allIds = sku.map(item => item._id)
       setSelectedItems(allIds)
-      setidncc(allIds.length === 1 ? allIds[0] : '')
     } else {
       setSelectedItems([])
     }
@@ -163,20 +158,6 @@ function NhomKhachHangLayout () {
                   <FontAwesomeIcon icon={faPen} className='iconMenuSanPham' />
                   Sửa
                 </button>
-                <button
-                  className={`btn-xoa ${
-                    selectedItems.length > 1 || selectedItems.length === 0
-                      ? 'disabled'
-                      : ''
-                  }`}
-                  disabled={
-                    selectedItems.length > 1 || selectedItems.length === 0
-                  }
-                  onClick={() => setisOpenDungluongsku(true)}
-                >
-                  <FontAwesomeIcon icon={faEye} className='iconMenuSanPham' />
-                  Xem
-                </button>
 
                 <button
                   className={`btn-xoa ${
@@ -221,7 +202,6 @@ function NhomKhachHangLayout () {
                               checked={selectedItems.includes(ncc._id)}
                               onChange={() => {
                                 handleSelectItem(ncc._id)
-                                setidncc(ncc._id)
                               }}
                             />
                           </td>
