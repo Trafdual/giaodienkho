@@ -1,8 +1,9 @@
-import { Modal } from '~/components/Modal'
+// import { Modal } from '~/components/Modal'
 import { useState } from 'react'
 import './AddUser.scss'
 import { Birthday } from '~/components/Birthday'
 import { getApiUrl } from '../../../../api/api'
+import { CustomModal } from '../../../../components/CustomModal'
 
 function AddUser ({ isOpen, onClose, fetchdata }) {
   const [password, setpassword] = useState('')
@@ -49,7 +50,7 @@ function AddUser ({ isOpen, onClose, fetchdata }) {
     }
   }
   return (
-    <Modal isOpen={isOpen} onClose={handelClose}>
+    <CustomModal isOpen={isOpen} onClose={handelClose}>
       <div className='addnhanvien'>
         <h2>Thêm người dùng</h2>
         <div className='div_input_group'>
@@ -117,7 +118,7 @@ function AddUser ({ isOpen, onClose, fetchdata }) {
           </button>
         </div>
       </div>
-    </Modal>
+    </CustomModal>
   )
 }
 

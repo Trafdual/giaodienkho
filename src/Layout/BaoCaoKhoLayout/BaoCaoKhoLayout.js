@@ -4,6 +4,7 @@ import { enableColumnResizing } from '../ColumnResizer/columnResizer'
 import { Loading } from '~/components/Loading'
 import { useNavigate } from 'react-router-dom'
 import { getApiUrl } from '../../api/api'
+import { getFromLocalStorage } from '../../components/MaHoaLocalStorage/MaHoaLocalStorage'
 
 function BaoCaoKhoLayout () {
   const navigate = useNavigate()
@@ -16,10 +17,9 @@ function BaoCaoKhoLayout () {
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    const token =
-      sessionStorage.getItem('token') || localStorage.getItem('token')
+    const token = getFromLocalStorage('token')
     if (!token) {
-      navigate('/')
+      navigate('/') 
     }
   }, [navigate])
 

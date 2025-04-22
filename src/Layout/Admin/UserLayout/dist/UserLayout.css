@@ -52,6 +52,7 @@
 .theloai_container {
   height: 100%;
   padding: 10px;
+  padding-bottom: unset !important;
 }
 
 .nav_chucnang {
@@ -59,12 +60,24 @@
   gap: 10px;
   padding: 10px;
   background-color: #f5f5f5;
+  z-index: 100;
+  position: sticky;
+  top: 0;
 }
 
 .tablenhap {
   width: 100%;
   border-collapse: collapse;
   margin-top: 10px;
+  table-layout: fixed;
+}
+
+.thmedium {
+  width: 60px;
+}
+
+.thmax {
+  width: 200px;
 }
 
 .tablenhap thead th {
@@ -97,4 +110,9 @@ td img {
   width: 100px;
   height: 100px;
   object-fit: cover;
+}
+
+.divbody_useradmin,
+.div_table_khoadmin {
+  min-height: 750px;
 }

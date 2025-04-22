@@ -13,6 +13,7 @@ import 'react-clock/dist/Clock.css'
 import { ModalAddNganHang } from './ModalAddNganHang'
 import './AddLoHang.scss'
 import { getFromLocalStorage } from '~/components/MaHoaLocalStorage/MaHoaLocalStorage'
+import { getApiUrl } from '../../../api/api'
 
 function AddLoHang ({ isOpen, onClose, setlohang }) {
   const [name, setName] = useState('')

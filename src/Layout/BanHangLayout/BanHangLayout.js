@@ -24,10 +24,10 @@ import { handleGeneratePDF } from './InHoaDon/InHoaDon'
 import { useToast } from '~/components/GlobalStyles/ToastContext'
 import { useNavigate } from 'react-router-dom'
 import { getApiUrl } from '../../api/api'
+import { RealTimeClock } from '../../components/RealTimeClock'
 
 function BanHangLayout () {
   const navigate = useNavigate()
-  const [currentTime, setCurrentTime] = useState(new Date())
   const [issOpenModalQR, setIsOpenModalQR] = useState(false)
   const { showToast } = useToast()
   const [isChecked, setIsChecked] = useState(false)
@@ -71,8 +71,7 @@ function BanHangLayout () {
   const inputRef = useRef()
 
   useEffect(() => {
-    const token =
-      sessionStorage.getItem('token') || localStorage.getItem('token')
+    const token = getFromLocalStorage('token')
     if (!token) {
       navigate('/')
     }
@@ -84,24 +83,6 @@ function BanHangLayout () {
       setGhino(newCheckedState)
       return newCheckedState
     })
-  }
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentTime(new Date())
-    }, 1000)
-
-    return () => clearInterval(interval)
-  }, [])
-
-  const formatDate = date => {
-    const day = String(date.getDate()).padStart(2, '0')
-    const month = String(date.getMonth() + 1).padStart(2, '0')
-    const year = date.getFullYear()
-    const hours = String(date.getHours()).padStart(2, '0')
-    const minutes = String(date.getMinutes()).padStart(2, '0')
-
-    return `${day}/${month}/${year} - ${hours}:${minutes}`
   }
 
   const handleItemsSelected = items => {
@@ -203,7 +184,6 @@ function BanHangLayout () {
   }, [userId])
 
   const handleProductClick = product => {
-    console.log(product)
     setSelectedProduct(product)
     setIsOpen(true)
   }
@@ -280,7 +260,9 @@ function BanHangLayout () {
     }
   }
   useEffect(() => {
-    fetchnganhang()
+    if (userId) {
+      fetchnganhang()
+    }
   }, [userId])
 
   const totalAmount = selectedItems.reduce(
@@ -516,7 +498,8 @@ function BanHangLayout () {
         <div className='checkout-section'>
           <div className='divtinhtien'>
             <div className='checkout-header'>
-              <span>{formatDate(currentTime)}</span>
+              {/* thời gian thực */}
+              <RealTimeClock />
               <button className='store-btn'>Tại cửa hàng</button>
             </div>
 

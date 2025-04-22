@@ -18,6 +18,7 @@ import { useToast } from '~/components/GlobalStyles/ToastContext'
 import { getFromLocalStorage } from '~/components/MaHoaLocalStorage/MaHoaLocalStorage'
 import { useNavigate } from 'react-router-dom'
 import { getApiUrl } from '../../api/api'
+import { ModalDelete2 } from '../../components/ModalDelete2'
 
 function NhapKhoLayout () {
   const navigate = useNavigate()
@@ -33,6 +34,7 @@ function NhapKhoLayout () {
   const [selectedItems, setSelectedItems] = useState([])
   const [selectAll, setSelectAll] = useState(false)
   const [malohang, setmalohang] = useState('')
+  const [isDelete, setisDelete] = useState(false)
   const { showToast } = useToast()
 
   const [currentPage, setCurrentPage] = useState(1)
@@ -50,8 +52,7 @@ function NhapKhoLayout () {
   const userdata = getFromLocalStorage('data')
 
   useEffect(() => {
-    const token =
-      sessionStorage.getItem('token') || localStorage.getItem('token')
+    const token = getFromLocalStorage('token')
     if (!token) {
       navigate('/')
     }
@@ -328,6 +329,7 @@ function NhapKhoLayout () {
                       selectedItems.length === 0 ? 'disabled' : ''
                     }`}
                     disabled={selectedItems.length === 0}
+                    onClick={() => setisDelete(true)}
                   >
                     <FontAwesomeIcon
                       icon={faTrashCan}
@@ -430,7 +432,7 @@ function NhapKhoLayout () {
                       ))
                     ) : (
                       <tr>
-                        <td colSpan='8'>Không có lô hàng nào</td>
+                        <td colSpan='6'>Không có lô hàng nào</td>
                       </tr>
                     )}
                   </tbody>
@@ -487,6 +489,16 @@ function NhapKhoLayout () {
               isOpen={isOpenEdit}
               onClose={handleCloseEdit}
               fetchlohang={fetchData}
+            />
+            <ModalDelete2
+              isOpen={isDelete}
+              onClose={() => setisDelete(false)}
+              content={'Bạn có muốn xóa những lô hàng này?'}
+              seletecids={selectedItems}
+              fetchdata={fetchData}
+              link={`${getApiUrl('domain')}/deleteanlo`}
+              setSelectedIds={setSelectedItems}
+              message={'xóa thành công'}
             />
           </div>
           <SanPhamLayout

@@ -5,18 +5,21 @@ import {
   faChartLine,
   faReceipt,
   faUserPlus,
-  faRightFromBracket
+  faRightFromBracket,
+  faUserMinus
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import './SidebarAdmin.scss'
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 
 function SidebarAdmin ({ activeTab }) {
   const [istoggle, setIstoggle] = useState(true)
 
   const menus = [
     { name: 'Users', icon: faUserPlus },
-    { name: 'Blog', icon: faBlog },
+    { name: 'Users bị khóa', icon: faUserMinus },
+    { name: 'Thể loại Blog', icon: faBlog },
     { name: 'Hóa đơn', icon: faReceipt },
     { name: 'Doanh Thu', icon: faChartLine }
   ]
@@ -44,7 +47,7 @@ function SidebarAdmin ({ activeTab }) {
 
       <div className='sidebar_body'>
         {menus.map((menu, index) => (
-          <a href={`/admin?tab=${menu.name}`}>
+          <Link to={`/admin?tab=${menu.name}`}>
             <div
               className={
                 activeTab === menu.name
@@ -58,7 +61,7 @@ function SidebarAdmin ({ activeTab }) {
                 {menu.name}
               </span>
             </div>
-          </a>
+          </Link>
         ))}
         <a
           onClick={e => {

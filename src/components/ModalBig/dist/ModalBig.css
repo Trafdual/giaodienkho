@@ -20,6 +20,10 @@
   position: absolute;
   overflow: hidden;
   cursor: grab;
+  height: 80%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) !important;
 }
 
 .ModalBig-close {

@@ -22,7 +22,10 @@ import {
   faMoneyBillTrendUp,
   faUsers,
   faCircleUser,
-  faUsersSlash
+  faUsersSlash,
+  faGears,
+  faBuildingColumns,
+  faBook
 } from '@fortawesome/free-solid-svg-icons'
 import { Link, useLocation } from 'react-router-dom'
 import { useEffect, useState } from 'react'
@@ -69,7 +72,7 @@ function Sidebar ({ isActive, setIsActive }) {
   const handleLogout = () => {
     localStorage.clear()
     sessionStorage.clear()
-    window.location.href='/'
+    window.location.href = '/'
   }
 
   const handleItemClick = path => {
@@ -97,6 +100,18 @@ function Sidebar ({ isActive, setIsActive }) {
       children: [
         { path: '/nhanvien/active', title: 'Đang hoạt động', icon: faUsers },
         { path: '/nhanvien/locked', title: 'Đã bị khóa', icon: faUsersSlash }
+      ]
+    },
+    userdata?.data?.user[0]?.role === 'manager' && {
+      title: 'Cài đặt chung',
+      icon: faGears,
+      dropdownKey: 'isDropdownsetting',
+      children: [
+        { path: '/setting/sku', title: 'Sku', icon: faUsers },
+        { path: '/setting/bank', title: 'Ngân hàng', icon: faBuildingColumns },
+        { path: '/setting/mucthuchi', title: 'Mục thu chi', icon: faMoneyCheck },
+        { path: '/setting/loaichungtu', title: 'Loại chứng từ', icon: faBook },
+        { path: '/setting/nhomkhachhang', title: 'Nhóm khách hàng', icon: faUsers }
       ]
     },
     {
@@ -137,15 +152,15 @@ function Sidebar ({ isActive, setIsActive }) {
     },
     { path: '/banhang', title: 'Bán Hàng', icon: faCartShopping },
     { path: '/trogiuptongquan', title: 'Trợ giúp', icon: faCircleQuestion },
-    {
-      title: 'Thiết lập',
-      icon: faGear,
-      dropdownKey: 'isDropdownOpen',
-      children: [
-        { path: '/thietlap', title: 'Cấu hình', icon: faWrench },
-        { path: '/thietlap/baomat', title: 'Bảo mật', icon: faShieldHalved }
-      ]
-    },
+    // {
+    //   title: 'Thiết lập',
+    //   icon: faGear,
+    //   dropdownKey: 'isDropdownOpen',
+    //   children: [
+    //     { path: '/thietlap', title: 'Cấu hình', icon: faWrench },
+    //     { path: '/thietlap/baomat', title: 'Bảo mật', icon: faShieldHalved }
+    //   ]
+    // },
     {
       title: 'Đăng Xuất',
       icon: faRightFromBracket,

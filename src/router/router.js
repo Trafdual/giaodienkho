@@ -26,6 +26,12 @@ import { ThuNoLayout } from '~/Layout/ThuNoLayout'
 import { AdminLayout } from '~/Layout/Admin/AdminLayout'
 import { NhanVienLayout } from '../Layout/NhanVienLayout'
 import NhanVienLockLayout from '../Layout/NhanVienLayout/NhanVienLockLayout'
+import { SkuLayout } from '../Layout/CaiDatChungLayout/SkuLayout'
+import { NhomKhachHangLayout } from '../Layout/CaiDatChungLayout/NhomKhachHangLayout'
+import { NganHangLayout } from '../Layout/CaiDatChungLayout/NganHangLayout'
+import { MucThuChiLayout } from '../Layout/CaiDatChungLayout/MucThuChiLayout'
+import { LoaiChungTuLayout } from '../Layout/CaiDatChungLayout/LoaiChungtuLayout'
+
 const publicRoutes = [
   { path: '/', component: Login, layout: null },
   { path: '/home', component: DashboardLayout },
@@ -53,6 +59,11 @@ const publicRoutes = [
   { path: '/admin', component: AdminLayout, layout: null },
   { path: '/nhanvien/active', component: NhanVienLayout },
   { path: '/nhanvien/locked', component: NhanVienLockLayout },
+  { path: '/setting/sku', component: SkuLayout },
+  { path: '/setting/nhomkhachhang', component: NhomKhachHangLayout },
+  { path: '/setting/bank', component: NganHangLayout },
+  { path: '/setting/mucthuchi', component: MucThuChiLayout },
+  { path: '/setting/loaichungtu', component: LoaiChungTuLayout },
 
   {
     path: '/danhsachhoadon',

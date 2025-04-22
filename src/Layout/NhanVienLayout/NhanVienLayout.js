@@ -46,8 +46,7 @@ function NhanVienLayout () {
   const navigate = useNavigate()
 
   useEffect(() => {
-    const token =
-      sessionStorage.getItem('token') || localStorage.getItem('token')
+    const token = getFromLocalStorage('token')
     if (!token) {
       navigate('/')
     }
@@ -308,12 +307,14 @@ function NhanVienLayout () {
               fetchdata={fetchData}
               link={`${getApiUrl('domain')}/khoanhanvien`}
               content={'Bạn có chắc chắn khóa những nhân viên này'}
+              message={'khóa thành công'}
             />
             <AddQuyen
               isOpen={isOpenAddQuyen}
               onClose={() => setIsOpenAddQuyen(false)}
               idncc={idncc}
               fetchdata={fetchData}
+              userid={userdata.data.user[0]._id}
             />
           </div>
           <div className='pagination1'>

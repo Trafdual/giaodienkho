@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import * as XLSX from 'xlsx'
 import jsPDF from 'jspdf'
 import html2canvas from 'html2canvas'
+import { getFromLocalStorage } from '../../components/MaHoaLocalStorage/MaHoaLocalStorage'
 
 function DoanhThuLayout () {
   const formatDate = date => {
@@ -28,8 +29,7 @@ function DoanhThuLayout () {
   const navigate = useNavigate()
 
   useEffect(() => {
-    const token =
-      sessionStorage.getItem('token') || localStorage.getItem('token')
+    const token = getFromLocalStorage('token')
     if (!token) {
       navigate('/')
     }
@@ -64,7 +64,7 @@ function DoanhThuLayout () {
     XLSX.utils.book_append_sheet(wb, ws, 'DoanhThu')
     XLSX.writeFile(wb, 'DoanhThu.xlsx')
   }
-  
+
   const handleExportPDF = async () => {
     setIsExporting(true)
     await new Promise(resolve => setTimeout(resolve, 300))

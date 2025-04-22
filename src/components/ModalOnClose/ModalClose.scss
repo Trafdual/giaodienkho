@@ -1,4 +1,4 @@
-.divModalOnClose{
+.divModalOnClose {
     padding: 10px;
 }
 
@@ -19,9 +19,10 @@
 }
 
 .divModalFooterOnClose {
-    float: right;
     display: flex;
     padding: 10px;
+    align-items: center;
+    justify-content: end;
 }
 
 .btnsaveClose,
@@ -44,16 +45,18 @@
     margin-right: 10px;
 }
 
-.btnsaveClose{
+.btnsaveClose {
     background-color: var(--blue);
     color: white;
 }
-.btndontsaveClose{
+
+.btndontsaveClose {
     background-color: white;
     color: var(--blue);
     border: 1px solid var(--blue);
 }
-.btncancelClose{
+
+.btncancelClose {
     background-color: rgb(245, 245, 245);
     color: var(--blue);
 }

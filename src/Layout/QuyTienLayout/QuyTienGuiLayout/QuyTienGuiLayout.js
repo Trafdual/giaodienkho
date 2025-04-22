@@ -10,6 +10,7 @@ import { PaginationComponent } from '~/components/NextPage'
 import ChiTietQuyTienGui from './ChiTietQuyTienGui'
 import { useNavigate } from 'react-router-dom'
 import { getApiUrl } from '../../../api/api'
+import { getFromLocalStorage } from '../../../components/MaHoaLocalStorage/MaHoaLocalStorage'
 
 function QuyTienGuiLayout () {
   const [quytien, setquytien] = useState([])
@@ -39,8 +40,7 @@ function QuyTienGuiLayout () {
   )
 
   useEffect(() => {
-    const token =
-      sessionStorage.getItem('token') || localStorage.getItem('token')
+    const token = getFromLocalStorage('token')
     if (!token) {
       navigate('/')
     }

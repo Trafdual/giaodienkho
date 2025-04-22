@@ -22,7 +22,10 @@ const BlogList = ({ onSelectBlog }) => {
             className='blog-item'
             onClick={() => onSelectBlog(blog._id)}
           >
-            <img src={blog.image} alt={blog.tieude} />
+            <img
+              src={`${getApiUrl('domain')}/${blog.image}`}
+              alt={blog.tieude}
+            />
             <div className='blog-title'>{blog.tieude}</div>
           </div>
         ))}

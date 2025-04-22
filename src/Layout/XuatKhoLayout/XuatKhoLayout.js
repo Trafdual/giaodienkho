@@ -6,6 +6,7 @@ import { Loading } from '~/components/Loading'
 import { PaginationComponent } from '~/components/NextPage'
 import { useNavigate } from 'react-router-dom'
 import { getApiUrl } from '../../api/api'
+import { getFromLocalStorage } from '../../components/MaHoaLocalStorage/MaHoaLocalStorage'
 
 function XuatKhoLayout () {
   const { showToast } = useToast()
@@ -17,8 +18,7 @@ function XuatKhoLayout () {
   const navigate = useNavigate()
 
   useEffect(() => {
-    const token =
-      sessionStorage.getItem('token') || localStorage.getItem('token')
+    const token = getFromLocalStorage('token')
     if (!token) {
       navigate('/')
     }

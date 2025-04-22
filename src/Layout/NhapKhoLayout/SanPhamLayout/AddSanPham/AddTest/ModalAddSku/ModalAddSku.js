@@ -24,7 +24,7 @@ function ModalAddSku ({ isOpen, onClose, userID, fetchsku }) {
     let valid = true
 
     if (!name) {
-      setNameError('Vui lòng nhập tên nhà cung cấp.')
+      setNameError('Vui lòng nhập tên sku.')
       valid = false
       setIsModalHuy(false)
     } else {

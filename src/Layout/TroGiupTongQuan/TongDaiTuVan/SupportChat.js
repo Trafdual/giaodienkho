@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { db, ref, push, onValue } from '../../../firebase/firebase'
 import { useNavigate } from 'react-router-dom'
+import { getFromLocalStorage } from '../../../components/MaHoaLocalStorage/MaHoaLocalStorage'
 
 const SupportChat = () => {
   const navigate = useNavigate()
@@ -24,8 +25,7 @@ const SupportChat = () => {
   }, [])
 
   useEffect(() => {
-    const token =
-      sessionStorage.getItem('token') || localStorage.getItem('token')
+    const token = getFromLocalStorage('token')
     if (!token) {
       navigate('/')
     }

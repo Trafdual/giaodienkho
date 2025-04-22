@@ -4,32 +4,37 @@ import { publicRoutes } from './router'
 import { DefaultLayout } from './Layout/DeafaultLayout'
 import DefaultBanHangLayout from './Layout/BanHangLayout/DefaultBanHangLayout'
 import ToastProvider from './components/GlobalStyles/ToastContext'
+import PrivateRoute from './components/PrivateRoutes/PrivateRoutes'
 
 function App () {
-
-
   return (
     <ToastProvider>
       <Router>
         <div className='App'>
           <Routes>
             {publicRoutes.map((route, index) => {
-              let Layout = DefaultLayout
               const Page = route.component
-              if (route.layout === 'banhang') {
-                Layout = DefaultBanHangLayout
-              }
-              if (route.layout === null) {
-                Layout = Fragment
-              }
+              let Layout = DefaultLayout
+              if (route.layout === 'banhang') Layout = DefaultBanHangLayout
+              if (route.layout === null) Layout = Fragment
+
+              const isPublic =
+                route.path === '/' ||
+                route.path === '/register' ||
+                route.layout === null
+
+              const element = (
+                <Layout>
+                  <Page />
+                </Layout>
+              )
+
               return (
                 <Route
                   key={index}
                   path={route.path}
                   element={
-                    <Layout>
-                      <Page />
-                    </Layout>
+                    isPublic ? element : <PrivateRoute>{element}</PrivateRoute>
                   }
                 />
               )

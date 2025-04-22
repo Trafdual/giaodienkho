@@ -37,8 +37,7 @@ function NhaCungCapLayout () {
   const navigate = useNavigate()
 
   useEffect(() => {
-    const token =
-      sessionStorage.getItem('token') || localStorage.getItem('token')
+    const token = getFromLocalStorage('token')
     if (!token) {
       navigate('/')
     }
@@ -252,8 +251,9 @@ function NhaCungCapLayout () {
               onClose={() => setIsOpenDelete(false)}
               seletecids={selectedItems}
               fetchdata={fetchData}
-              link={`${getApiUrl('domain')}/deletencc`}
+              link={`${getApiUrl('domain')}/deleteanncc`}
               content={'Bạn có chắc chắn xóa nhà cung cấp này'}
+              message={'xóa thành công'}
             />
           </div>
           <div className='pagination1'>

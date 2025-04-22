@@ -1,7 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faXmark } from '@fortawesome/free-solid-svg-icons'
 import './DetailData.scss'
 import Tippy from '@tippyjs/react'
 import 'tippy.js/dist/tippy.css'
@@ -9,6 +7,8 @@ import axios from 'axios'
 import OtherStoreModal from './ModalOtherStore/OtherStoreModal'
 import { useToast } from '~/components/GlobalStyles/ToastContext'
 import { getApiUrl } from '../../api/api'
+import { ModalBanHang } from './ModalBanHang'
+
 function ModalDataScreen ({
   isOpen,
   onClose,
@@ -43,7 +43,10 @@ function ModalDataScreen ({
   }
 
   useEffect(() => {
-    if (isOpen) {
+    console.log('isOpen:', isOpen)
+    console.log('product._id:', product._id)
+    console.log('userId:', userId)
+    if (isOpen && product._id && khoId1 && userId) {
       axios
         .get(
           `${getApiUrl('domain')}/banhang/${product._id}/${khoId1}/${userId}`
@@ -73,7 +76,9 @@ function ModalDataScreen ({
         return prevState
       })
     }
-  }, [isOpen, product._id, userId])
+  }, [isOpen, product._id, userId, khoId1])
+
+  console.log(isOpen)
 
   const handleSizeSelect = size => {
     if (size === 'all') {
@@ -156,22 +161,6 @@ function ModalDataScreen ({
     onClose()
   }
 
-  const ModalBanhang = ({ isOpen, onClose, children }) => {
-    if (!isOpen) return null
-    return (
-      <div className='modal-overlay-banhang' onClick={onClose}>
-        <div
-          className='modal-content-banhang'
-          onClick={e => e.stopPropagation()}
-        >
-          <button className='modal-close' onClick={onClose}>
-            <FontAwesomeIcon icon={faXmark} />
-          </button>
-          {children}
-        </div>
-      </div>
-    )
-  }
   return (
     <>
       <OtherStoreModal
@@ -182,7 +171,7 @@ function ModalDataScreen ({
         masku={selectedProductmaSKU}
         idsku={selectedProductidsku}
       />
-      <ModalBanhang isOpen={isOpen} onClose={onClose}>
+      <ModalBanHang isOpen={isOpen} onClose={onClose}>
         <div className='modal-header1'>
           <img
             src='https://png.pngtree.com/png-clipart/20220125/original/pngtree-illustration-vector-design-of-shop-market-png-image_7224159.png'
@@ -345,7 +334,7 @@ function ModalDataScreen ({
             Đóng
           </button>
         </div>
-      </ModalBanhang>
+      </ModalBanHang>
     </>
   )
 }

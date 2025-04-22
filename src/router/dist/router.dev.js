@@ -59,6 +59,16 @@ var _NhanVienLayout = require("../Layout/NhanVienLayout");
 
 var _NhanVienLockLayout = _interopRequireDefault(require("../Layout/NhanVienLayout/NhanVienLockLayout"));
 
+var _SkuLayout = require("../Layout/CaiDatChungLayout/SkuLayout");
+
+var _NhomKhachHangLayout = require("../Layout/CaiDatChungLayout/NhomKhachHangLayout");
+
+var _NganHangLayout = require("../Layout/CaiDatChungLayout/NganHangLayout");
+
+var _MucThuChiLayout = require("../Layout/CaiDatChungLayout/MucThuChiLayout");
+
+var _LoaiChungtuLayout = require("../Layout/CaiDatChungLayout/LoaiChungtuLayout");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var publicRoutes = [{
@@ -144,6 +154,21 @@ var publicRoutes = [{
 }, {
   path: '/nhanvien/locked',
   component: _NhanVienLockLayout["default"]
+}, {
+  path: '/setting/sku',
+  component: _SkuLayout.SkuLayout
+}, {
+  path: '/setting/nhomkhachhang',
+  component: _NhomKhachHangLayout.NhomKhachHangLayout
+}, {
+  path: '/setting/bank',
+  component: _NganHangLayout.NganHangLayout
+}, {
+  path: '/setting/mucthuchi',
+  component: _MucThuChiLayout.MucThuChiLayout
+}, {
+  path: '/setting/loaichungtu',
+  component: _LoaiChungtuLayout.LoaiChungTuLayout
 }, {
   path: '/danhsachhoadon',
   component: _DanhSachHoaDonLayout.DanhSachHoaDonLayout,

@@ -262,18 +262,16 @@ function HeaderBanHang ({ userId, username }) {
                 <i className='ithuchi'></i>
                 <span>Thu chi</span>
               </div>
-              {userdata.data.user[0].role === 'manager' ||
+              {(userdata.data.user[0].role === 'manager' ||
                 (userdata.data.user[0].role === 'staff' &&
                   (userdata.data.user[0].quyen.includes('ketoan') ||
-                    userdata.data.user[0].quyen.includes('quanly')) && (
-                    <div
-                      className='menu-item'
-                      onClick={() => handelchuyenman('/')}
-                    >
-                      <i className='itrangquanly'></i>
-                      <span>Trang quản lý</span>
-                    </div>
-                  ))}
+                    userdata.data.user[0].quyen.includes('quanly')))) && (
+                <div className='menu-item' onClick={() => handelchuyenman('/')}>
+                  <i className='itrangquanly'></i>
+                  <span>Trang quản lý</span>
+                </div>
+              )}
+
               <div
                 className='menu-item'
                 onClick={() => navigate('/danhsachhoadon')}
@@ -316,7 +314,12 @@ function HeaderBanHang ({ userId, username }) {
           <p>Trước khi sử dụng các chức năng, bạn cần chọn một kho:</p>
           <div
             className='landauvaoapp'
-            style={{ display: 'flex', alignItems: 'center', margin: '20px 0' }}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              margin: '20px 0',
+              gap: '10px'
+            }}
           >
             <ListKho
               datakho={datakho}

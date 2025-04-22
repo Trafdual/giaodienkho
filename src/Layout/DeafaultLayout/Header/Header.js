@@ -207,7 +207,7 @@ function Header ({
           <p>Trước khi sử dụng các chức năng, bạn cần chọn một kho:</p>
           <div
             className='landauvaoapp'
-            style={{ display: 'flex', alignItems: 'center', margin: '20px 0' }}
+            style={{ display: 'flex', alignItems: 'center', margin: '20px 0', gap:'10px' }}
           >
             <ListKho
               datakho={datakho}
@@ -225,8 +225,7 @@ function Header ({
                     onClick={() => setIsOpen(true)}
                     style={{
                       width: '50px',
-                      height: '50px',
-                      paddingLeft: '10px'
+                      height: '50px'
                     }}
                   >
                     Thêm kho
