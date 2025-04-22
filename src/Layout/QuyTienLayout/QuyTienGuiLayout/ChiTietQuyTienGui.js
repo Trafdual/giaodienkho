@@ -112,7 +112,7 @@ function ChiTietQuyTienGui ({
                       ))
                     ) : (
                       <tr>
-                        <td colSpan='8'>Không có chi tiết nào</td>
+                        <td colSpan='3'>Không có chi tiết nào</td>
                       </tr>
                     )}
                   </tbody>

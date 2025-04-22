@@ -6,13 +6,22 @@ const isTokenValid = () => {
   try {
     const token = getFromLocalStorage('token')
 
-    if (!token) return false
+    if (!token) {
+      localStorage.clear()
+      return false
+    }
 
     const payload = JSON.parse(atob(token.split('.')[1]))
     const exp = payload.exp * 1000 // convert to ms
 
-    return Date.now() < exp // còn hạn thì true
+    if (Date.now() >= exp) {
+      localStorage.clear() // Token hết hạn thì xóa hết storage
+      return false
+    }
+
+    return true // Token còn hạn
   } catch (error) {
+    localStorage.clear()
     return false
   }
 }

@@ -117,7 +117,6 @@ function AddQuyTien ({ isOpen, onClose, fetchquytien, loaitien, method }) {
       setLoadingSuppliers(false)
     }
   }
-  console.log(suppliers)
 
   const fetchLoaichungtu = async () => {
     try {

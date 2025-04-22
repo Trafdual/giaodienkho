@@ -12,10 +12,9 @@ import { getFromLocalStorage } from '~/components/MaHoaLocalStorage/MaHoaLocalSt
 import { useNavigate } from 'react-router-dom'
 import { ModalDelete2 } from '~/components/ModalDelete2'
 import { getApiUrl } from '~/api/api'
-
-// import { AddNhomKhachHang } from './AddNhomKhachHang'
-// import { EditNhomKhachHang } from './EditNhomKhachHang'
 import { AddLoaiChungTu } from '../../QuyTienLayout/AddQuyTien/AddLoaiChungTu'
+import { EditLoaiChungTu } from './EditLoaiChungTu'
+
 
 function LoaiChungTuLayout () {
   const [sku, setsku] = useState([])
@@ -218,25 +217,25 @@ function LoaiChungTuLayout () {
                 </table>
               </div>
             </div>
-            {/* <AddNhomKhachHang
+            <AddLoaiChungTu
               isOpen={isOpen}
               onClose={handleCloseModal}
-              userId={userdata.data.user[0]._id}
+              userID={userdata.data.user[0]._id}
               fetchdata={fetchData}
             />
-            <EditNhomKhachHang
+            <EditLoaiChungTu
               isOpen={isOpenEdit}
               onClose={() => setIsOpenEdit(false)}
               fetchdata={fetchData}
-              idnkh={selectedItems[0]}
-            /> */}
+              idloaichungtu={selectedItems[0]}
+            />
             <ModalDelete2
               isOpen={isLock}
               onClose={() => setIsLock(false)}
               seletecids={selectedItems}
               setSelectedIds={setSelectedItems}
               fetchdata={fetchData}
-              link={`${getApiUrl('domain')}/deletenhomkh`}
+              link={`${getApiUrl('domain')}/deleteloaichungtu`}
               content={'Bạn có chắc chắn xóa những loại chứng từ này'}
               message={'xóa thành công'}
             />
