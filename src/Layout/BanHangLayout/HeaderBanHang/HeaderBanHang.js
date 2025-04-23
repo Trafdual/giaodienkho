@@ -170,7 +170,7 @@ function HeaderBanHang ({ userId, username }) {
     <div className='topbar1'>
       <div className='logo'>
         <img src='/LOGO.png' alt='Logo' />
-        <h3>BiCraft</h3>
+        <h3>BAOTECH</h3>
       </div>
 
       <div className='user1'>

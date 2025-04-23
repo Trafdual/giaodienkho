@@ -177,7 +177,7 @@ function Sidebar ({ isActive, setIsActive }) {
             src={require('../../../assets/images/LOGO.png')}
             alt='icon'
           />
-          <span className='title'>BICRAFT</span>
+          <span className='title'>BAOTECH</span>
         </a>
       </div>
       <ul>

@@ -5,16 +5,16 @@ import { FaBell } from "react-icons/fa";
 const NotificationsList = () => {
   const notifications = [
     {
-      title: "BICRAFT thông báo chuyển đổi tổng đài hỗ trợ",
+      title: "BAOTECH thông báo chuyển đổi tổng đài hỗ trợ",
       date: "07/11/2022 10:04",
       content:
-        "BICRAFT thông báo chuyển đổi tổng đài hỗ trợ khách hàng sử dụng phần mềm Quản lý cửa hàng.",
+        "BAOTECH thông báo chuyển đổi tổng đài hỗ trợ khách hàng sử dụng phần mềm Quản lý cửa hàng.",
     },
     {
-      title: "BICRAFT thông báo lịch nghỉ lễ Quốc khánh 2/9",
+      title: "BAOTECH thông báo lịch nghỉ lễ Quốc khánh 2/9",
       date: "29/08/2022 11:44",
       content:
-        "BICRAFT thông báo lịch nghỉ lễ Quốc khánh 2/9 và kênh hỗ trợ khi có nhu cầu liên hệ.",
+        "BAOTECH thông báo lịch nghỉ lễ Quốc khánh 2/9 và kênh hỗ trợ khi có nhu cầu liên hệ.",
     },
     {
       title: "Cập nhật phiên bản mới",

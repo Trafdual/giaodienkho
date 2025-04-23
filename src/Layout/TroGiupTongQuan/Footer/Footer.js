@@ -45,7 +45,7 @@ const Footer = () => {
       <div className="footer-bottom">
         <div></div>
         <p>
-          Công ty cổ phần BICRAFT &nbsp; | &nbsp; Copyright © 2017 - 2024 MISA JSC &nbsp; | &nbsp; <a href="#!">Thỏa thuận quyền sử dụng</a> &nbsp; | &nbsp; 
+          Công ty cổ phần BAOTECH &nbsp; | &nbsp; Copyright © 2017 - 2024 MISA JSC &nbsp; | &nbsp; <a href="#!">Thỏa thuận quyền sử dụng</a> &nbsp; | &nbsp; 
           <a href="#">Chính sách bảo mật</a>
         </p>
         

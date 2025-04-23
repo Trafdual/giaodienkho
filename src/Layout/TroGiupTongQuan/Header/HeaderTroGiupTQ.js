@@ -14,7 +14,7 @@ const Header = () => {
       {/* Logo Section */}
       <div className="header-logo">
         <img className="logo-trogiup" src={logo} alt="Logo" />
-        <div className="appname">BICRAFT</div>
+        <div className="appname">BAOTECH</div>
       </div>
 
       {/* Menu Icon (Hamburger for Mobile) */}

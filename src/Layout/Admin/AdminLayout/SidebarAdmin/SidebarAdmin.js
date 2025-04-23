@@ -38,7 +38,7 @@ function SidebarAdmin ({ activeTab }) {
             width={40}
             height={40}
           />
-          <h3>BiCraft</h3>
+          <h3>BAOTECH</h3>
         </div>
         <div className='sidebar_toggle' onClick={() => setIstoggle(!istoggle)}>
           <FontAwesomeIcon icon={faBars} />
