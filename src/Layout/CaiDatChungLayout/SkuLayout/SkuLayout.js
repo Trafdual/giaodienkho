@@ -197,14 +197,14 @@ function SkuLayout () {
                 <table className='tablenhap'>
                   <thead className='theadnhap'>
                     <tr>
-                      <td>
+                      <td className='thsmall'>
                         <input
                           type='checkbox'
                           checked={selectAll}
                           onChange={handleSelectAll}
                         />
                       </td>
-                      <td>STT</td>
+                      <td className = 'thsmall'>STT</td>
                       <td>ID</td>
                       <td className='tdnhap'>Mã sku</td>
                       <td className='tdnhap'>Tên sku</td>
