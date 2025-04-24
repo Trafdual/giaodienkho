@@ -25,7 +25,7 @@ import { useToast } from '~/components/GlobalStyles/ToastContext'
 import { useNavigate } from 'react-router-dom'
 import { getApiUrl } from '../../api/api'
 import { RealTimeClock } from '../../components/RealTimeClock'
-
+import { Loading } from '../../components/Loading'
 function BanHangLayout () {
   const navigate = useNavigate()
   const [issOpenModalQR, setIsOpenModalQR] = useState(false)
@@ -63,6 +63,7 @@ function BanHangLayout () {
 
   const [datakhachang, setdatakhachang] = useState([])
   const [tienmat, settienmat] = useState('0')
+  const [isLoading, setIsLoading] = useState(false)
 
   const storedKhoID = localStorage.getItem('khoIDBH')
   const userId = getFromLocalStorage('userId') || ''
@@ -281,6 +282,9 @@ function BanHangLayout () {
     } else if (selectedItems.some(item => item.dongia === 0)) {
       showToast('bạn chưa nhập đơn giá', 'error')
       valid = false
+    } else if (!makh) {
+      showToast('Bạn chưa chọn khách hàng', 'error')
+      valid = false
     }
 
     return valid
@@ -296,6 +300,7 @@ function BanHangLayout () {
     }))
     try {
       if (validate()) {
+        setIsLoading(true)
         const response = await fetch(
           `${getApiUrl('domain')}/postchonsanpham/${storedKhoID}`,
           {
@@ -323,15 +328,21 @@ function BanHangLayout () {
             handleGeneratePDF(data)
           }
         } else {
+          showToast('Lỗi thanh toán hóa đơn', 'error')
           console.error('Lỗi thanh toán')
         }
       }
     } catch (error) {
+      showToast('Lỗi thanh toán hóa đơn', 'error')
       console.error('Lỗi khi thanh toán hóa đơn:', error)
+    } finally {
+      setIsLoading(false)
     }
   }
 
-  return (
+  return isLoading ? (
+    <Loading />
+  ) : (
     <div className='app-container'>
       <div className='row'>
         <div className='column left-column'>
