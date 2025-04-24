@@ -2,24 +2,22 @@
 import { useState, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye } from '@fortawesome/free-solid-svg-icons'
-import '../../ColumnResizer/columnResizer'
-import { enableColumnResizing } from '../../ColumnResizer/columnResizer'
+import '../../../ColumnResizer/columnResizer'
+import { enableColumnResizing } from '../../../ColumnResizer/columnResizer'
 
 import { PaginationComponent } from '~/components/NextPage'
 import { getFromLocalStorage } from '~/components/MaHoaLocalStorage/MaHoaLocalStorage'
 import { useNavigate } from 'react-router-dom'
 import { getApiUrl } from '~/api/api'
-import { CustomModal } from '../../../components/CustomModal'
-import { DonNo } from './DonNo'
+import { CustomModal } from '~/components/CustomModal'
 
-function NoNhaCungCap ({ isOpen, onClose, idnhacungcap }) {
+function DonNo ({ isOpen, onClose, idtrano }) {
   const [data, setdata] = useState([])
   const [selectedItems, setSelectedItems] = useState([])
 
   const [currentPage, setCurrentPage] = useState(1)
   const [itemsPerPage, setItemsPerPage] = useState(9)
   const [selectAll, setSelectAll] = useState(false)
-  const [isOpenDonNo, setisOpenDonNo] = useState(false)
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -32,7 +30,7 @@ function NoNhaCungCap ({ isOpen, onClose, idnhacungcap }) {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        `${getApiUrl('domain')}/getnonhacungcap/${idnhacungcap}`,
+        `${getApiUrl('domain')}/getdonno/${idtrano}`,
         {
           method: 'GET',
           headers: {
@@ -53,10 +51,10 @@ function NoNhaCungCap ({ isOpen, onClose, idnhacungcap }) {
   }
 
   useEffect(() => {
-    if (isOpen && idnhacungcap) {
+    if (isOpen && idtrano) {
       fetchData()
     }
-  }, [isOpen, idnhacungcap])
+  }, [isOpen, idtrano])
 
   useEffect(() => {
     enableColumnResizing('.tablenhap')
@@ -102,7 +100,7 @@ function NoNhaCungCap ({ isOpen, onClose, idnhacungcap }) {
               className='action-menu'
               style={{ position: 'sticky', top: '0px' }}
             >
-              <h4>{selectedItems.length} Mã trả nợ được chọn</h4>
+              <h4>{selectedItems.length} Đơn nợ được chọn</h4>
               <button
                 className={`btn-xoa ${
                   selectedItems.length > 1 || selectedItems.length === 0
@@ -112,10 +110,9 @@ function NoNhaCungCap ({ isOpen, onClose, idnhacungcap }) {
                 disabled={
                   selectedItems.length > 1 || selectedItems.length === 0
                 }
-                onClick={() => setisOpenDonNo(true)}
               >
                 <FontAwesomeIcon icon={faEye} className='iconMenuSanPham' />
-                Đơn nợ
+                Trả nợ
               </button>
             </div>
             <div className='table-container'>
@@ -130,10 +127,11 @@ function NoNhaCungCap ({ isOpen, onClose, idnhacungcap }) {
                       />
                     </td>
                     <td className='thsmall'>STT</td>
-                    <td>ID</td>
-                    <td className='tdnhap'>Mã trả nợ</td>
-                    <td className='tdnhap'>Tổng nợ</td>
-                    <td className='tdnhap'>Đã trả</td>
+                    <td>Mã lô hàng</td>
+                    <td className='tdnhap'>Tiền nợ</td>
+                    <td className='tdnhap'>Tiền phải trả</td>
+                    <td className='tdnhap'>Tiền đã trả</td>
+                    <td className='tdnhap'>Ngày trả</td>
                   </tr>
                 </thead>
                 <tbody className='tbodynhap'>
@@ -150,23 +148,16 @@ function NoNhaCungCap ({ isOpen, onClose, idnhacungcap }) {
                           />
                         </td>
                         <td>{index + 1}</td>
-                        <td
-                          style={{
-                            overflow: 'hidden',
-                            whiteSpace: 'nowrap',
-                            textOverflow: 'ellipsis'
-                          }}
-                        >
-                          {ncc._id}
-                        </td>
-                        <td>{ncc.matrano || 'không có'}</td>
-                        <td>{ncc.tongno}</td>
-                        <td>{ncc.datra === false ? 'Chưa trả' : 'Đã trả'}</td>
+                        <td>{ncc.malohang}</td>
+                        <td>{ncc.tienno}</td>
+                        <td>{ncc.tienphaitra}</td>
+                        <td>{ncc.tiendatra}</td>
+                        <td>{ncc.ngaytra}</td>
                       </tr>
                     ))
                   ) : (
                     <tr>
-                      <td colSpan='6'>Không có Mã trả nợ nào</td>
+                      <td colSpan='7'>Không có đơn nợ nào</td>
                     </tr>
                   )}
                 </tbody>
@@ -186,11 +177,6 @@ function NoNhaCungCap ({ isOpen, onClose, idnhacungcap }) {
               fetchdata={fetchData}
               setidncc={setidncc}
             /> */}
-          <DonNo
-            isOpen={isOpenDonNo}
-            onClose={() => setisOpenDonNo(false)}
-            idtrano={selectedItems[0]}
-          />
         </div>
         <div className='pagination1'>
           <PaginationComponent
@@ -208,4 +194,4 @@ function NoNhaCungCap ({ isOpen, onClose, idnhacungcap }) {
   )
 }
 
-export default NoNhaCungCap
+export default DonNo
