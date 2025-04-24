@@ -258,7 +258,7 @@ function QuyTienGuiLayout () {
                       ))
                     ) : (
                       <tr>
-                        <td colSpan='8'>Không có quỹ tiền nào</td>
+                        <td colSpan='6'>Không có quỹ tiền nào</td>
                       </tr>
                     )}
                   </tbody>
