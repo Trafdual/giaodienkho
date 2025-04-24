@@ -219,7 +219,7 @@ function Header ({
             {(userdata.data.user[0].role === 'manager' ||
               userdata.data.user[0].quyen.includes('quanly')) && (
               <div className='divthemkho'>
-                <Tippy content='Thêm kho' placement='bottom'>
+               
                   <button
                     className='btnicon'
                     onClick={() => setIsOpen(true)}
@@ -230,7 +230,7 @@ function Header ({
                   >
                     Thêm kho
                   </button>
-                </Tippy>
+            
               </div>
             )}
           </div>

@@ -221,7 +221,6 @@ function QuyTienMatLayout () {
                     <tr>
                       <td className='tdnhap'>Ngày</td>
                       <td className='tdnhap'>Số chứng từ</td>
-
                       <td className='tdnhap'>Loại chứng từ</td>
                       <td className='tdnhap'>Tổng tiền</td>
                       <td className='tdnhap'>Đối tượng</td>
@@ -260,7 +259,7 @@ function QuyTienMatLayout () {
                       ))
                     ) : (
                       <tr>
-                        <td colSpan='8'>Không có quỹ tiền nào</td>
+                        <td colSpan='6'>Không có quỹ tiền nào</td>
                       </tr>
                     )}
                   </tbody>
