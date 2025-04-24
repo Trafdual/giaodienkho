@@ -4,6 +4,8 @@ import './ThuNoLayout.scss'
 import { getFromLocalStorage } from '~/components/MaHoaLocalStorage/MaHoaLocalStorage'
 import { useNavigate } from 'react-router-dom'
 import { ThuNoKhachHang } from './ThuNoKhachHang'
+import { PhieuThuLayout } from './PhieuThuLayout'
+import { PhieuChiLayout } from './PhieuChiLayout'
 
 function ThuNoLayout () {
   const navigate = useNavigate()
@@ -33,13 +35,13 @@ function ThuNoLayout () {
 
   const renderTabContent = () => {
     if (activeTab === 'Thu nợ KH') {
-     return <ThuNoKhachHang khoID={khoID} userId={userId} />
+      return <ThuNoKhachHang khoID={khoID} userId={userId} />
     }
     if (activeTab === 'Phiếu thu') {
-      return <div className='tab-content'>Nội dung Phiếu thu</div>
+      return <PhieuThuLayout khoID={khoID} />
     }
     if (activeTab === 'Phiếu chi') {
-      return <div className='tab-content'>Nội dung Phiếu chi</div>
+      return <PhieuChiLayout khoID={khoID} />
     }
   }
 
@@ -58,8 +60,7 @@ function ThuNoLayout () {
           ))}
         </div>
       </div>
-
-      <div className='tab-content-container'>{renderTabContent()}</div>
+      <div>{renderTabContent()}</div>
     </div>
   )
 }

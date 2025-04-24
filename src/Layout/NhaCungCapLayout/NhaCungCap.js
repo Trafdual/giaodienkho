@@ -19,6 +19,7 @@ import { getFromLocalStorage } from '~/components/MaHoaLocalStorage/MaHoaLocalSt
 import { useNavigate } from 'react-router-dom'
 import { ModalDelete2 } from '~/components/ModalDelete2'
 import { getApiUrl } from '../../api/api'
+import { NoNhaCungCap } from './NoNhaCungCap'
 
 function NhaCungCapLayout () {
   const [nhacungcap, setnhacungcap] = useState([])
@@ -28,6 +29,7 @@ function NhaCungCapLayout () {
   const [idncc, setidncc] = useState('')
   const [loading, setLoading] = useState(true)
   const [selectedItems, setSelectedItems] = useState([])
+  const [isOpenMatraNo, setisOpenMaTraNo] = useState(false)
 
   const [khoID, setKhoID] = useState(localStorage.getItem('khoID') || '')
   const [currentPage, setCurrentPage] = useState(1)
@@ -83,7 +85,6 @@ function NhaCungCapLayout () {
   }
 
   useEffect(() => {
-    console.log(localStorage.getItem('khoID'))
     if (khoID) {
       fetchData()
     }
@@ -186,6 +187,21 @@ function NhaCungCapLayout () {
                     Xóa
                   </button>
                 )}
+
+                <button
+                  className={`btn-xoa ${
+                    selectedItems.length > 1 || selectedItems.length === 0
+                      ? 'disabled'
+                      : ''
+                  }`}
+                  disabled={
+                    selectedItems.length > 1 || selectedItems.length === 0
+                  }
+                  onClick={() => setisOpenMaTraNo(true)}
+                >
+                  <FontAwesomeIcon icon={faEye} className='iconMenuSanPham' />
+                  Ghi nợ
+                </button>
               </div>
               <div className='table-container'>
                 <table className='tablenhap'>
@@ -245,6 +261,11 @@ function NhaCungCapLayout () {
               idncc={idncc}
               fetchdata={fetchData}
               setidncc={setidncc}
+            />
+            <NoNhaCungCap
+              isOpen={isOpenMatraNo}
+              onClose={() => setisOpenMaTraNo(false)}
+              idnhacungcap={idncc}
             />
             <ModalDelete2
               isOpen={isOpenDelete}
