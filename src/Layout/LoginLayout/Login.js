@@ -136,7 +136,10 @@ function Login () {
                 className={`email ${emailError ? 'input-error' : ''}`}
                 placeholder=' '
                 value={emailOrPhone}
-                onChange={e => setemailOrPhone(e.target.value)}
+                onChange={e => {
+                  const input = e.target.value.replace(/\s/g, ''); 
+                  setemailOrPhone(input);
+                }}
               />
               <label className='label'>Email/Số điện thoại</label>
             </div>
@@ -149,7 +152,10 @@ function Login () {
                 type={showPassword ? 'text' : 'password'}
                 placeholder=' '
                 value={password}
-                onChange={e => setPassword(e.target.value)}
+                onChange={e => {
+                  const input = e.target.value.replace(/\s/g, '');
+                  setPassword(input)
+                }}
                 onFocus={() => setIsIconVisible(true)}
               />
               <label className='label'>Password</label>
