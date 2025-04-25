@@ -211,7 +211,7 @@ function MucThuChiLayout () {
                       ))
                     ) : (
                       <tr>
-                        <td colSpan='9'>Không có mục thu chi nào</td>
+                        <td colSpan='6'>Không có mục thu chi nào</td>
                       </tr>
                     )}
                   </tbody>
