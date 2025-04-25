@@ -1,0 +1,38 @@
+.btntrano {
+    background-color: var(--blue);
+    border: none;
+    padding: 5px;
+    font-size: 15px;
+    color: white;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+}
+
+.btnstatus {
+
+    &.success {
+        color: #47abd3;
+        background: #d8f1f1;
+        text-align: center;
+        display: inline-block;
+        width: 100%;
+        font-size: 14px;
+        font-weight: 700;
+        padding: 4px 16px;
+        border-radius: 10px;
+        line-height: 20px;
+    }
+
+    .iconcheck {
+        width: unset !important;
+    }
+}
+
+.divdonno .divdonnotong {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-height: 500px;
+    background: var(--white);
+    border-radius: 20px;
+}

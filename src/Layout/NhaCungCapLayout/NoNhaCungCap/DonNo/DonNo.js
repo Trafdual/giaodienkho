@@ -1,7 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEye } from '@fortawesome/free-solid-svg-icons'
 import '../../../ColumnResizer/columnResizer'
 import { enableColumnResizing } from '../../../ColumnResizer/columnResizer'
 
@@ -10,14 +8,18 @@ import { getFromLocalStorage } from '~/components/MaHoaLocalStorage/MaHoaLocalSt
 import { useNavigate } from 'react-router-dom'
 import { getApiUrl } from '~/api/api'
 import { CustomModal } from '~/components/CustomModal'
+import './DonNo.scss'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCheck } from '@fortawesome/free-solid-svg-icons'
+import { ModalTraNo } from './ModalTraNo'
 
-function DonNo ({ isOpen, onClose, idtrano }) {
+function DonNo ({ isOpen, onClose, idtrano, fetchtrano }) {
   const [data, setdata] = useState([])
-  const [selectedItems, setSelectedItems] = useState([])
 
   const [currentPage, setCurrentPage] = useState(1)
   const [itemsPerPage, setItemsPerPage] = useState(9)
-  const [selectAll, setSelectAll] = useState(false)
+  const [isOpenTraNo, setisOpenTraNo] = useState(false)
+  const [iddonno, setiddonno] = useState('')
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -67,116 +69,73 @@ function DonNo ({ isOpen, onClose, idtrano }) {
     setCurrentPage(pageNumber)
   }
 
-  const handleSelectAll = () => {
-    const newSelectAll = !selectAll
-    setSelectAll(newSelectAll)
-
-    if (newSelectAll) {
-      const allIds = data.map(item => item._id)
-      setSelectedItems(allIds)
-    } else {
-      setSelectedItems([])
-    }
-  }
-  const handleSelectItem = id => {
-    let updatedSelectedItems = [...selectedItems]
-
-    if (selectedItems.includes(id)) {
-      updatedSelectedItems = updatedSelectedItems.filter(item => item !== id)
-    } else {
-      updatedSelectedItems.push(id)
-    }
-
-    setSelectedItems(updatedSelectedItems)
-    setSelectAll(updatedSelectedItems.length === data.length)
-  }
-
   return (
     <CustomModal isOpen={isOpen} onClose={onClose}>
       <div className='divnhacungcap'>
-        <div className='detailsnhap'>
-          <div className='recentOrdersnhap'>
-            <div
-              className='action-menu'
-              style={{ position: 'sticky', top: '0px' }}
-            >
-              <h4>{selectedItems.length} Đơn nợ được chọn</h4>
-              <button
-                className={`btn-xoa ${
-                  selectedItems.length > 1 || selectedItems.length === 0
-                    ? 'disabled'
-                    : ''
-                }`}
-                disabled={
-                  selectedItems.length > 1 || selectedItems.length === 0
-                }
-              >
-                <FontAwesomeIcon icon={faEye} className='iconMenuSanPham' />
-                Trả nợ
-              </button>
-            </div>
+        <div className='divdonno'>
+          <div className='divdonnotong'>
             <div className='table-container'>
               <table className='tablenhap'>
                 <thead className='theadnhap'>
                   <tr>
-                    <td className='thsmall'>
-                      <input
-                        type='checkbox'
-                        checked={selectAll}
-                        onChange={handleSelectAll}
-                      />
-                    </td>
                     <td className='thsmall'>STT</td>
                     <td>Mã lô hàng</td>
                     <td className='tdnhap'>Tiền nợ</td>
                     <td className='tdnhap'>Tiền phải trả</td>
                     <td className='tdnhap'>Tiền đã trả</td>
                     <td className='tdnhap'>Ngày trả</td>
+                    <td className='tdnhap'>Trả nợ</td>
                   </tr>
                 </thead>
                 <tbody className='tbodynhap'>
                   {data.length > 0 ? (
                     data.map((ncc, index) => (
                       <tr key={ncc._id}>
-                        <td>
-                          <input
-                            type='checkbox'
-                            checked={selectedItems.includes(ncc._id)}
-                            onChange={() => {
-                              handleSelectItem(ncc._id)
-                            }}
-                          />
-                        </td>
                         <td>{index + 1}</td>
                         <td>{ncc.malohang}</td>
-                        <td>{ncc.tienno}</td>
-                        <td>{ncc.tienphaitra}</td>
-                        <td>{ncc.tiendatra}</td>
-                        <td>{ncc.ngaytra}</td>
+                        <td>{ncc.tienno.toLocaleString()}</td>
+                        <td>{ncc.tienphaitra.toLocaleString()}</td>
+                        <td>{ncc.tiendatra.toLocaleString()}</td>
+                        <td>{ncc.ngaytra || 'Chưa cập nhật'}</td>
+                        <td>
+                          {ncc.dathanhtoan ? (
+                            <span className='btnstatus success'>
+                              <FontAwesomeIcon
+                                icon={faCheck}
+                                className='iconcheck'
+                              />
+                            </span>
+                          ) : (
+                            <button
+                              className='btntrano'
+                              onClick={() => {
+                                setisOpenTraNo(true)
+                                setiddonno(ncc._id)
+                              }}
+                            >
+                              Trả nợ
+                            </button>
+                          )}
+                        </td>
                       </tr>
                     ))
                   ) : (
                     <tr>
-                      <td colSpan='7'>Không có đơn nợ nào</td>
+                      <td colSpan='8'>Không có đơn nợ nào</td>
                     </tr>
                   )}
                 </tbody>
               </table>
             </div>
           </div>
-          {/* <Adddata
-              isOpen={isOpen}
-              onClose={handleCloseModal}
-              khoID={khoID}
-              setnhacungcap={setnhacungcap}
-            />
-            <EditNhaCungCap
-              isOpen={isOpenEdit}
-              onClose={() => setIsOpenEdit(false)}
-              idncc={idncc}
-              fetchdata={fetchData}
-              setidncc={setidncc}
-            /> */}
+          <ModalTraNo
+            isOpen={isOpenTraNo}
+            onClose={() => setisOpenTraNo(false)}
+            iddonno={iddonno}
+            fetchdata={fetchData}
+            idtrano={idtrano}
+            fetchtrano={fetchtrano}
+          />
         </div>
         <div className='pagination1'>
           <PaginationComponent

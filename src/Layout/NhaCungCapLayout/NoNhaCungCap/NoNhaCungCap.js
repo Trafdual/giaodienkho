@@ -190,6 +190,7 @@ function NoNhaCungCap ({ isOpen, onClose, idnhacungcap }) {
             isOpen={isOpenDonNo}
             onClose={() => setisOpenDonNo(false)}
             idtrano={selectedItems[0]}
+            fetchtrano={fetchData}
           />
         </div>
         <div className='pagination1'>

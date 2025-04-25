@@ -6,6 +6,7 @@ import * as XLSX from 'xlsx'
 import jsPDF from 'jspdf'
 import html2canvas from 'html2canvas'
 import { getFromLocalStorage } from '../../components/MaHoaLocalStorage/MaHoaLocalStorage'
+import { getApiUrl } from '../../api/api'
 
 function DoanhThuLayout () {
   const formatDate = date => {
@@ -39,7 +40,9 @@ function DoanhThuLayout () {
     setLoading(true)
     try {
       const response = await fetch(
-        `https://baotech.shop/getdoanhthu/${khoID}?fromDate=${startDate}&endDate=${endDate}&fromDatetruoc=${startDatetruoc}&endDatetruoc=${endDatetruoc}`,
+        `${getApiUrl(
+          'domain'
+        )}/getdoanhthu/${khoID}?fromDate=${startDate}&endDate=${endDate}&fromDatetruoc=${startDatetruoc}&endDatetruoc=${endDatetruoc}`,
         {
           method: 'POST',
           headers: {
