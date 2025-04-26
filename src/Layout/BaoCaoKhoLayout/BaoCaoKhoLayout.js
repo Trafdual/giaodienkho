@@ -41,7 +41,7 @@ function BaoCaoKhoLayout () {
       const response = await fetch(
         `${getApiUrl(
           'domain'
-        )}/getsptest/${khoID}?fromDate=${startDate}&endDate=${endDate}`
+        )}/getsptest2/${khoID}?fromDate=${startDate}&endDate=${endDate}`
       )
       const data = await response.json()
       setData(data)

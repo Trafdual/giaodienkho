@@ -11,6 +11,8 @@ const TroGiupLayout = ({ isOpen, onClose, imei }) => {
   const [barcodeCanvas, setBarcodeCanvas] = useState(null)
   const canvasRef = useRef(null)
 
+
+
   const generateBarcode = () => {
     if (canvasRef.current) {
       Barcode.toCanvas(canvasRef.current, {

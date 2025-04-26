@@ -405,156 +405,141 @@ body {
 }
 
 .selected-products-container {
-  margin: 20px;
+  margin: 24px;
   font-family: 'Inter', sans-serif;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
   overflow: hidden;
   background: #fff;
-
-  h3 {
-    padding: 16px;
-    font-size: 20px;
-    font-weight: 600;
-    color: #2c3e50;
-    background: linear-gradient(135deg, #0b8df8, #1ccffc);
-    border-bottom: 2px solid #ddd;
-    color: white;
-  }
-
-  .product-table {
-    width: 100%;
-    border-collapse: collapse;
-
-    thead {
-      tr {
-        background: #f4f6fb;
-
-        th {
-          padding: 16px;
-          font-size: 14px;
-          font-weight: 600;
-          color: #4a4a4a;
-          text-transform: uppercase;
-          letter-spacing: 0.8px;
-        }
-      }
-    }
-
-    tbody {
-      tr {
-        transition: background-color 0.3s ease;
-
-        &:nth-child(even) {
-          background: #fafbfc;
-        }
-
-        &:hover {
-          background: #e0f7fa;
-        }
-
-        td {
-          padding: 14px 16px;
-          font-size: 14px;
-          color: #34495e;
-
-          &:last-child {
-            text-align: center;
-          }
-
-          input.inputbanhang {
-            width: 100%;
-            padding: 8px 12px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            outline: none;
-            transition: border 0.3s;
-
-            &:focus {
-              border-color: var(--blue);
-              box-shadow: 0 0 8px rgba(106, 17, 203, 0.2);
-            }
-          }
-
-          .imei-btn {
-            margin: 4px;
-            padding: 4px 8px;
-            background: #6a11cb;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-
-            &:hover {
-              background: #2575fc;
-            }
-          }
-
-          .select-serial-btn {
-            margin-top: 8px;
-            padding: 6px 12px;
-            border: none;
-            border-radius: 8px;
-            background: #1679fad7;
-            color: white;
-            cursor: pointer;
-
-            &:hover {
-              background: #2575fc;
-            }
-          }
-        }
-
-        .remove-btn {
-          background: #e74c3c;
-          color: #fff;
-          border: none;
-          border-radius: 8px;
-          padding: 8px 12px;
-          cursor: pointer;
-          transition: background 0.3s;
-
-          svg {
-            width: 16px;
-            height: 16px;
-          }
-
-          &:hover {
-            background: #c0392b;
-          }
-        }
-      }
-    }
-  }
 }
 
+.selected-products-container h3 {
+  padding: 18px;
+  font-size: 22px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #0b8df8, #1ccffc);
+  color: #fff;
+  border-bottom: 1px solid #e0e0e0;
+}
 
-.imei-list-row {
-  font-size: 0.9rem;
-  color: #555;
-  background-color: #f9f9f9;
-  padding: 5px;
+.table-wrapper {
+  overflow-x: auto;
+}
+
+.product-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.product-table thead {
+  background: #f0f2f7;
+}
+
+.product-table th,
+.product-table td {
+  padding: 14px 18px;
+  font-size: 14px;
+  text-align: center;
+  color: #34495e;
+  white-space: nowrap;
+}
+
+.product-table thead th {
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.7px;
+  font-size: 13px;
+}
+
+.product-table tbody tr:nth-child(even) {
+  background: #fafbfc;
+}
+
+.product-table tbody tr:hover {
+  background: #e3f2fd;
+}
+
+.inputbanhang {
+  width: 90%;
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+  transition: 0.3s;
+}
+
+.inputbanhang:focus {
+  border-color: #1ccffc;
+  box-shadow: 0 0 5px rgba(28, 207, 252, 0.5);
 }
 
 .selected-imeis {
   display: flex;
   flex-wrap: wrap;
-  gap: 5px;
-  margin-top: 10px;
+  gap: 6px;
+  margin-top: 8px;
+  justify-content: center;
 }
 
 .imei-btn {
   padding: 5px 10px;
-  background-color: #007bff;
-  color: white;
+  background: linear-gradient(135deg, #0b8df8, #1ccffc);
+  color: #fff;
   border: none;
-  border-radius: 4px;
-  cursor: pointer;
+  border-radius: 6px;
   font-size: 12px;
+  cursor: pointer;
+  transition: 0.3s;
 }
 
 .imei-btn:hover {
-  background-color: #0056b3;
+  background: linear-gradient(135deg, #1f73f1, #45aaee);
+}
+
+.select-serial-btn {
+  padding: 6px 12px;
+  margin-top: 6px;
+  background: #1679fad7;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.select-serial-btn:hover {
+  background: #2575fc;
+}
+
+.imei-placeholder {
+  font-size: 13px;
+  color: #777;
+  margin: 4px 0;
+}
+
+.remove-btn1 {
+  background: #e74c3c;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.remove-btn1:hover {
+  background: #c0392b;
+}
+
+.remove-btn1 svg {
+  width: 14px;
+  height: 14px;
 }
 
 .TaiKhoanThu {
@@ -620,12 +605,12 @@ body {
   margin-top: 10px;
   border-radius: 5px;
   cursor: pointer;
-  background-color: white;
+  background-color: var(--blue);
   transition: background-color 0.3s ease,
     transform 0.3s ease;
 
   &:hover {
-    background-color: #dfdfdf;
+    background-color: #0053a1;
     transform: scale(1.05);
   }
 }

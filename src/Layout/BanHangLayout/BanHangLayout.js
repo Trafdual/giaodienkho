@@ -414,9 +414,6 @@ function BanHangLayout () {
                         </td>
                         <td
                           onClick={() => setInputSoLuong(true)}
-                          onMouseLeave={() => {
-                            setInputSoLuong(false)
-                          }}
                         >
                           {!InputSoLuong ? (
                             item.soluong
@@ -472,7 +469,7 @@ function BanHangLayout () {
                         </td>
                         <td>
                           <button
-                            className='remove-btn'
+                            className='remove-btn1'
                             onClick={() => handleRemove(index)}
                           >
                             <FontAwesomeIcon icon={faXmark} />
