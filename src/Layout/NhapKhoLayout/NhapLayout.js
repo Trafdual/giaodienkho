@@ -343,27 +343,27 @@ function NhapKhoLayout () {
                 <table className='tablenhap'>
                   <thead className='theadnhap'>
                     <tr>
-                      <td className='tdnhap'>
+                      <th className='tdnhap thsmall'>
                         <input
                           type='checkbox'
                           checked={selectAll}
                           onChange={handleSelectAll}
                         />
-                      </td>
-                      <td className='tdnhap'>
+                      </th>
+                      <th className='tdnhap'>
                         {isMobile ? 'Mã' : 'Mã lô hàng'}
-                      </td>
-                      <td className='tdnhap'>
+                      </th>
+                      <th className='tdnhap'>
                         {isMobile ? 'Tên' : 'Tên lô hàng'}
-                      </td>
-                      <td className='tdnhap'>
+                      </th>
+                      <th className='tdnhap'>
                         {isMobile ? 'Ngày' : 'Ngày nhập'}
-                      </td>
+                      </th>
 
-                      <td className='tdnhap'>Tổng tiền</td>
-                      <td className='tdnhap'>
+                      <th className='tdnhap'>Tổng tiền</th>
+                      <th className='tdnhap'>
                         {isMobile ? 'Tồn' : 'Còn lại máy'}
-                      </td>
+                      </th>
                     </tr>
                   </thead>
                   <tbody className='tbodynhap'>
