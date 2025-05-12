@@ -101,7 +101,6 @@ body {
   flex: 1;
   padding: 20px;
   overflow-y: auto;
-  /* Cho phép cuộn khi danh sách sản phẩm dài */
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -109,7 +108,7 @@ body {
 
 .product-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(150px, 200px));
   gap: 50px;
   padding: 20px;
 }
@@ -138,7 +137,6 @@ body {
 
 .right-column {
   flex: 1;
-  /* Takes up less space */
 }
 
 .left-section {
