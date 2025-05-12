@@ -155,7 +155,7 @@ function DanhSachHoaDonLayout () {
                   <td>{item.phone}</td>
                   <td>{item.tongtien.toLocaleString()}</td>
                   <td></td>
-                  <td>Nguyễn Ngọc Ánh</td>
+                  <td>{item.nhanvienbanhang}</td>
                   <td>Hà thu ngân chuối</td>
                 </tr>
               ))

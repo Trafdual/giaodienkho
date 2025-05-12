@@ -33,3 +33,6 @@ body::-webkit-scrollbar-thumb {
   width: 60px;
 }
 
+.tippy-popper{
+  z-index: 100000 !important;
+}

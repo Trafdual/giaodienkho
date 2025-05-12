@@ -12,11 +12,10 @@ function SanPhamGioHang ({
   const [checkedItems, setCheckedItems] = useState([])
 
   const handleCheckboxChange = id => {
-    setCheckedItems(
-      prevCheckedItems =>
-        prevCheckedItems.includes(id)
-          ? prevCheckedItems.filter(itemId => itemId !== id) 
-          : [...prevCheckedItems, id] 
+    setCheckedItems(prevCheckedItems =>
+      prevCheckedItems.includes(id)
+        ? prevCheckedItems.filter(itemId => itemId !== id)
+        : [...prevCheckedItems, id]
     )
   }
 
@@ -24,8 +23,8 @@ function SanPhamGioHang ({
     const updatedSanPham = selectedsanpham.filter(
       sanpham => !checkedItems.includes(sanpham._id)
     )
-    setSelectedSanPham(updatedSanPham) 
-    setCheckedItems([]) 
+    setSelectedSanPham(updatedSanPham)
+    setCheckedItems([])
     setselectAll(false)
   }
 
@@ -102,7 +101,7 @@ function SanPhamGioHang ({
                 ))
               ) : (
                 <tr>
-                  <td colSpan='7'>Không có sản phẩm nào!</td>
+                  <td colSpan={isMobile? '3' : '5'}>Không có sản phẩm nào!</td>
                 </tr>
               )}
             </tbody>

@@ -6,6 +6,7 @@ import { useToast } from '../../../components/GlobalStyles/ToastContext'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
 import { Tooltip } from 'react-tippy'
+import Tippy from '@tippyjs/react/headless'
 import 'react-tippy/dist/tippy.css'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
@@ -222,43 +223,39 @@ function ModalTraHang ({ isOpen, onClose, fetchData, imellist }) {
               interactive
               arrow
               position='bottom'
-              open={isTableMethod}
-              onRequestClose={() => setIsTableMethod(false)}
+              onRequestClose={() => setIsTableVisible(false)}
               html={
                 <div className='supplier-table-container'>
-                  <table className='supplier-info-table'>
-                    <thead>
-                      <tr>
-                        <th>Phương thức</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {methods.map((paymentMethod, index) => (
-                        <tr
-                          className='trdulieu'
-                          key={index}
-                          onClick={() => {
-                            setmethod(paymentMethod)
-                            setIsTableMethod(false)
-                          }}
-                        >
-                          <td>{paymentMethod}</td>
+                  {loadingSuppliers ? (
+                    <p>Đang tải danh sách nhà cung cấp...</p>
+                  ) : (
+                    <table className='supplier-info-table'>
+                      <thead>
+                        <tr>
+                          <th>Mã nhà cung cấp</th>
+                          <th>Tên nhà cung cấp</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody>
+                        {suppliers.map(supplier => (
+                          <tr
+                            className='trdulieu'
+                            key={supplier.id}
+                            onClick={() => {
+                              setmancc(supplier.mancc)
+                              setIsTableVisible(false)
+                            }}
+                          >
+                            <td>{supplier.mancc}</td>
+                            <td>{supplier.name}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  )}
                 </div>
               }
-            >
-              <button
-                className='divChonncc'
-                onClick={() => setIsTableMethod(!isTableMethod)}
-                disabled={payment !== 'thanhtoanngay'}
-              >
-                {method ? `${method}` : 'Chọn phương thức'}
-                <FontAwesomeIcon icon={faChevronDown} className='iconNcc' />
-              </button>
-            </Tooltip>
+            />
           </div>
         </div>
 

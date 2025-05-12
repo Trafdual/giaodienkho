@@ -306,6 +306,7 @@ function AddTest2 ({
 
         if (data.message) {
           showToast(`${data.message}`, 'error')
+          setIsClickButton(false)
         } else {
           showToast('Thêm lô hàng thành công!', 'success')
           resetForm()
@@ -316,6 +317,7 @@ function AddTest2 ({
         }
       } catch (error) {
         console.error('Lỗi khi gửi dữ liệu lô hàng:', error)
+        setIsClickButton(false)
         showToast(`Đã xảy ra lỗi khi thêm lô hàng ${error}`, 'error')
       }
     }

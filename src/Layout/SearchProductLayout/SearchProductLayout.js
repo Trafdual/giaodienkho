@@ -29,6 +29,7 @@ function SearchProductLayout () {
   const navigate = useNavigate()
   const location = useLocation()
   const { products } = location.state || { products: [] }
+  console.log(products)
   const { showToast } = useToast()
   const [isOpenXuakho, setIsOpenXuakho] = useState(false)
   const [SanPham, setSanPham] = useState([])
@@ -98,6 +99,9 @@ function SearchProductLayout () {
   useEffect(() => {
     if (products && products.length > 0) {
       setSanPham(products)
+    }
+    if (products.length === 0) {
+      setSanPham([])
     }
   }, [products])
 
@@ -328,7 +332,6 @@ function SearchProductLayout () {
                   <>
                     <td className='tdnhap'>Tên máy</td>
                     <td className='tdnhap'>Trạng thái xuất kho</td>
-                    <td className='tdnhap'>Chức năng</td>
                   </>
                 )}
               </tr>
@@ -365,19 +368,12 @@ function SearchProductLayout () {
                           </td>
                         </>
                       )}
-                      <td className='tdchucnang'>
-                        <button className='btnchitietncc'>Chi tiết</button>
-                        <button className='btncnncc'>Cập nhật</button>
-                        <button onClick={() => handleOpenModal(ncc.imel)}>
-                          In Tem IMEI
-                        </button>
-                      </td>
                     </tr>
                   </>
                 ))
               ) : (
                 <tr>
-                  <td colSpan='9'>Không có sản phẩm nào!</td>
+                  <td colSpan={isMobile ? '4' : '6'}>Không có sản phẩm nào!</td>
                 </tr>
               )}
               <TroGiupLayout

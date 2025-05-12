@@ -48,7 +48,7 @@ function ModalChiTietHoaDon ({ isOpen, onClose, idhoadon }) {
               <strong>Ngày:</strong> {data?.date}
             </p>
             <p>
-              <strong>Nhân viên:</strong> {`Nguyễn Ngọc Ánh`}
+              <strong>Nhân viên:</strong> {data?.nhanvienbanhang}
             </p>
             <p>
               <strong>Thu ngân:</strong> {`Hà thu ngân chuối`}

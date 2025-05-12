@@ -324,7 +324,8 @@ function BanHangLayout () {
               idnganhang: nganhang,
               makh: makh,
               ghino: ghino,
-              products: products
+              products: products,
+              idnhanvien: userId
             })
           }
         )
