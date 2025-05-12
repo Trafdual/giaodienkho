@@ -322,7 +322,11 @@ function AddTest2 ({
   }
 
   const deleteRow = index => {
+    const skuToRemove = rows[index].masku
+
     setRows(prevRows => prevRows.filter((_, rowIndex) => rowIndex !== index))
+
+    setSelectedSKUs(prevSKUs => prevSKUs.filter(sku => sku !== skuToRemove))
   }
 
   const handleDelete = async () => {
@@ -563,7 +567,7 @@ function AddTest2 ({
                 </tr>
               ))}
               <tr>
-                <td>
+                <td className='tdchonmasku'>
                   <div className='tdMasku'>
                     <Tippy
                       interactive

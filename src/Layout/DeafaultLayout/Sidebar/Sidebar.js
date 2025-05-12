@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faChartPie,
   faCircleQuestion,
-  faGear,
   faHandshake,
   faHouse,
   faLandmark,
@@ -12,8 +11,6 @@ import {
   faWarehouse,
   faChevronUp,
   faChevronDown,
-  faWrench,
-  faShieldHalved,
   faTruckFast,
   faMoneyBill,
   faMoneyCheck,
@@ -109,9 +106,17 @@ function Sidebar ({ isActive, setIsActive }) {
       children: [
         { path: '/setting/sku', title: 'Sku', icon: faUsers },
         { path: '/setting/bank', title: 'Ngân hàng', icon: faBuildingColumns },
-        { path: '/setting/mucthuchi', title: 'Mục thu chi', icon: faMoneyCheck },
+        {
+          path: '/setting/mucthuchi',
+          title: 'Mục thu chi',
+          icon: faMoneyCheck
+        },
         { path: '/setting/loaichungtu', title: 'Loại chứng từ', icon: faBook },
-        { path: '/setting/nhomkhachhang', title: 'Nhóm khách hàng', icon: faUsers }
+        {
+          path: '/setting/nhomkhachhang',
+          title: 'Nhóm khách hàng',
+          icon: faUsers
+        }
       ]
     },
     {

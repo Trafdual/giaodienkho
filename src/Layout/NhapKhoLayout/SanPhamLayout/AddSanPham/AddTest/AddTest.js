@@ -30,6 +30,8 @@ function AddTest ({ isOpen, onClose, fetclohang, malohang }) {
   const [isTableMethod, setIsTableMethod] = useState(false)
   const [isTableNganHang, setIsTableNganHang] = useState(false)
   const [isTableHangHoa, setIsTableHangHoa] = useState(false)
+  const [isTableNgay, setIsTableNgay] = useState(false)
+  const [isTableTime, setisTableTime] = useState(false)
 
   const [nganhangs, setnganhangs] = useState([])
   const [manganhang, setmanganhang] = useState('')
@@ -509,9 +511,15 @@ function AddTest ({ isOpen, onClose, fetclohang, malohang }) {
             visible={isDatePickerOpen}
             interactive
             arrow
-            onClickOutside={() => setIsDatePickerOpen(false)}
+            onMount={() => setTimeout(() => setIsDatePickerOpen(true), 0)}
+            onClickOutside={() => {
+              setIsTableNgay(false)
+              setTimeout(() => {
+                setIsDatePickerOpen(false)
+              }, 300)
+            }}
             render={() => (
-              <div className={`${isTableMethod ? 'fade-in' : 'fade-out'}`}>
+              <div className={`${isTableNgay ? 'fade-in' : 'fade-out'}`}>
                 <DatePicker
                   selected={date}
                   onChange={handleDateChange}
@@ -521,7 +529,13 @@ function AddTest ({ isOpen, onClose, fetclohang, malohang }) {
               </div>
             )}
           >
-            <div className='divdate'>
+            <div
+              className='divdate'
+              onClick={() => {
+                setIsDatePickerOpen(!isDatePickerOpen)
+                setIsTableNgay(true)
+              }}
+            >
               <input
                 type='text'
                 className={`diachi`}
@@ -542,10 +556,16 @@ function AddTest ({ isOpen, onClose, fetclohang, malohang }) {
             visible={isTimePickerOpen}
             interactive
             arrow
-            onClickOutside={() => setIsTimePickerOpen(false)}
+            onMount={() => setTimeout(() => setIsTimePickerOpen(true), 0)}
+            onClickOutside={() => {
+              setisTableTime(false)
+              setTimeout(() => {
+                setIsTimePickerOpen(false)
+              }, 300)
+            }}
             position='top'
             render={() => (
-              <div className={`${isTableMethod ? 'fade-in' : 'fade-out'}`}>
+              <div className={`${isTableTime ? 'fade-in' : 'fade-out'}`}>
                 <DatePicker
                   selected={time}
                   onChange={handleTimeChange}
@@ -559,7 +579,13 @@ function AddTest ({ isOpen, onClose, fetclohang, malohang }) {
               </div>
             )}
           >
-            <div className='divhour'>
+            <div
+              className='divhour'
+              onClick={() => {
+                setIsTimePickerOpen(!isTimePickerOpen)
+                setisTableTime(true)
+              }}
+            >
               <input
                 type='text'
                 className={`diachi`}

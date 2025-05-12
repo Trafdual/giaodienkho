@@ -27,8 +27,6 @@ function SkuLayout () {
   const [isOpenEdit, setIsOpenEdit] = useState(false)
   const [isLock, setIsLock] = useState(false)
   const [isOpenDungluongsku, setisOpenDungluongsku] = useState(false)
-
-  const [idncc, setidncc] = useState('')
   const [loading, setLoading] = useState(true)
   const [selectedItems, setSelectedItems] = useState([])
 
@@ -113,7 +111,6 @@ function SkuLayout () {
     if (newSelectAll) {
       const allIds = sku.map(item => item._id)
       setSelectedItems(allIds)
-      setidncc(allIds.length === 1 ? allIds[0] : '')
     } else {
       setSelectedItems([])
     }
@@ -220,7 +217,6 @@ function SkuLayout () {
                               checked={selectedItems.includes(ncc._id)}
                               onChange={() => {
                                 handleSelectItem(ncc._id)
-                                setidncc(ncc._id)
                               }}
                             />
                           </td>

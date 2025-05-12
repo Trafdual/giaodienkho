@@ -78,7 +78,6 @@ function ModalDataScreen ({
     }
   }, [isOpen, product._id, userId, khoId1])
 
-  console.log(isOpen)
 
   const handleSizeSelect = size => {
     if (size === 'all') {

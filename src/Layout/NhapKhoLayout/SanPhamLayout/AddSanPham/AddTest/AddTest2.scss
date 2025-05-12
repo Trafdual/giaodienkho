@@ -12,23 +12,114 @@
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 20px;
-
-    td {
-        border: 1px solid #ddd;
-        text-align: center;
-        height: 40px;
-        overflow: hidden;
-        width: 170px;
-        padding: 0;
-        white-space: nowrap;
-    }
-
-    th {
-        border: 1px solid #ddd;
-        text-align: center;
-        padding: 10px;
-    }
+    display: block;
+    /* Giữ block để kiểm soát cuộn */
+    overflow-x: auto;
+    /* Cuộn ngang nếu cần */
+    table-layout: fixed;
+    /* Cố định bố cục cột */
 }
+
+.modal-table-test thead {
+    display: table;
+    width: 100%;
+    background: #f5f5f5;
+    /* Tùy chọn: làm nổi bật thead */
+}
+
+.modal-table-test tbody {
+    display: block;
+    /* Cho phép giới hạn chiều cao */
+    max-height: 200px;
+    /* Giới hạn chiều cao */
+    overflow-y: auto;
+    /* Cuộn dọc */
+    width: 100%;
+    /* Đảm bảo khớp với thead */
+}
+
+.modal-table-test tr {
+    display: table;
+    width: 100%;
+}
+
+.modal-table-test th,
+.modal-table-test td {
+    padding: 5px;
+    text-align: center;
+    vertical-align: top;
+    word-wrap: break-word;
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+}
+
+.modal-table-test th {
+    /* Không đặt height cố định cho th để linh hoạt */
+    background: #f5f5f5;
+    /* Tùy chọn */
+}
+
+.modal-table-test td {
+    height: 40px;
+    /* Giới hạn chiều cao tối đa */
+    overflow: hidden;
+    /* Cắt nội dung thừa */
+    white-space: nowrap;
+    /* Ngăn xuống dòng */
+    text-overflow: ellipsis;
+    /* Thêm dấu ... nếu nội dung dài */
+}
+
+/* Định nghĩa chiều rộng cho từng cột, tổng bằng 100% */
+.modal-table-test th:nth-child(1),
+.modal-table-test td:nth-child(1) {
+    width: 10%;
+}
+
+/* Mã SKU */
+
+.modal-table-test th:nth-child(2),
+.modal-table-test td:nth-child(2) {
+    width: 20%;
+}
+
+/* Tên máy */
+
+.modal-table-test th:nth-child(3),
+.modal-table-test td:nth-child(3) {
+    width: 15%;
+}
+
+/* Imel */
+
+.modal-table-test th:nth-child(4),
+.modal-table-test td:nth-child(4) {
+    width: 10%;
+}
+
+/* Số lượng */
+
+.modal-table-test th:nth-child(5),
+.modal-table-test td:nth-child(5) {
+    width: 15%;
+}
+
+/* Đơn giá */
+
+.modal-table-test th:nth-child(6),
+.modal-table-test td:nth-child(6) {
+    width: 15%;
+}
+
+/* Tổng tiền */
+
+.modal-table-test th:nth-child(7),
+.modal-table-test td:nth-child(7) {
+    width: 15%;
+}
+
+/* Nút xóa (tăng lên 15% để đủ chỗ) */
+
 
 .btnaddtest,
 .btnaddskutest {
@@ -40,11 +131,20 @@
     padding: 10px;
     border: none;
     justify-content: space-between;
+    flex: 1;
+}
+
+.btnaddskutest {
+    flex: 0 !important;
+}
+
+.tdchonmasku {
+    width: 2% !important;
 }
 
 .iconaddtest {
-    margin-left: 10px;
-    width: 10px;
+    cursor: pointer;
+    width: 20px;
 }
 
 .imel-input-container {
@@ -121,11 +221,13 @@
         overflow-y: auto;
         overflow-x: auto;
     }
+
     td {
         input {
             font-size: 16px;
         }
     }
+
     .btnnhapImel {
         display: block;
     }

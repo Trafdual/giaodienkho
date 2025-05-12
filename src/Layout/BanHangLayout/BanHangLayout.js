@@ -56,13 +56,13 @@ function BanHangLayout () {
 
   const [textkh, settextkh] = useState('')
   const methods = ['Tiền mặt', 'Chuyển khoản']
-  const [datcoc, setdatcoc] = useState('0')
+  const [datcoc, setdatcoc] = useState(0)
   const [method, setmethod] = useState('Tiền mặt')
   const [nganhangs, setnganhangs] = useState([])
   const [isFocused, setIsFocused] = useState(false)
 
   const [datakhachang, setdatakhachang] = useState([])
-  const [tienmat, settienmat] = useState('0')
+  const [tienmat, settienmat] = useState(0)
   const [isLoading, setIsLoading] = useState(false)
 
   const storedKhoID = localStorage.getItem('khoIDBH')
@@ -211,8 +211,8 @@ function BanHangLayout () {
   }
 
   const handleDonGiaChange = (idSku, newPrice) => {
-    setSelectedItems(prevItems =>
-      prevItems.map(item =>
+    setSelectedItems(prevItems => {
+      const newItems = prevItems.map(item =>
         item.idsku === idSku
           ? {
               ...item,
@@ -221,7 +221,15 @@ function BanHangLayout () {
             }
           : item
       )
-    )
+
+      const newTotalAmount = newItems.reduce(
+        (total, item) => total + (item.thanhtien || 0),
+        0
+      )
+      settienmat(newTotalAmount)
+
+      return newItems
+    })
   }
 
   const handleKhacHang = async () => {
@@ -270,6 +278,7 @@ function BanHangLayout () {
     (total, item) => total + (item.thanhtien || 0),
     0
   )
+
   const validate = () => {
     let valid = true
 
@@ -412,9 +421,7 @@ function BanHangLayout () {
                             </>
                           )}
                         </td>
-                        <td
-                          onClick={() => setInputSoLuong(true)}
-                        >
+                        <td onClick={() => setInputSoLuong(true)}>
                           {!InputSoLuong ? (
                             item.soluong
                           ) : (
@@ -586,13 +593,11 @@ function BanHangLayout () {
                 <span>Đặt cọc</span>
                 <input
                   type='text'
-                  value={new Intl.NumberFormat().format(
-                    datcoc.replace(/\./g, '')
-                  )}
+                  value={new Intl.NumberFormat().format(datcoc)}
                   onChange={e => {
                     const value = e.target.value.replace(/\D/g, '')
                     if (value === '' || Number(value) < totalAmount) {
-                      setdatcoc(value)
+                      setdatcoc(Number(value))
                     }
                   }}
                   className='inputBanHang'
@@ -647,16 +652,12 @@ function BanHangLayout () {
                   className={isFocused ? 'border-bottom' : 'inputBanHang'}
                   value={
                     tienmat
-                      ? new Intl.NumberFormat().format(
-                          tienmat.replace(/\./g, '')
-                        )
-                      : new Intl.NumberFormat().format(
-                          totalAmount.replace(/\./g, '')
-                        )
+                      ? new Intl.NumberFormat().format(tienmat)
+                      : new Intl.NumberFormat().format(totalAmount)
                   }
                   onChange={e => {
                     const rawValue = e.target.value.replace(/\./g, '')
-                    settienmat(rawValue === '' ? '0' : rawValue)
+                    settienmat(Number(rawValue))
                   }}
                 />
               </div>
@@ -713,7 +714,7 @@ function BanHangLayout () {
               <div className='summary-item'>
                 <span>Trả lại khách</span>
                 <span>
-                  {tienmat && datcoc === 0
+                  {datcoc === 0
                     ? (
                         Number(tienmat || 0) - Number(totalAmount || 0)
                       ).toLocaleString()

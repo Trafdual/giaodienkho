@@ -139,7 +139,6 @@ function ModalAddKhachHang ({ isOpen, onClose, khoID, fetchData, userId }) {
     }
   }
 
-  console.log(date)
 
   const resetForm = useCallback(() => {
     setName('')
