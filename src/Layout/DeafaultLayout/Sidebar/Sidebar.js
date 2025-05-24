@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import './Sidebar.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -27,20 +28,17 @@ import {
 import { Link, useLocation } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { ModalDangXuat } from './ModalDangXuat'
-import { useToast } from '~/components/GlobalStyles/ToastContext'
 import { getFromLocalStorage } from '../../../components/MaHoaLocalStorage/MaHoaLocalStorage'
-import { getApiUrl } from '../../../api/api'
+import { useSolenh } from '../../../components/SoLenhContext/SoLenhContext'
 
 function Sidebar ({ isActive, setIsActive }) {
-  const { showToast } = useToast()
   const { pathname } = useLocation()
   const [activeItem, setActiveItem] = useState(pathname)
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
   const [dropdownState, setDropdownState] = useState({})
   const [isModalDangXuat, setIsModalDangXuat] = useState(false)
-  const [soluonglenh, setSoluonglenh] = useState(0)
-  const khoID = localStorage.getItem('khoID')
   const userdata = getFromLocalStorage('data')
+  const { soluonglenh } = useSolenh()
 
   const toggleDropdown = key => {
     setDropdownState(prev => {
@@ -78,15 +76,6 @@ function Sidebar ({ isActive, setIsActive }) {
     localStorage.setItem('activeItem', path)
   }
 
-  useEffect(() => {
-    if (!khoID) return
-    fetch(`${getApiUrl('domain')}/soluonglenh/${khoID}`)
-      .then(res => res.json())
-      .then(data =>
-        data.error ? showToast(data.error, 'error') : setSoluonglenh(data)
-      )
-      .catch(err => console.error('Error:', err))
-  }, [khoID, showToast])
 
   const menuItems = [
     { path: '/home', title: 'Tổng quan', icon: faHouse },
@@ -250,7 +239,7 @@ function Sidebar ({ isActive, setIsActive }) {
                       <span className='title'>{child.title}</span>
                       {child.badge && (
                         <span className='soluonglenh'>
-                          {soluonglenh.soluonglenh}
+                          {soluonglenh}
                         </span>
                       )}
                     </Link>

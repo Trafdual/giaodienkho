@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from 'react'
-import { FaEdit,FaUnlock } from 'react-icons/fa'
+import { FaEdit, FaUnlock } from 'react-icons/fa'
 import moment from 'moment'
 import { getFromLocalStorage } from '~/components/MaHoaLocalStorage/MaHoaLocalStorage'
 import { EditUser } from '../UserLayout/EditUser'
@@ -9,6 +9,8 @@ import { ModalDelete2 } from '~/components/ModalDelete2'
 import { getApiUrl } from '../../../api/api'
 import { PaginationComponent } from '../../../components/NextPage'
 import { KhoAdminLayout } from '../UserLayout/KhoAdminLayout'
+import { FaBuildingColumns } from 'react-icons/fa6'
+import { fetchWithHMAC } from '../../../components/VerifyAxios'
 
 function UserBiKhoaLayout () {
   const userdata = getFromLocalStorage('data')
@@ -25,7 +27,8 @@ function UserBiKhoaLayout () {
 
   const fetchdata = async (page = 1) => {
     try {
-      const response = await fetch(
+      const response = await fetchWithHMAC(
+        'GET',
         `${getApiUrl('domain')}/getuser/${
           userdata?.data.user[0]._id
         }?page=${page}&limit=${itemsPerPage}&khoa=true`
@@ -72,15 +75,11 @@ function UserBiKhoaLayout () {
 
   const handleRoleChange = async (id, value) => {
     try {
-      const response = await fetch(`${getApiUrl('domain')}/updaterole/${id}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          role: value
-        })
-      })
+      const response = await fetchWithHMAC(
+        'POST',
+        `${getApiUrl('domain')}/updaterole/${id}`,
+        { role: value }
+      )
 
       if (response.ok) {
         fetchdata()
@@ -117,7 +116,7 @@ function UserBiKhoaLayout () {
           }
         >
           <FaUnlock className='icons' />
-           Mở khóa user
+          Mở khóa user
         </button>
 
         <button
@@ -132,7 +131,7 @@ function UserBiKhoaLayout () {
             }
           }}
         >
-          <FaEdit className='icons' />
+          <FaBuildingColumns className='icons' />
           Kho chứa
         </button>
       </div>
@@ -195,7 +194,6 @@ function UserBiKhoaLayout () {
           </tbody>
         </table>
       </div>
-
 
       <EditUser
         isOpen={isOpenCapNhat}

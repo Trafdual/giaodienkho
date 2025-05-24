@@ -10,6 +10,7 @@ import { ModalDelete } from '~/components/ModalDelete'
 import { useNavigate } from 'react-router-dom'
 import { getApiUrl } from '../../api/api'
 import { getFromLocalStorage } from '../../components/MaHoaLocalStorage/MaHoaLocalStorage'
+import { useSolenh } from '../../components/SoLenhContext/SoLenhContext'
 
 function LenhDieuChuyen () {
   const navigate = useNavigate()
@@ -19,6 +20,7 @@ function LenhDieuChuyen () {
   const [isLoading, setIsLoading] = useState(false)
   const [isOpenDelete, setIsOpenDelete] = useState(false)
   const [lenhid, setlenhid] = useState(false)
+  const { fetchsolenh } = useSolenh()
 
   const { showToast } = useToast()
   const khoID = localStorage.getItem('khoID')
@@ -101,6 +103,7 @@ function LenhDieuChuyen () {
             order._id === orderId ? { ...order, duyet: true } : order
           )
         )
+        fetchsolenh()
         filterOrders(orders, filterStatus)
       } else {
         showToast('Duyệt lệnh điều chuyển thất bại!', 'error')
@@ -122,6 +125,7 @@ function LenhDieuChuyen () {
       )
       if (response.ok) {
         showToast('Hủy lệnh điều chuyển thành công', 'success')
+        fetchsolenh()
         setIsOpenDelete(false)
         fetchOrders()
       }

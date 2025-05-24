@@ -13,7 +13,7 @@ import { ModalDelete2 } from '~/components/ModalDelete2'
 import { getApiUrl } from '../../../api/api'
 import { PaginationComponent } from '../../../components/NextPage'
 import { KhoAdminLayout } from './KhoAdminLayout'
-
+import { fetchWithHMAC } from '../../../components/VerifyAxios'
 
 function UserLayout () {
   const userdata = getFromLocalStorage('data')
@@ -28,10 +28,12 @@ function UserLayout () {
   const [itemsPerPage, setItemsPerPage] = useState(9)
   const [totalResults, setTotalResults] = useState(0)
   const [totalPages, setTotalPages] = useState(0)
+  const [isOpenDuyet, setisOpenDuyet] = useState(false)
 
   const fetchdata = async (page = 1) => {
     try {
-      const response = await fetch(
+      const response = await fetchWithHMAC(
+        'GET',
         `${getApiUrl('domain')}/getuser/${
           userdata?.data.user[0]._id
         }?page=${page}&limit=${itemsPerPage}&khoa=false`
@@ -145,26 +147,39 @@ function UserLayout () {
           <FaEdit className='icons' />
           Kho chứa
         </button>
+
+        <button
+          className='btnthemtheloai'
+          onClick={() =>
+            selectedIds.length > 0
+              ? setisOpenDuyet(true)
+              : alert('Chọn user để duyệt')
+          }
+        >
+          <FaLock className='icons' />
+          Duyệt user
+        </button>
       </div>
 
       <div className='divbody_useradmin'>
         <table className='tablenhap'>
           <thead>
             <tr>
-              <th className = 'thsmall'>
+              <th className='thsmall'>
                 <input
                   type='checkbox'
                   checked={selectAll}
                   onChange={handleSelectAll}
                 />
               </th>
-              <th className = 'thsmall'>STT</th>
+              <th className='thsmall'>STT</th>
               <th>Họ và tên</th>
               <th>Email</th>
               <th>Số điện thoại</th>
               <th>Ngày sinh</th>
               <th>Ngày đăng ký</th>
               <th>Quyền</th>
+              <th>Trạng thái</th>
             </tr>
           </thead>
           <tbody>
@@ -195,6 +210,7 @@ function UserLayout () {
                       <option value='admin'>Admin</option>
                     </select>
                   </td>
+                  <td>{item.duyet ? 'Active' : 'Inactive'}</td>
                 </tr>
               ))
             ) : (
@@ -226,6 +242,17 @@ function UserLayout () {
         link={`${getApiUrl('domain')}/admin/khoauser`}
         setSelectedIds={setSelectedIds}
         message={'khóa thành công'}
+      />
+
+      <ModalDelete2
+        isOpen={isOpenDuyet}
+        onClose={() => setisOpenDuyet(false)}
+        content={'Bạn có muốn duyệt những user này?'}
+        seletecids={selectedIds}
+        fetchdata={fetchdata}
+        link={`${getApiUrl('domain')}/duyetuser`}
+        setSelectedIds={setSelectedIds}
+        message={'duyệt thành công'}
       />
       <KhoAdminLayout
         isOpen={isOpenKhoChua}

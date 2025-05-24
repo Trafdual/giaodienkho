@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { getApiUrl } from '../../../../api/api'
 import { CustomModal } from '../../../../components/CustomModal'
 import { useToast } from '../../../../components/GlobalStyles/ToastContext'
+import { fetchWithHMAC } from '../../../../components/VerifyAxios'
 
 function AddTheLoaiBlog ({ isOpen, onClose, fetchdata }) {
   const [name, setname] = useState('')
@@ -15,16 +16,11 @@ function AddTheLoaiBlog ({ isOpen, onClose, fetchdata }) {
 
   const handelAddTheLoaiBlog = async () => {
     try {
-      const response = await fetch(
+      const response = await fetchWithHMAC(
+        'POST',
         `${getApiUrl('domain')}/admin/posttheloaitrogiup`,
         {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            name
-          })
+          name
         }
       )
       if (response.ok) {

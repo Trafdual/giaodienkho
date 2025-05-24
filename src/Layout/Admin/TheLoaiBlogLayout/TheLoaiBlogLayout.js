@@ -8,6 +8,7 @@ import { PaginationComponent } from '../../../components/NextPage'
 import { AddTheLoaiBlog } from './AddTheLoaiBlog'
 import { EditTheLoaiBlog } from './EditTheLoaiBlog'
 import { BlogLayout } from './BlogLayout'
+import { fetchWithHMAC } from '../../../components/VerifyAxios'
 
 function TheLoaiBlogLayout () {
   const [data, setdata] = useState([])
@@ -26,7 +27,8 @@ function TheLoaiBlogLayout () {
 
   const fetchdata = async () => {
     try {
-      const response = await fetch(
+      const response = await fetchWithHMAC(
+        'GET',
         `${getApiUrl('domain')}/admin/theloaitrogiup`
       )
       if (response.ok) {

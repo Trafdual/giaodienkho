@@ -6,6 +6,7 @@ import {
 import { Modal } from '../Modal'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useToast } from '../GlobalStyles/ToastContext'
+import { fetchWithHMAC } from '../VerifyAxios'
 
 function ModalDelete2 ({
   onClose,
@@ -20,14 +21,8 @@ function ModalDelete2 ({
   const { showToast } = useToast()
   const handeldelte = async () => {
     try {
-      const response = await fetch(`${link}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          ids: seletecids
-        })
+      const response = await fetchWithHMAC('POST', `${link}`, {
+        ids: seletecids
       })
       if (response.ok) {
         fetchdata()

@@ -5,7 +5,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.getApiUrl = void 0;
 var encryptedApis = {
-  domain: process.env.REACT_APP_DOMAIN_BACKEND
+  domain: process.env.REACT_APP_DOMAIN_BACKEND,
+  secretkey: process.env.REACT_APP_TRAFDUAL_BAOTECH_SECRET_KEY
 };
 
 var getApiUrl = function getApiUrl(key) {

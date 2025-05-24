@@ -78,6 +78,8 @@ function BanHangLayout () {
     }
   }, [navigate])
 
+  
+
   const handleCheckboxChange = () => {
     setIsChecked(prevState => {
       const newCheckedState = !prevState

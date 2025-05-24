@@ -68,6 +68,7 @@ function Login () {
       try {
         const response = await fetch(`${getApiUrl('domain')}/loginadmin`, {
           method: 'POST',
+          credentials: 'include',
           headers: {
             'Content-Type': 'application/json'
           },

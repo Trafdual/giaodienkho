@@ -5,6 +5,7 @@ import { useToast } from '~/components/GlobalStyles/ToastContext'
 import 'react-quill/dist/quill.snow.css'
 import './AddBlog.scss'
 import { getApiUrl } from '../../../../../api/api'
+import { fetchWithHMAC } from '../../../../../components/VerifyAxios'
 
 function AddBlog ({ isOpen, onClose, fetchdata, idtheloai }) {
   const [tieude_blog, settieude_blog] = useState('')
@@ -28,7 +29,7 @@ function AddBlog ({ isOpen, onClose, fetchdata, idtheloai }) {
         formData.append('image', file)
       }
 
-      const response = await fetch(
+      const response = await fetchWithHMAC(
         `${getApiUrl('domain')}/posttrogiup/${idtheloai}`,
         {
           method: 'POST',

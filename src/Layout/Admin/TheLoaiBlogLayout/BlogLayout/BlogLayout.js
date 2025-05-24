@@ -11,6 +11,7 @@ import { getApiUrl } from '../../../../api/api'
 import { CustomModal } from '../../../../components/CustomModal'
 import { PaginationComponent } from '../../../../components/NextPage'
 import { EditBlog } from './EditBlog'
+import { fetchWithHMAC } from '../../../../components/VerifyAxios'
 
 function BlogLayout ({ isOpen, onClose, idtheloai }) {
   const [data, setdata] = useState([])
@@ -28,7 +29,8 @@ function BlogLayout ({ isOpen, onClose, idtheloai }) {
 
   const fetchdata = async () => {
     try {
-      const response = await fetch(
+      const response = await fetchWithHMAC(
+        'GET',
         `${getApiUrl('domain')}/gettrogiuptl/${idtheloai}`
       )
       if (response.ok) {

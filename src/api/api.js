@@ -1,5 +1,6 @@
 const encryptedApis = {
-  domain: process.env.REACT_APP_DOMAIN_BACKEND
+  domain: process.env.REACT_APP_DOMAIN_BACKEND,
+  secretkey: process.env.REACT_APP_TRAFDUAL_BAOTECH_SECRET_KEY
 }
 
 export const getApiUrl = key => {

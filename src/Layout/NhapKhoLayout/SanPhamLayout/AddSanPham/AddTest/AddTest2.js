@@ -57,6 +57,14 @@ function AddTest2 ({
   const [isClickButton, setIsClickButton] = useState(false)
 
   const imeiInputRef = useRef(null)
+  const imeiInputRefs = useRef([])
+
+  useEffect(() => {
+    // Đảm bảo imeiInputRefs có đủ phần tử cho tất cả các hàng
+    imeiInputRefs.current = rows.map(
+      (_, i) => imeiInputRefs.current[i] || React.createRef()
+    )
+  }, [rows])
 
   const toggleIMEIEdit = index => {
     setIsEditingIMEI(prev => {
@@ -138,6 +146,7 @@ function AddTest2 ({
         masku: selectedSKU.madungluong,
         name: selectedSKU.name,
         imel: [],
+        tempImel: '', // Thêm tempImel
         soluong: 0,
         price: '',
         tongtien: ''
@@ -152,9 +161,10 @@ function AddTest2 ({
 
   const handleKeyPress = (index, event) => {
     if (event.key === 'Enter') {
-      if (imel) {
+      const tempImel = rows[index].tempImel
+      if (tempImel) {
         event.preventDefault()
-        const isDuplicate = rows.some(row => row.imel.includes(imel))
+        const isDuplicate = rows.some(row => row.imel.includes(tempImel))
 
         if (isDuplicate) {
           showToast('IMEL đã tồn tại trong danh sách', 'error')
@@ -164,14 +174,15 @@ function AddTest2 ({
               rowIndex === index
                 ? {
                     ...row,
-                    imel: [...row.imel, imel],
-                    soluong: row.imel.length + 1
+                    imel: [...row.imel, tempImel],
+                    soluong: row.imel.length + 1,
+                    tempImel: ''
                   }
                 : row
             )
           )
+          imeiInputRefs.current[index]?.current?.focus() // Đặt lại focus
         }
-        setImel('')
       }
     }
   }
@@ -189,11 +200,13 @@ function AddTest2 ({
               ? {
                   ...row,
                   imel: [...row.imel, result],
-                  soluong: row.imel.length + 1
+                  soluong: row.imel.length + 1,
+                  tempImel: ''
                 }
               : row
           )
         )
+        imeiInputRefs.current[index]?.current?.focus() // Đặt lại focus
       }
     }
   }
@@ -241,7 +254,8 @@ function AddTest2 ({
           ? {
               ...row,
               imel: row.imel.filter((_, i) => i !== imelIndex),
-              soluong: row.imel.length - 1
+              soluong: row.imel.length - 1,
+              tempImel: ''
             }
           : row
       )
@@ -249,7 +263,7 @@ function AddTest2 ({
     setIsRemoving(false)
     setTimeout(() => setIsRemoving(true), 0)
     setTimeout(() => {
-      imeiInputRef.current?.focus() // Đặt lại focus vào input
+      imeiInputRefs.current[index]?.current?.focus() // Đặt lại focus
     }, 0)
   }
   const validateInputs2 = () => {
@@ -430,12 +444,18 @@ function AddTest2 ({
                           ))}
                           <div className='divnhapImel'>
                             <input
-                              ref={imeiInputRef}
+                              ref={imeiInputRefs.current[index]}
                               type='text'
-                              value={imel}
+                              value={row.tempImel || ''}
                               placeholder='Nhập IMEI'
                               onKeyPress={event => handleKeyPress(index, event)}
-                              onChange={e => setImel(e.target.value)}
+                              onChange={e =>
+                                handleInputChange(
+                                  index,
+                                  'tempImel',
+                                  e.target.value
+                                )
+                              }
                               className='imel-input'
                               autoFocus
                             />

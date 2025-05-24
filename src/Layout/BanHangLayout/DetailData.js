@@ -43,9 +43,6 @@ function ModalDataScreen ({
   }
 
   useEffect(() => {
-    console.log('isOpen:', isOpen)
-    console.log('product._id:', product._id)
-    console.log('userId:', userId)
     if (isOpen && product._id && khoId1 && userId) {
       axios
         .get(
@@ -137,6 +134,8 @@ function ModalDataScreen ({
   const filteredItems = selectAll
     ? data
     : data.filter(item => selectedSizes.includes(item.name))
+
+    console.log('filteredItems:', data)
 
   const handleAgree = () => {
     if (selectedProducts.length === 0) {
